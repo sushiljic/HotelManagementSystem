@@ -88,8 +88,8 @@ public class CustomerController {
                             return;
                         }
                     }
-                       int choice = JOptionPane.showConfirmDialog(cview, "DO You Want To Edit Customer", "Customer Add Window", JOptionPane.YES_NO_OPTION);
-                    if(choice == JOptionPane.YES_OPTION ){
+                     if(DisplayMessages.displayInputYesNo(cview, "DO You Want To Edit Customer", "Customer Add Window")){
+                    
 // System.out.println("wala1");
                     cmodel.EditCustomer(cview.getCustomerInfo());
 //                     System.out.println("wala2");
