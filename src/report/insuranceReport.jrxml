@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="fc435fbd-f71f-418e-a9de-a72807ca8c02">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="48"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#EFF7FF"/>
+		</conditionalStyle>
+	</style>
+	<subDataset name="InsuranceDetails" uuid="35746a1c-b2aa-4c60-b59c-9717c8f29cde">
+		<queryString language="SQL">
+			<![CDATA[select * from insurance]]>
+		</queryString>
+		<field name="insurance_type" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="particulars" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="identity" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="insurance_amount" class="java.lang.Long">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="ins_start_date" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="ins_company" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="branch" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<group name="insurance_type">
+			<groupExpression><![CDATA[$F{insurance_type}]]></groupExpression>
+		</group>
+	</subDataset>
+	<queryString>
+		<![CDATA[select * from branch]]>
+	</queryString>
+	<field name="id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="branchName" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="branchCode" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="96" splitType="Stretch">
+			<textField>
+				<reportElement x="122" y="14" width="100" height="20" uuid="6c74bf5b-8310-4f8b-b9d0-9f8736ebd88f"/>
+				<textFieldExpression><![CDATA[$F{branchName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="439" y="14" width="100" height="20" uuid="a33eefb0-9e16-4cd6-bd78-2a2c7da79206"/>
+				<textFieldExpression><![CDATA[$F{branchCode}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="18" y="14" width="86" height="75" uuid="b8614081-d09a-4127-b657-fe8c786e8245"/>
+				<imageExpression><![CDATA["C:\\Users\\MinamRosh\\Documents\\NetBeansProjects\\HotelManagementSystem\\src\\logos\\gces_pp1.jpg"]]></imageExpression>
+			</image>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="277" splitType="Stretch">
+			<componentElement>
+				<reportElement key="table 1" style="table" x="0" y="67" width="555" height="162" uuid="2b9898d2-d633-4cbd-ad91-e47f05cfd070"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="InsuranceDetails" uuid="7ae0f80d-d711-481f-85fb-0ce452eca896">
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="90" uuid="3a3129cb-421a-4d35-b645-dc43004d7dc1">
+						<jr:columnHeader height="30">
+							<staticText>
+								<reportElement style="table_CH" mode="Opaque" x="0" y="0" width="90" height="30" uuid="77763d24-6658-4bd5-924e-b32ab8fd4ccc"/>
+								<text><![CDATA[Insurance Type	]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="20">
+							<textField>
+								<reportElement style="table_TD" mode="Transparent" x="0" y="0" width="90" height="20" uuid="8c76b5af-eb31-4b6f-92f6-0355469399ea"/>
+								<textFieldExpression><![CDATA[$F{insurance_type}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="55c020a4-416e-40a7-bb38-5ae0c35a26d9">
+						<jr:columnHeader height="30">
+							<staticText>
+								<reportElement style="table_CH" x="0" y="0" width="90" height="30" uuid="fa7f8a34-11ab-43d7-b731-9959e88ab287"/>
+								<text><![CDATA[Particulars]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="20">
+							<textField>
+								<reportElement style="table_TD" mode="Transparent" x="0" y="0" width="90" height="20" uuid="0abedd24-adb9-43b8-acd3-b768db9fcee3"/>
+								<textFieldExpression><![CDATA[$F{particulars}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="49c07931-ea0d-48d4-ada0-fbced761e49c">
+						<jr:columnHeader height="30">
+							<staticText>
+								<reportElement style="table_CH" x="0" y="0" width="90" height="30" uuid="32ed81d7-67f1-411e-af2b-d52c139912be"/>
+								<text><![CDATA[Identity]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="20">
+							<textField>
+								<reportElement style="table_TD" mode="Transparent" x="0" y="0" width="90" height="20" uuid="00de8388-38bf-4229-a7ea-4c8db265158e"/>
+								<textFieldExpression><![CDATA[$F{identity}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="fde4b89a-8737-4f29-973c-9d5b371b186c">
+						<jr:columnHeader height="30">
+							<staticText>
+								<reportElement style="table_CH" x="0" y="0" width="90" height="30" uuid="57a645e5-26aa-402b-8e35-950595996e3f"/>
+								<text><![CDATA[Insurance Amount]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="20">
+							<textField>
+								<reportElement style="table_TD" mode="Transparent" x="0" y="0" width="90" height="20" uuid="361aecf9-701d-439a-b862-af531a89c4c6"/>
+								<textFieldExpression><![CDATA[$F{insurance_amount}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="8d56c0ce-f96a-4afb-8c27-06a9e501f6fd">
+						<jr:columnHeader height="30">
+							<staticText>
+								<reportElement style="table_CH" x="0" y="0" width="90" height="30" uuid="a064f603-58c5-4fc7-916e-b0c6bdc60e76"/>
+								<text><![CDATA[Branch]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="20">
+							<textField>
+								<reportElement style="table_TD" mode="Transparent" x="0" y="0" width="90" height="20" uuid="f6847364-6a11-4598-a1cf-d6f9130511b5"/>
+								<textFieldExpression><![CDATA[$F{branch}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<staticText>
+				<reportElement x="209" y="16" width="180" height="26" uuid="92176abb-e75d-43e8-9143-b51068d568a3"/>
+				<textElement>
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Insurance Report]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+</jasperReport>

@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="cedc8abc-f99b-4281-85e6-5a7b2c442b94">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="1"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="insurance" whenResourceMissingType="Error" uuid="e76717d3-062d-4010-8c1c-c7a6fc10b609">
+		<queryString>
+			<![CDATA[select * from insurance]]>
+		</queryString>
+		<field name="insurance_type" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="particulars" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="identity" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="insurance_amount" class="java.lang.Long">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="insurance_fee" class="java.lang.Long">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="ins_start_date" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="ins_expiry_date" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="ins_company" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="branch" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<group name="insurance_type">
+			<groupExpression><![CDATA[$F{insurance_type}]]></groupExpression>
+		</group>
+	</subDataset>
+	<queryString>
+		<![CDATA[select * from company]]>
+	</queryString>
+	<field name="name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="address" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="phone" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fax" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="email" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="web" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="82" splitType="Stretch">
+			<textField>
+				<reportElement x="93" y="0" width="709" height="22" uuid="c86a469a-f981-4814-b1d1-848b8a9b5b4a"/>
+				<textElement textAlignment="Center">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<image scaleImage="FillFrame" onErrorType="Icon">
+				<reportElement x="0" y="0" width="93" height="75" uuid="ef75d911-ec4e-468f-a3d1-f02b557dca31"/>
+				<imageExpression><![CDATA["C:\\Users\\MinamRosh\\Documents\\NetBeansProjects\\HotelManagementSystem\\src\\logos\\logo.jpg"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="93" y="21" width="709" height="19" uuid="620ca76b-4108-4353-a9f6-d1985453f8e0"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Address: "+$F{address}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="93" y="39" width="709" height="18" uuid="856a2a30-7275-4341-b47c-24c1cdb534c3"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Phone: "+$F{phone}+", Fax: "+$F{fax}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="93" y="57" width="709" height="18" uuid="ff831a05-f966-4fd6-ada2-c98811d287cb"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["E-mail: "+$F{email}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="1" y="76" width="801" height="1" uuid="4a50ef12-6f6b-4d01-b324-ff9f5144175d"/>
+			</line>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="32" splitType="Stretch">
+			<staticText>
+				<reportElement x="1" y="0" width="801" height="31" uuid="3295f671-d65e-4904-a2ed-3a4f1e4f794d"/>
+				<textElement textAlignment="Center">
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Insurance Report]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="197" splitType="Stretch">
+			<componentElement>
+				<reportElement key="table" style="table" x="0" y="-8" width="743" height="50" uuid="30347817-a68a-41fc-9f9c-c6a859efa8fe"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="insurance" uuid="ab254111-4f31-4cb5-922e-8362ae9e9ebd">
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="91" uuid="b422b186-af32-45f9-8f0a-d94a2480444e">
+						<jr:columnHeader style="table_CH" height="23" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="91" height="23" uuid="10782bbb-a718-49a3-a870-465f59f05abf"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="10" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Particulars]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="91" height="20" uuid="ef52623b-52af-4412-8bae-8b5e20cdafb9"/>
+								<textElement verticalAlignment="Middle">
+									<font size="9"/>
+									<paragraph leftIndent="5"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{particulars}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="75" uuid="90dc5fe8-d380-4a81-9c44-7ca9c834d164">
+						<jr:columnHeader style="table_CH" height="23" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="75" height="23" isRemoveLineWhenBlank="true" uuid="873a5708-15fd-4b46-9c61-883d12691ead"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="10" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Identity]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="75" height="20" uuid="ec07f1f0-3456-47d3-8215-d3688f572ca5"/>
+								<textElement verticalAlignment="Middle">
+									<font size="9"/>
+									<paragraph leftIndent="5"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{identity}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="102" uuid="d1e0f7a6-4dc7-494f-879f-512f999a8552">
+						<jr:columnHeader style="table_CH" height="23" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="102" height="23" uuid="0fac7f31-3b5d-4ac9-bdc9-863c61979437"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="10" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Insurance Type]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="102" height="20" uuid="64a75d90-e537-4037-b7b9-1f5b9c4420ad"/>
+								<textElement verticalAlignment="Middle">
+									<font size="9"/>
+									<paragraph leftIndent="5"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{insurance_type}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="116" uuid="2dc803f7-4589-4556-afe9-227be98bf64b">
+						<jr:columnHeader style="table_CH" height="23" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="115" height="23" uuid="b1833afe-8ee4-4fa2-8629-2e3d243adab1"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="10" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Insuranced Amount]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="115" height="20" uuid="cb5ccf3e-d761-4833-b534-7c3c700eb6fe"/>
+								<textElement verticalAlignment="Middle">
+									<font size="9"/>
+									<paragraph leftIndent="5"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{insurance_amount}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="96" uuid="202c7f32-60ee-4a62-90a7-e4f3d6eb9c98">
+						<jr:columnHeader style="table_CH" height="23" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="96" height="23" uuid="070fbb01-7c56-4dfc-a578-6896f67afb4e"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="10" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Insuranced Fee]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="20" rowSpan="1">
+							<textField>
+								<reportElement style="table_TD" x="0" y="0" width="96" height="20" uuid="044c643e-877f-4451-b8c2-f2777988a994"/>
+								<textElement verticalAlignment="Middle">
+									<font size="9"/>
+									<paragraph leftIndent="5"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{insurance_fee}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="73" uuid="3b0115e5-6121-4632-8a8e-a467ea933a2e">
+						<jr:columnHeader style="table_CH" height="23" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="73" height="23" uuid="d849d3ad-e491-4b74-9976-d96e8d32acae"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="10" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Start Date]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="20" rowSpan="1">
+							<textField>
+								<reportElement style="table_TD" x="0" y="0" width="73" height="20" uuid="da997208-472c-4558-bd44-221b8ff9b809"/>
+								<textElement verticalAlignment="Middle">
+									<font size="9"/>
+									<paragraph leftIndent="5"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{ins_start_date}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="71" uuid="e0796ab0-9b8f-473b-af50-f1b0c7f70da5">
+						<jr:columnHeader style="table_CH" height="23" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="71" height="23" uuid="0b318611-b93b-416e-b52c-68cbb38a1d9f"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="10" isBold="true"/>
+									<paragraph leftIndent="5"/>
+								</textElement>
+								<text><![CDATA[Expiry Date]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="20" rowSpan="1">
+							<textField>
+								<reportElement style="table_TD" x="0" y="0" width="71" height="20" uuid="66802b4c-16af-41a2-b1cf-baa2d209fc1a"/>
+								<textElement verticalAlignment="Middle">
+									<font size="9"/>
+									<paragraph leftIndent="5"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{ins_expiry_date}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="111" uuid="67b15c35-c30e-4568-85da-c718e4880191">
+						<jr:columnHeader style="table_CH" height="23" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="111" height="23" uuid="8765b784-1ea7-4670-8d2c-6061e62364a3"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="10" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Insurance Company]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="20" rowSpan="1">
+							<textField>
+								<reportElement style="table_TD" x="0" y="0" width="111" height="20" uuid="0fbf3e20-3a58-45fc-a5de-53d3170438c3"/>
+								<textElement verticalAlignment="Middle">
+									<font size="9"/>
+									<paragraph leftIndent="5"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{ins_company}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="69" uuid="c8360cce-cef4-4f2f-894f-9792c6586fdd">
+						<jr:columnHeader style="table_CH" height="23" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="66" height="23" isRemoveLineWhenBlank="true" isPrintWhenDetailOverflows="true" uuid="01cb25ab-df87-4679-8552-0c4b4671d4d4"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="10" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Branch]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="20" rowSpan="1">
+							<textField>
+								<reportElement style="table_TD" x="0" y="0" width="69" height="20" uuid="faa216c2-f278-4855-a6f6-9e1fff5ab99b"/>
+								<textElement verticalAlignment="Middle">
+									<font size="9"/>
+									<paragraph leftIndent="5"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{branch}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
