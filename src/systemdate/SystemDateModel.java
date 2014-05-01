@@ -15,6 +15,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import javax.swing.JOptionPane;
+import reusableClass.DisplayMessages;
 
 /**
  *
@@ -92,8 +93,8 @@ public void openSystemDate(){
                     JOptionPane.showMessageDialog(null, "System is Already Open for date "+date+" ("+dateformat.format(date)+")");
                 }
                 else{
-                    int choice =   JOptionPane.showConfirmDialog(null, "Do you Want To Open System  for "+date+" ("+dateformat.format(date)+")"+"?", "Open System Windows", JOptionPane.YES_NO_CANCEL_OPTION);
-                   if(choice == JOptionPane.YES_OPTION){
+                   if(DisplayMessages.displayInputYesNo(null, "Do you Want To Open System  for "+date+" ("+dateformat.format(date)+")"+"?", "Open System Windows"))
+                   {
                        conn.setAutoCommit(false);
                        stmtset = conn.prepareStatement(stropen);
                        stmtset.setInt(1, id);
@@ -140,8 +141,8 @@ public void closeSystemDate(){
         if(date != null){
             if(open == true && close != true){
 //                JOptionPane.showMessageDialog(null, "Cannot Open The System since it is Allready closed for"+date);
-              int choice =   JOptionPane.showConfirmDialog(null, "Do you Want To Close System  for "+date+"("+dateformat.format(date)+")"+"?", "Close System Windows", JOptionPane.YES_NO_CANCEL_OPTION);
-                   if(choice == JOptionPane.YES_OPTION){
+                    if(DisplayMessages.displayInputYesNo(null, "Do you Want To Close System  for "+date+"("+dateformat.format(date)+")"+"?", "Close System Windows"))
+                      {
                        conn.setAutoCommit(false);
                        stmtset = conn.prepareStatement(strclose);
                        stmtset.setInt(1, id);
