@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="BillPrint" printOrder="Horizontal" pageWidth="250" pageHeight="720" columnWidth="222" leftMargin="14" rightMargin="14" topMargin="14" bottomMargin="14" isIgnorePagination="true" uuid="b27276a8-137a-4296-b627-a71a66a61d12">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="BillPrint" printOrder="Horizontal" pageWidth="216" pageHeight="720" columnWidth="188" leftMargin="14" rightMargin="14" topMargin="14" bottomMargin="14" isIgnorePagination="true" uuid="b27276a8-137a-4296-b627-a71a66a61d12">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -153,21 +153,21 @@ WHERE
 	<title>
 		<band height="44" splitType="Stretch">
 			<textField>
-				<reportElement x="-1" y="1" width="223" height="13" uuid="2b551436-05c0-48b6-b6c3-c74869307afd"/>
+				<reportElement x="-1" y="1" width="189" height="13" uuid="2b551436-05c0-48b6-b6c3-c74869307afd"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{company_name}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="2" y="13" width="220" height="13" uuid="00172bf9-b926-42ca-95de-bc12c2d58f9f"/>
+				<reportElement x="2" y="13" width="186" height="13" uuid="00172bf9-b926-42ca-95de-bc12c2d58f9f"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{company_address}+" PH: "+$F{phone}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="-1" y="26" width="223" height="13" uuid="0ce53bb0-a3b6-4464-995e-dc97f91bd987"/>
+				<reportElement x="-1" y="26" width="189" height="13" uuid="0ce53bb0-a3b6-4464-995e-dc97f91bd987"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
@@ -178,21 +178,21 @@ WHERE
 	<pageHeader>
 		<band height="16" splitType="Stretch">
 			<textField isBlankWhenNull="true">
-				<reportElement x="3" y="1" width="70" height="13" uuid="4cd5bda3-ba0e-4642-83fc-3c514f7b92a9"/>
+				<reportElement x="3" y="1" width="55" height="13" uuid="4cd5bda3-ba0e-4642-83fc-3c514f7b92a9"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA["BILL NO: "+ $P{billNo}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="70" y="0" width="80" height="13" uuid="6b60e1a3-48a9-48f2-86b8-3a3f30c0e738"/>
+				<reportElement x="58" y="0" width="76" height="13" uuid="6b60e1a3-48a9-48f2-86b8-3a3f30c0e738"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA["TERMINAL: "+$P{terminal}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy hh:mm z">
-				<reportElement x="153" y="0" width="69" height="13" uuid="cba2974f-584a-43b5-805e-95bec84388d7"/>
+				<reportElement x="134" y="0" width="54" height="13" uuid="cba2974f-584a-43b5-805e-95bec84388d7"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
@@ -203,7 +203,7 @@ WHERE
 	<detail>
 		<band height="187" splitType="Stretch">
 			<componentElement>
-				<reportElement key="table 1" x="2" y="2" width="220" height="55" uuid="2b791a62-4f78-41ae-a84e-345ead4e4b33"/>
+				<reportElement key="table 1" x="2" y="2" width="186" height="55" uuid="2b791a62-4f78-41ae-a84e-345ead4e4b33"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<datasetRun subDataset="Order" uuid="55e50231-5735-489b-b377-d03fd4ac868c">
 						<datasetParameter name="order_id">
@@ -340,63 +340,63 @@ WHERE
 				</jr:table>
 			</componentElement>
 			<textField>
-				<reportElement positionType="Float" x="108" y="72" width="111" height="13" uuid="7bad3f96-1e0d-4ded-89b2-79bc57c79667"/>
+				<reportElement positionType="Float" x="45" y="72" width="111" height="13" uuid="7bad3f96-1e0d-4ded-89b2-79bc57c79667"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA["SVC: "+$P{svc}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="false">
-				<reportElement positionType="Float" x="109" y="84" width="111" height="13" uuid="e575b5d5-6283-4e36-b442-6e9e329095fb"/>
+				<reportElement positionType="Float" x="46" y="84" width="111" height="13" uuid="e575b5d5-6283-4e36-b442-6e9e329095fb"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA["VAT: "+$P{vat}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" x="109" y="97" width="111" height="13" uuid="36f62769-af57-4a3b-b63a-6ce1bbecb085"/>
+				<reportElement positionType="Float" x="46" y="97" width="111" height="13" uuid="36f62769-af57-4a3b-b63a-6ce1bbecb085"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA["SUB TOTAL: "+$P{subtotal}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" x="110" y="110" width="111" height="13" uuid="066eec7b-4d1b-4adc-b488-9744ce892134"/>
+				<reportElement positionType="Float" x="47" y="110" width="111" height="13" uuid="066eec7b-4d1b-4adc-b488-9744ce892134"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA["DISCOUNT: "+$P{discount}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" x="110" y="123" width="111" height="13" uuid="37c98615-6bb8-42dd-914a-08e803378b59"/>
+				<reportElement positionType="Float" x="47" y="123" width="111" height="13" uuid="37c98615-6bb8-42dd-914a-08e803378b59"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA["GRAND TOTAL: "+$P{grandtotal}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement positionType="Float" x="67" y="135" width="153" height="13" uuid="0df8c3cc-5752-4c8d-825e-883e966c4d8a"/>
+				<reportElement positionType="Float" x="4" y="135" width="153" height="13" uuid="0df8c3cc-5752-4c8d-825e-883e966c4d8a"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA["AMOUNT TENDERED: "+$P{amountTen}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" x="68" y="149" width="153" height="13" uuid="036bd5fb-51e8-4456-b770-e48c9e3b8ea3"/>
+				<reportElement positionType="Float" x="5" y="149" width="153" height="13" uuid="036bd5fb-51e8-4456-b770-e48c9e3b8ea3"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA["AMOUNT RETURNED: "+$P{amountRetn}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" x="1" y="168" width="221" height="13" uuid="717e9652-e9ce-48f6-bb7f-437407cfaf96"/>
+				<reportElement positionType="Float" x="-1" y="174" width="189" height="13" uuid="717e9652-e9ce-48f6-bb7f-437407cfaf96"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{greet}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" x="108" y="59" width="111" height="13" uuid="e13ab04d-1ca0-4fe3-9428-2aef95a314df"/>
+				<reportElement positionType="Float" x="45" y="59" width="111" height="13" uuid="e13ab04d-1ca0-4fe3-9428-2aef95a314df"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
