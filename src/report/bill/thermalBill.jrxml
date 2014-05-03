@@ -340,49 +340,49 @@ WHERE
 				</jr:table>
 			</componentElement>
 			<textField>
-				<reportElement positionType="Float" x="45" y="72" width="111" height="13" uuid="7bad3f96-1e0d-4ded-89b2-79bc57c79667"/>
+				<reportElement positionType="Float" x="44" y="70" width="144" height="13" uuid="7bad3f96-1e0d-4ded-89b2-79bc57c79667"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA["SVC: "+$P{svc}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="false">
-				<reportElement positionType="Float" x="46" y="84" width="111" height="13" uuid="e575b5d5-6283-4e36-b442-6e9e329095fb"/>
+				<reportElement positionType="Float" x="45" y="82" width="144" height="13" uuid="e575b5d5-6283-4e36-b442-6e9e329095fb"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA["VAT: "+$P{vat}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" x="46" y="97" width="111" height="13" uuid="36f62769-af57-4a3b-b63a-6ce1bbecb085"/>
+				<reportElement positionType="Float" x="45" y="95" width="144" height="13" uuid="36f62769-af57-4a3b-b63a-6ce1bbecb085"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA["SUB TOTAL: "+$P{subtotal}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" x="47" y="110" width="111" height="13" uuid="066eec7b-4d1b-4adc-b488-9744ce892134"/>
+				<reportElement positionType="Float" x="46" y="108" width="144" height="13" uuid="066eec7b-4d1b-4adc-b488-9744ce892134"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA["DISCOUNT: "+$P{discount}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" x="47" y="123" width="111" height="13" uuid="37c98615-6bb8-42dd-914a-08e803378b59"/>
+				<reportElement positionType="Float" x="46" y="121" width="144" height="13" uuid="37c98615-6bb8-42dd-914a-08e803378b59"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA["GRAND TOTAL: "+$P{grandtotal}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement positionType="Float" x="4" y="135" width="153" height="13" uuid="0df8c3cc-5752-4c8d-825e-883e966c4d8a"/>
+				<reportElement positionType="Float" x="3" y="133" width="186" height="13" uuid="0df8c3cc-5752-4c8d-825e-883e966c4d8a"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA["AMOUNT TENDERED: "+$P{amountTen}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" x="5" y="149" width="153" height="13" uuid="036bd5fb-51e8-4456-b770-e48c9e3b8ea3"/>
+				<reportElement positionType="Float" x="4" y="147" width="186" height="13" uuid="036bd5fb-51e8-4456-b770-e48c9e3b8ea3"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
@@ -396,7 +396,7 @@ WHERE
 				<textFieldExpression><![CDATA[$P{greet}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" x="45" y="59" width="111" height="13" uuid="e13ab04d-1ca0-4fe3-9428-2aef95a314df"/>
+				<reportElement positionType="Float" x="44" y="57" width="144" height="13" uuid="e13ab04d-1ca0-4fe3-9428-2aef95a314df"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
