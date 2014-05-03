@@ -5,6 +5,7 @@
 package resturant.order;
 
 import hotelmanagementsystem.MainFrameView;
+import java.awt.HeadlessException;
 import java.awt.KeyEventDispatcher;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -518,8 +519,8 @@ public class OrderController  extends SystemDateModel{
                }
                }
 //                System.out.println("wala");
-               int choice = JOptionPane.showConfirmDialog(orderview, "Do you Want to Order ","Order  Window",JOptionPane.YES_NO_CANCEL_OPTION);
-                if(choice == JOptionPane.YES_OPTION){
+               if(DisplayMessages.displayInputYesNo(orderview, "Do you Want to Order ","Order  Window"))
+                {
 //                    System.out.println(orderview.getOrderId());
                 ordermodel.AddOrder(ordermodel.convertDefaultTableModelToObject(orderview.getTableOrderList()),Integer.parseInt(orderview.getOrderId()),orderview.getTableId(),orderview.getWaiterId(),orderview.getCustomerId(),mainview.getUserId(),orderview.getDepartmentId());
               /*
@@ -622,8 +623,8 @@ public class OrderController  extends SystemDateModel{
                         }
                   }
                      
-                int choice = JOptionPane.showConfirmDialog(orderview, "Do you Want to Edit This Order.","Order Edit Window", JOptionPane.YES_NO_CANCEL_OPTION);
-                if(choice == JOptionPane.YES_OPTION){
+                if(DisplayMessages.displayInputYesNo(orderview, "Do you Want to Edit This Order.","Order Edit Window"))
+                {
 //                    ordermodel.EditOrder(ordermodel.convertDefaultTableModelToObject(orderview.getTableOrderList()),orderview.getOrderId(),orderview.getTableId(),orderview.getWaiterId(),orderview.getCustomerId());
                      ordermodel.EditOrder(DeleteData,ordermodel.convertDefaultTableModelToObject(orderview.getTableOrderList()),Integer.parseInt(orderview.getOrderId()),orderview.getTableId(),orderview.getWaiterId(),orderview.getCustomerId(),mainview.getUserId(),orderview.getDepartmentId());
                     orderview.clearOrderData();
@@ -684,8 +685,8 @@ public class OrderController  extends SystemDateModel{
                       JOptionPane.showMessageDialog(orderview, "Please First Open the Date to Perform Order Transaction.");
                     return;
                    }
-                int choice = JOptionPane.showConfirmDialog(orderview, "Do you Want to Delelte This Order.","Order Delete Window", JOptionPane.YES_NO_CANCEL_OPTION);
-                if(choice == JOptionPane.YES_OPTION){
+                if(DisplayMessages.displayInputYesNo(orderview, "Do you Want to Delete This Order.","Order Delete Window"))
+                {
                      ordermodel.DeleteOrder(ordermodel.convertDefaultTableModelToObject(orderview.getTableOrderList()),Integer.parseInt(orderview.getOrderId()),orderview.getTableId(),orderview.getWaiterId(),orderview.getCustomerId());
                     orderview.clearOrderData();
 //                     orderview.setOrderId(String.valueOf(ordermodel.returnCurrentItentityId("order_list")));
@@ -759,14 +760,14 @@ public class OrderController  extends SystemDateModel{
                      JOptionPane.showMessageDialog(orderview, "Order Not Found");
                  }
              }   
-             catch(Exception se){
+             catch(HeadlessException se){
                  JOptionPane.showMessageDialog(orderview, se+"from Search Listener");
-                 return;
+//                 return;
              }
             }
             
         }
-        catch(Exception ie){
+        catch(HeadlessException | NumberFormatException ie){
             JOptionPane.showMessageDialog(orderview, ie+"from ItemCrudListener");
         }
         }
