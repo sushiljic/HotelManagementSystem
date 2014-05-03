@@ -221,14 +221,15 @@ public class OrderBillController extends SystemDateModel {
                    
                
 //              
-                obview.clearOrderBill();
-//                 System.out.println("walal");
-                obview.gettblBillInfo().setRowCount(0);
+               
 //                 /*alejob
                 if(DisplayMessages.displayInputYesNo(obview, "Do You Want To Print the Bill","Print Bill")){
                 BillPrint bill = new BillPrint(obview.getBillParam());
                 bill.printBill();
                 }
+                 obview.clearOrderBill();
+//                 System.out.println("walal");
+                obview.gettblBillInfo().setRowCount(0);
 //                 */
               
                 int newbillid ;

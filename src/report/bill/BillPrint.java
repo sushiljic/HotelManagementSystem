@@ -7,15 +7,9 @@
 package report.bill;
 
 import database.DBConnect;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -25,7 +19,6 @@ import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
-import net.sf.jasperreports.view.JRViewer;
 
 /**
  *
@@ -47,7 +40,7 @@ public class BillPrint extends DBConnect {
         initConnection();
         try{
             
-            InputStream file = BillPrint.class.getResource("invoice.jrxml").openStream();
+            InputStream file = BillPrint.class.getResource("thermalBill.jrxml").openStream();
             jDesign = JRXmlLoader.load(file);
             //compile
             jReport = JasperCompileManager.compileReport(jDesign);

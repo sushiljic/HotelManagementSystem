@@ -10,6 +10,7 @@ import UserCreditial.UserCreditialModel;
 import companysetup.CompanySetupController;
 import companysetup.CompanySetupModel;
 import companysetup.CompanySetupView;
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -128,14 +129,14 @@ public class SystemLogInController  extends UserCreditialModel{
                
            }
            if(e.getActionCommand().equalsIgnoreCase("Cancel")){
-              int choice = JOptionPane.showConfirmDialog(inView, "This will Close The System","Exit System",JOptionPane.YES_NO_CANCEL_OPTION);
-              if(choice == JOptionPane.YES_OPTION){
+             if(DisplayMessages.displayInputYesNo(inView, "This will Close The System","Exit System")){
+              
                   System.exit(0);
               }
            }
            
        }
-       catch(Exception ve){
+       catch(HeadlessException ve){
            JOptionPane.showMessageDialog(inView, ve+"from ValidateUserListener");
        }
         }

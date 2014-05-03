@@ -124,19 +124,22 @@ public class UserCrudController {
 //                  return;
 //              }
                  if(userCrudView.returncomboDepartment().getSelectedIndex() == 0){
-                  int choice =  JOptionPane.showConfirmDialog(userCrudView,"Department Is Not Setup for this user.\n Do You Want to Continue?","Add User Window",JOptionPane.YES_NO_CANCEL_OPTION);
-                  if(choice != JOptionPane.YES_OPTION){
+                 
+                  if(!DisplayMessages.displayInputYesNo(userCrudView,"Department Is Not Setup for this user.\n Do You Want to Continue?","Add User Window"))
+                  {
+                      
                       return;
                   }
+                  
                }
-                   int choice =  JOptionPane.showConfirmDialog(userCrudView,"Do You Want To edit?"," Edit Window",JOptionPane.YES_NO_CANCEL_OPTION);
-              if(choice == JOptionPane.YES_OPTION){
-                   userCrudModel.EditCustomer(userCrudView.getUserName(), userCrudView.getUserId(),userCrudView.getDepartmentId());
-                userCrudView.setbtnEditEnableFalse();
-              userCrudView.setbtnDeleteEnableFalse();
-              userCrudView.refreshJTableUserInfo(userCrudModel.getTableModelCustomerInfo());
-               userCrudView.btnCancel.doClick();
-              }   
+                   if(DisplayMessages.displayInputYesNo(userCrudView,"Do You Want To edit?"," Edit Window"))
+                    {
+                        userCrudModel.EditCustomer(userCrudView.getUserName(), userCrudView.getUserId(),userCrudView.getDepartmentId());
+                        userCrudView.setbtnEditEnableFalse();
+                        userCrudView.setbtnDeleteEnableFalse();
+                        userCrudView.refreshJTableUserInfo(userCrudModel.getTableModelCustomerInfo());
+                        userCrudView.btnCancel.doClick();
+                     }   
           }
           if(e.getActionCommand().equalsIgnoreCase("Delete")){
                int choice =  JOptionPane.showConfirmDialog(userCrudView,"Do You Want To Delete?"," Delete Window",JOptionPane.YES_NO_CANCEL_OPTION);
