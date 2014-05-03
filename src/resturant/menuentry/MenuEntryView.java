@@ -87,8 +87,8 @@ public class MenuEntryView extends javax.swing.JDialog {
        txtMenuName.addFocusListener(new SetFocusListener(txtMenuName));
        txtQuantity.addFocusListener(new Function.SetJFormattedTextFieldFocusListener(txtQuantity));
 //       txtRetailPrice.addFocusListener(new Function.SetJFormattedTextFieldFocusListener(txtRetailPrice));
-       txtRetailPrice.addFocusListener(new SetFocusListener(txtRetailPrice));
-       txtWholesalePrice.addFocusListener(new SetFocusListener(txtWholesalePrice));
+       txtRetailPrice.addFocusListener(new Function.SetJFormattedTextFieldFocusListener(txtRetailPrice));
+       txtWholesalePrice.addFocusListener(new Function.SetJFormattedTextFieldFocusListener(txtWholesalePrice));
        /*
         * centering
         */

@@ -382,6 +382,7 @@ public class TableCrudView extends javax.swing.JDialog {
             }
         ));
         jScrollPane2.setViewportView(tblTable);
+        tblTable.getTableHeader().setReorderingAllowed(false);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -435,7 +436,7 @@ public class TableCrudView extends javax.swing.JDialog {
                     .addComponent(btnTableAdd)
                     .addComponent(btnTableCancel)
                     .addComponent(btnTableEdit)
-                    .addComponent(btnTableDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnTableDelete))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );

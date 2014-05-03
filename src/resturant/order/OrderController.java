@@ -579,8 +579,8 @@ public class OrderController  extends SystemDateModel{
                 }
             }
             else if(e.getActionCommand().equalsIgnoreCase("OrderCancel")) {
-                int choice = JOptionPane.showConfirmDialog(orderview, "Do you Want to Cancel Order ","Order Cancel Window",JOptionPane.YES_NO_CANCEL_OPTION);
-                if(choice == JOptionPane.YES_OPTION){
+                if(DisplayMessages.displayInputYesNo(orderview, "Do you Want to Cancel Order ","Order Cancel Window"))
+                {
              
                    
                
@@ -1481,6 +1481,8 @@ public class OrderController  extends SystemDateModel{
             if(orderview.isSelected()){
             if(e.getID() == KeyEvent.KEY_PRESSED){
             //to order 
+                //not needed since key mnenomics does this work
+                /*
                 if(e.getKeyCode() == KeyEvent.VK_S && e.isControlDown()){
                    if(Integer.parseInt(orderview.getOrderId()) == orderview.getMainOrderId()){
                     orderview.getBtnOrder().doClick();
@@ -1490,6 +1492,7 @@ public class OrderController  extends SystemDateModel{
                        orderview.getBtnOrderEdit().doClick();
                    }
                   }
+                        
                 if(e.getKeyCode() ==KeyEvent.VK_S && e.isControlDown() && e.isAltDown()){
                     orderview.getBtnOrderAndPrint().doClick();
                 }
@@ -1497,6 +1500,7 @@ public class OrderController  extends SystemDateModel{
                 if(e.getKeyCode() == KeyEvent.VK_D && e.isControlDown()){
                     orderview.getBtnDelete().doClick();
                 }
+                        */
                 //to exit the frame
                 if(e.getKeyCode() == KeyEvent.VK_X && e.isControlDown()){
                      try {
@@ -1516,10 +1520,13 @@ public class OrderController  extends SystemDateModel{
                     orderview.addcomboMenuNameFocus();
                 }
                 //to cancel
+                //not needed
+                /*
                 if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
                     orderview.getBtnCancelOrder().doClick();
                   
                 }
+                        */
             
             }
             }

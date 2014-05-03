@@ -99,6 +99,7 @@ public class ComplimentaryView extends javax.swing.JDialog {
                 .addGap(20, 20, 20))
         );
 
+        btnAdd.setMnemonic('A');
         btnAdd.setText("Add");
         btnAdd.setPreferredSize(new java.awt.Dimension(30, 23));
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
@@ -107,12 +108,15 @@ public class ComplimentaryView extends javax.swing.JDialog {
             }
         });
 
+        btnEdit.setMnemonic('e');
         btnEdit.setText("Edit");
         btnEdit.setEnabled(false);
 
+        btnDelete.setMnemonic('d');
         btnDelete.setText("Delete");
         btnDelete.setEnabled(false);
 
+        btnCancel.setMnemonic('c');
         btnCancel.setText("Cancel");
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Complimentary Crud"));

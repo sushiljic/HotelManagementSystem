@@ -4,6 +4,7 @@
  */
 package resturant.customer;
 
+import java.awt.HeadlessException;
 import java.awt.KeyEventDispatcher;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -88,7 +89,7 @@ public class CustomerController {
                             return;
                         }
                     }
-                     if(DisplayMessages.displayInputYesNo(cview, "DO You Want To Edit Customer", "Customer Add Window")){
+                     if(DisplayMessages.displayInputYesNo(cview, "DO You Want To Edit Customer", "Customer Edit Window")){
                     
 // System.out.println("wala1");
                     cmodel.EditCustomer(cview.getCustomerInfo());
@@ -104,7 +105,7 @@ public class CustomerController {
                         JOptionPane.showMessageDialog(cview, "Please Select From the list to Delete");
                         return;
                     }
-                    int choice = JOptionPane.showConfirmDialog(cview, "DO You Want To Add Customer", "Customer Add Window", JOptionPane.YES_NO_OPTION);
+                    int choice = JOptionPane.showConfirmDialog(cview, "DO You Want To Delete Customer", "Customer Delete Window", JOptionPane.YES_NO_OPTION);
                     if(choice == JOptionPane.YES_OPTION ){
                         cmodel.DeleteCustomer(cview.getCustomerInfo());
                         cview.ClearAll();
@@ -120,7 +121,7 @@ public class CustomerController {
                  cview.setDeleteEditableFalse();
             }
         }
-        catch(Exception cce){
+        catch(HeadlessException cce){
             JOptionPane.showMessageDialog(cview, cce+"From CustomerCrudListener");
         }
         }

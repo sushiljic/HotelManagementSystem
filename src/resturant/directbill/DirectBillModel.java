@@ -669,7 +669,7 @@ public class DirectBillModel extends DBConnect {
         }
         return finaldata;
     }
-       public BigDecimal checkSingleTrackableItem(int menu_id,String quantity){
+       public BigDecimal checkSingleTrackableItem(int menu_id,Double quantity){
           PreparedStatement stmtget;
           ResultSet rsget;
           ArrayList<Object[]> data = new ArrayList<Object[]>();
@@ -698,7 +698,7 @@ public class DirectBillModel extends DBConnect {
           return net;
               
       }
-        public String[][] checkHybridTrackableItem(int menu_id,String quantity){
+        public String[][] checkHybridTrackableItem(int menu_id,Double quantity){
           PreparedStatement stmtget;
           ResultSet rsget;
           ArrayList<Object[]> data = new ArrayList<Object[]>();

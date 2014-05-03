@@ -5,11 +5,12 @@
 package resturant.directbill;
 
 import java.awt.Color;
+import java.awt.KeyEventDispatcher;
+import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -18,9 +19,9 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import javax.swing.Action;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
@@ -29,9 +30,9 @@ import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
-import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
+import reusableClass.Function;
 import reusableClass.Validator;
 
 /**
@@ -50,7 +51,7 @@ public class DirectBillView extends javax.swing.JInternalFrame {
     private int MenuId ;
     private Double SVCpercentage = new Double(0.0) ;
     private Double VATPercentage = new Double(0.0);
-    private Double DiscountAmount = new Double(0.0);
+    private final Double DiscountAmount = new Double(0.0);
      private Double TotalAfterDiscount = 0.0;
     private int TableId = 0;
     private int MainBillId = 0;
@@ -60,6 +61,8 @@ public class DirectBillView extends javax.swing.JInternalFrame {
 private BigDecimal rate;
     public ArrayList<String> OrderArray = new ArrayList<>();
     public ArrayList<String[]> ComplimentaryList = new ArrayList<>();
+    //for listening to the key
+    private KeyboardFocusManager directbillKeyboardManager;
     
     
 
@@ -94,15 +97,20 @@ private BigDecimal rate;
         setButtonForEnter(btnAddCustomer);
         
         jPanel4.setVisible(false);
-        //SetFocusListener(txtDiscountAmount);
-        txtDiscountAmount.addFocusListener(new SetFocusListener(txtDiscountAmount));
+      
        // txtReturnAmount.addFocusListener(new SetFocusListener(txtReturnAmount));
         txtSVCPercent.addFocusListener(new SetFocusListener(txtSVCPercent));
 //        txtSearch.addFocusListener(new SetFocusListener(txtSearch));
-        txtTenderedAmount.addFocusListener(new SetFocusListener(txtTenderedAmount));
+        
        Validator.DecimalMaker(txtTenderedAmount);
+       Validator.DecimalMaker(txtOrderQuantity);
+       Validator.PercentageMaker(txtVATPercent);
+       Validator.DecimalMaker(txtDiscountPercent);
        
-        Validator.PercentageMaker(txtVATPercent);
+       txtTenderedAmount.addFocusListener(new Function.SetJFormattedTextFieldFocusListener(txtTenderedAmount));
+       txtOrderQuantity.addFocusListener(new Function.SetJFormattedTextFieldFocusListener(txtOrderQuantity));
+         //SetFocusListener(txtDiscountAmount);
+        txtDiscountPercent.addFocusListener(new Function.SetJFormattedTextFieldFocusListener(txtDiscountPercent));
         /*
          * center in the middle of the screen
          */
@@ -114,6 +122,11 @@ private BigDecimal rate;
         /*
          * adding clos listener
          */
+        /*
+        receing the key input
+        */
+        directbillKeyboardManager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
+        btnBillSaveAndPrint.setVisible(false);
        
     }
     /**
@@ -155,8 +168,8 @@ private BigDecimal rate;
         jPanel6 = new javax.swing.JPanel();
         comboMenuName = new javax.swing.JComboBox();
         jLabel12 = new javax.swing.JLabel();
-        txtOrderQuantity = new javax.swing.JTextField();
         btnAdd = new javax.swing.JButton();
+        txtOrderQuantity = new javax.swing.JFormattedTextField();
         jPanel4 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
         comboCustomerNameForOrder = new javax.swing.JComboBox();
@@ -207,7 +220,9 @@ private BigDecimal rate;
         JDialogBillPayment.setResizable(false);
 
         btnBillSave.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnBillSave.setMnemonic('S');
         btnBillSave.setText("Save");
+        btnBillSave.setToolTipText("ALT+S");
         btnBillSave.setActionCommand("BillSave");
 
         btnBillSaveAndPrint.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -215,7 +230,9 @@ private BigDecimal rate;
         btnBillSaveAndPrint.setActionCommand("BillSaveAndPrint");
 
         btnBillCancel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnBillCancel.setMnemonic('C');
         btnBillCancel.setText("Cancel");
+        btnBillCancel.setToolTipText("ALT+C");
         btnBillCancel.setActionCommand("BillCancel");
 
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -227,7 +244,9 @@ private BigDecimal rate;
         jLabel4.setText("Customer:");
 
         checkBoxComplimentary.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        checkBoxComplimentary.setMnemonic('o');
         checkBoxComplimentary.setText("Complimentary");
+        checkBoxComplimentary.setToolTipText("ALT+O");
         checkBoxComplimentary.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 checkBoxComplimentaryActionPerformed(evt);
@@ -236,12 +255,16 @@ private BigDecimal rate;
 
         buttonGroupPaymentType.add(radioCash);
         radioCash.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        radioCash.setMnemonic('a');
         radioCash.setSelected(true);
         radioCash.setText("Cash");
+        radioCash.setToolTipText("ALT+A");
 
         buttonGroupPaymentType.add(radioCredit);
         radioCredit.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        radioCredit.setMnemonic('r');
         radioCredit.setText("Credit");
+        radioCredit.setToolTipText("ALT+R");
         radioCredit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 radioCreditActionPerformed(evt);
@@ -249,7 +272,9 @@ private BigDecimal rate;
         });
 
         btnAddCustomer.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnAddCustomer.setMnemonic('U');
         btnAddCustomer.setText("ADD Customer");
+        btnAddCustomer.setToolTipText("ALT+U");
         btnAddCustomer.setActionCommand("ADDCustomer");
         btnAddCustomer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -413,6 +438,7 @@ private BigDecimal rate;
             }
         ));
         jScrollPane5.setViewportView(tblComplimentarySelect);
+        tblComplimentarySelect.getTableHeader().setReorderingAllowed(false);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -462,11 +488,15 @@ private BigDecimal rate;
         jLabel2.setText(" Grand Total :");
 
         btnSave.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnSave.setMnemonic('S');
         btnSave.setText("Save");
+        btnSave.setToolTipText("ALT+S");
         btnSave.setEnabled(false);
 
         btnCancel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnCancel.setMnemonic('C');
         btnCancel.setText("Cancel");
+        btnCancel.setToolTipText("ALT+C");
 
         txtGrandTotal2.setEditable(false);
         txtGrandTotal2.setBackground(new java.awt.Color(153, 255, 102));
@@ -487,12 +517,17 @@ private BigDecimal rate;
         jLabel12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel12.setText("Qty:");
 
-        txtOrderQuantity.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txtOrderQuantity.setPreferredSize(new java.awt.Dimension(50, 20));
-
         btnAdd.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnAdd.setMnemonic('a');
         btnAdd.setText("Add");
+        btnAdd.setToolTipText("ALT+A");
         btnAdd.setMinimumSize(new java.awt.Dimension(87, 25));
+
+        txtOrderQuantity.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtOrderQuantityActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -503,8 +538,8 @@ private BigDecimal rate;
                 .addComponent(comboMenuName, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtOrderQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(16, 16, 16)
+                .addComponent(txtOrderQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -516,10 +551,12 @@ private BigDecimal rate;
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(comboMenuName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtOrderQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAdd, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE))
+                    .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtOrderQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(19, 19, 19))
         );
+
+        jPanel6Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnAdd, txtOrderQuantity});
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Order Table"));
 
@@ -838,15 +875,15 @@ private BigDecimal rate;
                         .addGap(18, 18, 18)
                         .addComponent(txtGrandTotal2, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap(32, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(46, 46, 46)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -869,12 +906,12 @@ private BigDecimal rate;
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(lblBillNo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(txtGrandTotal2, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtGrandTotal2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel2))))
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -928,6 +965,10 @@ private BigDecimal rate;
     private void txtAmountReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAmountReturnActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtAmountReturnActionPerformed
+
+    private void txtOrderQuantityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtOrderQuantityActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtOrderQuantityActionPerformed
         public void setSVCPercentage(Double d){
             SVCpercentage = d;
         }
@@ -1161,11 +1202,11 @@ private BigDecimal rate;
     public JComboBox returnComboDepartmentName(){
         return comboDepartmentName;
     }
-    public void setQuantity(String st){
-        txtOrderQuantity.setText(st);
+    public void setQuantity(Double st){
+        txtOrderQuantity.setValue(st);
     }
-    public String getQuantity(){
-        return txtOrderQuantity.getText();
+    public Double getQuantity(){
+        return ((Number)txtOrderQuantity.getValue()).doubleValue();
     }
       
         public void setComplimentary(Boolean flag){
@@ -1254,7 +1295,7 @@ private BigDecimal rate;
          public void clearAddData(){
        
         setMenuId(0);
-        setQuantity("");
+        setQuantity(0.0);
         setRate("0");
         setItemBaseUnit("");
 //        setSearchMenu("");
@@ -1425,6 +1466,12 @@ private BigDecimal rate;
             radioCash.addItemListener(ListenForChange);
             radioCredit.addItemListener(ListenForChange);
         }
+        /*
+        sending deligates for keyboard managers
+        */
+        public void addShortcutForDirectBill(KeyEventDispatcher ked){
+            directbillKeyboardManager.addKeyEventDispatcher(ked);
+        }
         public class addEnterFocusListener implements ActionListener{
 
         @Override
@@ -1566,6 +1613,39 @@ private BigDecimal rate;
          public JComboBox returnComboCustomerNameForBill(){
              return comboBoxCustomerName;
          }
+         
+         
+         public void addAbstractActionListener(Action action){
+             txtOrderQuantity.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0), "check");
+             txtOrderQuantity.getActionMap().put("check", action);
+             //sending enter object when combobox is entered
+             comboMenuName.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0), "check");
+             comboMenuName.getActionMap().put("check", action);
+             //enter listening for tenderamount
+             txtTenderedAmount.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0),"check");
+             txtTenderedAmount.getActionMap().put("check", action);
+         }
+
+    /*
+    returning the deligates
+     */
+    public JButton getBtnAdd() {
+        return btnAdd;
+    }
+
+    public JFormattedTextField getTxtOrderQuantity() {
+        return txtOrderQuantity;
+    }
+
+    public JButton getBtnSave() {
+        return btnSave;
+    }
+    
+
+   
+    
+         
+         
      
     
 
@@ -1672,7 +1752,7 @@ private BigDecimal rate;
     private javax.swing.JComboBox comboBoxCustomerName;
     private javax.swing.JComboBox comboCustomerNameForOrder;
     private javax.swing.JComboBox comboDepartmentName;
-    private javax.swing.JComboBox comboMenuName;
+    public javax.swing.JComboBox comboMenuName;
     private javax.swing.JComboBox comboboxComplimentaryName;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1710,7 +1790,7 @@ private BigDecimal rate;
     private javax.swing.JFormattedTextField txtDiscountPercent;
     private javax.swing.JFormattedTextField txtGrandTotal1;
     private javax.swing.JFormattedTextField txtGrandTotal2;
-    public javax.swing.JTextField txtOrderQuantity;
+    public javax.swing.JFormattedTextField txtOrderQuantity;
     private javax.swing.JFormattedTextField txtSVCAmount;
     private javax.swing.JFormattedTextField txtSVCPercent;
     private javax.swing.JFormattedTextField txtSubTotalAmount;

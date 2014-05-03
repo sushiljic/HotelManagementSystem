@@ -16,6 +16,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.beans.PropertyVetoException;
 import javax.swing.AbstractAction;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -41,7 +42,6 @@ import report.bill.BillPrint;
 import resturant.customer.CustomerController;
 import resturant.customer.CustomerModel;
 import resturant.customer.CustomerView;
-import resturant.order.OrderController.RefreshOrderedListTimer;
 import resturant.order.OrderView;
 import resturant.tablecrud.ExecuteTableStatusView;
 import reusableClass.DisplayMessages;
@@ -283,8 +283,8 @@ public class OrderBillController extends SystemDateModel {
                 JOptionPane.showMessageDialog(obview.JDialogBillPayment, "Module to be added");
             }
             else  if(e.getActionCommand().equalsIgnoreCase("BillCancel")){
-                int choice = JOptionPane.showConfirmDialog(obview.JDialogBillPayment, "Do you Want to Cancel Billing","Bill Cancel Window",JOptionPane.YES_NO_OPTION);
-                if(choice == JOptionPane.YES_OPTION){
+                if(DisplayMessages.displayInputYesNo(obview.JDialogBillPayment, "Do you Want to Cancel Billing","Bill Cancel Window"))
+                {
                     obview.JDialogBillPayment.setVisible(false);
                     obview.requestFocusOnTenderedAmount();
                    obview.ComplimentaryList.clear();
@@ -293,7 +293,7 @@ public class OrderBillController extends SystemDateModel {
                 }
             }
         }
-        catch(Exception se){
+        catch(HeadlessException se){
             JOptionPane.showMessageDialog(obview, se+" from BillInsertListener");
         }
         }
@@ -353,8 +353,8 @@ public class OrderBillController extends SystemDateModel {
               
             }
             else if (e.getActionCommand().equalsIgnoreCase("Cancel")){
-                int choice = JOptionPane.showConfirmDialog(obview, "Do you Want to Cancel Billing","Bill Cancel Window",JOptionPane.YES_NO_OPTION);
-                if(choice == JOptionPane.YES_OPTION){
+                if(DisplayMessages.displayInputYesNo(obview, "Do you Want to Cancel Billing","Bill Cancel Window"))
+                {
                    
                     obview.gettblBillInfo().setRowCount(0);
                     obview.setSaveEditableFalse();
@@ -594,7 +594,7 @@ public class OrderBillController extends SystemDateModel {
                // System.out.println(obview.getCustomerId());
             }
         }
-        catch(Exception se){
+        catch(NumberFormatException se){
             JOptionPane.showMessageDialog(obview, se+"From ComboCustomerNameListener");
         }
         }
@@ -657,7 +657,7 @@ public class OrderBillController extends SystemDateModel {
                          }
                      }
                     }
-                    catch(Exception se){
+                    catch(NumberFormatException se){
                         JOptionPane.showMessageDialog(mainview, se+"from ComboComplimentaryListener"+getClass().getName());
                     }
                 }
@@ -911,7 +911,7 @@ public class OrderBillController extends SystemDateModel {
             }
         
         }
-        catch(Exception se){
+        catch(NumberFormatException se){
             JOptionPane.showMessageDialog(billview, se+"from OrderedListSelectionListener");
         }
         }
@@ -996,8 +996,8 @@ public class OrderBillController extends SystemDateModel {
                  JFrame billwindow = (JFrame)e.getSource();
           //  JOptionPane.showMessageDialog(obview, "DO You Want to close it");
            if(obview.gettblBillInfo().getRowCount() >0){
-                int choice = JOptionPane.showConfirmDialog(obview, "You Are in Middle of Check Out.\n Do You Still Want To Close this Window?", "Bill Alert Window", JOptionPane.YES_NO_CANCEL_OPTION);
-          if(choice == JOptionPane.YES_OPTION){
+                if(DisplayMessages.displayInputYesNo(obview, "You Are in Middle of Check Out.\n Do You Still Want To Close this Window?", "Bill Alert Window"))
+          {
             
               billwindow.dispose();
           }
@@ -1006,8 +1006,8 @@ public class OrderBillController extends SystemDateModel {
            else if(obview.gettblOrderList().getRowCount()>0){
                int ordercount = obview.gettblOrderList().getRowCount();
                String gm = ordercount==1?"is":"are";
-              int choice = JOptionPane.showConfirmDialog(obview, "There "+gm+ " Still "+ordercount+" order to be bill in the ordered List.\n Do You Still Want To Close this Window?", "Bill Alert Window", JOptionPane.YES_NO_CANCEL_OPTION);
-          if(choice == JOptionPane.YES_OPTION){
+              if(DisplayMessages.displayInputYesNo(obview, "There "+gm+ " Still "+ordercount+" order to be bill in the ordered List.\n Do You Still Want To Close this Window?", "Bill Alert Window"))
+          {
             
               billwindow.dispose();
           }
@@ -1026,8 +1026,8 @@ public class OrderBillController extends SystemDateModel {
                             JInternalFrame billwindow = (JInternalFrame)e.getSource();
           //  JOptionPane.showMessageDialog(obview, "DO You Want to close it");
            if(obview.gettblBillInfo().getRowCount() >0){
-                int choice = JOptionPane.showConfirmDialog(obview, "You Are in Middle of Check Out.\n Do You Still Want To Close this Window?", "Bill Alert Window", JOptionPane.YES_NO_CANCEL_OPTION);
-          if(choice == JOptionPane.YES_OPTION){
+           if(DisplayMessages.displayInputYesNo(obview, "You Are in Middle of Check Out.\n Do You Still Want To Close this Window?", "Bill Alert Window"))
+            {
               mainview.setCountForPay(0);
              
 //              billwindow.setClosed(true);
@@ -1040,8 +1040,8 @@ public class OrderBillController extends SystemDateModel {
            else if(obview.gettblOrderList().getRowCount()>0){
                int ordercount = obview.gettblOrderList().getRowCount();
                String gm = ordercount==1?"is":"are";
-              int choice = JOptionPane.showConfirmDialog(obview, "There "+gm+ " Still "+ordercount+" order to be bill in the ordered List.\n Do You Still Want To Close this Window?", "Bill Alert Window", JOptionPane.YES_NO_CANCEL_OPTION);
-          if(choice == JOptionPane.YES_OPTION){
+              if(DisplayMessages.displayInputYesNo(obview, "There "+gm+ " Still "+ordercount+" order to be bill in the ordered List.\n Do You Still Want To Close this Window?", "Bill Alert Window"))
+            {
              mainview.setCountForPay(0);
              
 //                billwindow.setClosed(true);
@@ -1510,6 +1510,10 @@ public class OrderBillController extends SystemDateModel {
                 if(obview.isSelected()){
                 if(e.getID() == KeyEvent.KEY_PRESSED){
                     //for save 
+                    /*
+                    this is not need this mnemonics does work for me
+                    
+                    
                     if(e.getKeyCode() == KeyEvent.VK_S && e.isControlDown()){
                         if(!obview.JDialogBillPayment.isVisible()){
                         obview.getBtnSave().doClick();
@@ -1529,6 +1533,7 @@ public class OrderBillController extends SystemDateModel {
                              obview.getBtnBillCancel().doClick();
                          }
                     }
+                            */
                     //to focus on order table
                     if(e.getKeyCode() == KeyEvent.VK_HOME){
                        obview.tblOrderedList.requestFocusInWindow();
@@ -1544,7 +1549,7 @@ public class OrderBillController extends SystemDateModel {
                 }
                 }
             }
-            catch(Exception se){
+            catch(PropertyVetoException se){
                 DisplayMessages.displayError(obview,se.getMessage()+" from ShortcutForOrderBill"+getClass().getName(), "Error");
             }
             return false;

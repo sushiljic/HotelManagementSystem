@@ -335,7 +335,7 @@
                           <Component id="btnTableAdd" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnTableCancel" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnTableEdit" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnTableDelete" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
+                          <Component id="btnTableDelete" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jPanel5" max="32767" attributes="0"/>
@@ -567,6 +567,7 @@
                         </Property>
                       </Properties>
                       <AuxValues>
+                        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="tblTable.getTableHeader().setReorderingAllowed(false);"/>
                         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
                       </AuxValues>
                     </Component>
