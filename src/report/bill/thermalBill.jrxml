@@ -178,21 +178,21 @@ WHERE
 	<pageHeader>
 		<band height="16" splitType="Stretch">
 			<textField isBlankWhenNull="true">
-				<reportElement x="3" y="1" width="55" height="13" uuid="4cd5bda3-ba0e-4642-83fc-3c514f7b92a9"/>
+				<reportElement x="1" y="1" width="50" height="13" uuid="4cd5bda3-ba0e-4642-83fc-3c514f7b92a9"/>
 				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA["BILL NO: "+ $P{billNo}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="58" y="0" width="76" height="13" uuid="6b60e1a3-48a9-48f2-86b8-3a3f30c0e738"/>
+				<reportElement x="52" y="0" width="76" height="13" uuid="6b60e1a3-48a9-48f2-86b8-3a3f30c0e738"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA["TERMINAL: "+$P{terminal}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy hh:mm z">
-				<reportElement x="134" y="0" width="54" height="13" uuid="cba2974f-584a-43b5-805e-95bec84388d7"/>
+				<reportElement x="127" y="0" width="61" height="13" uuid="cba2974f-584a-43b5-805e-95bec84388d7"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
@@ -223,7 +223,7 @@ WHERE
 						</jr:columnHeader>
 						<jr:detailCell height="13" rowSpan="1">
 							<textField>
-								<reportElement style="table_TD" x="0" y="0" width="18" height="13" uuid="15c135f9-5781-4e5b-b560-1cbdec14c012"/>
+								<reportElement mode="Transparent" x="0" y="0" width="18" height="13" uuid="15c135f9-5781-4e5b-b560-1cbdec14c012"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="6" isBold="true"/>
 									<paragraph leftIndent="5"/>
@@ -244,7 +244,7 @@ WHERE
 						</jr:columnHeader>
 						<jr:detailCell height="13" rowSpan="1">
 							<textField isStretchWithOverflow="true">
-								<reportElement style="table_TD" x="0" y="0" width="55" height="13" uuid="ead598ef-d70a-4f16-b447-b402af714a75"/>
+								<reportElement mode="Transparent" x="0" y="0" width="55" height="13" uuid="ead598ef-d70a-4f16-b447-b402af714a75"/>
 								<textElement verticalAlignment="Middle">
 									<font size="6" isBold="true"/>
 									<paragraph leftIndent="5"/>
@@ -265,7 +265,7 @@ WHERE
 						</jr:columnHeader>
 						<jr:detailCell height="13" rowSpan="1">
 							<textField isStretchWithOverflow="true">
-								<reportElement style="table_TD" x="0" y="0" width="20" height="13" uuid="b58fa9f7-fed4-4897-814c-9dae6c0b021a"/>
+								<reportElement mode="Transparent" x="0" y="0" width="20" height="13" uuid="b58fa9f7-fed4-4897-814c-9dae6c0b021a"/>
 								<textElement verticalAlignment="Middle">
 									<font size="6" isBold="true"/>
 									<paragraph leftIndent="5"/>
@@ -286,7 +286,7 @@ WHERE
 						</jr:columnHeader>
 						<jr:detailCell height="13" rowSpan="1">
 							<textField isStretchWithOverflow="true">
-								<reportElement style="table_TD" x="0" y="0" width="20" height="13" uuid="2ded5a6d-d812-4b19-82a6-22d7f302d850"/>
+								<reportElement mode="Transparent" x="0" y="0" width="20" height="13" uuid="2ded5a6d-d812-4b19-82a6-22d7f302d850"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="6" isBold="true"/>
 									<paragraph leftIndent="5"/>
@@ -307,7 +307,7 @@ WHERE
 						</jr:columnHeader>
 						<jr:detailCell height="13" rowSpan="1">
 							<textField isStretchWithOverflow="true">
-								<reportElement style="table_TD" x="0" y="0" width="30" height="13" uuid="338644b2-d3ae-401d-963d-ecaa544ad8ae"/>
+								<reportElement mode="Transparent" x="0" y="0" width="30" height="13" uuid="338644b2-d3ae-401d-963d-ecaa544ad8ae"/>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
 									<font size="6" isBold="true"/>
 									<paragraph firstLineIndent="5" rightIndent="3"/>
@@ -328,7 +328,7 @@ WHERE
 						</jr:columnHeader>
 						<jr:detailCell height="13" rowSpan="1">
 							<textField isStretchWithOverflow="true">
-								<reportElement style="table_TD" x="0" y="0" width="40" height="13" uuid="c0d2d0b8-a351-4a81-b30a-abf69f78b144"/>
+								<reportElement mode="Transparent" x="0" y="0" width="40" height="13" uuid="c0d2d0b8-a351-4a81-b30a-abf69f78b144"/>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
 									<font size="6" isBold="true"/>
 									<paragraph firstLineIndent="5" rightIndent="4"/>
@@ -340,49 +340,49 @@ WHERE
 				</jr:table>
 			</componentElement>
 			<textField>
-				<reportElement positionType="Float" x="44" y="70" width="144" height="13" uuid="7bad3f96-1e0d-4ded-89b2-79bc57c79667"/>
+				<reportElement positionType="Float" x="1" y="70" width="187" height="13" uuid="7bad3f96-1e0d-4ded-89b2-79bc57c79667"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA["SVC: "+$P{svc}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="false">
-				<reportElement positionType="Float" x="45" y="82" width="144" height="13" uuid="e575b5d5-6283-4e36-b442-6e9e329095fb"/>
+				<reportElement positionType="Float" x="0" y="82" width="189" height="13" uuid="e575b5d5-6283-4e36-b442-6e9e329095fb"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA["VAT: "+$P{vat}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" x="45" y="95" width="144" height="13" uuid="36f62769-af57-4a3b-b63a-6ce1bbecb085"/>
+				<reportElement positionType="Float" x="1" y="95" width="188" height="13" uuid="36f62769-af57-4a3b-b63a-6ce1bbecb085"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA["SUB TOTAL: "+$P{subtotal}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" x="46" y="108" width="144" height="13" uuid="066eec7b-4d1b-4adc-b488-9744ce892134"/>
+				<reportElement positionType="Float" x="1" y="108" width="189" height="13" uuid="066eec7b-4d1b-4adc-b488-9744ce892134"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA["DISCOUNT: "+$P{discount}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" x="46" y="121" width="144" height="13" uuid="37c98615-6bb8-42dd-914a-08e803378b59"/>
+				<reportElement positionType="Float" x="2" y="121" width="188" height="13" uuid="37c98615-6bb8-42dd-914a-08e803378b59"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA["GRAND TOTAL: "+$P{grandtotal}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement positionType="Float" x="3" y="133" width="186" height="13" uuid="0df8c3cc-5752-4c8d-825e-883e966c4d8a"/>
+				<reportElement positionType="Float" x="2" y="133" width="187" height="13" uuid="0df8c3cc-5752-4c8d-825e-883e966c4d8a"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA["AMOUNT TENDERED: "+$P{amountTen}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" x="4" y="147" width="186" height="13" uuid="036bd5fb-51e8-4456-b770-e48c9e3b8ea3"/>
+				<reportElement positionType="Float" x="2" y="147" width="188" height="13" uuid="036bd5fb-51e8-4456-b770-e48c9e3b8ea3"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
@@ -396,7 +396,7 @@ WHERE
 				<textFieldExpression><![CDATA[$P{greet}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement positionType="Float" x="44" y="57" width="144" height="13" uuid="e13ab04d-1ca0-4fe3-9428-2aef95a314df"/>
+				<reportElement positionType="Float" x="2" y="57" width="186" height="13" uuid="e13ab04d-1ca0-4fe3-9428-2aef95a314df"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
@@ -404,9 +404,6 @@ WHERE
 			</textField>
 		</band>
 	</detail>
-	<columnFooter>
-		<band height="44" splitType="Stretch"/>
-	</columnFooter>
 	<pageFooter>
 		<band splitType="Stretch"/>
 	</pageFooter>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="BillPrint" printOrder="Horizontal" pageWidth="288" pageHeight="720" columnWidth="260" leftMargin="14" rightMargin="14" topMargin="14" bottomMargin="14" isIgnorePagination="true" uuid="b27276a8-137a-4296-b627-a71a66a61d12">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="BillPrint" printOrder="Horizontal" pageWidth="216" pageHeight="720" columnWidth="188" leftMargin="14" rightMargin="14" topMargin="14" bottomMargin="14" isIgnorePagination="true" uuid="b27276a8-137a-4296-b627-a71a66a61d12">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -91,7 +91,7 @@ bill_item_info.quantity*menu.retail_price AS total_amount
 	<detail>
 		<band height="187" splitType="Stretch">
 			<componentElement>
-				<reportElement key="table 1" x="2" y="21" width="258" height="55" uuid="2b791a62-4f78-41ae-a84e-345ead4e4b33"/>
+				<reportElement key="table 1" x="2" y="21" width="186" height="55" uuid="2b791a62-4f78-41ae-a84e-345ead4e4b33"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<datasetRun subDataset="Order" uuid="a7f0777c-3a69-47e7-a10f-a0815f942b68">
 						<datasetParameter name="order_id">
@@ -99,10 +99,10 @@ bill_item_info.quantity*menu.retail_price AS total_amount
 						</datasetParameter>
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					</datasetRun>
-					<jr:column width="23" uuid="30f56790-0f9a-493d-af8b-8c005a8caa9b">
+					<jr:column width="20" uuid="30f56790-0f9a-493d-af8b-8c005a8caa9b">
 						<jr:columnHeader style="table 1_CH" height="13" rowSpan="1">
 							<staticText>
-								<reportElement mode="Opaque" x="0" y="0" width="23" height="13" uuid="b88ef304-708b-408f-98be-ae8a4f98d494"/>
+								<reportElement style="table_TH" mode="Opaque" x="0" y="0" width="20" height="13" backcolor="#FFFFFF" uuid="b88ef304-708b-408f-98be-ae8a4f98d494"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="8"/>
 								</textElement>
@@ -111,7 +111,7 @@ bill_item_info.quantity*menu.retail_price AS total_amount
 						</jr:columnHeader>
 						<jr:detailCell height="13" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="23" height="13" uuid="15c135f9-5781-4e5b-b560-1cbdec14c012"/>
+								<reportElement style="table_TD" x="0" y="0" width="20" height="13" uuid="15c135f9-5781-4e5b-b560-1cbdec14c012"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="8"/>
 									<paragraph leftIndent="5"/>
@@ -120,10 +120,10 @@ bill_item_info.quantity*menu.retail_price AS total_amount
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="135" uuid="08f55baa-2942-4c39-8236-d6cfccf53b32">
+					<jr:column width="100" uuid="08f55baa-2942-4c39-8236-d6cfccf53b32">
 						<jr:columnHeader style="table 1_CH" height="13" rowSpan="1">
 							<staticText>
-								<reportElement mode="Opaque" x="0" y="0" width="135" height="13" uuid="1622cd4d-80e7-4560-ad38-42ddcf1631be"/>
+								<reportElement style="table_TH" mode="Opaque" x="0" y="0" width="100" height="13" backcolor="#FFFFFF" uuid="1622cd4d-80e7-4560-ad38-42ddcf1631be"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="8"/>
 								</textElement>
@@ -132,7 +132,7 @@ bill_item_info.quantity*menu.retail_price AS total_amount
 						</jr:columnHeader>
 						<jr:detailCell height="13" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="135" height="13" uuid="ead598ef-d70a-4f16-b447-b402af714a75"/>
+								<reportElement style="table_TD" x="0" y="0" width="100" height="13" uuid="ead598ef-d70a-4f16-b447-b402af714a75"/>
 								<textElement verticalAlignment="Middle">
 									<font size="8"/>
 									<paragraph leftIndent="5"/>
@@ -144,7 +144,7 @@ bill_item_info.quantity*menu.retail_price AS total_amount
 					<jr:column width="49" uuid="46d83b9b-735d-45fc-a035-8028d3815456">
 						<jr:columnHeader style="table 1_CH" height="13" rowSpan="1">
 							<staticText>
-								<reportElement mode="Opaque" x="0" y="0" width="49" height="13" uuid="042dc51d-bd96-4e8a-9fc3-68b8719fb9de"/>
+								<reportElement style="table_TH" mode="Opaque" x="0" y="0" width="49" height="13" backcolor="#FFFFFF" uuid="042dc51d-bd96-4e8a-9fc3-68b8719fb9de"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="8"/>
 								</textElement>
@@ -153,7 +153,7 @@ bill_item_info.quantity*menu.retail_price AS total_amount
 						</jr:columnHeader>
 						<jr:detailCell height="13" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="49" height="13" uuid="b58fa9f7-fed4-4897-814c-9dae6c0b021a"/>
+								<reportElement style="table_TD" x="0" y="0" width="49" height="13" uuid="b58fa9f7-fed4-4897-814c-9dae6c0b021a"/>
 								<textElement verticalAlignment="Middle">
 									<font size="8"/>
 									<paragraph leftIndent="5"/>
@@ -165,7 +165,7 @@ bill_item_info.quantity*menu.retail_price AS total_amount
 					<jr:column width="56" uuid="1711cca5-e4fc-4365-8bd3-275c6b5aaea0">
 						<jr:columnHeader style="table 1_CH" height="13" rowSpan="1">
 							<staticText>
-								<reportElement mode="Opaque" x="0" y="0" width="56" height="13" uuid="9de21bbf-e670-499b-84c8-abd6c3301b4d"/>
+								<reportElement style="table_TH" mode="Opaque" x="0" y="0" width="56" height="13" backcolor="#FFFFFF" uuid="9de21bbf-e670-499b-84c8-abd6c3301b4d"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="8"/>
 								</textElement>
@@ -174,7 +174,7 @@ bill_item_info.quantity*menu.retail_price AS total_amount
 						</jr:columnHeader>
 						<jr:detailCell height="13" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="56" height="13" uuid="2ded5a6d-d812-4b19-82a6-22d7f302d850"/>
+								<reportElement style="table_TD" x="0" y="0" width="56" height="13" uuid="2ded5a6d-d812-4b19-82a6-22d7f302d850"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="8"/>
 									<paragraph leftIndent="5"/>
@@ -186,7 +186,7 @@ bill_item_info.quantity*menu.retail_price AS total_amount
 				</jr:table>
 			</componentElement>
 			<textField>
-				<reportElement x="0" y="0" width="260" height="18" uuid="84249c04-11a4-4d51-bbdb-016c9db10bd9"/>
+				<reportElement x="0" y="0" width="188" height="18" uuid="84249c04-11a4-4d51-bbdb-016c9db10bd9"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA["Order List \t Order Id: " +$P{orderId}]]></textFieldExpression>
 			</textField>
