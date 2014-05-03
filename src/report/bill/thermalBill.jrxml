@@ -214,7 +214,7 @@ WHERE
 					<jr:column width="18" uuid="30f56790-0f9a-493d-af8b-8c005a8caa9b">
 						<jr:columnHeader style="table 1_CH" height="13" rowSpan="1">
 							<staticText>
-								<reportElement mode="Opaque" x="0" y="0" width="18" height="13" uuid="b88ef304-708b-408f-98be-ae8a4f98d494"/>
+								<reportElement style="table_CH" mode="Opaque" x="0" y="0" width="18" height="13" backcolor="#FFFFFF" uuid="b88ef304-708b-408f-98be-ae8a4f98d494"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="6" isBold="true"/>
 								</textElement>
@@ -223,7 +223,7 @@ WHERE
 						</jr:columnHeader>
 						<jr:detailCell height="13" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="18" height="13" uuid="15c135f9-5781-4e5b-b560-1cbdec14c012"/>
+								<reportElement style="table_TD" x="0" y="0" width="18" height="13" uuid="15c135f9-5781-4e5b-b560-1cbdec14c012"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="6" isBold="true"/>
 									<paragraph leftIndent="5"/>
@@ -235,7 +235,7 @@ WHERE
 					<jr:column width="55" uuid="08f55baa-2942-4c39-8236-d6cfccf53b32">
 						<jr:columnHeader style="table 1_CH" height="13" rowSpan="1">
 							<staticText>
-								<reportElement mode="Opaque" x="0" y="0" width="55" height="13" uuid="1622cd4d-80e7-4560-ad38-42ddcf1631be"/>
+								<reportElement style="table_CH" mode="Opaque" x="0" y="0" width="55" height="13" backcolor="#FFFFFF" uuid="1622cd4d-80e7-4560-ad38-42ddcf1631be"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="6" isBold="true"/>
 								</textElement>
@@ -244,7 +244,7 @@ WHERE
 						</jr:columnHeader>
 						<jr:detailCell height="13" rowSpan="1">
 							<textField isStretchWithOverflow="true">
-								<reportElement x="0" y="0" width="55" height="13" uuid="ead598ef-d70a-4f16-b447-b402af714a75"/>
+								<reportElement style="table_TD" x="0" y="0" width="55" height="13" uuid="ead598ef-d70a-4f16-b447-b402af714a75"/>
 								<textElement verticalAlignment="Middle">
 									<font size="6" isBold="true"/>
 									<paragraph leftIndent="5"/>
@@ -256,7 +256,7 @@ WHERE
 					<jr:column width="20" uuid="46d83b9b-735d-45fc-a035-8028d3815456">
 						<jr:columnHeader style="table 1_CH" height="13" rowSpan="1">
 							<staticText>
-								<reportElement mode="Opaque" x="0" y="0" width="20" height="13" uuid="042dc51d-bd96-4e8a-9fc3-68b8719fb9de"/>
+								<reportElement style="table_CH" mode="Opaque" x="0" y="0" width="20" height="13" backcolor="#FFFFFF" uuid="042dc51d-bd96-4e8a-9fc3-68b8719fb9de"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="6" isBold="true"/>
 								</textElement>
@@ -265,7 +265,7 @@ WHERE
 						</jr:columnHeader>
 						<jr:detailCell height="13" rowSpan="1">
 							<textField isStretchWithOverflow="true">
-								<reportElement x="0" y="0" width="20" height="13" uuid="b58fa9f7-fed4-4897-814c-9dae6c0b021a"/>
+								<reportElement style="table_TD" x="0" y="0" width="20" height="13" uuid="b58fa9f7-fed4-4897-814c-9dae6c0b021a"/>
 								<textElement verticalAlignment="Middle">
 									<font size="6" isBold="true"/>
 									<paragraph leftIndent="5"/>
@@ -277,7 +277,7 @@ WHERE
 					<jr:column width="20" uuid="1711cca5-e4fc-4365-8bd3-275c6b5aaea0">
 						<jr:columnHeader style="table 1_CH" height="13" rowSpan="1">
 							<staticText>
-								<reportElement mode="Opaque" x="0" y="0" width="20" height="13" uuid="9de21bbf-e670-499b-84c8-abd6c3301b4d"/>
+								<reportElement style="table_CH" mode="Opaque" x="0" y="0" width="20" height="13" backcolor="#FFFFFF" uuid="9de21bbf-e670-499b-84c8-abd6c3301b4d"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="6" isBold="true"/>
 								</textElement>
@@ -286,7 +286,7 @@ WHERE
 						</jr:columnHeader>
 						<jr:detailCell height="13" rowSpan="1">
 							<textField isStretchWithOverflow="true">
-								<reportElement x="0" y="0" width="20" height="13" uuid="2ded5a6d-d812-4b19-82a6-22d7f302d850"/>
+								<reportElement style="table_TD" x="0" y="0" width="20" height="13" uuid="2ded5a6d-d812-4b19-82a6-22d7f302d850"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="6" isBold="true"/>
 									<paragraph leftIndent="5"/>
@@ -298,7 +298,7 @@ WHERE
 					<jr:column width="30" uuid="06415fec-250b-4618-b4d0-fe877b80400d">
 						<jr:columnHeader style="table 1_CH" height="13" rowSpan="1">
 							<staticText>
-								<reportElement mode="Opaque" x="0" y="0" width="30" height="13" uuid="00955ee6-960b-49ae-9c9a-03d9e6196b03"/>
+								<reportElement style="table_CH" mode="Opaque" x="0" y="0" width="30" height="13" backcolor="#FFFFFF" uuid="00955ee6-960b-49ae-9c9a-03d9e6196b03"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="6" isBold="true"/>
 								</textElement>
@@ -307,7 +307,7 @@ WHERE
 						</jr:columnHeader>
 						<jr:detailCell height="13" rowSpan="1">
 							<textField isStretchWithOverflow="true">
-								<reportElement x="0" y="0" width="30" height="13" uuid="338644b2-d3ae-401d-963d-ecaa544ad8ae"/>
+								<reportElement style="table_TD" x="0" y="0" width="30" height="13" uuid="338644b2-d3ae-401d-963d-ecaa544ad8ae"/>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
 									<font size="6" isBold="true"/>
 									<paragraph firstLineIndent="5" rightIndent="3"/>
@@ -319,7 +319,7 @@ WHERE
 					<jr:column width="40" uuid="dcc4c8b2-3737-4262-9eb3-a32105f36d67">
 						<jr:columnHeader style="table 1_CH" height="13" rowSpan="1">
 							<staticText>
-								<reportElement mode="Opaque" x="0" y="0" width="40" height="13" uuid="df338bce-8a6c-44e1-93c8-1969e4195de8"/>
+								<reportElement style="table_CH" mode="Opaque" x="0" y="0" width="40" height="13" backcolor="#FFFFFF" uuid="df338bce-8a6c-44e1-93c8-1969e4195de8"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="6" isBold="true"/>
 								</textElement>
@@ -328,7 +328,7 @@ WHERE
 						</jr:columnHeader>
 						<jr:detailCell height="13" rowSpan="1">
 							<textField isStretchWithOverflow="true">
-								<reportElement x="0" y="0" width="40" height="13" uuid="c0d2d0b8-a351-4a81-b30a-abf69f78b144"/>
+								<reportElement style="table_TD" x="0" y="0" width="40" height="13" uuid="c0d2d0b8-a351-4a81-b30a-abf69f78b144"/>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
 									<font size="6" isBold="true"/>
 									<paragraph firstLineIndent="5" rightIndent="4"/>
