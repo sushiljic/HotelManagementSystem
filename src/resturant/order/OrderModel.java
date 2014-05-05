@@ -14,6 +14,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import reusableClass.DisplayMessages;
 import reusableClass.Function;
 
 /**
@@ -1567,7 +1568,39 @@ public class OrderModel  extends DBConnect{
         }
         return data;
     }
-        
+          public String getOrderPrinter(int depI){
+              String printer = null;
+              initConnection();
+              String sql = "SELECT order_printer FROM department_info WHERE department_id = ?";
+              try{
+                  PreparedStatement preStmt = conn.prepareStatement(sql);
+                  preStmt.setInt(1, depI);
+                  ResultSet result = preStmt.executeQuery();
+                  printer = result.getString("order_printer");
+              }
+              catch(SQLException ex){
+                  DisplayMessages.displayError(null, ex.getLocalizedMessage(), "ERROR");
+              }
+              
+              return printer;
+          }
+
+          public String getDefaultPrinter(int depI){
+              String printer = null;
+              initConnection();
+              String sql = "SELECT default_printer FROM department_info WHERE department_id = ?";
+              try{
+                  PreparedStatement preStmt = conn.prepareStatement(sql);
+                  preStmt.setInt(1, depI);
+                  ResultSet result = preStmt.executeQuery();
+                  printer = result.getString("default_printer");
+              }
+              catch(SQLException ex){
+                  DisplayMessages.displayError(null, ex.getLocalizedMessage(), "ERROR");
+              }
+              
+              return printer;
+          }          
         
         //for adding select in alla combo
    
