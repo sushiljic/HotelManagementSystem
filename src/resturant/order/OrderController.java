@@ -484,8 +484,16 @@ public class OrderController  extends SystemDateModel{
         try{
             if(e.getActionCommand().equalsIgnoreCase("Order")){
               //  String[] info = new String[]{orderview.getOrderId(),orderview.getTableId(),orderview.getWaiterId(),orderview.getCustomerId()};
-              //checking whether  the date has been closed by the admin
+              
+                /*String printer = ordermodel.getDefaultPrinter(orderview.getDepartmentId());
+                DisplayMessages.displayInfo(mainview, printer, printer);
+                System.out.print(orderview.getDepartmentId());
+                */
+//checking whether  the date has been closed by the admin
+                
+                
                 Object[] dateinfo = returnSystemDateInfo();
+                
                 //this is given first before of shotcut key
                  orderview.setAddOrderEditableFalse();
                  orderview.setAddOrderAndPrintEditableFalse();
