@@ -5,7 +5,6 @@
 package resturant.order;
 
 import hotelmanagementsystem.MainFrameView;
-import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import systemdate.SystemDateModel;

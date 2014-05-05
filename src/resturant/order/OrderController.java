@@ -5,6 +5,7 @@
 package resturant.order;
 
 import hotelmanagementsystem.MainFrameView;
+import java.awt.HeadlessException;
 import java.awt.KeyEventDispatcher;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -526,8 +527,8 @@ public class OrderController  extends SystemDateModel{
                }
                }
 //                System.out.println("wala");
-               int choice = JOptionPane.showConfirmDialog(orderview, "Do you Want to Order ","Order  Window",JOptionPane.YES_NO_CANCEL_OPTION);
-                if(choice == JOptionPane.YES_OPTION){
+               if(DisplayMessages.displayInputYesNo(orderview, "Do you Want to Order ","Order  Window"))
+                {
 //                    System.out.println(orderview.getOrderId());
                 ordermodel.AddOrder(ordermodel.convertDefaultTableModelToObject(orderview.getTableOrderList()),Integer.parseInt(orderview.getOrderId()),orderview.getTableId(),orderview.getWaiterId(),orderview.getCustomerId(),mainview.getUserId(),orderview.getDepartmentId());
               /*
@@ -586,8 +587,8 @@ public class OrderController  extends SystemDateModel{
                 }
             }
             else if(e.getActionCommand().equalsIgnoreCase("OrderCancel")) {
-                int choice = JOptionPane.showConfirmDialog(orderview, "Do you Want to Cancel Order ","Order Cancel Window",JOptionPane.YES_NO_CANCEL_OPTION);
-                if(choice == JOptionPane.YES_OPTION){
+                if(DisplayMessages.displayInputYesNo(orderview, "Do you Want to Cancel Order ","Order Cancel Window"))
+                {
              
                    
                
@@ -630,8 +631,8 @@ public class OrderController  extends SystemDateModel{
                         }
                   }
                      
-                int choice = JOptionPane.showConfirmDialog(orderview, "Do you Want to Edit This Order.","Order Edit Window", JOptionPane.YES_NO_CANCEL_OPTION);
-                if(choice == JOptionPane.YES_OPTION){
+                if(DisplayMessages.displayInputYesNo(orderview, "Do you Want to Edit This Order.","Order Edit Window"))
+                {
 //                    ordermodel.EditOrder(ordermodel.convertDefaultTableModelToObject(orderview.getTableOrderList()),orderview.getOrderId(),orderview.getTableId(),orderview.getWaiterId(),orderview.getCustomerId());
                      ordermodel.EditOrder(DeleteData,ordermodel.convertDefaultTableModelToObject(orderview.getTableOrderList()),Integer.parseInt(orderview.getOrderId()),orderview.getTableId(),orderview.getWaiterId(),orderview.getCustomerId(),mainview.getUserId(),orderview.getDepartmentId());
                     orderview.clearOrderData();
@@ -692,8 +693,8 @@ public class OrderController  extends SystemDateModel{
                       JOptionPane.showMessageDialog(orderview, "Please First Open the Date to Perform Order Transaction.");
                     return;
                    }
-                int choice = JOptionPane.showConfirmDialog(orderview, "Do you Want to Delelte This Order.","Order Delete Window", JOptionPane.YES_NO_CANCEL_OPTION);
-                if(choice == JOptionPane.YES_OPTION){
+                if(DisplayMessages.displayInputYesNo(orderview, "Do you Want to Delete This Order.","Order Delete Window"))
+                {
                      ordermodel.DeleteOrder(ordermodel.convertDefaultTableModelToObject(orderview.getTableOrderList()),Integer.parseInt(orderview.getOrderId()),orderview.getTableId(),orderview.getWaiterId(),orderview.getCustomerId());
                     orderview.clearOrderData();
 //                     orderview.setOrderId(String.valueOf(ordermodel.returnCurrentItentityId("order_list")));
@@ -767,14 +768,14 @@ public class OrderController  extends SystemDateModel{
                      JOptionPane.showMessageDialog(orderview, "Order Not Found");
                  }
              }   
-             catch(Exception se){
+             catch(HeadlessException se){
                  JOptionPane.showMessageDialog(orderview, se+"from Search Listener");
-                 return;
+//                 return;
              }
             }
             
         }
-        catch(Exception ie){
+        catch(HeadlessException | NumberFormatException ie){
             JOptionPane.showMessageDialog(orderview, ie+"from ItemCrudListener");
         }
         }
@@ -1488,6 +1489,8 @@ public class OrderController  extends SystemDateModel{
             if(orderview.isSelected()){
             if(e.getID() == KeyEvent.KEY_PRESSED){
             //to order 
+                //not needed since key mnenomics does this work
+                /*
                 if(e.getKeyCode() == KeyEvent.VK_S && e.isControlDown()){
                    if(Integer.parseInt(orderview.getOrderId()) == orderview.getMainOrderId()){
                     orderview.getBtnOrder().doClick();
@@ -1497,6 +1500,7 @@ public class OrderController  extends SystemDateModel{
                        orderview.getBtnOrderEdit().doClick();
                    }
                   }
+                        
                 if(e.getKeyCode() ==KeyEvent.VK_S && e.isControlDown() && e.isAltDown()){
                     orderview.getBtnOrderAndPrint().doClick();
                 }
@@ -1504,6 +1508,7 @@ public class OrderController  extends SystemDateModel{
                 if(e.getKeyCode() == KeyEvent.VK_D && e.isControlDown()){
                     orderview.getBtnDelete().doClick();
                 }
+                        */
                 //to exit the frame
                 if(e.getKeyCode() == KeyEvent.VK_X && e.isControlDown()){
                      try {
@@ -1523,10 +1528,13 @@ public class OrderController  extends SystemDateModel{
                     orderview.addcomboMenuNameFocus();
                 }
                 //to cancel
+                //not needed
+                /*
                 if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
                     orderview.getBtnCancelOrder().doClick();
                   
                 }
+                        */
             
             }
             }

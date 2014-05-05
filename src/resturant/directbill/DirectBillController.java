@@ -5,6 +5,7 @@
 package resturant.directbill;
 
 import hotelmanagementsystem.MainFrameView;
+import java.awt.KeyEventDispatcher;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -14,6 +15,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.beans.PropertyVetoException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import javax.swing.AbstractAction;
@@ -112,6 +114,11 @@ public class DirectBillController  extends SystemDateModel{
         obview.addCheckDiscountListener(new DiscountCheckListener());
         //adding enterlisten for tender amount
         obview.addTenderedAmountActionListener(new addEnterFocusListener());
+        /*
+        adding controller for deligate for keyboardmanager
+        */
+        obview.addShortcutForDirectBill(new ShortcutForDirectBill());
+        obview.addAbstractActionListener(new AsbtractActionListener());
         try{
                  obview.setcomboDepartmentName(obmodel.returnMenuName(obmodel.getRespectiveDepartment(mainview.getUserId())));
             //if it has only one element select it order wise add select into it
@@ -185,24 +192,24 @@ public class DirectBillController  extends SystemDateModel{
                     return;    
                 }
               
-                if(obview.getQuantity().isEmpty()){
+                if(obview.getQuantity() == 0.0){
                     JOptionPane.showMessageDialog(obview, "Empty Field detected in Quantity");
                     return;
                 }
-                 if(obview.getQuantity().equalsIgnoreCase("0")){
+                 if(obview.getQuantity() == 0.0){
                     JOptionPane.showMessageDialog(obview, "Quantiy cannot be Zero");
                     return;
                 }
                  
-                try {
-//                    System.out.println(orderview.getRate());
-                   Float.parseFloat(obview.getQuantity());
-//                  
-                }
-                catch(NumberFormatException ne){
-                    JOptionPane.showMessageDialog(obview, "Quantity must be a number.");
-                    return;
-                }
+//                try {
+////                    System.out.println(orderview.getRate());
+////                   Float.parseFloat(obview.getQuantity());
+////                  
+//                }
+//                catch(NumberFormatException ne){
+//                    JOptionPane.showMessageDialog(obview, "Quantity must be a number.");
+//                    return;
+//                }
                 BigDecimal TotalAmount;
                
                TotalAmount = new BigDecimal(obview.getQuantity()).setScale(3, RoundingMode.HALF_UP).multiply(obview.getRate()).setScale(2, RoundingMode.HALF_UP);
@@ -330,7 +337,7 @@ public class DirectBillController  extends SystemDateModel{
 //                 System.out.println(orderview.getRate());
                  obview.setItemBaseUnit(item[2].toString());
 //                 System.out.println(orderview.getItemBaseUnit());
-                obview.txtOrderQuantity.requestFocusInWindow();
+//                obview.txtOrderQuantity.requestFocusInWindow();
                 }
                  
                //System.out.println(orderview.getMenuId() + orderview.getRate());
@@ -471,8 +478,8 @@ public class DirectBillController  extends SystemDateModel{
                 JOptionPane.showMessageDialog(obview.JDialogBillPayment, "Module to be added");
             }
             else  if(e.getActionCommand().equalsIgnoreCase("BillCancel")){
-                int choice = JOptionPane.showConfirmDialog(obview.JDialogBillPayment, "Do you Want to Cancel Billing","Bill Cancel Window",JOptionPane.YES_NO_OPTION);
-                if(choice == JOptionPane.YES_OPTION){
+                if(DisplayMessages.displayInputYesNo(obview.JDialogBillPayment, "Do you Want to Cancel Billing","Bill Cancel Window"))
+                {
                     obview.JDialogBillPayment.setVisible(false);
                     obview.requestFocusOnTenderedAmount();
                    obview.ComplimentaryList.clear();
@@ -534,8 +541,8 @@ public class DirectBillController  extends SystemDateModel{
               
             }
             else if (e.getActionCommand().equalsIgnoreCase("Cancel")){
-                int choice = JOptionPane.showConfirmDialog(obview, "Do you Want to Cancel Billing","Bill Cancel Window",JOptionPane.YES_NO_OPTION);
-                if(choice == JOptionPane.YES_OPTION){
+                if(DisplayMessages.displayInputYesNo(obview, "Do you Want to Cancel Billing","Bill Cancel Window"))
+                {
                     obview.clearOrderBill();
                     obview.gettblBillInfo().setRowCount(0);
                     obview.setSaveEditableFalse();
@@ -905,8 +912,8 @@ public class DirectBillController  extends SystemDateModel{
                  JFrame billwindow = (JFrame)e.getSource();
           //  JOptionPane.showMessageDialog(obview, "DO You Want to close it");
            if(obview.gettblBillInfo().getRowCount() >0){
-                int choice = JOptionPane.showConfirmDialog(obview, "You Are in Middle of Check Out.\n Do You Still Want To Close this Window?", "Bill Alert Window", JOptionPane.YES_NO_CANCEL_OPTION);
-          if(choice == JOptionPane.YES_OPTION){
+               if(DisplayMessages.displayInputYesNo(obview, "You Are in Middle of Check Out.\n Do You Still Want To Close this Window?", "Bill Alert Window"))
+          {
             
               billwindow.dispose();
           }
@@ -926,8 +933,8 @@ public class DirectBillController  extends SystemDateModel{
                             JInternalFrame billwindow = (JInternalFrame)e.getSource();
           //  JOptionPane.showMessageDialog(obview, "DO You Want to close it");
            if(obview.gettblBillInfo().getRowCount() >0){
-                int choice = JOptionPane.showConfirmDialog(obview, "You Are in Middle of Check Out.\n Do You Still Want To Close this Window?", "Bill Alert Window", JOptionPane.YES_NO_CANCEL_OPTION);
-          if(choice == JOptionPane.YES_OPTION){
+               if(DisplayMessages.displayInputYesNo(obview, "You Are in Middle of Check Out.\n Do You Still Want To Close this Window?", "Bill Alert Window"))
+          {
               mainview.setCountForDirectPay(0);
               billwindow.dispose();
                 obmodel.MakeCurrentItentityIdFalse(obview.getMainBillId());
@@ -1399,6 +1406,86 @@ public class DirectBillController  extends SystemDateModel{
             
     
         }
+          public class ShortcutForDirectBill implements KeyEventDispatcher{
+
+        @Override
+       public boolean dispatchKeyEvent(KeyEvent e) {
+            try{
+                if(obview.isSelected()){
+                if(e.getID() == KeyEvent.KEY_PRESSED){
+                    //for save 
+                    /*
+                    this is not need this mnemonics does work for me
+                    
+                    
+                    if(e.getKeyCode() == KeyEvent.VK_S && e.isControlDown()){
+                        if(!obview.JDialogBillPayment.isVisible()){
+                        obview.getBtnSave().doClick();
+                        }
+                        else{
+                            //when dialog box is opend save the bill
+                            obview.getBtnBillSave().doClick();
+                        }
+                    }
+                    //for cancel
+                    if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
+                         if(!obview.JDialogBillPayment.isVisible()){
+                        obview.getBtnCancel().doClick();
+                         }
+                         else{
+                             //when dialog box is opened clost that window
+                             obview.getBtnBillCancel().doClick();
+                         }
+                    }
+                            */
+                   
+                    //to focus on tenderamount
+                    if(e.getKeyCode() == KeyEvent.VK_INSERT){
+                        obview.requestFocusOnTenderedAmount();
+                    }
+                    //to close
+                    if(e.getKeyCode() == KeyEvent.VK_X && e.isControlDown()){
+                        obview.setClosed(true);
+                    }
+                    if(e.getKeyCode() == KeyEvent.VK_HOME){
+                        obview.returnComboMenuName().requestFocusInWindow();
+                    }
+                }
+                }
+            }
+            catch(PropertyVetoException se){
+                DisplayMessages.displayError(obview,se.getMessage()+" from ShortcutForDirectBill"+getClass().getName(), "Error");
+            }
+            return false;
+        }
+              
+          }
+           public class AsbtractActionListener extends AbstractAction{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try{
+                //it enter is pressed at orderquantity
+                if(e.getSource() == obview.getTxtOrderQuantity()){
+                    obview.getBtnAdd().doClick();
+                        
+                }
+                //if enter is pressed at menusearch
+              
+                if(e.getSource() == obview.returnComboMenuName()){
+                    obview.txtOrderQuantity.requestFocusInWindow();
+                }
+                if(e.getSource() == obview.returnTenderedAmount()){
+                    obview.getBtnSave().doClick();
+                }
+                
+            }
+            catch(Exception se){
+                DisplayMessages.displayError(mainview, se.getMessage()+" from AsbtractActionListener "+getClass().getName(), "Error");
+            }
+        }
+       
+   }
 
     
 }

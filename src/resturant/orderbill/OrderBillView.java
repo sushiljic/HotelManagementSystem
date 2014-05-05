@@ -8,7 +8,6 @@ import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -18,15 +17,12 @@ import java.util.Map;
 import javax.swing.AbstractAction;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
-import javax.swing.SwingUtilities;
-import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
@@ -109,6 +105,8 @@ public class OrderBillView extends javax.swing.JInternalFrame {
          * for adding textwinadmdos
          */
         txtTenderedAmount.addActionListener(new addEnterFocusListener());
+        //this button is not needed
+        btnBillSaveAndPrint.setVisible(false);
         /*
          * adding clos listener
          */
@@ -203,7 +201,9 @@ public class OrderBillView extends javax.swing.JInternalFrame {
         JDialogBillPayment.setResizable(false);
 
         btnBillSave.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnBillSave.setMnemonic('s');
         btnBillSave.setText("Save");
+        btnBillSave.setToolTipText("ALT+S");
         btnBillSave.setActionCommand("BillSave");
 
         btnBillSaveAndPrint.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -211,7 +211,9 @@ public class OrderBillView extends javax.swing.JInternalFrame {
         btnBillSaveAndPrint.setActionCommand("BillSaveAndPrint");
 
         btnBillCancel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnBillCancel.setMnemonic('c');
         btnBillCancel.setText("Cancel");
+        btnBillCancel.setToolTipText("ALT+C");
         btnBillCancel.setActionCommand("BillCancel");
 
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -223,7 +225,9 @@ public class OrderBillView extends javax.swing.JInternalFrame {
         jLabel4.setText("Customer:");
 
         checkBoxComplimentary.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        checkBoxComplimentary.setMnemonic('o');
         checkBoxComplimentary.setText("Complimentary");
+        checkBoxComplimentary.setToolTipText("ALT+O");
         checkBoxComplimentary.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 checkBoxComplimentaryActionPerformed(evt);
@@ -232,12 +236,16 @@ public class OrderBillView extends javax.swing.JInternalFrame {
 
         buttonGroupPaymentType.add(radioCash);
         radioCash.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        radioCash.setMnemonic('a');
         radioCash.setSelected(true);
         radioCash.setText("Cash");
+        radioCash.setToolTipText("ALT+A");
 
         buttonGroupPaymentType.add(radioCredit);
         radioCredit.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        radioCredit.setMnemonic('R');
         radioCredit.setText("Credit");
+        radioCredit.setToolTipText("ALT+R");
         radioCredit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 radioCreditActionPerformed(evt);
@@ -245,7 +253,9 @@ public class OrderBillView extends javax.swing.JInternalFrame {
         });
 
         btnAddCustomer.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnAddCustomer.setMnemonic('U');
         btnAddCustomer.setText("ADD Customer");
+        btnAddCustomer.setToolTipText("ALT+U");
         btnAddCustomer.setActionCommand("ADDCustomer");
         btnAddCustomer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -359,6 +369,7 @@ public class OrderBillView extends javax.swing.JInternalFrame {
             }
         ));
         tblAddOrder.setRowHeight(20);
+        tblAddOrder.getTableHeader().setReorderingAllowed(false);
         jScrollPane4.setViewportView(tblAddOrder);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -480,7 +491,9 @@ public class OrderBillView extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(tblBillInfo);
 
         btnAddOrder.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnAddOrder.setMnemonic('o');
         btnAddOrder.setText("Add Order");
+        btnAddOrder.setToolTipText("ALT+O");
         btnAddOrder.setActionCommand("AddOrder");
         btnAddOrder.setEnabled(false);
 
@@ -508,6 +521,7 @@ public class OrderBillView extends javax.swing.JInternalFrame {
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel5.setText("SVC:");
 
+        txtTenderedAmount.setToolTipText("INSERT");
         txtTenderedAmount.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         txtTenderedAmount.setValue(0.0);
 
@@ -749,12 +763,15 @@ public class OrderBillView extends javax.swing.JInternalFrame {
         );
 
         btnSearchOrder.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnSearchOrder.setMnemonic('e');
         btnSearchOrder.setText("Search");
+        btnSearchOrder.setToolTipText("ALT+E");
         btnSearchOrder.setActionCommand("OrderSearch");
 
         txtSearch.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         btnRefresh.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnRefresh.setMnemonic('r');
         btnRefresh.setText("Refresh");
         btnRefresh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -766,6 +783,7 @@ public class OrderBillView extends javax.swing.JInternalFrame {
 
         tblOrderedList.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         tblOrderedList.getTableHeader().setReorderingAllowed(false);
+        tblOrderedList.setToolTipText("HOME");
         tblOrderedList.setRowHeight(20);
         jScrollPane2.setViewportView(tblOrderedList);
 
@@ -787,11 +805,15 @@ public class OrderBillView extends javax.swing.JInternalFrame {
         );
 
         btnSave.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnSave.setMnemonic('s');
         btnSave.setText("Save");
+        btnSave.setToolTipText("ALT+S");
         btnSave.setEnabled(false);
 
         btnCancel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnCancel.setMnemonic('c');
         btnCancel.setText("Cancel");
+        btnCancel.setToolTipText("ALT+C");
 
         txtGrandTotal2.setEditable(false);
         txtGrandTotal2.setBackground(new java.awt.Color(153, 255, 102));

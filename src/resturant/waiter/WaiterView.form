@@ -170,6 +170,7 @@
               <SubComponents>
                 <Component class="javax.swing.JButton" name="btnDesignationCancel">
                   <Properties>
+                    <Property name="mnemonic" type="int" value="99"/>
                     <Property name="text" type="java.lang.String" value="Cancel"/>
                   </Properties>
                   <Events>
@@ -183,6 +184,7 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="btnDesignationDelete">
                   <Properties>
+                    <Property name="mnemonic" type="int" value="100"/>
                     <Property name="text" type="java.lang.String" value="Delete"/>
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
@@ -196,10 +198,12 @@
                       <Font name="Tahoma" size="14" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Designation Title:*"/>
+                    <Property name="toolTipText" type="java.lang.String" value="Designation Title/Post"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JButton" name="btnDesignationEdit">
                   <Properties>
+                    <Property name="mnemonic" type="int" value="101"/>
                     <Property name="text" type="java.lang.String" value="Edit"/>
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
@@ -231,7 +235,7 @@
                         </Property>
                       </Properties>
                       <AuxValues>
-                        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="tblWaiterInfo.getTableHeader().setReorderingAllowed(false);"/>
+                        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="tblDesignation.getTableHeader().setReorderingAllowed(false);"/>
                         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
                       </AuxValues>
                     </Component>
@@ -239,6 +243,7 @@
                 </Container>
                 <Component class="javax.swing.JButton" name="btnDesignationAdd">
                   <Properties>
+                    <Property name="mnemonic" type="int" value="97"/>
                     <Property name="text" type="java.lang.String" value="Add"/>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[30, 23]"/>
@@ -360,6 +365,7 @@
             </Component>
             <Component class="javax.swing.JButton" name="btnCancel">
               <Properties>
+                <Property name="mnemonic" type="int" value="99"/>
                 <Property name="text" type="java.lang.String" value="Cancel"/>
               </Properties>
               <Events>
@@ -373,6 +379,7 @@
             </Component>
             <Component class="javax.swing.JButton" name="btnDelete">
               <Properties>
+                <Property name="mnemonic" type="int" value="100"/>
                 <Property name="text" type="java.lang.String" value="Delete"/>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
@@ -398,6 +405,7 @@
             </Component>
             <Component class="javax.swing.JButton" name="btnEdit">
               <Properties>
+                <Property name="mnemonic" type="int" value="101"/>
                 <Property name="text" type="java.lang.String" value="Edit"/>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
@@ -437,6 +445,7 @@
             </Container>
             <Component class="javax.swing.JButton" name="btnAdd">
               <Properties>
+                <Property name="mnemonic" type="int" value="97"/>
                 <Property name="text" type="java.lang.String" value="Add"/>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[30, 23]"/>

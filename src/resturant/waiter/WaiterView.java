@@ -108,6 +108,7 @@ public class WaiterView extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Waiter Info");
 
+        btnDesignationCancel.setMnemonic('c');
         btnDesignationCancel.setText("Cancel");
         btnDesignationCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -121,6 +122,7 @@ public class WaiterView extends javax.swing.JDialog {
             }
         });
 
+        btnDesignationDelete.setMnemonic('d');
         btnDesignationDelete.setText("Delete");
         btnDesignationDelete.setEnabled(false);
         btnDesignationDelete.addActionListener(new java.awt.event.ActionListener() {
@@ -131,7 +133,9 @@ public class WaiterView extends javax.swing.JDialog {
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel5.setText("Designation Title:*");
+        jLabel5.setToolTipText("Designation Title/Post");
 
+        btnDesignationEdit.setMnemonic('e');
         btnDesignationEdit.setText("Edit");
         btnDesignationEdit.setEnabled(false);
 
@@ -150,8 +154,9 @@ public class WaiterView extends javax.swing.JDialog {
             }
         ));
         jScrollPane2.setViewportView(tblDesignation);
-        tblWaiterInfo.getTableHeader().setReorderingAllowed(false);
+        tblDesignation.getTableHeader().setReorderingAllowed(false);
 
+        btnDesignationAdd.setMnemonic('a');
         btnDesignationAdd.setText("Add");
         btnDesignationAdd.setPreferredSize(new java.awt.Dimension(30, 23));
 
@@ -250,6 +255,7 @@ public class WaiterView extends javax.swing.JDialog {
 
         TabbedPane.addTab("Designation Setup", jPanel2);
 
+        btnCancel.setMnemonic('c');
         btnCancel.setText("Cancel");
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -263,6 +269,7 @@ public class WaiterView extends javax.swing.JDialog {
             }
         });
 
+        btnDelete.setMnemonic('d');
         btnDelete.setText("Delete");
         btnDelete.setEnabled(false);
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
@@ -277,6 +284,7 @@ public class WaiterView extends javax.swing.JDialog {
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel4.setText("Address:");
 
+        btnEdit.setMnemonic('e');
         btnEdit.setText("Edit");
         btnEdit.setEnabled(false);
 
@@ -297,6 +305,7 @@ public class WaiterView extends javax.swing.JDialog {
         jScrollPane1.setViewportView(tblWaiterInfo);
         tblWaiterInfo.getTableHeader().setReorderingAllowed(false);
 
+        btnAdd.setMnemonic('a');
         btnAdd.setText("Add");
         btnAdd.setPreferredSize(new java.awt.Dimension(30, 23));
 

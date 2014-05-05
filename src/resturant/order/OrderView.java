@@ -244,6 +244,7 @@ private KeyboardFocusManager kfmanager;
         jLabel5.setText("Quantity:*");
 
         btnAdd.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnAdd.setMnemonic('a');
         btnAdd.setText("Add");
         btnAdd.setMinimumSize(new java.awt.Dimension(87, 25));
 
@@ -263,6 +264,7 @@ private KeyboardFocusManager kfmanager;
         txtSearchMenu.setHighlighter(null);
 
         btnSearchMenu.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnSearchMenu.setMnemonic('s');
         btnSearchMenu.setText("Search");
         btnSearchMenu.setActionCommand("SearchMenu");
 
@@ -335,6 +337,7 @@ private KeyboardFocusManager kfmanager;
         comboCustomerName.setActionCommand("ComboCustomerName");
 
         btnAddCustomer.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnAddCustomer.setMnemonic('u');
         btnAddCustomer.setText("ADD Customer");
         btnAddCustomer.setActionCommand("ADDCustomer");
         btnAddCustomer.addActionListener(new java.awt.event.ActionListener() {
@@ -344,6 +347,7 @@ private KeyboardFocusManager kfmanager;
         });
 
         btnAddTable.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnAddTable.setMnemonic('t');
         btnAddTable.setText("Add Table");
         btnAddTable.setActionCommand("AddTable");
 
@@ -353,6 +357,7 @@ private KeyboardFocusManager kfmanager;
         comboWaiterName.setActionCommand("ComboWaiterName");
 
         btnAddWaiter.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnAddWaiter.setMnemonic('w');
         btnAddWaiter.setText("ADD Waiter");
         btnAddWaiter.setActionCommand("ADDWaiter");
         btnAddWaiter.addActionListener(new java.awt.event.ActionListener() {
@@ -411,10 +416,12 @@ private KeyboardFocusManager kfmanager;
         jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {comboCustomerName, comboTableName, comboWaiterName});
 
         btnOrder.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnOrder.setMnemonic('o');
         btnOrder.setText("Order");
         btnOrder.setEnabled(false);
 
         btnOrderAndPrint.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnOrderAndPrint.setMnemonic('p');
         btnOrderAndPrint.setText("Order&Print");
         btnOrderAndPrint.setEnabled(false);
         btnOrderAndPrint.addActionListener(new java.awt.event.ActionListener() {
@@ -424,6 +431,7 @@ private KeyboardFocusManager kfmanager;
         });
 
         btnOrderEdit.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnOrderEdit.setMnemonic('e');
         btnOrderEdit.setText("Edit");
         btnOrderEdit.setActionCommand("OrderEdit");
         btnOrderEdit.setEnabled(false);
@@ -434,6 +442,7 @@ private KeyboardFocusManager kfmanager;
         });
 
         btnOrderDelete.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnOrderDelete.setMnemonic('d');
         btnOrderDelete.setText("Delete");
         btnOrderDelete.setActionCommand("OrderDelete");
         btnOrderDelete.setEnabled(false);
@@ -444,6 +453,7 @@ private KeyboardFocusManager kfmanager;
         });
 
         btnCancelOrder.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnCancelOrder.setMnemonic('c');
         btnCancelOrder.setText("Cancel");
         btnCancelOrder.setActionCommand("OrderCancel");
 
@@ -469,10 +479,12 @@ private KeyboardFocusManager kfmanager;
         txtSearch.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         btnSearchOrder.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnSearchOrder.setMnemonic('h');
         btnSearchOrder.setText("Search");
         btnSearchOrder.setActionCommand("OrderSearch");
 
         btnRefresh.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnRefresh.setMnemonic('r');
         btnRefresh.setText("Refresh");
         btnRefresh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -529,6 +541,7 @@ private KeyboardFocusManager kfmanager;
         jScrollPane1.setViewportView(tblOrderList);
 
         btnDelete.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnDelete.setMnemonic('l');
         btnDelete.setText("Delete");
         btnDelete.setEnabled(false);
 

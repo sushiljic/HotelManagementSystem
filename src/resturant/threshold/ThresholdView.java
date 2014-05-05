@@ -73,9 +73,11 @@ public class ThresholdView extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         btnSave.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnSave.setMnemonic('S');
         btnSave.setText("Save");
 
         btnCancel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnCancel.setMnemonic('C');
         btnCancel.setText("Cancel");
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

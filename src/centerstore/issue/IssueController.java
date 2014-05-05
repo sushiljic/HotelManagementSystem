@@ -3,6 +3,7 @@
  * and open the template in the editor.
  */
 package centerstore.issue;
+import java.awt.HeadlessException;
 import java.awt.KeyEventDispatcher;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -162,7 +163,7 @@ public class IssueController {
                issueView.refreshJTable(issueModel.getIssueList());
                
            }
-           catch(Exception ee){
+           catch(HeadlessException | NumberFormatException ee){
                JOptionPane.showMessageDialog(issueView, ee+"Error detected in the issue "+getClass().getName());
            }
        
@@ -195,10 +196,9 @@ public class IssueController {
                 JOptionPane.showMessageDialog(issueView, "Operation for Edit Quantiiy is not allowed.");
                return;  
              }
-               int choice = 0;
-               choice = JOptionPane.showConfirmDialog(issueView,"Do you Want to Edit the issued item?","Edit Issued Item",JOptionPane.YES_NO_OPTION);
+               if(DisplayMessages.displayInputYesNo(issueView,"Do you Want to Edit the issued item?","Edit Issued Item"))
                //{"Issue Id","Item Name","Issue Quantity","Item BaseUnit","Issue From","Issue To","Issue Date"};
-           if(choice == JOptionPane.YES_OPTION){
+                {
                /*
                 * here previssueQuantity is send as parameter inorder to obtaing the autual quantity that
                 * need to be update inorder for correct result
@@ -233,7 +233,7 @@ public class IssueController {
                
            }
             }
-          catch(Exception se){
+          catch(HeadlessException | NumberFormatException se){
                JOptionPane.showMessageDialog(issueView, se+"From edit");
            }
          
@@ -264,7 +264,7 @@ public class IssueController {
                 */ 
                issueView.setCenterStockQuantity("");
                
-               issueView.setcomboItemName(issueModel.returnItemName(issueModel.getItemInfoForIssue()));
+//               issueView.setcomboItemName(issueModel.returnItemName(issueModel.getItemInfoForIssue()));
                strSearch = issueView.getSearch();
                for (String returnItemName : issueModel.returnItemName(issueModel.getItemInfoForIssue())) {
                    if (strSearch.equalsIgnoreCase(returnItemName)) {
@@ -280,7 +280,7 @@ public class IssueController {
                    JOptionPane.showMessageDialog(issueView, "Item Not found");
                
            }
-           catch(Exception srce){
+           catch(HeadlessException srce){
                JOptionPane.showMessageDialog(issueView, srce+"from Search");
            }
            finally{
@@ -341,7 +341,8 @@ public class IssueController {
         try{
             
             JComboBox cb = (JComboBox)e.getSource();
-            if(issueView.returnComboItemName().getSelectedIndex() == 0){
+            
+            if(cb.getSelectedItem().equals("SELECT")){
                 issueView.setItemId(0);
             }
             else{
@@ -733,7 +734,7 @@ public class IssueController {
             iview.showResturant();
            
             iview.disableIssueBtn();
-            iview.enableEditBtn();
+//            iview.enableEditBtn();
             
         }
         }
