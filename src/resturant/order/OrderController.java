@@ -17,6 +17,8 @@ import java.awt.event.WindowEvent;
 import java.beans.PropertyVetoException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.AbstractAction;
 import javax.swing.ComboBoxModel;
 import javax.swing.JComboBox;
@@ -34,6 +36,7 @@ import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import report.bill.PrintOrder;
 import resturant.customer.CustomerController;
 import resturant.customer.CustomerModel;
 import resturant.customer.CustomerView;
@@ -485,11 +488,11 @@ public class OrderController  extends SystemDateModel{
         try{
             if(e.getActionCommand().equalsIgnoreCase("Order")){
               //  String[] info = new String[]{orderview.getOrderId(),orderview.getTableId(),orderview.getWaiterId(),orderview.getCustomerId()};
-              
-                /*String printer = ordermodel.getDefaultPrinter(orderview.getDepartmentId());
-                DisplayMessages.displayInfo(mainview, printer, printer);
-                System.out.print(orderview.getDepartmentId());
-                */
+              //fetch default and order printer for particlar department
+                String dPrinter = ordermodel.getDefaultPrinter(orderview.getDepartmentId());
+                String oPrinter = ordermodel.getOrderPrinter(orderview.getDepartmentId());
+                //System.out.print(orderview.getDepartmentId());
+                
 //checking whether  the date has been closed by the admin
                 
                 
@@ -531,11 +534,11 @@ public class OrderController  extends SystemDateModel{
                 {
 //                    System.out.println(orderview.getOrderId());
                 ordermodel.AddOrder(ordermodel.convertDefaultTableModelToObject(orderview.getTableOrderList()),Integer.parseInt(orderview.getOrderId()),orderview.getTableId(),orderview.getWaiterId(),orderview.getCustomerId(),mainview.getUserId(),orderview.getDepartmentId());
-              /*
-                ale bro start from here ma wolverone herna gaye
-                */
-//                OrderList ordr = new OrderList(orderview.getOrderParam());
-//               System.out.println("wala");
+                //set order to printer
+                Map para = new HashMap<>();
+                para.put("orderId",Integer.parseInt(orderview.getOrderId()));
+                PrintOrder order = new PrintOrder(para,oPrinter,dPrinter);
+                
                 orderview.clearOrderData();
                 orderview.setMainOrderId(0);
                 orderview.getTableOrderList().setRowCount(0);
