@@ -1576,10 +1576,13 @@ public class OrderModel  extends DBConnect{
                   PreparedStatement preStmt = conn.prepareStatement(sql);
                   preStmt.setInt(1, depI);
                   ResultSet result = preStmt.executeQuery();
-                  printer = result.getString("order_printer");
+                  while(result.next())
+                      printer = result.getString("order_printer");
+                  
               }
               catch(SQLException ex){
                   DisplayMessages.displayError(null, ex.getLocalizedMessage(), "ERROR");
+                  return null;
               }
               
               return printer;
@@ -1593,10 +1596,11 @@ public class OrderModel  extends DBConnect{
                   PreparedStatement preStmt = conn.prepareStatement(sql);
                   preStmt.setInt(1, depI);
                   ResultSet result = preStmt.executeQuery();
-                  printer = result.getString("default_printer");
+                  while(result.next())
+                    printer = result.getString("default_printer");
               }
               catch(SQLException ex){
-                  DisplayMessages.displayError(null, ex.getLocalizedMessage(), "ERROR");
+                  DisplayMessages.displayError(null, ex.toString(), "ERROR In Getting Pringer");
               }
               
               return printer;
