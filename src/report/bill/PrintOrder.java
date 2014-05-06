@@ -29,6 +29,7 @@ import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.export.JRPrintServiceExporter;
 import net.sf.jasperreports.engine.export.JRPrintServiceExporterParameter;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import reusableClass.DisplayMessages;
 
 /**
  *
@@ -59,7 +60,7 @@ public class PrintOrder extends DBConnect {
             //compile
             jReport = JasperCompileManager.compileReport(jDesign);
             //fill report
-            jPrint = JasperFillManager.fillReport(jReport, this.param, conn);    
+            jPrint = JasperFillManager.fillReport(jReport, this.param, conn);
         }
         catch(JRException  | IOException e){
            JOptionPane.showMessageDialog(null,"report.bill.Billprint.contructor():"+e);
@@ -90,6 +91,7 @@ public class PrintOrder extends DBConnect {
                     def = i;  
                 }
             }
+
             if(order >= 0 && o){
                 selected = order;
                 printJob.setPrintService(printer[order]);
@@ -98,9 +100,10 @@ public class PrintOrder extends DBConnect {
                 selected = def;
                 printJob.setPrintService(printer[def]);
             }
-            else
+            else{
                 JasperPrintManager.printReport(jPrint, false);
-            
+                return;
+            }
             if(o || d){
                 export.setParameter(JRExporterParameter.JASPER_PRINT, jPrint);
                 export.setParameter(JRPrintServiceExporterParameter.PRINT_SERVICE,printer[selected]);

@@ -538,6 +538,7 @@ public class OrderController  extends SystemDateModel{
                 Map para = new HashMap<>();
                 para.put("orderId",Integer.parseInt(orderview.getOrderId()));
                 PrintOrder order = new PrintOrder(para,oPrinter,dPrinter);
+                order.printOrder();
                 
                 orderview.clearOrderData();
                 orderview.setMainOrderId(0);
