@@ -49,20 +49,29 @@
 	<subDataset name="Order" uuid="6ea27130-066c-4ce1-a45d-ec2dce4d4a70">
 		<parameter name="order_id" class="java.lang.Integer">
 			<parameterDescription><![CDATA[]]></parameterDescription>
-			<defaultValueExpression><![CDATA[112]]></defaultValueExpression>
+			<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
 		</parameter>
 		<queryString>
-			<![CDATA[SELECT bill_item_info.menu_id,menu.menu_name,bill_item_info.quantity,item_unit.unit_name,menu.retail_price,bill_item_info.complimentary_type,
-bill_item_info.quantity*menu.retail_price AS total_amount
- FROM bill_item_info INNER JOIN menu ON bill_item_info.menu_id = menu.menu_id INNER JOIN item_unit ON menu.unit_id = item_unit.unit_id WHERE bill_id = $P{order_id}]]>
+			<![CDATA[SELECT order_item_list.menu_id,menu.menu_name,order_item_list.quantity,item_unit.unit_name,menu.retail_price,order_item_list.quantity*menu.retail_price as total_amount FROM order_item_list INNER JOIN menu ON order_item_list.menu_id = menu.menu_id INNER JOIN item_unit ON menu.unit_id = item_unit.unit_id  where order_id  IN ($P{order_id})]]>
 		</queryString>
-		<field name="menu_id" class="java.lang.String"/>
-		<field name="menu_name" class="java.lang.String"/>
-		<field name="quantity" class="java.math.BigDecimal"/>
-		<field name="unit_name" class="java.lang.String"/>
-		<field name="retail_price" class="java.math.BigDecimal"/>
-		<field name="complimentary_type" class="java.lang.Boolean"/>
-		<field name="total_amount" class="java.math.BigDecimal"/>
+		<field name="menu_id" class="java.lang.Integer">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="menu_name" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="quantity" class="java.math.BigDecimal">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="unit_name" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="retail_price" class="java.math.BigDecimal">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="total_amount" class="java.math.BigDecimal">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
 		<variable name="row_COUNT" class="java.lang.Integer" calculation="Count"/>
 		<group name="menu_name">
 			<groupExpression><![CDATA[$F{menu_name}]]></groupExpression>
@@ -104,7 +113,7 @@ bill_item_info.quantity*menu.retail_price AS total_amount
 							<staticText>
 								<reportElement style="table_TH" mode="Opaque" x="0" y="0" width="20" height="13" backcolor="#FFFFFF" uuid="b88ef304-708b-408f-98be-ae8a4f98d494"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font size="8"/>
+									<font size="7" isBold="true"/>
 								</textElement>
 								<text><![CDATA[SN:]]></text>
 							</staticText>
@@ -113,70 +122,70 @@ bill_item_info.quantity*menu.retail_price AS total_amount
 							<textField>
 								<reportElement style="table_TD" x="0" y="0" width="20" height="13" uuid="15c135f9-5781-4e5b-b560-1cbdec14c012"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font size="8"/>
+									<font size="7" isBold="true"/>
 									<paragraph leftIndent="5"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="100" uuid="08f55baa-2942-4c39-8236-d6cfccf53b32">
+					<jr:column width="90" uuid="08f55baa-2942-4c39-8236-d6cfccf53b32">
 						<jr:columnHeader style="table 1_CH" height="13" rowSpan="1">
 							<staticText>
-								<reportElement style="table_TH" mode="Opaque" x="0" y="0" width="100" height="13" backcolor="#FFFFFF" uuid="1622cd4d-80e7-4560-ad38-42ddcf1631be"/>
+								<reportElement style="table_TH" mode="Opaque" x="0" y="0" width="90" height="13" backcolor="#FFFFFF" uuid="1622cd4d-80e7-4560-ad38-42ddcf1631be"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font size="8"/>
+									<font size="7" isBold="true"/>
 								</textElement>
 								<text><![CDATA[PARTICULARS]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell height="13" rowSpan="1">
-							<textField>
-								<reportElement style="table_TD" x="0" y="0" width="100" height="13" uuid="ead598ef-d70a-4f16-b447-b402af714a75"/>
+							<textField isStretchWithOverflow="true">
+								<reportElement style="table_TD" x="0" y="0" width="90" height="13" uuid="ead598ef-d70a-4f16-b447-b402af714a75"/>
 								<textElement verticalAlignment="Middle">
-									<font size="8"/>
+									<font size="7" isBold="true"/>
 									<paragraph leftIndent="5"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{menu_name}.toUpperCase()]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="49" uuid="46d83b9b-735d-45fc-a035-8028d3815456">
+					<jr:column width="35" uuid="46d83b9b-735d-45fc-a035-8028d3815456">
 						<jr:columnHeader style="table 1_CH" height="13" rowSpan="1">
 							<staticText>
-								<reportElement style="table_TH" mode="Opaque" x="0" y="0" width="49" height="13" backcolor="#FFFFFF" uuid="042dc51d-bd96-4e8a-9fc3-68b8719fb9de"/>
+								<reportElement style="table_TH" mode="Opaque" x="0" y="0" width="35" height="13" backcolor="#FFFFFF" uuid="042dc51d-bd96-4e8a-9fc3-68b8719fb9de"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font size="8"/>
+									<font size="7" isBold="true"/>
 								</textElement>
 								<text><![CDATA[QTY]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell height="13" rowSpan="1">
 							<textField>
-								<reportElement style="table_TD" x="0" y="0" width="49" height="13" uuid="b58fa9f7-fed4-4897-814c-9dae6c0b021a"/>
+								<reportElement style="table_TD" x="0" y="0" width="35" height="13" uuid="b58fa9f7-fed4-4897-814c-9dae6c0b021a"/>
 								<textElement verticalAlignment="Middle">
-									<font size="8"/>
+									<font size="7" isBold="true"/>
 									<paragraph leftIndent="5"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{quantity}.setScale(0,RoundingMode.HALF_UP)]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="56" uuid="1711cca5-e4fc-4365-8bd3-275c6b5aaea0">
+					<jr:column width="45" uuid="1711cca5-e4fc-4365-8bd3-275c6b5aaea0">
 						<jr:columnHeader style="table 1_CH" height="13" rowSpan="1">
 							<staticText>
-								<reportElement style="table_TH" mode="Opaque" x="0" y="0" width="56" height="13" backcolor="#FFFFFF" uuid="9de21bbf-e670-499b-84c8-abd6c3301b4d"/>
+								<reportElement style="table_TH" mode="Opaque" x="0" y="0" width="45" height="13" backcolor="#FFFFFF" uuid="9de21bbf-e670-499b-84c8-abd6c3301b4d"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font size="8"/>
+									<font size="7" isBold="true"/>
 								</textElement>
 								<text><![CDATA[UNIT]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell height="13" rowSpan="1">
 							<textField>
-								<reportElement style="table_TD" x="0" y="0" width="56" height="13" uuid="2ded5a6d-d812-4b19-82a6-22d7f302d850"/>
+								<reportElement style="table_TD" x="0" y="0" width="45" height="13" uuid="2ded5a6d-d812-4b19-82a6-22d7f302d850"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font size="8"/>
+									<font size="7" isBold="true"/>
 									<paragraph leftIndent="5"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{unit_name}.toUpperCase()]]></textFieldExpression>
