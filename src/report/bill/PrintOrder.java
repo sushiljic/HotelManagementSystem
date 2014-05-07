@@ -55,7 +55,7 @@ public class PrintOrder extends DBConnect {
         initConnection();
         try{
             
-            InputStream file = BillPrint.class.getResource("thermalBill.jrxml").openStream();
+            InputStream file = BillPrint.class.getResource("OrderList.jrxml").openStream();
             jDesign = JRXmlLoader.load(file);
             //compile
             jReport = JasperCompileManager.compileReport(jDesign);
@@ -102,7 +102,8 @@ public class PrintOrder extends DBConnect {
             }
             else{
                 JasperPrintManager.printReport(jPrint, false);
-                return;
+                //return;
+                //selected = 0;
             }
             if(o || d){
                 export.setParameter(JRExporterParameter.JASPER_PRINT, jPrint);

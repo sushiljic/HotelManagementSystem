@@ -57,12 +57,9 @@ public class DepartmentController {
          
          PrintService[] MetaPrinter = PrintServiceLookup.lookupPrintServices(null, null);
          ArrayList<String> PrinterNameStack = new ArrayList<>();
-         PrintService DefaultPrinter = PrintServiceLookup.lookupDefaultPrintService();
+         //PrintService DefaultPrinter = PrintServiceLookup.lookupDefaultPrintService();
          for(PrintService printer:MetaPrinter){
              String printname = printer.getName();
-             if(DefaultPrinter == printer){
-                 printname += printname+"(Default)";
-             }
              PrinterNameStack.add(printname);
          }
      return PrinterNameStack.toArray(new String[PrinterNameStack.size()]);
