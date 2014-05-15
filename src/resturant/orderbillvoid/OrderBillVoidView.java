@@ -4,17 +4,15 @@
  */
 package resturant.orderbillvoid;
 
-import java.awt.Color;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
+import javax.swing.Action;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.table.DefaultTableModel;
+import reusableClass.Validator;
+import reusableClass.Function;
 
 /**
  *
@@ -24,14 +22,21 @@ public class OrderBillVoidView extends javax.swing.JDialog {
 
     /**
      * Creates new form OrderBillVoidView
+     * @param parent
+     * @param modal
      */
     public OrderBillVoidView(JFrame parent,boolean modal) {
         super(parent,modal);
         initComponents();
-        txtBillSearch.addFocusListener(new SetFocusListener(txtBillSearch));
-        setButtonForEnter(btnSearch);
-        setButtonForEnter(btnVoid);
-        setButtonForEnter(btnVoidCancel);
+        Validator.NumberMaker(txtBillSearch);
+        txtBillSearch.addFocusListener(new Function.SetJFormattedTextFieldFocusListener(txtBillSearch));
+        Function.setButtonForEnter(btnSearch);
+        Function.setButtonForEnter(btnVoid);
+        Function.setButtonForEnter(btnVoidCancel);
+        Function.setButtonForEnter(btnPrint);
+        //hides the label
+        jLabel7.setVisible(false);
+        lblBillStatus.setVisible(false);
         
         setLocationRelativeTo(null);
     }
@@ -71,12 +76,16 @@ public class OrderBillVoidView extends javax.swing.JDialog {
         btnVoidCancel = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         lblBillNo = new javax.swing.JLabel();
+        btnPrint = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
+        lblBillStatus = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         btnSearch = new javax.swing.JButton();
         txtBillSearch = new javax.swing.JFormattedTextField();
 
         DialogOrderBillVoid.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         DialogOrderBillVoid.setTitle("Void/Display Window");
+        DialogOrderBillVoid.setResizable(false);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Ordered List"));
 
@@ -91,6 +100,7 @@ public class OrderBillVoidView extends javax.swing.JDialog {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblOrderedList.setEnabled(false);
         jScrollPane2.setViewportView(tblOrderedList);
         tblOrderedList.getTableHeader().setReorderingAllowed(false);
 
@@ -112,6 +122,8 @@ public class OrderBillVoidView extends javax.swing.JDialog {
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        jPanel3.setEnabled(false);
+        jPanel3.setFocusable(false);
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel8.setText("Sub Total:");
@@ -135,6 +147,7 @@ public class OrderBillVoidView extends javax.swing.JDialog {
             }
         ));
         tblBillInfo.getTableHeader().setReorderingAllowed(false);
+        tblBillInfo.setEnabled(false);
         tblBillInfo.setRowHeight(20);
         jScrollPane1.setViewportView(tblBillInfo);
 
@@ -147,11 +160,13 @@ public class OrderBillVoidView extends javax.swing.JDialog {
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel6.setText("VAT:");
 
+        txtSVC.setEditable(false);
         txtSVC.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00;(¤#,##0.00)"))));
         txtSVC.setEnabled(false);
         txtSVC.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtSVC.setValue(0.0);
 
+        txtDiscountAmount.setEditable(false);
         txtDiscountAmount.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat(""))));
         txtDiscountAmount.setEnabled(false);
         txtDiscountAmount.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -162,6 +177,7 @@ public class OrderBillVoidView extends javax.swing.JDialog {
             }
         });
 
+        txtReceivedAmount.setEditable(false);
         txtReceivedAmount.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat(""))));
         txtReceivedAmount.setEnabled(false);
         txtReceivedAmount.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -169,23 +185,27 @@ public class OrderBillVoidView extends javax.swing.JDialog {
 
         txtTotal.setEditable(false);
         txtTotal.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat(""))));
+        txtTotal.setEnabled(false);
         txtTotal.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtTotal.setValue(0.0);
 
         txtVAT.setEditable(false);
         txtVAT.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00;(¤#,##0.00)"))));
+        txtVAT.setEnabled(false);
         txtVAT.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtVAT.setValue(0.0
         );
 
         txtSubTotalAmount.setEditable(false);
         txtSubTotalAmount.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat(""))));
+        txtSubTotalAmount.setEnabled(false);
         txtSubTotalAmount.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtSubTotalAmount.setValue(0.0
         );
 
         txtGrandTotal1.setEditable(false);
         txtGrandTotal1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat(""))));
+        txtGrandTotal1.setEnabled(false);
         txtGrandTotal1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtGrandTotal1.setValue(0.0);
 
@@ -201,32 +221,32 @@ public class OrderBillVoidView extends javax.swing.JDialog {
                 .addComponent(lblAmountReturn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(txtSVC, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(txtReceivedAmount, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(txtVAT, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(txtDiscountAmount, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(txtTotal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txtSubTotalAmount, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtGrandTotal1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel3Layout.createSequentialGroup()
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(txtSVC, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txtReceivedAmount, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addComponent(txtDiscountAmount, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addComponent(txtTotal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(txtVAT, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(txtSubTotalAmount, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtGrandTotal1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(37, 37, 37))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 537, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -272,9 +292,15 @@ public class OrderBillVoidView extends javax.swing.JDialog {
 
         jPanel3Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel11, jLabel2});
 
+        btnVoid.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnVoid.setMnemonic('V');
         btnVoid.setText("Void");
+        btnVoid.setToolTipText("ALT+V");
 
+        btnVoidCancel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnVoidCancel.setMnemonic('C');
         btnVoidCancel.setText("Cancel");
+        btnVoidCancel.setToolTipText("ALT+C");
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel4.setText("Bill No:");
@@ -284,6 +310,16 @@ public class OrderBillVoidView extends javax.swing.JDialog {
         lblBillNo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
         lblBillNo.setOpaque(true);
 
+        btnPrint.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnPrint.setMnemonic('p');
+        btnPrint.setText("Print");
+        btnPrint.setToolTipText("ALT+P");
+
+        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel7.setText("Status:");
+
+        lblBillStatus.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
         javax.swing.GroupLayout DialogOrderBillVoidLayout = new javax.swing.GroupLayout(DialogOrderBillVoid.getContentPane());
         DialogOrderBillVoid.getContentPane().setLayout(DialogOrderBillVoidLayout);
         DialogOrderBillVoidLayout.setHorizontalGroup(
@@ -291,20 +327,28 @@ public class OrderBillVoidView extends javax.swing.JDialog {
             .addGroup(DialogOrderBillVoidLayout.createSequentialGroup()
                 .addGroup(DialogOrderBillVoidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(DialogOrderBillVoidLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(DialogOrderBillVoidLayout.createSequentialGroup()
-                        .addGap(76, 76, 76)
-                        .addComponent(btnVoid, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(132, 132, 132)
-                        .addComponent(btnVoidCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(DialogOrderBillVoidLayout.createSequentialGroup()
                         .addGap(40, 40, 40)
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(lblBillNo, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(lblBillNo, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(129, 129, 129)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblBillStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(DialogOrderBillVoidLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(DialogOrderBillVoidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(DialogOrderBillVoidLayout.createSequentialGroup()
+                                .addGap(68, 68, 68)
+                                .addComponent(btnPrint, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnVoid, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(90, 90, 90)
+                                .addComponent(btnVoidCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         DialogOrderBillVoidLayout.setVerticalGroup(
@@ -312,17 +356,20 @@ public class OrderBillVoidView extends javax.swing.JDialog {
             .addGroup(DialogOrderBillVoidLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(DialogOrderBillVoidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-                    .addComponent(lblBillNo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+                    .addComponent(lblBillNo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblBillStatus, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(DialogOrderBillVoidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 515, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(12, 12, 12)
+                .addGap(26, 26, 26)
                 .addGroup(DialogOrderBillVoidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnVoidCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnVoid, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnVoidCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(25, 25, 25))
+                    .addComponent(btnPrint, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -331,7 +378,9 @@ public class OrderBillVoidView extends javax.swing.JDialog {
 
         jLabel1.setText("Bill No:");
 
+        btnSearch.setMnemonic('s');
         btnSearch.setText("Search");
+        btnSearch.setToolTipText("ALT+S");
 
         txtBillSearch.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0"))));
         txtBillSearch.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -420,6 +469,17 @@ public class OrderBillVoidView extends javax.swing.JDialog {
         public Double getReceivedAmount(){
             return ((Number)txtReceivedAmount.getValue()).doubleValue();
         }
+        public void setlblBillStatus(String st){
+            lblBillStatus.setText(st);
+        }
+        public String getlblBillStatus(){
+            return lblBillStatus.getText();
+        }
+
+    public JButton getBtnSearch() {
+        return btnSearch;
+    }
+        
         public void refreshJTableBillInfo(DefaultTableModel dtm){
             tblBillInfo.setModel(dtm);
         }
@@ -440,6 +500,13 @@ public class OrderBillVoidView extends javax.swing.JDialog {
         }
         public void addSearchListener(ActionListener listne){
             btnSearch.addActionListener(listne);
+        }
+        public void addPrintListener(ActionListener Listen){
+            btnPrint.addActionListener(Listen);
+        }
+        public void addtxtBillSearchAbstractActionListener(Action action){
+            txtBillSearch.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0),"Listen");
+            txtBillSearch.getActionMap().put("Listen", action);
         }
         
         public void setBillAmount(Double[] bill){
@@ -465,37 +532,9 @@ public class OrderBillVoidView extends javax.swing.JDialog {
             setReceivedAmount(0.0);
             setBillId("");
         }
-           public final void setButtonForEnter(JButton jb){
-         jb.registerKeyboardAction(jb.getActionForKeyStroke(
-                                      KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0, false)),
-                                      KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, false),
-                                      JComponent.WHEN_FOCUSED);
- 
-        jb.registerKeyboardAction(jb.getActionForKeyStroke(
-                                      KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0, true)),
-                                      KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, true),
-                                      JComponent.WHEN_FOCUSED);
-        
-    }
-    public final class SetFocusListener implements FocusListener{
-      JTextField jf;
-        public SetFocusListener(JTextField field){
-         jf = field;   
-        }
-
-        @Override
-        public void focusGained(FocusEvent e) {
-         //   throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-         jf.setBackground(new Color(136,249,168));
-        }
-
-        @Override
-        public void focusLost(FocusEvent e) {
-        //    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-       jf.setBackground(Color.white);
-        }
-        
-    }
+           
+   
+    
         
     /**
      * @param args the command line arguments
@@ -534,6 +573,7 @@ public class OrderBillVoidView extends javax.swing.JDialog {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JDialog DialogOrderBillVoid;
+    private javax.swing.JButton btnPrint;
     private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnVoid;
     private javax.swing.JButton btnVoidCancel;
@@ -545,6 +585,7 @@ public class OrderBillVoidView extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
@@ -552,6 +593,7 @@ public class OrderBillVoidView extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblAmountReturn;
     private javax.swing.JLabel lblBillNo;
+    private javax.swing.JLabel lblBillStatus;
     public javax.swing.JTable tblBillInfo;
     public javax.swing.JTable tblOrderedList;
     private javax.swing.JFormattedTextField txtBillSearch;

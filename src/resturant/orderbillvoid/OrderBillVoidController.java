@@ -4,10 +4,14 @@
  */
 package resturant.orderbillvoid;
 
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.JOptionPane;
+import reusableClass.DisplayMessages;
 
 /**
  *
@@ -27,6 +31,8 @@ public class OrderBillVoidController {
         VoidView.addSearchListener(new SearchListener());
         VoidView.addCancelListener(new SearchListener());
         VoidView.addVoidListener(new SearchListener());
+        VoidView.addPrintListener(new SearchListener());
+        VoidView.addtxtBillSearchAbstractActionListener(new txtBillSearhAbstratActionListener());
         
     }
     public class SearchListener implements ActionListener{
@@ -41,27 +47,32 @@ public class OrderBillVoidController {
           //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         if(e.getActionCommand().equalsIgnoreCase("Search")){
             int billid = VoidView.getSearchBillId();
-            
-            if(VoidModel.checkBillId(billid)){
-                /*
-                 * procced to  next stage
-                 */
-                VoidView.setBillId(String.valueOf(billid));
-                VoidView.refreshJTableBillInfo(VoidModel.getBillItemList(billid));
-                VoidView.refreshJTableOrderedList(VoidModel.getOrderList(billid));
-                
-                VoidView.setBillAmount(VoidModel.getSalesList(billid));
-//                for(double db:VoidModel.getSalesList(billid)){
-//                    System.out.println(db);
-//                }
-                VoidView.DialogOrderBillVoid.pack();
-                VoidView.setVisible(false);
-                VoidView.DialogOrderBillVoid.setModal(true);
-                VoidView.DialogOrderBillVoid.setVisible(true);
-                
+            if(VoidModel.checkBillExist(billid)){
+                if(VoidModel.checkBillId(billid)){
+                    /*
+                     * procced to  next stage
+                     */
+                    VoidView.setBillId(String.valueOf(billid));
+                    VoidView.refreshJTableBillInfo(VoidModel.getBillItemList(billid));
+                    VoidView.refreshJTableOrderedList(VoidModel.getOrderList(billid));
+
+                    VoidView.setBillAmount(VoidModel.getSalesList(billid));
+    //                for(double db:VoidModel.getSalesList(billid)){
+    //                    System.out.println(db);
+    //                }
+                    VoidView.DialogOrderBillVoid.pack();
+                    VoidView.setVisible(false);
+                    VoidView.DialogOrderBillVoid.setModal(true);
+                    VoidView.DialogOrderBillVoid.setVisible(true);
+
+                }
+                else{
+
+                    JOptionPane.showMessageDialog(VoidView, "This Bill is Void.Please See Void Report");
+                }
             }
             else{
-                JOptionPane.showMessageDialog(VoidView, "Bill Id Not Found.");
+                JOptionPane.showMessageDialog(VoidView, "Bill Doesnot Exists.");
             }
         }
         if(e.getActionCommand().equalsIgnoreCase("Void")){
@@ -88,11 +99,28 @@ public class OrderBillVoidController {
             
             VoidView.setVisible(true);
         }
+        if(e.getActionCommand().equalsIgnoreCase("Print")){
+            //print that biil.
+        }
         
         }
-        catch(Exception se){
+        catch(HeadlessException | NumberFormatException se){
         JOptionPane.showMessageDialog(VoidView, se+"SearchListener");
              }
+        }
+        
+    }
+    public class txtBillSearhAbstratActionListener extends AbstractAction{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try{
+                VoidView.getBtnSearch().doClick();
+                
+            }
+            catch(Exception se){
+                DisplayMessages.displayError(VoidView, se.getMessage()+"from "+getClass().getName(), "Error");
+            }
         }
         
     }

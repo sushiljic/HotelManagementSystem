@@ -131,6 +131,32 @@ public class OrderBillVoidModel  extends DBConnect{
     return ExistingStatus;
     
 }
+      public boolean checkBillExist(int billid){
+     Boolean ExistingStatus = null; 
+    String strCheck = "SELECT bill_id FROM bill WHERE bill_id = ?   ";
+    DBConnect check = new DBConnect();
+    PreparedStatement stmtcheck ;
+    try{
+        check.initConnection();
+        stmtcheck = check.conn.prepareStatement(strCheck,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+        stmtcheck.setInt(1, billid);
+        ResultSet rs = stmtcheck.executeQuery();
+        rs.last();
+        int rows = rs.getRow();
+        rs.beforeFirst();
+        ExistingStatus = rows >= 1;
+        
+        
+    }
+    catch(SQLException se){
+        JOptionPane.showMessageDialog(null, se+"from checkBillExist");
+    }
+    finally{
+        check.closeConnection();
+    }
+    return ExistingStatus;
+    
+}
       public Date returnBillDate(int billid){
      Date date = null;
     String strCheck = "SELECT bill_datetime FROM bill WHERE bill_id = ?  ";
@@ -226,8 +252,8 @@ public class OrderBillVoidModel  extends DBConnect{
                   /*
                    * separating the menu_id to thier type as singletracable and hybrid type
                    */
-                  ArrayList<String[]> SingleTrackableItem = new ArrayList<String[]>();
-                  ArrayList<String[]> HybridTrackableItem = new ArrayList<String[]>();
+                  ArrayList<String[]> SingleTrackableItem = new ArrayList<>();
+                  ArrayList<String[]> HybridTrackableItem = new ArrayList<>();
                   String[][] strSingleTrackableItem = null;
                   String[][] strHybridTrackableItem = null;
                for (Object[] itemlist1 : itemlist) {
@@ -263,7 +289,7 @@ public class OrderBillVoidModel  extends DBConnect{
                    * if only hybrid trackable
                    */
                   //return the item-unit in row
-                  ArrayList<String[]> HybridItem = new ArrayList<String[]>();
+                  ArrayList<String[]> HybridItem = new ArrayList<>();
                   String[][] strHybridItem = null;
                for (String[] strHybridTrackableItem1 : strHybridTrackableItem) {
                    String[][] data = getItemIdForHybrid(strHybridTrackableItem1[0]);

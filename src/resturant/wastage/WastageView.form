@@ -71,27 +71,33 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="ComboBoxDepartmentName" pref="135" max="32767" attributes="0"/>
-                                      <Component id="ComboBoxMenuMenuName" max="32767" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
                                       <Component id="txtMenuQuantity" min="-2" pref="85" max="-2" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Component id="jLabel5" min="-2" pref="41" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="txtMenuRate" min="-2" pref="77" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="ComboBoxDepartmentName" pref="135" max="32767" attributes="0"/>
+                                      <Component id="ComboBoxMenuMenuName" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jLabel14" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
+                              </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="txtMenuAmount" min="-2" pref="101" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="txtMenuAmount" pref="101" max="32767" attributes="0"/>
+                                  <Component id="lblMenuStock" max="32767" attributes="0"/>
+                              </Group>
                           </Group>
                           <Component id="txtMenuReason" min="-2" pref="395" max="-2" attributes="0"/>
                           <Component id="ComboBoxMenuStaffName" alignment="0" min="-2" pref="135" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="22" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="73" max="-2" attributes="0"/>
@@ -114,15 +120,17 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="ComboBoxMenuMenuName" linkSize="1" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                           <Component id="jLabel1" linkSize="3" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                          <Component id="jLabel14" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblMenuStock" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="jLabel2" min="-2" pref="30" max="-2" attributes="0"/>
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="txtMenuQuantity" alignment="3" pref="32" max="32767" attributes="0"/>
+                                  <Component id="txtMenuQuantity" linkSize="4" alignment="3" max="32767" attributes="0"/>
                                   <Component id="jLabel5" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
-                                  <Component id="txtMenuRate" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                                  <Component id="txtMenuRate" linkSize="4" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                                   <Component id="jLabel6" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
                                   <Component id="txtMenuAmount" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
                               </Group>
@@ -138,7 +146,7 @@
                           <Component id="jLabel4" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                           <Component id="ComboBoxMenuStaffName" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="61" max="32767" attributes="0"/>
+                      <EmptySpace pref="62" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="btnMenuSave" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
                           <Component id="btnMenuCancel" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
@@ -227,6 +235,9 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel5">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Tahoma" size="14" style="0"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Rate:"/>
               </Properties>
             </Component>
@@ -240,6 +251,9 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel6">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Tahoma" size="14" style="0"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Amount:"/>
               </Properties>
             </Component>
@@ -255,7 +269,9 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Tahoma" size="14" style="0"/>
                 </Property>
+                <Property name="mnemonic" type="int" value="115"/>
                 <Property name="text" type="java.lang.String" value="Save"/>
+                <Property name="toolTipText" type="java.lang.String" value="ALT+S"/>
                 <Property name="actionCommand" type="java.lang.String" value="MenuSave"/>
               </Properties>
             </Component>
@@ -264,7 +280,9 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Tahoma" size="14" style="0"/>
                 </Property>
+                <Property name="mnemonic" type="int" value="67"/>
                 <Property name="text" type="java.lang.String" value="Cancel"/>
+                <Property name="toolTipText" type="java.lang.String" value="ALT+C"/>
                 <Property name="actionCommand" type="java.lang.String" value="MenuCancel"/>
               </Properties>
             </Component>
@@ -274,6 +292,21 @@
                   <Font name="Tahoma" size="14" style="0"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Department Name:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel14">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Tahoma" size="14" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Stock:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lblMenuStock">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Tahoma" size="14" style="0"/>
+                </Property>
               </Properties>
             </Component>
           </SubComponents>
@@ -315,16 +348,22 @@
                                                   <Component id="txtItemQuantity" alignment="0" max="32767" attributes="0"/>
                                               </Group>
                                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                                              <Component id="jLabel12" min="-2" pref="73" max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="jLabel12" alignment="0" min="-2" pref="73" max="-2" attributes="0"/>
+                                                  <Component id="jLabel15" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              </Group>
                                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                                              <Component id="ComboBoxItemBaseUnit" max="32767" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="ComboBoxItemBaseUnit" max="32767" attributes="0"/>
+                                                  <Component id="lblItemStock" max="32767" attributes="0"/>
+                                              </Group>
                                           </Group>
                                       </Group>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace min="-2" pref="73" max="-2" attributes="0"/>
                                       <Component id="btnItemSave" min="-2" pref="101" max="-2" attributes="0"/>
-                                      <EmptySpace pref="226" max="32767" attributes="0"/>
+                                      <EmptySpace pref="227" max="32767" attributes="0"/>
                                       <Component id="btnItemCancel" min="-2" pref="98" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
@@ -345,6 +384,8 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="ComboBoxItemName" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                           <Component id="jLabel7" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                          <Component id="jLabel15" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblItemStock" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -457,7 +498,9 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Tahoma" size="14" style="0"/>
                 </Property>
+                <Property name="mnemonic" type="int" value="83"/>
                 <Property name="text" type="java.lang.String" value="Save"/>
+                <Property name="toolTipText" type="java.lang.String" value="ALT+S"/>
                 <Property name="actionCommand" type="java.lang.String" value="ItemSave"/>
               </Properties>
             </Component>
@@ -466,7 +509,9 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Tahoma" size="14" style="0"/>
                 </Property>
+                <Property name="mnemonic" type="int" value="99"/>
                 <Property name="text" type="java.lang.String" value="Cancel"/>
+                <Property name="toolTipText" type="java.lang.String" value="ALT+C"/>
                 <Property name="actionCommand" type="java.lang.String" value="ItemCancel"/>
               </Properties>
             </Component>
@@ -486,6 +531,21 @@
                   <Font name="Tahoma" size="14" style="0"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Unit:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel15">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Tahoma" size="14" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Stock:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lblItemStock">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Tahoma" size="14" style="0"/>
+                </Property>
               </Properties>
             </Component>
           </SubComponents>

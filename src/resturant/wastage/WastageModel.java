@@ -8,11 +8,14 @@ package resturant.wastage;
 
 import database.DBConnect;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import javax.swing.JOptionPane;
+import reusableClass.DisplayMessages;
 import reusableClass.Function;
 
 /**
@@ -251,7 +254,7 @@ public class WastageModel  extends DBConnect{
     
 }
        
-        public String[][] getItemIdForHybrid(int menuid){
+       public String[][] getItemIdForHybrid(int menuid){
         DBConnect gettg = new DBConnect();
         PreparedStatement stmtget ;
         ResultSet rs;
@@ -282,7 +285,7 @@ public class WastageModel  extends DBConnect{
         return finaldata;
     }
         //retreiving the itemname in the respective department
-        public Object[][] getItemInfoForMenu(int storeid){
+       public Object[][] getItemInfoForMenu(int storeid){
        String strQuery = "SELECT department_store_stock.department_item_id,centerstore_stock.item_name,department_store_stock.unit_id,item_unit.unit_name,item_unit.unit_relative_quantity,item_unit.unit_type,centerstore_stock.category_id,item_category.category_name FROM department_store_stock,centerstore_stock,item_unit,item_category WHERE department_store_stock.unit_id = item_unit.unit_id AND department_store_stock.item_id = centerstore_stock.item_id AND centerstore_stock.category_id = item_category.category_id and department_store_stock.department_id = ?";
       PreparedStatement stmtItemInfo;
       ResultSet rsResult;
@@ -314,7 +317,7 @@ public class WastageModel  extends DBConnect{
        
    }
         //retreiving menuname in respective department
-         public Object[][] getMenuInfo(int departmentid){
+       public Object[][] getMenuInfo(int departmentid){
           PreparedStatement stmtget;
           Object[][] MenuInfo = null;
           ResultSet rsget;
@@ -342,7 +345,7 @@ public class WastageModel  extends DBConnect{
               
       }
         //retreining staff info
-         public   Object[][] getWaiterInfoObject(){
+       public   Object[][] getWaiterInfoObject(){
         PreparedStatement stmtget;
         ResultSet rsget ;
         DBConnect dbget  = new DBConnect();
@@ -368,7 +371,7 @@ public class WastageModel  extends DBConnect{
         }
         return WaiterInfo;
     }
-         public Object[][] getUnitInfo(int UnitId){
+       public Object[][] getUnitInfo(int UnitId){
       PreparedStatement getrelqty;
       ResultSet getResultSet;
       //float Qty = 0;
@@ -396,5 +399,121 @@ public class WastageModel  extends DBConnect{
       }
       return data.toArray(new Object[data.size()][]);
   }
+        public Object[][] getAllUnitInfo(){
+      PreparedStatement getrelqty;
+      ResultSet getResultSet;
+      //float Qty = 0;
+      Object[] UnitName;
+      String strgetUnitRelativeQuantity = "select unit_id,unit_name,unit_relative_quantity from item_unit ";
+       ArrayList<Object[]>  data= new ArrayList<Object[]>();
+//      DBConnect getUnit = new DBConnect();
+      try{
+         initConnection();
+          getrelqty = conn.prepareStatement(strgetUnitRelativeQuantity);
+//         getrelqty.setInt(1, UnitId);
+          getResultSet = getrelqty.executeQuery();
+         
+          while(getResultSet.next()){
+           Object st[] = new Object[]{getResultSet.getObject("unit_id"),getResultSet.getObject("unit_name"),getResultSet.getObject("unit_relative_quantity")};
+        data.add(st);
+          }
+         
+      }
+      catch(SQLException e){
+          JOptionPane.showMessageDialog(null, e+"form getUnitINfo"+getClass().getName());
+      }
+      finally{
+         closeConnection();
+      }
+      return data.toArray(new Object[data.size()][]);
+  }
+       public BigDecimal getHybridItemAvailable(int menuid){
+        PreparedStatement stmtget;
+        ResultSet rsget ;
+        DBConnect dbget  = new DBConnect();
+        BigDecimal Avaiable = BigDecimal.ZERO;
+        ArrayList<Object[]> data = new ArrayList<Object[]>();
+        ArrayList<BigDecimal> ItemStockData = new ArrayList<>();
+        BigDecimal MenuQuantity = BigDecimal.ZERO;
+//        String ColName[] = new String[]{"ItemName","Stock Available"};
+        
+        String strget = "SELECT centerstore_stock.item_name,(department_store_stock.total_qty/(item_unit.unit_relative_quantity)) as total_qty,item_unit.unit_name,hybrid_menu.quantity as hybridquantity,menu.quantity as menuquantity  from hybrid_menu INNER JOIN department_store_stock ON hybrid_menu.department_item_id= department_store_stock.department_item_id INNER JOIN item_unit ON hybrid_menu.unit_id = item_unit.unit_id INNER JOIN centerstore_stock ON department_store_stock.item_id = centerstore_stock.item_id  INNER JOIN menu ON hybrid_menu.parent_menu_id = menu.menu_id where parent_menu_id  in (?)";
+        try{
+            dbget.initConnection();
+            stmtget = dbget.conn.prepareStatement(strget);
+            stmtget.setInt(1, menuid);
+            rsget = stmtget.executeQuery();
+            while(rsget.next()){
+                BigDecimal TotalItem = rsget.getBigDecimal("total_qty").divide(rsget.getBigDecimal("hybridquantity"),3,RoundingMode.HALF_UP);
+                ItemStockData.add(TotalItem);
+//               System.out.println(TotalItem);
+                MenuQuantity = rsget.getBigDecimal("menuquantity");
+                Object[] row = new Object[]{rsget.getString("item_name"),rsget.getBigDecimal("total_qty")+rsget.getString("unit_name")};
+                data.add(row);
+            }
+//            MenuInfo = data.toArray(new Object[data.size()][]);
+        }
+        catch(SQLException se){
+            JOptionPane.showMessageDialog(null, se+"from getHybridItemAvailable "+getClass().getName());
+        }
+        finally{
+            dbget.closeConnection();
+        }
+        Collections.sort(ItemStockData);
+//        System.out.println(ItemStockData.get(0));
+        MenuQuantity = ItemStockData.get(0).divide(MenuQuantity,3,RoundingMode.HALF_UP);
+        
+       return MenuQuantity ;
+        
+         
+     }
+       public BigDecimal getSingleItemAvailable(int menuid){
+           PreparedStatement stmt;
+           ResultSet rs;
+           BigDecimal bg = null ;
+           String str = "SELECT ((a.total_qty/u.unit_relative_quantity)/m.quantity)  FROM menu  m   INNER JOIN  department_store_stock a on  a.department_item_id = m.department_item_id INNER JOIN item_unit  u on m.unit_id = u.unit_id WHERE m.menu_id = ? ";
+           try{
+               initConnection();
+               stmt = conn.prepareStatement(str);
+               stmt.setInt(1, menuid);
+               rs = stmt.executeQuery();
+               while(rs.next()){
+                   bg = rs.getBigDecimal(1).setScale(2, RoundingMode.HALF_UP);
+               }
+           }
+           catch(SQLException se){
+               DisplayMessages.displayError(null, se.getMessage()+"from "+getClass().getName(), "SQL Error");
+           }
+           finally{
+               closeConnection();
+           }
+           return bg;
+           
+       } 
+        public BigDecimal getItemStockAvailable(int itemid,int unitid){
+           PreparedStatement stmt;
+           ResultSet rs;
+           BigDecimal bg = null ;
+           String str = "SELECT (a.total_qty/u.unit_relative_quantity)  FROM  department_store_stock a,item_unit u   WHERE a.item_id = ? AND u.unit_id = ? ";
+           try{
+               initConnection();
+               stmt = conn.prepareStatement(str);
+               stmt.setInt(1, itemid);
+//               System.out.println(unitid);
+               stmt.setInt(2, unitid);
+               rs = stmt.executeQuery();
+               while(rs.next()){
+                   bg = rs.getBigDecimal(1).setScale(2, RoundingMode.HALF_UP);
+               }
+           }
+           catch(SQLException se){
+               DisplayMessages.displayError(null, se.getMessage()+"from getItemStockAvailable "+getClass().getName(), "SQL Error");
+           }
+           finally{
+               closeConnection();
+           }
+           return bg;
+           
+       } 
     
 }

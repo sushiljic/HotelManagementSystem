@@ -25,6 +25,7 @@ public class WastageController {
     private WastageView wastageView;
     private WastageModel wastageModel;
     private MainFrameView mainview;
+//    private Object[][] unitinfo;
     public  WastageController(WastageModel model,WastageView view,MainFrameView mview){
         wastageModel = model;
         wastageView = view;
@@ -69,7 +70,8 @@ public class WastageController {
 //            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         try{
             if(e.getActionCommand().equalsIgnoreCase("MenuSave")){
-            //validating the imputs
+            //validating the imputs\
+                int menuid = wastageView.getMenuID();
             if(wastageView.getMenuID() == 0){
                 DisplayMessages.displayWarning(wastageView, "Please Select the Menu Item","Validation Window");
                 return;
@@ -82,6 +84,27 @@ public class WastageController {
                  DisplayMessages.displayWarning(wastageView, "Reason is Compulsary for Wastage Entry","Validation Window");
                 return;
             }
+            //check if there is sufficient stock os that it is wasted
+            if(wastageModel.checkTrackable(menuid)){
+                //if it is trackable
+                if(wastageModel.checkHybrid(menuid)){
+                    //if it is hybrid type
+                    Float availablestock = wastageModel.getHybridItemAvailable(menuid).floatValue();
+                    if(availablestock < wastageView.getMenuQuantity()){
+                        DisplayMessages.displayInfo(mainview, "Menu Is Not Sufficent for wastage", "Info");
+                        return;
+                    }
+                }
+                else{
+                    //if it is single trackable
+                    Float availablestock = wastageModel.getSingleItemAvailable(menuid).floatValue();
+                     if(availablestock < wastageView.getMenuQuantity()){
+                        DisplayMessages.displayInfo(mainview, "Menu Is Not Sufficent for wastage", "Info");
+                        return;
+                    }
+                }
+            }
+            
            
             if(DisplayMessages.displayInputYesNo(mainview, "Staff Name is not Selected.\n Are You Sure You Want to Save", "Staff Window"))
             {
@@ -127,11 +150,17 @@ public class WastageController {
                      DisplayMessages.displayInfo(wastageView, "Reason is Compulsary For Item Wastage Entry ", "Item Wastage Window");
                     return;
                 }
-                
-                if(DisplayMessages.displayInputYesNo(wastageView, "Do you Want To Save", " Item Save Window ")){
+                if(wastageView.getItemQuantity() > wastageModel.getItemStockAvailable(wastageView.getItemID(), wastageView.getUnitID()).floatValue()){
+                    DisplayMessages.displayInfo(mainview, "Item is not Sufficient for wastage", "Wastage Window");
+                    return;
+                }
+                 if(DisplayMessages.displayInputYesNo(mainview, "Staff Name is not Selected.\n Are You Sure You Want to Save", "Staff Window"))
+                {
+                    if(DisplayMessages.displayInputYesNo(wastageView, "Do you Want To Save", " Item Save Window ")){
                     
-                    wastageModel.AddItemWastage(wastageView.getAllItem(), mainview.getUserId(),wastageView.getDepartmentID());
-                    wastageView.clearAllItem();
+                        wastageModel.AddItemWastage(wastageView.getAllItem(), mainview.getUserId(),wastageView.getDepartmentID());
+                        wastageView.clearAllItem();
+                    }
                 }
             }
             if(e.getActionCommand().equalsIgnoreCase("ItemCancel")){
@@ -190,6 +219,20 @@ public class WastageController {
                }
                wastageView.setMenuID(Integer.parseInt(menuinfo[0].toString()));
                wastageView.setMenuRate(Double.parseDouble(menuinfo[3].toString()));
+               //display the stock item according to the type
+               int menuid = wastageView.getMenuID();
+               if(wastageModel.checkTrackable(menuid)){
+                   if(wastageModel.checkHybrid(menuid)){
+                       wastageView.setlblMenuStock(wastageModel.getHybridItemAvailable(menuid).toString());
+                   }
+                   else{
+                       wastageView.setlblMenuStock(wastageModel.getSingleItemAvailable(menuid).toString());
+                   }
+               }
+               else{
+                   wastageView.setlblMenuStock("");
+               }
+               
            }
            //if event is generate from itemname combo
            if(jb == wastageView.returnComboBoxItemName()){
@@ -208,29 +251,46 @@ public class WastageController {
                    }
                }
                wastageView.setUnitID(Integer.parseInt(iteminfo[2].toString()));
+//               //this unitinfo the data of relative unit of the item selected so that it can be used
+//               unitinfo = wastageModel.getUnitInfo(wastageView.getUnitID());
                wastageView.setComboBoxItemBaseUnit(Function.returnSecondColumn(wastageModel.getUnitInfo(wastageView.getUnitID())));
-//               Function.AddSelectInCombo(wastageView.returnComboBoxItemBaseUnit());
+               Function.AddSelectInCombo(wastageView.returnComboBoxItemBaseUnit());
                 wastageView.setItemID(Integer.parseInt(iteminfo[0].toString()));
            }   
            //if event is generated from tien unit combo
            if(jb == wastageView.returnComboBoxItemBaseUnit()){
 //              JOptionPane.showMessageDialog(wastageView, "ala");
-                Object[][] unitinfo = wastageModel.getUnitInfo(wastageView.getUnitID());
+               
+               Object[][] unitinfo = wastageModel.getAllUnitInfo();
               
 //                  JOptionPane.showMessageDialog(wastageView, jb.getSelectedItem()+""+wastageView.getUnitID());
+                if(jb.getSelectedItem().equals("SELECT")){
+//                    System.out.println("wala");
+                    wastageView.setUnitID(0);
+                    wastageView.setlblItemStock("");
+                }
+                else{
                   for(Object[] data:unitinfo){
                       
                      
                       if(data[1].equals(jb.getSelectedItem())){
+                          
                           wastageView.setUnitID(Integer.parseInt(data[0].toString()));
-//                           JOptionPane.showMessageDialog(wastageView, jb.getSelectedItem()+"unit"+wastageView.getUnitID());
+//                          System.out.println(wastageView.getUnitID());
+//                          JOptionPane.showMessageDialog(wastageView, jb.getSelectedItem()+"unit"+wastageView.getUnitID());
+                          //update  the item stock
+                          
+                          
+                          wastageView.setlblItemStock(wastageModel.getItemStockAvailable(wastageView.getItemID(), wastageView.getUnitID()).toString());
                           break;
                       }
-                  } 
+                  }
+//                 
+                }
                }
            
         }
-        catch(Exception se){
+        catch(NumberFormatException se){
             DisplayMessages.displayError(mainview, se.getMessage()+getClass().getName(), "Error Window");
         }
         }

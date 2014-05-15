@@ -128,6 +128,19 @@ public class WastageView extends javax.swing.JDialog {
    public String getMenuReason(){
        return txtMenuReason.getText();
    }
+   public void setlblMenuStock(String st){
+       lblMenuStock.setText(st);
+   }
+   public String getlblMenuStock(){
+       return lblMenuStock.getText();
+   }
+   public void setlblItemStock(String st){
+       lblItemStock.setText(st);
+   }
+   public String getlblItemStock(){
+       return lblItemStock.getText();
+   }
+   
    public void setComboBoxDepartmentName(Object[] data){
        DefaultComboBoxModel model = new DefaultComboBoxModel(data);
        ComboBoxDepartmentName.setModel(model);
@@ -270,6 +283,7 @@ public class WastageView extends javax.swing.JDialog {
        setMenuRate(0.0);
        setMenuAmount(0.0);
        setMenuReason("");
+       setlblMenuStock("");
        ComboBoxMenuMenuName.setSelectedIndex(0);
        ComboBoxMenuStaffName.setSelectedIndex(0);
    }
@@ -290,6 +304,7 @@ public class WastageView extends javax.swing.JDialog {
        setItemQuantity(0.0);
        setItemAmount(0.0);
        setItemReason("");
+       setlblItemStock("");
        ComboBoxItemName.setSelectedIndex(0);
        ComboBoxItemBaseUnit.setSelectedIndex(0);
        ComboBoxItemStaffName.setSelectedIndex(0);
@@ -334,6 +349,8 @@ public class WastageView extends javax.swing.JDialog {
         btnMenuSave = new javax.swing.JButton();
         btnMenuCancel = new javax.swing.JButton();
         jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        lblMenuStock = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         ComboBoxItemName = new javax.swing.JComboBox();
         jLabel7 = new javax.swing.JLabel();
@@ -349,6 +366,8 @@ public class WastageView extends javax.swing.JDialog {
         btnItemCancel = new javax.swing.JButton();
         ComboBoxItemBaseUnit = new javax.swing.JComboBox();
         jLabel12 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        lblItemStock = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -375,25 +394,36 @@ public class WastageView extends javax.swing.JDialog {
 
         ComboBoxMenuStaffName.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
+        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel5.setText("Rate:");
 
         txtMenuRate.setEnabled(false);
         txtMenuRate.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
+        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel6.setText("Amount:");
 
         txtMenuAmount.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         btnMenuSave.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnMenuSave.setMnemonic('s');
         btnMenuSave.setText("Save");
+        btnMenuSave.setToolTipText("ALT+S");
         btnMenuSave.setActionCommand("MenuSave");
 
         btnMenuCancel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnMenuCancel.setMnemonic('C');
         btnMenuCancel.setText("Cancel");
+        btnMenuCancel.setToolTipText("ALT+C");
         btnMenuCancel.setActionCommand("MenuCancel");
 
         jLabel13.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel13.setText("Department Name:");
+
+        jLabel14.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel14.setText("Stock:");
+
+        lblMenuStock.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -411,22 +441,26 @@ public class WastageView extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(ComboBoxDepartmentName, 0, 135, Short.MAX_VALUE)
-                                .addComponent(ComboBoxMenuMenuName, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(txtMenuQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(txtMenuRate, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel6)))
+                                .addComponent(txtMenuRate, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(ComboBoxDepartmentName, 0, 135, Short.MAX_VALUE)
+                                .addComponent(ComboBoxMenuMenuName, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel14)
+                            .addComponent(jLabel6))
                         .addGap(18, 18, 18)
-                        .addComponent(txtMenuAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtMenuAmount, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
+                            .addComponent(lblMenuStock, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(txtMenuReason, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(ComboBoxMenuStaffName, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(73, 73, 73)
                 .addComponent(btnMenuSave, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -447,13 +481,15 @@ public class WastageView extends javax.swing.JDialog {
                 .addGap(15, 15, 15)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ComboBoxMenuMenuName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel14)
+                    .addComponent(lblMenuStock, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtMenuQuantity, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+                            .addComponent(txtMenuQuantity)
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtMenuRate, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -466,7 +502,7 @@ public class WastageView extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(ComboBoxMenuStaffName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnMenuSave, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnMenuCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -476,6 +512,8 @@ public class WastageView extends javax.swing.JDialog {
         jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {ComboBoxDepartmentName, ComboBoxMenuMenuName});
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel1, jLabel13});
+
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {txtMenuQuantity, txtMenuRate});
 
         jTabbedPane1.addTab("Menu Wastage", jPanel1);
 
@@ -502,17 +540,26 @@ public class WastageView extends javax.swing.JDialog {
         ComboBoxItemStaffName.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         btnItemSave.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnItemSave.setMnemonic('S');
         btnItemSave.setText("Save");
+        btnItemSave.setToolTipText("ALT+S");
         btnItemSave.setActionCommand("ItemSave");
 
         btnItemCancel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnItemCancel.setMnemonic('c');
         btnItemCancel.setText("Cancel");
+        btnItemCancel.setToolTipText("ALT+C");
         btnItemCancel.setActionCommand("ItemCancel");
 
         ComboBoxItemBaseUnit.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         jLabel12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel12.setText("Unit:");
+
+        jLabel15.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel15.setText("Stock:");
+
+        lblItemStock.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -540,13 +587,17 @@ public class WastageView extends javax.swing.JDialog {
                                             .addComponent(ComboBoxItemName, javax.swing.GroupLayout.Alignment.LEADING, 0, 100, Short.MAX_VALUE)
                                             .addComponent(txtItemQuantity, javax.swing.GroupLayout.Alignment.LEADING))
                                         .addGap(18, 18, 18)
-                                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel15))
                                         .addGap(18, 18, 18)
-                                        .addComponent(ComboBoxItemBaseUnit, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(ComboBoxItemBaseUnit, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(lblItemStock, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(73, 73, 73)
                                 .addComponent(btnItemSave, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 226, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 227, Short.MAX_VALUE)
                                 .addComponent(btnItemCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(67, 67, 67))
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -559,7 +610,9 @@ public class WastageView extends javax.swing.JDialog {
                 .addGap(37, 37, 37)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ComboBoxItemName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel15)
+                    .addComponent(lblItemStock, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -629,6 +682,8 @@ public class WastageView extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -640,6 +695,8 @@ public class WastageView extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JLabel lblItemStock;
+    private javax.swing.JLabel lblMenuStock;
     private javax.swing.JFormattedTextField txtItemAmount;
     private javax.swing.JFormattedTextField txtItemQuantity;
     private javax.swing.JTextField txtItemReason;
