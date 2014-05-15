@@ -90,12 +90,13 @@ public class IssueReturnController {
                 }
                // System.out.println(issueReturnView.getReturnQuantity());
               //  System.out.println("walal");
-                if(Float.parseFloat(issueReturnView.getReturnQuantity())> Float.parseFloat(issueReturnView.getStockQuantity())){
-                   JOptionPane.showMessageDialog(issueReturnView, "There is not Sufficient Amount  to return.");
-                   return;
-                }
+                
                 if(Float.parseFloat(issueReturnView.getReturnQuantity())> Float.parseFloat(issueReturnView.getIssueQuantity())){
                    JOptionPane.showMessageDialog(issueReturnView, "Return Quantity is greater than  Issued Quantity");
+                   return;
+                }
+                if(Float.parseFloat(issueReturnView.getReturnQuantity())> Float.parseFloat(issueReturnView.getStockQuantity())){
+                   JOptionPane.showMessageDialog(issueReturnView, "There is not Sufficient Amount  to return.");
                    return;
                 }
                // System.out.println("walal");

@@ -116,7 +116,9 @@ public class IssueReturnView extends javax.swing.JDialog {
             }
         });
 
+        btnSearch.setMnemonic('s');
         btnSearch.setText("Search");
+        btnSearch.setToolTipText("ALT+S");
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("Item Name:*");
@@ -203,12 +205,11 @@ public class IssueReturnView extends javax.swing.JDialog {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel6)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 11, Short.MAX_VALUE)))
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtSearch)
-                    .addComponent(comboItemBaseUnit, 0, 111, Short.MAX_VALUE)
+                    .addComponent(comboItemBaseUnit, 0, 102, Short.MAX_VALUE)
                     .addComponent(txtIssueDate, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSearch)
@@ -255,10 +256,14 @@ public class IssueReturnView extends javax.swing.JDialog {
         );
 
         btnReturn.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnReturn.setMnemonic('R');
         btnReturn.setText("Return");
+        btnReturn.setToolTipText("ALT+R");
 
         btnCancel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btnCancel.setMnemonic('C');
         btnCancel.setText("Cancel");
+        btnCancel.setToolTipText("ALT+C");
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Issued Item List"));
 
@@ -280,7 +285,7 @@ public class IssueReturnView extends javax.swing.JDialog {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 601, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 608, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
