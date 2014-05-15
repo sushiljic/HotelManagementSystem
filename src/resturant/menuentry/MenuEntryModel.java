@@ -721,7 +721,7 @@ public class MenuEntryModel extends DBConnect {
             return data;
         }
      public Object[][] getItemInfoForMenu(int storeid){
-       String strQuery = "SELECT department_store_stock.department_item_id,centerstore_stock.item_name,department_store_stock.unit_id,item_unit.unit_name,item_unit.unit_relative_quantity,item_unit.unit_type,centerstore_stock.category_id,item_category.category_name FROM department_store_stock,centerstore_stock,item_unit,item_category WHERE department_store_stock.unit_id = item_unit.unit_id AND department_store_stock.item_id = centerstore_stock.item_id AND centerstore_stock.category_id = item_category.category_id and department_store_stock.department_id = ?";
+       String strQuery = "SELECT department_store_stock.department_item_id,centerstore_stock.item_name,department_store_stock.unit_id,item_unit.unit_name,item_unit.unit_relative_quantity,item_unit.unit_type,centerstore_stock.category_id,item_category.category_name FROM department_store_stock INNER JOIN centerstore_stock ON department_store_stock.item_id = centerstore_stock.item_id INNER JOIN item_unit ON department_store_stock.unit_id = item_unit.unit_id INNER JOIN item_category ON centerstore_stock.category_id = item_category.category_id WHERE      department_store_stock.department_id = ?";
       
 //       DBConnect getitem = new DBConnect();
        try{
