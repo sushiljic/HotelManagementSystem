@@ -125,7 +125,9 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="ff" red="ff" type="rgb"/>
         </Property>
+        <Property name="mnemonic" type="int" value="76"/>
         <Property name="text" type="java.lang.String" value="LOGIN"/>
+        <Property name="toolTipText" type="java.lang.String" value="ALT+L"/>
         <Property name="actionCommand" type="java.lang.String" value="login"/>
       </Properties>
     </Component>
@@ -140,7 +142,9 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="ff" red="ff" type="rgb"/>
         </Property>
+        <Property name="mnemonic" type="int" value="67"/>
         <Property name="text" type="java.lang.String" value="CANCEL"/>
+        <Property name="toolTipText" type="java.lang.String" value="ALT+C"/>
         <Property name="actionCommand" type="java.lang.String" value="Cancel"/>
       </Properties>
       <Events>

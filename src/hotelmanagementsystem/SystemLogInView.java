@@ -130,13 +130,17 @@ public class SystemLogInView extends javax.swing.JDialog {
         btnLogIn.setBackground(new java.awt.Color(102, 153, 255));
         btnLogIn.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnLogIn.setForeground(new java.awt.Color(255, 255, 255));
+        btnLogIn.setMnemonic('L');
         btnLogIn.setText("LOGIN");
+        btnLogIn.setToolTipText("ALT+L");
         btnLogIn.setActionCommand("login");
 
         btnCancel.setBackground(new java.awt.Color(102, 153, 255));
         btnCancel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnCancel.setForeground(new java.awt.Color(255, 255, 255));
+        btnCancel.setMnemonic('C');
         btnCancel.setText("CANCEL");
+        btnCancel.setToolTipText("ALT+C");
         btnCancel.setActionCommand("Cancel");
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
