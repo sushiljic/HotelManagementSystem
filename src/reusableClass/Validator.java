@@ -114,4 +114,22 @@ public class Validator {
         });
        jf.setValue(perc);
  }
+ public static  void NumberMaker(JFormattedTextField jf){
+      jf.setFormatterFactory(new JFormattedTextField.AbstractFormatterFactory() {
+
+            @Override
+            public JFormattedTextField.AbstractFormatter getFormatter(JFormattedTextField tf) {
+                NumberFormat format = NumberFormat.getInstance();
+               
+                InternationalFormatter formatter = new InternationalFormatter(format);
+                formatter.setAllowsInvalid(false);
+                formatter.setCommitsOnValidEdit(true);
+                
+                //formatter.setMinimum(0.0);
+                //formatter.setMaximum(1000.00);
+                return formatter;
+            }
+        });
+      jf.setValue(new Integer(0));
+ } 
 }
