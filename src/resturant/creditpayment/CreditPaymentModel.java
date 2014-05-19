@@ -11,8 +11,9 @@ import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Date;
 import javax.swing.JOptionPane;
 import reusableClass.DisplayMessages;
 import reusableClass.Function;
@@ -33,7 +34,7 @@ public class CreditPaymentModel extends DBConnect {
        */
         PreparedStatement stmt;
         ResultSet rs;
-        String strpay ="INSERT INTO bill (item_total_amount,service_charge,vat,bill_discount,bill_total,total_received,customer_id,payment_type,bill_datetime,bill_id,user_id,department_id,complimentary_flag,complimentary_amount,repay) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        String strpay ="INSERT INTO bill (item_total_amount,service_charge,vat,bill_discount,bill_total,total_received,customer_id,payment_type,bill_datetime,bill_id,user_id,department_id,complimentary_flag,complimentary_amount,repay,com_bill_datetime) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         //connecting to database and inserting
         try{
         initConnection();
@@ -54,6 +55,8 @@ public class CreditPaymentModel extends DBConnect {
         stmt.setInt(13, 0);
         stmt.setDouble(14, 0.0);
         stmt.setInt(15, 0);
+        //this retreive the system date of th  computer
+        stmt.setTimestamp(16, new Timestamp(new Date().getTime()));
         stmt.executeUpdate();
         
         conn.commit();

@@ -78,7 +78,7 @@ public class CreditPaymentController {
             if(jc == creditPaymentView.returnComboBoxDepartmentName()){
                  Object[] depinfo = null;
                Object[][] fulldep = Function.getRespectiveDepartment(mainview.getUserId());
-               if(jc.getSelectedItem().equals("Select")){
+               if(jc.getSelectedItem().equals("SELECT")){
                    creditPaymentView.setDepartmentId(0);
                  
                } 
