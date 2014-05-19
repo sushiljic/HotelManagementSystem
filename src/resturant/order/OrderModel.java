@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import reusableClass.DisplayMessages;
@@ -41,7 +42,7 @@ public class OrderModel  extends DBConnect{
 //              String strSubtractSingleResturantStore = "UPDATE department_store_stock SET total_qty = department_store_stock.total_qty -(? * (select  menu.quantity*item_unit.unit_relative_quantity from menu INNER JOIN item_unit ON menu.unit_id = item_unit.unit_id WHERE menu.menu_id = ?)) WHERE item_id = (select item_id from menu where menu_id = ?)";
                String strSubtractSingleResturantStore = "UPDATE department_store_stock SET total_qty = department_store_stock.total_qty -(? * (select  menu.quantity*item_unit.unit_relative_quantity from menu INNER JOIN item_unit ON menu.unit_id = item_unit.unit_id WHERE menu.menu_id = ?)) WHERE department_item_id = (select department_item_id from menu where menu_id = ?)";
               String strSubtractHybridResturantStore = "UPDATE department_store_stock SET total_qty = department_store_stock.total_qty  - ?*? WHERE department_item_id = ?  ";
-             String strorderadd = "INSERT INTO order_list(order_id,table_id,waiter_id,customer_id,total_amount,date,user_id,department_id) VALUES(?,?,?,?,?,?,?,?)";
+             String strorderadd = "INSERT INTO order_list(order_id,table_id,waiter_id,customer_id,total_amount,date,user_id,department_id,com_date) VALUES(?,?,?,?,?,?,?,?,?)";
              String strtablepack = " UPDATE table_info SET table_status = 1 WHERE table_id = ? ";
              String strordertable = "INSERT INTO temp_order_table(order_id,table_id) VALUES(?,?)";
               DBConnect addorder = new DBConnect();
@@ -144,6 +145,7 @@ public class OrderModel  extends DBConnect{
                       stmtorderadd.setTimestamp(6, new Timestamp(Function.returnSystemDate().getTime()));
                       stmtorderadd.setInt(7, userid);
                       stmtorderadd.setInt(8, departmentid);
+                      stmtorderadd.setTimestamp(9, new Timestamp(new Date().getTime()));
                       stmtorderadd.executeUpdate();
                   /*
                   * for table_info making table status pack    
@@ -207,7 +209,7 @@ public class OrderModel  extends DBConnect{
                  String stradd = "INSERT INTO order_item_list (order_id,menu_id,quantity) VALUES(?,?,?)";
               String strSubtractSingleResturantStore = "UPDATE department_store_stock SET total_qty = department_store_stock.total_qty -(? * (select  menu.quantity*item_unit.unit_relative_quantity from menu INNER JOIN item_unit ON menu.unit_id = item_unit.unit_id WHERE menu.menu_id = ?)) WHERE item_id = (select item_id from menu where menu_id = ?)";
               String strSubtractHybridResturantStore = "UPDATE department_store_stock SET total_qty = department_store_stock.total_qty  - ?*? WHERE item_id = ?  ";
-             String strorderadd = "UPDATE  order_list SET table_id = ? ,waiter_id = ? ,customer_id = ? ,total_amount = ? ,date = ?,user_id= ? ,department_id = ? WHERE order_id = ?";
+             String strorderadd = "UPDATE  order_list SET table_id = ? ,waiter_id = ? ,customer_id = ? ,total_amount = ? ,date = ?,user_id= ? ,department_id = ? com_date = ? WHERE order_id = ?";
              String strtablepack = " UPDATE table_info SET table_status = 1 WHERE table_id = ? ";
               String strordertable = "UPDATE  temp_order_table SET table_id = ? WHERE order_id = ?";
              
@@ -431,7 +433,9 @@ public class OrderModel  extends DBConnect{
                       stmtorderadd.setTimestamp(5,  new Timestamp(Function.returnSystemDate().getTime()));
                       stmtorderadd.setInt(6, userid);
                       stmtorderadd.setInt(7, departmentid);
-                      stmtorderadd.setInt(8, orderid);
+                      //this is the time according the time of computer
+                      stmtorderadd.setTimestamp(8, new Timestamp(new Date().getTime()));
+                      stmtorderadd.setInt(9, orderid);
                       stmtorderadd.executeUpdate();
                   /*
                   * for table_info making table status pack    
@@ -1228,7 +1232,7 @@ public class OrderModel  extends DBConnect{
         DBConnect gettg = new DBConnect();
         PreparedStatement stmtget ;
         ResultSet rs;
-        String search = src+"%";
+        String search = "%"+src+"%";
         String strget = "SELECT menu.menu_id,menu.menu_name,menu.retail_price,menu.wholesale_price,item_unit.unit_name FROM menu INNER JOIN item_unit ON menu.unit_id = item_unit.unit_id WHERE menu_name LIKE ? AND department_id = ?";
         String[] columnName = new String[]{"Menu Id","Menu Name"," Retail Rate","Wholesale Rate","Base Unit",};
         ArrayList<Object[]> data = new ArrayList<Object[]>();
