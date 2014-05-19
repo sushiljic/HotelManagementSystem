@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import reusableClass.Function;
@@ -69,7 +70,7 @@ public class OrderBillModel  extends DBConnect{
         PreparedStatement stmttablereset;
         PreparedStatement stmtordertable;
         PreparedStatement stmtcomplimentary;
-        String strBill = "INSERT INTO bill (item_total_amount,service_charge,vat,bill_discount,bill_total,total_received,customer_id,payment_type,bill_datetime,bill_id,user_id,department_id,complimentary_flag,complimentary_amount) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        String strBill = "INSERT INTO bill (item_total_amount,service_charge,vat,bill_discount,bill_total,total_received,customer_id,payment_type,bill_datetime,bill_id,user_id,department_id,complimentary_flag,complimentary_amount,com_bill_datetime) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         String strBillItemInfo = "INSERT INTO bill_item_info (bill_id,menu_id,quantity,complimentary_type) VALUES(?,?,?,?) ";
         String strUpdateOrder = "UPDATE order_list SET paid = ?,bill_id = ? WHERE order_id = ?";
         String strtablereset = " UPDATE  table_info set table_status = 0 WHERE table_id = ?";
@@ -204,6 +205,8 @@ public class OrderBillModel  extends DBConnect{
               stmtbill.setInt(13, 0);  
            }
          stmtbill.setDouble(14, ComplimentaryAmount);
+         //this get the date of the computer system
+         stmtbill.setTimestamp(15, new Timestamp(new Date().getTime()));
           stmtbill.executeUpdate();
            
       

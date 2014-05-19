@@ -93,13 +93,13 @@ public class DirectBillModel extends DBConnect {
 //              String strSubtractHybridResturantStore = "UPDATE resturant_store SET total_qty = resturant_store.total_qty  - ?*? WHERE item_id = ?  ";
               String strSubtractSingleResturantStore = "UPDATE department_store_stock SET total_qty = department_store_stock.total_qty -(? * (select  menu.quantity*item_unit.unit_relative_quantity from menu INNER JOIN item_unit ON menu.unit_id = item_unit.unit_id WHERE menu.menu_id = ?)) WHERE department_item_id = (select department_item_id from menu where menu_id = ?)";
               String strSubtractHybridResturantStore = "UPDATE department_store_stock SET total_qty = department_store_stock.total_qty  - ?*? WHERE department_item_id = ?  ";
-              String strorderadd = "INSERT INTO order_list(customer_id,total_amount,date,order_id,bill_id,paid,user_id,department_id) VALUES(?,?,?,?,?,?,?,?)";
+              String strorderadd = "INSERT INTO order_list(customer_id,total_amount,date,order_id,bill_id,paid,user_id,department_id,com_date) VALUES(?,?,?,?,?,?,?,?,?)";
             
              /*
              qeury for addbil
              */
 //        String strBill = "INSERT INTO bill (item_total_amount,service_charge,vat,bill_discount,bill_total,total_received,customer_id,payment_type,bill_datetime,bill_id) VALUES(?,?,?,?,?,?,?,?,?,?)";
-         String strBill = "INSERT INTO bill (item_total_amount,service_charge,vat,bill_discount,bill_total,total_received,customer_id,payment_type,bill_datetime,bill_id,user_id,department_id,complimentary_flag,complimentary_amount) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+         String strBill = "INSERT INTO bill (item_total_amount,service_charge,vat,bill_discount,bill_total,total_received,customer_id,payment_type,bill_datetime,bill_id,user_id,department_id,complimentary_flag,complimentary_amount,com_bill_datetime) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         String strBillItemInfo = "INSERT INTO bill_item_info (bill_id,menu_id,quantity,complimentary_type) VALUES(?,?,?,?) ";
         String strUpdateOrder = "UPDATE order_list SET paid = ?,bill_id = ? WHERE order_id = ?";
 //        String strtablereset = " UPDATE  table_info set table_status = 0 WHERE table_id = ?";
@@ -125,6 +125,8 @@ public class DirectBillModel extends DBConnect {
                       stmtorderadd.setInt(6, 1);
                       stmtorderadd.setInt(7, userid);
                       stmtorderadd.setInt(8, departmentid);
+                      //this retrieve the system time of cimputer
+                      stmtorderadd.setTimestamp(9, new Timestamp(new Date().getTime()));
                       stmtorderadd.executeUpdate();
                /*
                    * for inserting into order_item_list
@@ -323,6 +325,8 @@ public class DirectBillModel extends DBConnect {
               stmtbill.setInt(13, 0);  
            }
          stmtbill.setDouble(14, ComplimentaryAmount);
+         //this retieve the system date of computer system
+         stmtbill.setTimestamp(15, new Timestamp(new Date().getTime()));
           stmtbill.executeUpdate();
            
      
