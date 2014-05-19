@@ -441,7 +441,7 @@ public class TableCrudView extends javax.swing.JDialog {
                 .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        TabbedPanel.addTab("Individuall setup", jPanel2);
+        TabbedPanel.addTab("Individual setup", jPanel2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

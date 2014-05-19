@@ -18,6 +18,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import reusableClass.DisplayMessages;
 
 /**
  *
@@ -220,6 +221,8 @@ public class TableCrudController {
                 tableview.refreshGroupTableJTable(tablemodel.getTableGroupInfo());
                 tableview.clearGroupTable();
                 tableview.disableTableEdit();
+                //refresh the indivuduall table
+                tableview.refreshTableJTable(tablemodel.getTableInfo());
                 }
                 
             }
@@ -228,12 +231,14 @@ public class TableCrudController {
                     JOptionPane.showMessageDialog(tableview, "Please select the TableGroup to delete");
                     return;
                 }
-                 int choice = JOptionPane.showConfirmDialog(tableview, "Do You Want to Delete?","Delete Window",JOptionPane.YES_NO_OPTION);
-                if(choice == JOptionPane.YES_OPTION){
+                if(DisplayMessages.displayInputYesNo(tableview, "All Tables Under this Category will also be  Deleted.\nDo You Want to Delete?","Delete Window"))
+                {
                 tablemodel.TableGroupDelete(tableview.getTableGroup());
                 tableview.refreshGroupTableJTable(tablemodel.getTableGroupInfo());
                 tableview.clearGroupTable();
                 tableview.disableTableGroupDelete();
+                //refresh the table from the individuall
+                tableview.refreshTableJTable(tablemodel.getTableInfo());
                 }
             }
             else if (e.getActionCommand().equalsIgnoreCase("TableGroupCancel")){

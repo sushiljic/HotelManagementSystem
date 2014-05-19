@@ -109,7 +109,7 @@ public class TableCrudModel extends DBConnect {
          info[2] = getTableGroupRate();
                  }
          */
-        String strdel = "DELETE tablegroup WHERE tablegroup_id = ?";
+        String strdel = "DELETE  FROM tablegroup WHERE tablegroup_id = ?";
         DBConnect del = new DBConnect();
         try{
             del.initConnection();
