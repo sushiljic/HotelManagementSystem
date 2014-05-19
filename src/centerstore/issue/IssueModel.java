@@ -507,7 +507,7 @@ public class IssueModel extends DBConnect {
        int colcount;
        int rowcount ;
       // String[] ColumnNames = { "Issue Id", "Item Name", "Issue Quantity","item BaseUnit","Issue From", "Issue To","Issue Date"};
-       String strQuery = "SELECT issue.issue_id,centerstore_stock.item_name,issue.quantity,issue.unit_id,item_unit.unit_name,center_store_info.store_name as issue_from,department_info.department_name as issue_to,issue.issue_date FROM issue INNER JOIN department_store_stock ON issue.department_item_id = department_store_stock.department_item_id INNER JOIN  item_unit ON issue.unit_id = item_unit.unit_id INNER JOIN centerstore_stock ON department_store_stock.item_id = centerstore_stock.item_id INNER JOIN department_info ON issue.issue_to = department_info.department_id"
+       String strQuery = "SELECT issue.issue_id,centerstore_stock.item_name,issue.quantity,issue.unit_id,item_unit.unit_name,center_store_info.store_name as issue_from,department_info.department_name as issue_to,issue.issue_date FROM issue INNER JOIN department_store_stock ON issue.department_item_id = department_store_stock.department_item_id INNER JOIN  item_unit ON issue.unit_id = item_unit.unit_id INNER JOIN centerstore_stock ON department_store_stock.item_id = centerstore_stock.item_id INNER JOIN department_info ON issue.issue_to = department_info.department_id "
                + " INNER JOIN center_store_info ON issue.issue_from = center_store_info.store_id   ORDER BY issue.issue_date desc";
        String ColumnNames[] = {"Issue Id","Item Name","Issue Quantity","Item BaseUnit","Issue From","Issue To","Issue Date"};
       //Object[][] data = null;
@@ -538,7 +538,61 @@ public class IssueModel extends DBConnect {
            
        }
        catch(SQLException se){
-           JOptionPane.showMessageDialog(null, se+"from get IssueList");
+           JOptionPane.showMessageDialog(null, se+"from getIssueList");
+       }
+      
+       finally{
+           getissue.closeConnection();
+       }
+       return new DefaultTableModel(finalData,ColumnNames){
+          @Override
+          public boolean isCellEditable(int rows,int columns){
+          //all cell false
+                  return false;    
+          }
+                  
+       };
+   }
+   //there it will be same as getissuelist but it used like 
+   public DefaultTableModel getIssueListByWildSearch(String menuname){
+       int colcount;
+       int rowcount ;
+       String src = "%"+menuname+"%";
+      
+      // String[] ColumnNames = { "Issue Id", "Item Name", "Issue Quantity","item BaseUnit","Issue From", "Issue To","Issue Date"};
+       String strQuery = "SELECT issue.issue_id,centerstore_stock.item_name,issue.quantity,issue.unit_id,item_unit.unit_name,center_store_info.store_name as issue_from,department_info.department_name as issue_to,issue.issue_date FROM issue INNER JOIN department_store_stock ON issue.department_item_id = department_store_stock.department_item_id INNER JOIN  item_unit ON issue.unit_id = item_unit.unit_id INNER JOIN centerstore_stock ON department_store_stock.item_id = centerstore_stock.item_id INNER JOIN department_info ON issue.issue_to = department_info.department_id "
+               + " INNER JOIN center_store_info ON issue.issue_from = center_store_info.store_id    WHERE centerstore_stock.item_name LIKE ? ORDER BY issue.issue_date desc";
+       String ColumnNames[] = {"Issue Id","Item Name","Issue Quantity","Item BaseUnit","Issue From","Issue To","Issue Date"};
+      //Object[][] data = null;
+     //  List<Object[]> data = new ArrayList<Object[]>();
+   ArrayList<Object[]> data = new ArrayList<Object[]>();
+    Object[][] finalData =null;
+       DBConnect getissue = new DBConnect();
+       try{
+           getissue.initConnection();
+           stmtIssueInfo = getissue.conn.prepareStatement(strQuery);
+           stmtIssueInfo.setString(1, src);
+           rsResult = stmtIssueInfo.executeQuery();
+           
+//           ResultSetMetaData metadata = rsResult.getMetaData();
+//           colcount = metadata.getColumnCount();
+            
+           while(rsResult.next()){
+              Object[] row = new Object[]{rsResult.getString("issue_id"),rsResult.getString("item_name"),rsResult.getFloat("quantity"),rsResult.getString("unit_name"),rsResult.getString("issue_from"),rsResult.getString("issue_to"),rsResult.getString("issue_date")};
+              /* for(int i=0;i<colcount;i++){
+                   row[i] = rsResult.getObject(i+1);
+               }*/
+                
+               data.add(row);
+               
+              // data
+              
+           }
+            finalData = data.toArray(new Object[data.size()][]);
+           
+       }
+       catch(SQLException se){
+           JOptionPane.showMessageDialog(null, se+"from getIssueList");
        }
       
        finally{

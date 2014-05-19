@@ -12,6 +12,9 @@ import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import reusableClass.DisplayMessages;
@@ -67,6 +70,8 @@ public class IssueController {
       issueView.addComboStoreFromListener(new ComboStoreFromListener());
       issueView.addComboStoreToListener(new ComboStoreToListener());
       issueView.addShortcutForIssue(new ShortcutForIssue());
+      //add the document listener for  the search
+      issueView.addtxtSearchDocumentListener(new SearchDocumentListener());
         /*
       * setting 
       */
@@ -112,7 +117,7 @@ public class IssueController {
                    return;   
                }
                if(Float.parseFloat(issueView.getIssueQuantity()) > Float.parseFloat(issueView.getCenterStockQuantity())){
-                   JOptionPane.showMessageDialog(issueView, "Issue Quantity can be greater than Stock Quantity");
+                   JOptionPane.showMessageDialog(issueView, "Issue Quantity can`t be greater than Stock Quantity");
                    return;
                }
                if(issueView.getFromStoreId()==0){
@@ -800,5 +805,41 @@ public class IssueController {
         return false;
         }
         
+    }
+    //class to handle like search
+    public class SearchDocumentListener implements DocumentListener{
+
+        @Override
+        public void insertUpdate(DocumentEvent e) {
+            retreiveSearch(e);
+        }
+
+        @Override
+        public void removeUpdate(DocumentEvent e) {
+            retreiveSearch(e);
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent e) {
+            retreiveSearch(e);
+        }
+        //function to handle the search
+        private void retreiveSearch(DocumentEvent se){
+            try{
+                SwingUtilities.invokeLater(new Runnable(){
+
+                    @Override
+                    public void run() {
+                    //retreive the update the database
+                        issueView.refreshJTable(issueModel.getIssueListByWildSearch(issueView.getSearch()));
+                    }
+                    
+                });
+                
+            }
+            catch(Exception ee){
+                DisplayMessages.displayError(issueView, ee.getMessage() +" from " + getClass().getName(),"Error");
+            }
+        }
     }
 }

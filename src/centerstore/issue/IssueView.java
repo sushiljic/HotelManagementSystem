@@ -4,12 +4,9 @@
  */
 package centerstore.issue;
 
-import java.awt.Color;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.text.DateFormat;
@@ -21,11 +18,12 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import reusableClass.Function;
 
 
 /**
@@ -61,10 +59,10 @@ public class IssueView extends javax.swing.JDialog {
         setButtonForEnter(btnEdit);
         setButtonForEnter(btnCancel);
         setButtonForEnter(btnSearch);
-        txtCenterStockQuantity.addFocusListener(new SetFocusListener(txtCenterStockQuantity));
-        txtIssueQuantity.addFocusListener(new SetFocusListener(txtIssueQuantity));
-        txtResturantStockQuantity.addFocusListener(new SetFocusListener(txtResturantStockQuantity));
-        txtSearch.addFocusListener(new SetFocusListener(txtSearch));
+        txtCenterStockQuantity.addFocusListener(new Function.SetTextFieldFocusListener(txtCenterStockQuantity));
+        txtIssueQuantity.addFocusListener(new Function.SetTextFieldFocusListener(txtIssueQuantity));
+        txtResturantStockQuantity.addFocusListener(new Function.SetTextFieldFocusListener(txtResturantStockQuantity));
+        txtSearch.addFocusListener(new Function.SetTextFieldFocusListener(txtSearch));
        selectionModel = tblIssueList.getSelectionModel();
        selectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         kfmanager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
@@ -291,6 +289,8 @@ public class IssueView extends javax.swing.JDialog {
                     .addComponent(comboTo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
+
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnSearch, comboItemBaseUnit, comboItemName, txtSearch});
 
         btnIssue.setFont(btnIssue.getFont().deriveFont(btnIssue.getFont().getSize()+3f));
         btnIssue.setMnemonic('I');
@@ -835,6 +835,10 @@ public void setTextEditableFalse(){
  void addComboStoreFromListener(ActionListener Listen){
      comboFrom.addActionListener(Listen);
  }
+ //add the documentlistener for the search 
+ void addtxtSearchDocumentListener(DocumentListener listen){
+     txtSearch.getDocument().addDocumentListener(listen);
+ }
   public void AddSelectInCombo(JComboBox jc){
       jc.insertItemAt("SELECT", 0);
       jc.setSelectedIndex(0);
@@ -854,25 +858,7 @@ public void setTextEditableFalse(){
                                       JComponent.WHEN_FOCUSED);
         
     }
- public final class SetFocusListener implements FocusListener{
-      JTextField jf;
-        public SetFocusListener(JTextField field){
-         jf = field;   
-        }
-
-        @Override
-        public void focusGained(FocusEvent e) {
-         //   throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-         jf.setBackground(new Color(136,249,168));
-        }
-
-        @Override
-        public void focusLost(FocusEvent e) {
-        //    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-       jf.setBackground(Color.white);
-        }
-        
-    }
+ 
     /**
      * 
      * @param args the command line arguments
