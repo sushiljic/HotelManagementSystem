@@ -721,7 +721,7 @@ public class MenuEntryModel extends DBConnect {
             return data;
         }
      public Object[][] getItemInfoForMenu(int storeid){
-       String strQuery = "SELECT department_store_stock.department_item_id,centerstore_stock.item_name,department_store_stock.unit_id,item_unit.unit_name,item_unit.unit_relative_quantity,item_unit.unit_type,centerstore_stock.category_id,item_category.category_name FROM department_store_stock INNER JOIN centerstore_stock ON department_store_stock.item_id = centerstore_stock.item_id INNER JOIN item_unit ON department_store_stock.unit_id = item_unit.unit_id INNER JOIN item_category ON centerstore_stock.category_id = item_category.category_id WHERE      department_store_stock.department_id = ?";
+       String strQuery = "SELECT department_store_stock.department_item_id,centerstore_stock.item_name,department_store_stock.unit_id,item_unit.unit_name,item_unit.unit_relative_quantity,item_unit.unit_type,centerstore_stock.category_id,item_sub_category.sub_category_name FROM department_store_stock INNER JOIN centerstore_stock ON department_store_stock.item_id = centerstore_stock.item_id INNER JOIN item_unit ON department_store_stock.unit_id = item_unit.unit_id LEFT JOIN item_sub_category ON centerstore_stock.category_id = item_sub_category.sub_category_id WHERE      department_store_stock.department_id = ?";
       
 //       DBConnect getitem = new DBConnect();
        try{
@@ -749,30 +749,7 @@ public class MenuEntryModel extends DBConnect {
        return Itemdata;
        
    }
-      public String[] returnItemName(Object data[][]){
-       String[] strName = new String[data.length];
-      /*
-       *  String strQuery = "SELECT department_store_stock.item_id,centerstore_stock.item_name,resturant_store.unit_id,item_unit.unit_name,item_unit.unit_relative_quantity,item_unit.unit_type,centerstore_store.category_id,item_category.category_itemname FROM resturant_store,centerstore_stock,item_unit,item_category WHERE resturant_store.unit_id = item_unit.unit_id,resturant_store.item_id = centerstore_stock.item_id,centerstore_stock.category_id = item_category.category_id";
-       */
-       
-       
-       //this give a string array of the itemname since itemname lies on 1 postion
-       for(int i =0;i<data.length; i++){
-         // System.out.println(data[i][1]);
-           strName[i] = data[i][1].toString();
-           
-       }
-       /*for(Object[] test:data)
-       {
-           for(Object te:test){
-           System.out.print(te+"\t");
-           }
-           System.out.println("\n");
-       }*/
-       
-       
-       return strName;
-   }
+      
      
      public Object[][] getUnitInfo(int UnitId,boolean flag){
       /*
@@ -862,10 +839,13 @@ public class MenuEntryModel extends DBConnect {
       /*
        *
        */
+//       System.out.println(data.length+"wala");
        //this give a string array of the itemname since itemname lies on 1 postion
        for(int i =0;i<data.length; i++){
          // System.out.println(data[i][1]);
            strName[i] = data[i][1].toString();
+           
+//           System.out.println(strName[i]);
            
        }
        /*for(Object[] test:data)

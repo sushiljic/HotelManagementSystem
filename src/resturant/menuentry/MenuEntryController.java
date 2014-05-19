@@ -14,6 +14,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -102,16 +103,16 @@ public class MenuEntryController  {
 //         MenuEntryView.setComboItemName(MenuEntryModel.returnItemName(MenuEntryModel.getItemInfoForMenu()));
 //         MenuEntryView.AddSelectInCombo(MenuEntryView.returnComboItemName());
          //adding for other item
-         MenuEntryView.AddSelectInCombo(MenuEntryView.returnComboItemBaseUnit());
-         MenuEntryView.AddSelectInCombo(MenuEntryView.returnComboItemCategory());
-         MenuEntryView.AddSelectInCombo(MenuEntryView.returnComboItemName());
+         Function.AddSelectInCombo(MenuEntryView.returnComboItemBaseUnit());
+         Function.AddSelectInCombo(MenuEntryView.returnComboItemCategory());
+         Function.AddSelectInCombo(MenuEntryView.returnComboItemName());
          
-         MenuEntryView.setComboDepartmentName(MenuEntryModel.returnItemName(Function.getRespectiveDepartment(this.mainFrameView.getUserId())));
+         MenuEntryView.setComboDepartmentName(Function.returnSecondColumn(Function.getRespectiveDepartment(this.mainFrameView.getUserId())));
          //if it has only one element select it order wise add select into it
          
             int combosize = MenuEntryView.returnComboDepartmentName().getModel().getSize();
             if(combosize >1){
-                MenuEntryView.AddSelectInCombo(MenuEntryView.returnComboDepartmentName());
+                Function.AddSelectInCombo(MenuEntryView.returnComboDepartmentName());
             }
             else{
                 if(combosize == 1){
@@ -162,9 +163,9 @@ boolean hasFocus, int row, int col)
              * load all the realative item name and item relative item
              * 
              */
-             MenuEntryView.setComboHybridItemName(MenuEntryModel.returnItemName(MenuEntryModel.getItemInfoForMenu(MenuEntryView.getDepartmentId())));
-             MenuEntryView.AddSelectInCombo(MenuEntryView.returnComboHybridItemName());
-             MenuEntryView.AddSelectInCombo(MenuEntryView.returnComboHybridItemBaseUnit());
+             MenuEntryView.setComboHybridItemName(Function.returnSecondColumn(MenuEntryModel.getItemInfoForMenu(MenuEntryView.getDepartmentId())));
+             Function.AddSelectInCombo(MenuEntryView.returnComboHybridItemName());
+             Function.AddSelectInCombo(MenuEntryView.returnComboHybridItemBaseUnit());
            
            String[] columnName = new String[]{"Item Id","Item Name","Quantity","Item Base Unit","Unit Id"};
                DefaultTableModel tablemodel = new DefaultTableModel(null,columnName);
@@ -544,11 +545,11 @@ boolean hasFocus, int row, int col)
                     MenuEntryView.enableHybridBtn();
                     MenuEntryView.setComboDepartmentEnable(true);
 //                    MenuEntryView.returnComboDepartmentName().setSelectedIndex(0);
-                    MenuEntryView.setComboDepartmentName(MenuEntryModel.returnItemName(Function.getRespectiveDepartment(mainFrameView.getUserId())));
+                    MenuEntryView.setComboDepartmentName(Function.returnSecondColumn(Function.getRespectiveDepartment(mainFrameView.getUserId())));
 //                    MenuEntryView.AddSelectInCombo(MenuEntryView.returnComboDepartmentName());
                     //code for selecting if there is only one combo box  
                     if(MenuEntryView.returnComboDepartmentName().getModel().getSize() > 1){
-                          MenuEntryView.AddSelectInCombo(MenuEntryView.returnComboDepartmentName());
+                          Function.AddSelectInCombo(MenuEntryView.returnComboDepartmentName());
                         }
                         else{
                             MenuEntryView.returnComboDepartmentName().setSelectedIndex(0);
@@ -565,7 +566,7 @@ boolean hasFocus, int row, int col)
             }
             
         }
-        catch(Exception me){
+        catch(HeadlessException | IOException me){
             JOptionPane.showMessageDialog(MenuEntryView, me+"from Menulistener");
         }
         }
@@ -600,11 +601,11 @@ boolean hasFocus, int row, int col)
              */
            // JOptionPane.showMessageDialog(issueView, ItemUnitInfo);
             MenuEntryView.setComboItemBaseUnit(MenuEntryModel.returnItemBaseUnit(ItemUnitInfo));
-              MenuEntryView.AddSelectInCombo(MenuEntryView.returnComboItemBaseUnit());
+            Function.AddSelectInCombo(MenuEntryView.returnComboItemBaseUnit());
         
             Object[][] ItemCategory = MenuEntryModel.getCategoryInfo();
             MenuEntryView.setComboItemCategory(MenuEntryModel.returnCategoryName(ItemCategory));
-             MenuEntryView.AddSelectInCombo(MenuEntryView.returnComboItemCategory());
+            Function.AddSelectInCombo(MenuEntryView.returnComboItemCategory());
                 
             }
            
@@ -644,11 +645,11 @@ boolean hasFocus, int row, int col)
              */
            // JOptionPane.showMessageDialog(issueView, ItemUnitInfo);
             MenuEntryView.setComboItemBaseUnit(MenuEntryModel.returnItemBaseUnit(ItemUnitInfo));
-              MenuEntryView.AddSelectInCombo(MenuEntryView.returnComboItemBaseUnit());
+            Function.AddSelectInCombo(MenuEntryView.returnComboItemBaseUnit());
         
             Object[][] ItemCategory = MenuEntryModel.getCategoryInfo();
             MenuEntryView.setComboItemCategory(MenuEntryModel.returnCategoryName(ItemCategory));
-             MenuEntryView.AddSelectInCombo(MenuEntryView.returnComboItemCategory());
+            Function.AddSelectInCombo(MenuEntryView.returnComboItemCategory());
          }
      }
          catch(Exception ie){
@@ -729,10 +730,10 @@ boolean hasFocus, int row, int col)
              */
            // JOptionPane.showMessageDialog(issueView, ItemUnitInfo);
             MenuEntryView.setComboItemBaseUnit(MenuEntryModel.returnItemBaseUnit(ItemCategoryInfo));
-            MenuEntryView.AddSelectInCombo(MenuEntryView.returnComboItemBaseUnit());
+            Function.AddSelectInCombo(MenuEntryView.returnComboItemBaseUnit());
              Object[][] ItemCategory = MenuEntryModel.getCategoryInfo();
             MenuEntryView.setComboItemCategory(MenuEntryModel.returnCategoryName(ItemCategory));
-            MenuEntryView.AddSelectInCombo(MenuEntryView.returnComboItemCategory());
+            Function.AddSelectInCombo(MenuEntryView.returnComboItemCategory());
             //MenuEntryView.setComboItemCategory(category);
             //loading only after loading alla comboitembaseunit
             MenuEntryView.setOnComboItemNameSelect(item);
@@ -740,7 +741,7 @@ boolean hasFocus, int row, int col)
             
             
            }
-           catch(Exception ex){
+           catch(NumberFormatException ex){
                JOptionPane.showMessageDialog(MenuEntryView,ex+"from combolistener");
            }
            
@@ -772,7 +773,7 @@ boolean hasFocus, int row, int col)
             }
        // System.out.println(units[0]);
         }
-        catch(Exception see){
+        catch(NumberFormatException see){
             JOptionPane.showMessageDialog(MenuEntryView, see+"from itembaseunit");
         }
        }
@@ -804,7 +805,7 @@ boolean hasFocus, int row, int col)
             
             
         }
-        catch(Exception see){
+        catch(NumberFormatException see){
             JOptionPane.showMessageDialog(MenuEntryView, see+"from itembaseunit");
         }
        }
@@ -842,7 +843,7 @@ boolean hasFocus, int row, int col)
              */
            // JOptionPane.showMessageDialog(issueView, ItemUnitInfo);
             MenuEntryView.setComboHybridItemBaseUnit(MenuEntryModel.returnItemBaseUnit(ItemCategoryInfo));
-            MenuEntryView.AddSelectInCombo(MenuEntryView.returnComboHybridItemBaseUnit());
+            Function.AddSelectInCombo(MenuEntryView.returnComboHybridItemBaseUnit());
             //MenuEntryView.setComboItemCategory(category);
             //loading only after loading alla comboitembaseunit
            MenuEntryView.setOnComboHybridItemNameSelect(item);
@@ -852,7 +853,7 @@ boolean hasFocus, int row, int col)
             
             
            }
-           catch(Exception ex){
+           catch(NumberFormatException ex){
                JOptionPane.showMessageDialog(MenuEntryView,ex+"from hybriditemnamecombolistener");
            }
            
@@ -886,7 +887,7 @@ boolean hasFocus, int row, int col)
            }
         // System.out.println(MenuEntryView.getUnitId());
         }
-        catch(Exception see){
+        catch(NumberFormatException see){
             JOptionPane.showMessageDialog(MenuEntryView, see+"from hybriditembaseunit");
         }
        }
@@ -912,7 +913,7 @@ boolean hasFocus, int row, int col)
              //  System.out.println(MenuEntryView.getCategoryId());
                }
 }
-           catch(Exception ce){
+           catch(NumberFormatException ce){
                JOptionPane.showMessageDialog(MenuEntryView, ce+"from itemcatrgory");
            }
        }
@@ -948,9 +949,9 @@ boolean hasFocus, int row, int col)
             }
            MenuEntryView.setDepartmentId(Integer.parseInt(cat_id[0].toString()));
            // loading repective item
-         MenuEntryView.setComboItemName(MenuEntryModel.returnItemName(MenuEntryModel.getItemInfoForMenu(MenuEntryView.getDepartmentId())));
-         MenuEntryView.AddSelectInCombo(MenuEntryView.returnComboItemName());
-          MenuEntryView.refreshJTable(MenuEntryModel.getMenuList(MenuEntryView.getDepartmentId()));
+           MenuEntryView.setComboItemName(MenuEntryModel.returnCategoryName(MenuEntryModel.getItemInfoForMenu(MenuEntryView.getDepartmentId())));
+           Function.AddSelectInCombo(MenuEntryView.returnComboItemName());
+           MenuEntryView.refreshJTable(MenuEntryModel.getMenuList(MenuEntryView.getDepartmentId()));
         //System.out.println(cat_id[0]);
         }
             
@@ -1006,12 +1007,12 @@ boolean hasFocus, int row, int col)
              * this load all the relative unitname that can be used to issue the item
              */
            // JOptionPane.showMessageDialog(issueView, ItemUnitInfo);
-            MenuEntryView.setComboItemBaseUnit(MenuEntryModel.returnItemBaseUnit(ItemUnitInfo));
-              MenuEntryView.AddSelectInCombo(MenuEntryView.returnComboItemBaseUnit());
+            MenuEntryView.setComboItemBaseUnit(Function.returnSecondColumn(ItemUnitInfo));
+            Function.AddSelectInCombo(MenuEntryView.returnComboItemBaseUnit());
         
             Object[][] ItemCategory = MenuEntryModel.getCategoryInfo();
-            MenuEntryView.setComboItemCategory(MenuEntryModel.returnCategoryName(ItemCategory));
-             MenuEntryView.AddSelectInCombo(MenuEntryView.returnComboItemCategory());
+            MenuEntryView.setComboItemCategory(Function.returnSecondColumn(ItemCategory));
+            Function.AddSelectInCombo(MenuEntryView.returnComboItemCategory());
                 }
           
            mview.setMenuEntry(data);
@@ -1043,9 +1044,9 @@ boolean hasFocus, int row, int col)
              * 
              */
                
-             MenuEntryView.setComboHybridItemName(MenuEntryModel.returnItemName(MenuEntryModel.getItemInfoForMenu(MenuEntryView.getDepartmentId())));
-             MenuEntryView.AddSelectInCombo(MenuEntryView.returnComboHybridItemName());
-             MenuEntryView.AddSelectInCombo(MenuEntryView.returnComboHybridItemBaseUnit());
+             MenuEntryView.setComboHybridItemName(Function.returnSecondColumn(MenuEntryModel.getItemInfoForMenu(MenuEntryView.getDepartmentId())));
+             Function.AddSelectInCombo(MenuEntryView.returnComboHybridItemName());
+             Function.AddSelectInCombo(MenuEntryView.returnComboHybridItemBaseUnit());
                 mview.MenuEntryHybridDialog.setVisible(true);
                
                 
@@ -1191,15 +1192,15 @@ boolean hasFocus, int row, int col)
              */
            // JOptionPane.showMessageDialog(issueView, ItemUnitInfo);
             MenuEntryView.setComboItemBaseUnit(MenuEntryModel.returnItemBaseUnit(ItemUnitInfo));
-            MenuEntryView.AddSelectInCombo(MenuEntryView.returnComboItemBaseUnit());
+            Function.AddSelectInCombo(MenuEntryView.returnComboItemBaseUnit());
             Object[][] ItemCategory = MenuEntryModel.getCategoryInfo();
             MenuEntryView.setComboItemCategory(MenuEntryModel.returnCategoryName(ItemCategory));
-            MenuEntryView.AddSelectInCombo(MenuEntryView.returnComboItemCategory());
+            Function.AddSelectInCombo(MenuEntryView.returnComboItemCategory());
                  }  
             }
             
         }
-        catch(Exception he){
+        catch(HeadlessException he){
             JOptionPane.showMessageDialog(MenuEntryView, he+"from HybridMenuListener");
         }
         }

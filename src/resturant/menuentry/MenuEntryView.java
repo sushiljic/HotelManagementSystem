@@ -1035,7 +1035,10 @@ public class MenuEntryView extends javax.swing.JDialog {
           return (DefaultTableModel)tblMenuItem.getModel();
       }
    
-    public void  setComboItemName(String[] itemname){
+    public void  setComboItemName(Object[] itemname){
+//        for(Object sr:itemname){
+//              System.out.println(sr.toString());
+//          }
         modelItemName = new DefaultComboBoxModel(itemname);
         comboItemName.setModel(modelItemName);
     }
@@ -1049,6 +1052,7 @@ public class MenuEntryView extends javax.swing.JDialog {
     }
      //hybrid
       public void  setComboHybridItemName(String[] itemname){
+          
         modelItemName = new DefaultComboBoxModel(itemname);
         comboHybridItemName.setModel(modelItemName);
     }
@@ -1343,10 +1347,7 @@ tblMenuItem.repaint();
     public void addHybridRowSelectionListener(ListSelectionListener Listen){
         HybridselectionModel.addListSelectionListener(Listen);
     }
-     public void AddSelectInCombo(JComboBox jc){
-      jc.insertItemAt("SELECT", 0);
-      jc.setSelectedIndex(0);
-    }
+    
      public JComboBox returnComboItemName(){
          return comboItemName;
      }
