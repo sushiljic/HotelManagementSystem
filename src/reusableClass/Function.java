@@ -49,9 +49,9 @@ public class Function  {
        String[] strName = new String[data.length];
     
        for(int i =0;i<data.length; i++){
-         // System.out.println(data[i][1]);
+//          System.out.println(data[i][1]);
            strName[i] = data[i][1].toString();
-           
+//           System.out.println(strName[i]);
        }
      
        
@@ -437,4 +437,86 @@ public class Function  {
             JOptionPane.showMessageDialog(null, ex+"Unable to delete file:"+relative);
         }
    }
+         
+         
+         
+         public static ArrayList getMenuOnly(){
+             String strquery = "SELECT * FROM sys_menuitem_info WHERE menu_id  in (SELECT  DISTINCT parent_menu_id FROM sys_menuitem_info)";
+             DBConnect getmenu = new DBConnect();
+             PreparedStatement stmt = null;
+             ResultSet rs;
+             ArrayList<Object[]> menuinfo = new ArrayList<>();
+             try{
+                getmenu.initConnection();
+                stmt = getmenu.conn.prepareStatement(strquery);
+                rs= stmt.executeQuery();
+                while(rs.next()){
+                    Object[] row = new Object[]{rs.getObject("menu_id"),rs.getObject("menu_name"),rs.getObject("parent_menu_id")};
+                    menuinfo.add(row);
+                }
+                 
+             }
+             catch(SQLException se){
+                 JOptionPane.showMessageDialog(null, se.getMessage()+"from getMenuElements");
+             }
+             finally{
+                 getmenu.closeConnection();
+                
+             }
+             return menuinfo;
+         }
+         //getmenuitem
+         public static ArrayList getMenuItemOnly(){
+             String strquery = "SELECT * FROM sys_menuitem_info WHERE menu_id not in (SELECT  DISTINCT parent_menu_id FROM sys_menuitem_info)";
+             DBConnect getmenu = new DBConnect();
+             PreparedStatement stmt = null;
+             ResultSet rs;
+             ArrayList<Object[]> menuinfo = new ArrayList<>();
+             try{
+                getmenu.initConnection();
+                stmt = getmenu.conn.prepareStatement(strquery);
+                rs= stmt.executeQuery();
+                while(rs.next()){
+                    Object[] row = new Object[]{rs.getObject("menu_id"),rs.getObject("menu_name"),rs.getObject("parent_menu_id")};
+                    menuinfo.add(row);
+                }
+                 
+             }
+             catch(SQLException se){
+                 JOptionPane.showMessageDialog(null, se.getMessage()+"from getMenuElements");
+             }
+             finally{
+                 getmenu.closeConnection();
+                
+             }
+             return menuinfo;
+         }
+         
+         public static ArrayList getMenuAll(){
+             String strquery = "SELECT * FROM sys_menuitem_info ";
+             DBConnect getmenu = new DBConnect();
+             PreparedStatement stmt = null;
+             ResultSet rs;
+             ArrayList<Object[]> menuinfo = new ArrayList<>();
+             try{
+                getmenu.initConnection();
+                stmt = getmenu.conn.prepareStatement(strquery);
+                rs= stmt.executeQuery();
+                while(rs.next()){
+                    Object[] row = new Object[]{rs.getObject("menu_id"),rs.getObject("menu_name"),rs.getObject("parent_menu_id")};
+                    menuinfo.add(row);
+                }
+                 
+             }
+             catch(SQLException se){
+                 JOptionPane.showMessageDialog(null, se.getMessage()+"from getMenuElements");
+             }
+             finally{
+                 getmenu.closeConnection();
+                
+             }
+             return menuinfo;
+         }
 }
+
+       
