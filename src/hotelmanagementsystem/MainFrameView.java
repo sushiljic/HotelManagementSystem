@@ -304,7 +304,6 @@ public class MainFrameView extends javax.swing.JFrame {
         btnTableStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/tableview1.png"))); // NOI18N
         btnTableStatus.setText("Table Status");
         btnTableStatus.setActionCommand("TableStatus");
-        btnTableStatus.setFocusable(false);
         btnTableStatus.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnTableStatus.setMaximumSize(new java.awt.Dimension(69, 40));
         btnTableStatus.setMinimumSize(new java.awt.Dimension(69, 40));
@@ -324,7 +323,6 @@ public class MainFrameView extends javax.swing.JFrame {
         btnMenuDetailView.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/menuview.png"))); // NOI18N
         btnMenuDetailView.setText("Menu View");
         btnMenuDetailView.setActionCommand("MenuDetailView");
-        btnMenuDetailView.setFocusable(false);
         btnMenuDetailView.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnMenuDetailView.setMaximumSize(new java.awt.Dimension(69, 40));
         btnMenuDetailView.setMinimumSize(new java.awt.Dimension(69, 40));
@@ -529,8 +527,11 @@ public class MainFrameView extends javax.swing.JFrame {
 
         jScrollPane2.setViewportView(jPanel1);
 
+        jMenuBar2.setToolTipText("");
         jMenuBar2.setAlignmentY(0.5F);
+        jMenuBar2.setAutoscrolls(true);
 
+        jMenu1.setMnemonic('C');
         jMenu1.setText("Company Setup");
 
         MenuItemCompanySetup.setText("Company Setup");
@@ -569,6 +570,7 @@ public class MainFrameView extends javax.swing.JFrame {
 
         jMenuBar2.add(jMenu1);
 
+        jMenu3.setMnemonic('C');
         jMenu3.setText("CenterStore Setup");
 
         MenuItemUnitSetup.setText("Unit Setup");
@@ -587,6 +589,7 @@ public class MainFrameView extends javax.swing.JFrame {
 
         jMenuBar2.add(jMenu3);
 
+        centerstore.setMnemonic('C');
         centerstore.setText("CenterStore");
 
         MenuItemEntry.setText("Item Entry/Purchase");
@@ -614,6 +617,7 @@ public class MainFrameView extends javax.swing.JFrame {
 
         jMenuBar2.add(centerstore);
 
+        jMenu4.setMnemonic('T');
         jMenu4.setText("Terminal Setup");
 
         MenuItemMenuEntry.setText("MenuEntry");
@@ -639,6 +643,7 @@ public class MainFrameView extends javax.swing.JFrame {
 
         jMenuBar2.add(jMenu4);
 
+        jMenu6.setMnemonic('T');
         jMenu6.setText("Terminal");
 
         MenuItemOrder.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.ALT_MASK));
@@ -694,6 +699,7 @@ public class MainFrameView extends javax.swing.JFrame {
 
         jMenuBar2.add(jMenu6);
 
+        jMenu2.setMnemonic('C');
         jMenu2.setText("CenterStore Report");
 
         MenuItemItemReport.setText("Item Report");
@@ -741,6 +747,7 @@ public class MainFrameView extends javax.swing.JFrame {
 
         jMenuBar2.add(jMenu2);
 
+        jMenu5.setMnemonic('T');
         jMenu5.setText("Terminal Report");
 
         MenuItemIssueStockReport.setText("Issue Stock Report");
@@ -816,6 +823,7 @@ public class MainFrameView extends javax.swing.JFrame {
 
         jMenuBar2.add(jMenu5);
 
+        jMenu9.setMnemonic('S');
         jMenu9.setText("System Day");
 
         MenuItemSystemDateConfig.setText("System Date Config");
@@ -841,6 +849,7 @@ public class MainFrameView extends javax.swing.JFrame {
 
         jMenuBar2.add(jMenu9);
 
+        jMenu8.setMnemonic('S');
         jMenu8.setText("System Config");
 
         MenuItemUserCreditial.setText("User Creditial");

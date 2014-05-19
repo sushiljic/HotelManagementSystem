@@ -40,11 +40,14 @@
     </Container>
     <Menu class="javax.swing.JMenuBar" name="jMenuBar2">
       <Properties>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
         <Property name="alignmentY" type="float" value="0.5"/>
+        <Property name="autoscrolls" type="boolean" value="true"/>
       </Properties>
       <SubComponents>
         <Menu class="javax.swing.JMenu" name="jMenu1">
           <Properties>
+            <Property name="mnemonic" type="int" value="67"/>
             <Property name="text" type="java.lang.String" value="Company Setup"/>
           </Properties>
           <SubComponents>
@@ -91,6 +94,7 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenu3">
           <Properties>
+            <Property name="mnemonic" type="int" value="67"/>
             <Property name="text" type="java.lang.String" value="CenterStore Setup"/>
           </Properties>
           <SubComponents>
@@ -115,6 +119,7 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="centerstore">
           <Properties>
+            <Property name="mnemonic" type="int" value="67"/>
             <Property name="text" type="java.lang.String" value="CenterStore"/>
           </Properties>
           <SubComponents>
@@ -154,6 +159,7 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenu4">
           <Properties>
+            <Property name="mnemonic" type="int" value="84"/>
             <Property name="text" type="java.lang.String" value="Terminal Setup"/>
           </Properties>
           <SubComponents>
@@ -191,6 +197,7 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenu6">
           <Properties>
+            <Property name="mnemonic" type="int" value="84"/>
             <Property name="text" type="java.lang.String" value="Terminal"/>
           </Properties>
           <SubComponents>
@@ -286,6 +293,7 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenu2">
           <Properties>
+            <Property name="mnemonic" type="int" value="67"/>
             <Property name="text" type="java.lang.String" value="CenterStore Report"/>
           </Properties>
           <SubComponents>
@@ -352,6 +360,7 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenu5">
           <Properties>
+            <Property name="mnemonic" type="int" value="84"/>
             <Property name="text" type="java.lang.String" value="Terminal Report"/>
           </Properties>
           <SubComponents>
@@ -469,6 +478,7 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenu9">
           <Properties>
+            <Property name="mnemonic" type="int" value="83"/>
             <Property name="text" type="java.lang.String" value="System Day"/>
           </Properties>
           <SubComponents>
@@ -507,6 +517,7 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenu8">
           <Properties>
+            <Property name="mnemonic" type="int" value="83"/>
             <Property name="text" type="java.lang.String" value="System Config"/>
           </Properties>
           <SubComponents>
@@ -718,7 +729,6 @@
                     </Property>
                     <Property name="text" type="java.lang.String" value="Table Status"/>
                     <Property name="actionCommand" type="java.lang.String" value="TableStatus"/>
-                    <Property name="focusable" type="boolean" value="false"/>
                     <Property name="horizontalTextPosition" type="int" value="0"/>
                     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[69, 40]"/>
@@ -748,7 +758,6 @@
                     </Property>
                     <Property name="text" type="java.lang.String" value="Menu View"/>
                     <Property name="actionCommand" type="java.lang.String" value="MenuDetailView"/>
-                    <Property name="focusable" type="boolean" value="false"/>
                     <Property name="horizontalTextPosition" type="int" value="0"/>
                     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[69, 40]"/>

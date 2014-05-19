@@ -84,7 +84,9 @@ public class MainFrameController {
     MainFrameModel MainFrameModel;
     MainFrameView MainFrameView;
     SystemLogInView sysview;
-     ExecuteOrder order;
+    ExecuteOrder order;
+    
+    static ExecuteMenuDetailList MenuDetailList = null ;
    
     
     public MainFrameController(MainFrameModel mfmodel,MainFrameView mfview,SystemLogInView systemview){
@@ -496,7 +498,14 @@ public class MainFrameController {
                ExecuteMenuList MenuList = new ExecuteMenuList(MainFrameView,false);
             }
             if(e.getActionCommand().equalsIgnoreCase("MenuDetailView")){
-                ExecuteMenuDetailList MenuDetailList = new ExecuteMenuDetailList(MainFrameView,false);
+                int ctn;
+                if(MenuDetailList == null){
+                  MenuDetailList = new ExecuteMenuDetailList(MainFrameView,false);
+//                  JOptionPane.showMessageDialog(null, "wala");
+                }
+                else{
+                  MenuDetailList.view.setVisible(true);
+                }
             }
             if(e.getActionCommand().equalsIgnoreCase("VoidBill")){
                 ExecuteOrderBillVoid OrderBillVoid = new ExecuteOrderBillVoid(MainFrameView, true);
