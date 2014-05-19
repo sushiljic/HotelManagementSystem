@@ -4,16 +4,17 @@
  */
 package centerstore.itemunitentry;
 
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import reusableClass.DisplayMessages;
 
 /**
  *
@@ -99,14 +100,14 @@ public class ItemUnitEntryController {
                 catch(NumberFormatException ne){
                     JOptionPane.showMessageDialog(theview, "Please enter right data");
                 }
-                catch(Exception e){
+                catch(HeadlessException e){
                     JOptionPane.showMessageDialog(theview,e);
                    // e.printStackTrace();
                 }
          }
          if(ae.getActionCommand().equalsIgnoreCase("delete")){
             int choice;
-            String iUnitID;
+            int iUnitID;
             
             try{
              //strUnitName = theview.getUnitName();
@@ -114,7 +115,7 @@ public class ItemUnitEntryController {
             // if(strUnitName.contains(null)||strUnitName.contains("")){
               //   throw new  NullPointerException();
              //}
-                 if(iUnitID == ""){
+                 if(iUnitID == 0){
                    JOptionPane.showMessageDialog(theview, "Please select the Data");
                         return;
                     }
@@ -142,7 +143,7 @@ public class ItemUnitEntryController {
                      
                     theview.refreshJTable(themodel.getTableModelForJTable("item_unit"));
                    //  theview.refreshJTable(themodel.getTableModelForJTable("item_unit"));
-                    theview.tblUnitJTable.repaint();
+//                    theview.tblUnitJTable.repaint();
                    
                      
                 
@@ -159,12 +160,12 @@ public class ItemUnitEntryController {
              
          }
          if(ae.getActionCommand().equalsIgnoreCase("Update")){
-             String iUnitID;
+             int iUnitID;
              int choice;
             // boolean check = true;
              try {
-                iUnitID = theview.getUnitID();
-                
+//                iUnitID = theview.getUnitID();
+                   iUnitID = theview.getUnitID();
                  strUnitName = theview.getUnitName();
                  
                  strUnitRelativeQuantity = theview.getUnitRelativeQuantity();
@@ -181,9 +182,8 @@ public class ItemUnitEntryController {
                         JOptionPane.showMessageDialog(theview, "Please Select the Unit Type");
                         return;
                     }
-                  choice = JOptionPane.showConfirmDialog(theview, "Do you Want to Update item Unit","Update ItemUnit",JOptionPane.YES_NO_OPTION);
-            
-             if(choice == JOptionPane.YES_OPTION){
+                if(DisplayMessages.displayInputYesNo(theview, "Do you Want to Update item Unit","Update ItemUnit")){
+
                  //if true there is duplicate vlaue
                // boolean check = themodel.checkforDuplicate("item_unit", "unit_name", strUnitName);
                /*  if(check == true){
@@ -286,7 +286,7 @@ public class ItemUnitEntryController {
             if(ke.getSource().toString().contains("Update")){
                 
               //  System.out.println("update entered");
-                String iUnitId;
+                int iUnitId;
             // boolean check = true;
              try {
                 iUnitId = theview.getUnitID();
@@ -295,7 +295,7 @@ public class ItemUnitEntryController {
                  
                  UnitRelativeQuantity = theview.getUnitRelativeQuantity();
                  strUnitType = theview.getUnitType();
-                if(iUnitId == ""){
+                if(iUnitId == 0){
                    JOptionPane.showMessageDialog(theview, "Please select the Data");
                         return;
                     }
@@ -337,7 +337,7 @@ public class ItemUnitEntryController {
              */
             if(ke.getSource().toString().contains("Delete")){
                  int choice;
-           String iUnitId;
+           int iUnitId;
         
             
             try{
@@ -346,7 +346,7 @@ public class ItemUnitEntryController {
             // if(strUnitName.contains(null)||strUnitName.contains("")){
               //   throw new  NullPointerException();
              //}
-                 if(iUnitId == ""){
+                 if(iUnitId == 0){
                    JOptionPane.showMessageDialog(theview, "Please select the Data");
                         return;
                     }

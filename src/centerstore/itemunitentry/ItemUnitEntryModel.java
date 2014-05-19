@@ -5,7 +5,6 @@
 package centerstore.itemunitentry;
 
 import database.DBConnect;
-import java.awt.HeadlessException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -91,7 +90,7 @@ public class ItemUnitEntryModel extends DBConnect {
      * @param UnitID 
      */ 
     
-     void deleteUnitItem(String TableName,String UnitID) {
+     void deleteUnitItem(String TableName,int UnitID) {
         
        // strQuery = "INSERT INTO "+TableName+" (unit_name, unit_relative_quantity, unit_type) VALUES( ?, ?, ?)";
 //       DBConnect ad = new DBConnect();
@@ -102,24 +101,25 @@ public class ItemUnitEntryModel extends DBConnect {
                         stmtDeleteUnit = conn.prepareStatement(strQuery);
 
                       conn.setAutoCommit(false);
-                       stmtDeleteUnit.setString(1,UnitID);
+                       stmtDeleteUnit.setInt(1,UnitID);
                        
                         stmtDeleteUnit.executeUpdate();
                        conn.commit();
                         JOptionPane.showMessageDialog(null,"Item Unit Deleted Succesfully");
+                        
                         //ad.conn.setAutoCommit(true);
                         
                         
                     }
-        
-                    catch(SQLException se){
+                    
+                    catch(com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException je){
+                        JOptionPane.showMessageDialog(null, "There Exists a Item Which contain this Unit.So Deletion of this Item is not Allowed.");
+                       
+                    }
+                    catch(SQLException | NumberFormatException se){
                        JOptionPane.showMessageDialog(null, se);
                        // System.err.println(se);
                     }
-                    
-                        catch(NumberFormatException ne){
-                            JOptionPane.showMessageDialog(null,ne );
-                        }
                                     finally{
                         try {
                             if(stmtDeleteUnit!=null){
@@ -135,7 +135,7 @@ public class ItemUnitEntryModel extends DBConnect {
                         
                     }
     }
-   public  void updateUnitItem(String TableName,String UnitID,String UnitName,int UnitRelativeQuantity, String UnitType) {
+   public  void updateUnitItem(String TableName,int UnitID,String UnitName,int UnitRelativeQuantity, String UnitType) {
 //       DBConnect upd = new DBConnect();  
        strQuery = "UPDATE "+TableName+" SET  unit_name = ?, unit_relative_quantity = ?, unit_type = ? WHERE unit_id = ?";
     try{
@@ -146,7 +146,7 @@ public class ItemUnitEntryModel extends DBConnect {
         stmtUpdateUnit.setString(1,UnitName);
         stmtUpdateUnit.setInt(2,UnitRelativeQuantity);
         stmtUpdateUnit.setString(3, UnitType);
-        stmtUpdateUnit.setString(4, UnitID);
+        stmtUpdateUnit.setInt(4, UnitID);
         stmtUpdateUnit.executeUpdate();
        conn.commit();
         JOptionPane.showMessageDialog(null, "Item Unit was Updated.");
@@ -218,7 +218,7 @@ public class ItemUnitEntryModel extends DBConnect {
                              vector.add(rsQuery.getObject(i));
                         }
 */
-                           Object[] row = new Object[]{rsQuery.getString("unit_id"),rsQuery.getString("unit_name"),rsQuery.getInt("unit_relative_quantity"),rsQuery.getString("unit_type")};
+                           Object[] row = new Object[]{rsQuery.getInt("unit_id"),rsQuery.getString("unit_name"),rsQuery.getInt("unit_relative_quantity"),rsQuery.getString("unit_type")};
                         data.add(row);
                        }
                        

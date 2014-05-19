@@ -29,7 +29,7 @@ import javax.swing.table.TableModel;
  */
 public class ItemUnitEntryView extends javax.swing.JDialog{
 String strQuery;
-private String UnitID;
+private int UnitID;
 PreparedStatement stmtdisplayJtable;
 
 ListSelectionModel selectionModel;
@@ -272,10 +272,10 @@ String strSelectedRow[] ;
         * */
        // System.out.println(evt.getSource().equals("Add"));
     }//GEN-LAST:event_btnAddKeyPressed
-     public String getUnitID(){
+     public int getUnitID(){
         return UnitID;
     }
-    public void setUnitID(String UnitID){
+    public void setUnitID(int UnitID){
         this.UnitID = UnitID;
         
     }
@@ -288,7 +288,7 @@ String strSelectedRow[] ;
     }
     
     public void clearAllText(){
-        UnitID = "";
+        UnitID = 0;
         txtUnitName.setText("");
         txtUnitRelativeQuantity.setText("");
         /*try also to make ml as default combo type*/
@@ -370,7 +370,7 @@ String strSelectedRow[] ;
      */
     void setUnitItem(String[] UnitData){
       
-      setUnitID(UnitData[0]);
+      setUnitID(Integer.parseInt(UnitData[0]));
       setUnitName(UnitData[1]);
      //JOptionPane.showMessageDialog(null, UnitData);
         
