@@ -13,17 +13,27 @@ import javax.swing.SwingUtilities;
  *
  * @author SUSHIL
  */
-public class ExecuteMenuDetailList {
-     public  MenuListView view;
-   public  MenuListModel model;
-  public   MenuListDetailController cont;
+public  class ExecuteMenuDetailList {
+  public  MenuListView view;
+  public  MenuListModel model;
+  public    MenuListDetailController cont;
+  
+  
+  
+  
   public ExecuteMenuDetailList(MainFrameView mview, boolean modal){
+        
         view = new MenuListView(mview,modal);
+        
+        
+        
         model = new MenuListModel();
         cont  = new MenuListDetailController(model,view,mview);
         view.setTitle("Menu Detail View");
+        
         view.setVisible(true);
   }
+  
 
     /**
      * @param args the command line arguments
@@ -35,7 +45,7 @@ public class ExecuteMenuDetailList {
             @Override
             public void run() {
 //                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-     new ExecuteMenuDetailList(new MainFrameView(),false);        
+               ExecuteMenuDetailList  executeMenuDetailList = new ExecuteMenuDetailList(new MainFrameView(),false);        
             }
             
         });

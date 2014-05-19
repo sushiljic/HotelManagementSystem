@@ -5,13 +5,10 @@
 package resturant.menulist;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -21,6 +18,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
+import javax.swing.event.DocumentListener;
+import reusableClass.Function;
 
 /**
  *
@@ -35,19 +34,15 @@ public class MenuListView extends JFrame {
       JTextField txtSearch;
    
 public MenuListView(JFrame parent,boolean modal){
-//    super(parent,modal);
-//    setModalityType(ModalityType.DOCUMENT_MODAL);
-    //setPreferredSize(new Dimension(300,500));
-   // createAndShowUI();
+
     initComponents();
-    setButtonForEnter(btnSearch);
-    txtSearch.addFocusListener(new SetFocusListener(txtSearch));
     
-  //  Tablepanel.updateUI();
-//     Tablepanel.setBorder(BorderFactory.createLineBorder(Color.red));
-//    add(Tablepanel);
-   
-   // add(drawPanel(data));
+    Function.setButtonForEnter(btnSearch);
+    txtSearch.addFocusListener(new Function.SetTextFieldFocusListener(txtSearch));
+    
+    
+    
+  
    
 }
 public void setPanel(/*MenuListView view,*/JPanel pnl){
@@ -62,7 +57,7 @@ public void setPanel(/*MenuListView view,*/JPanel pnl){
     /*view.*/Tablepanel.add(pane);
     
 //            Tablepanel.repaint();;
-Tablepanel.validate();
+    Tablepanel.validate();
     add(SearchPane,BorderLayout.NORTH);
     add(Tablepanel,BorderLayout.CENTER);
 //    repaint();
@@ -71,25 +66,14 @@ Tablepanel.validate();
 }
 
 
-  /*  public void  createAndShowUI(){
-      //  JFrame frame = new JFrame();
-      //  frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        initComponents(frame);
-       // frame.setResizable(false);
-       // frame.pack();
-       // frame.setVisible(true);
-     //   frame.add()
-    }
-*/
- 
- // drawPanel(data,/*frame,*/Tablepanel);
-//this.add(drawPanel(data));
+  
  
     public void initComponents(/* final JFrame frame*/){
         setTitle("Menu Item GUI View");
          setSize(900, 630);
          setPreferredSize(new Dimension(900, 630));
          setLocationRelativeTo(null);
+//         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
          //adding components
          lblSearch = new JLabel("Search:    ");
          txtSearch = new JTextField(20);
@@ -112,6 +96,7 @@ Tablepanel.validate();
       
     // frame.setPreferredSize(new Dimension(200, 300));
     // frame.add(frame);
+        
     }
    
 
@@ -139,49 +124,20 @@ Tablepanel.validate();
                                       JComponent.WHEN_FOCUSED);
         
     }
-     public final class SetFocusListener implements FocusListener{
-      JTextField jf;
-        public SetFocusListener(JTextField field){
-         jf = field;   
-        }
-
-        @Override
-        public void focusGained(FocusEvent e) {
-         //   throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-         jf.setBackground(new Color(136,249,168));
-         jf.selectAll();
-        }
-
-        @Override
-        public void focusLost(FocusEvent e) {
-        //    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-       jf.setBackground(Color.white);
-        }
-        
-    }
+    
      public void addTextSearchListener(ActionListener Listen){
          txtSearch.addActionListener(Listen);
      }
      public void addPrintListener(ActionListener Listne){
          btnPrint.addActionListener(Listne);
      }
+     //add document search listener
+     public void addTextSearchDocumentListener(DocumentListener listen){
+         txtSearch.getDocument().addDocumentListener(listen);
+     }
    
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-        // TODO code application logic here
-//        SwingUtilities.invokeLater(new Runnable(){
-//
-//            @Override
-//            public void run() {
-//              //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//            MenuListView vw =  new  MenuListView();
-//           // vw.setVisible(true);
-//            TableCrudModel model = new TableCrudModel();
-// Object[][] data = model.getTableInfoObject();
-//            vw.setPanel(/*vw,*/drawPanel(data));
-//            }
-//        });
-    }
+   
 }

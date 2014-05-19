@@ -18,6 +18,8 @@ import java.awt.HeadlessException;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import static java.awt.print.Printable.NO_SUCH_PAGE;
@@ -32,12 +34,16 @@ import javax.swing.BorderFactory;
 import javax.swing.ComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import net.miginfocom.swing.MigLayout;
 import resturant.order.ExecuteOrder;
 import resturant.order.OrderView;
@@ -47,23 +53,30 @@ import reusableClass.DisplayMessages;
  *
  * @author SUSHIL
  */
-public class MenuListDetailController {
+public final class MenuListDetailController {
      MenuListView tview;
     MenuListModel tmodel;
     MainFrameView mainview;
-     public JButton MenuId;
-     public  JPanel[] menupanel;
-     JPanel Tpanel;
-    Object[][] data;
+    public JButton MenuId;
+    public  JPanel[] menupanel;
+    JPanel Tpanel;
+    Object[][] data = null;
     public MenuListDetailController(MenuListModel model,MenuListView view,MainFrameView mainview){
-           tview = view;
+        tview = view;
         tmodel = model;
+        tview.addWindowListener(new WindowAdapter(){
+            @Override
+            public void windowClosing(WindowEvent se){
+             tview.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            }
+        });
        this.mainview = mainview;
         try{
            
          data = tmodel.getMenuInfoObject(this.mainview.getUserId());
-         
+           
         tview.setPanel(drawPanel(data));
+//        System.out.println("wala");
         
         }
         catch(Exception e){
@@ -71,8 +84,9 @@ public class MenuListDetailController {
         }
         tview.addSearchListener(new SearchListener());
         tview.addPrintListener(new PrintListener(Tpanel) );
+        tview.addTextSearchDocumentListener(new SearchDocumentListener());
     }
-     public JPanel drawPanel(Object[][] data/*,final JFrame frame, JPanel Tablepanel */){
+     public JPanel drawPanel(Object[][] data){
 //         rsget.getString("menu_id"),rsget.getString("menu_name"),rsget.getBoolean("item_type"),rsget.getString("item_id"),rsget.getString("item_name"),rsget.getString("unit_id"),rsget.getString("unit_name"),rsget.getBigDecimal("quantity"),rsget.getBigDecimal("retail_price"),rsget.getString("wholesale_price"),rsget.getString("image_path"),rsget.getBoolean("hybrid_type")
        
          Tpanel = new JPanel(new GridLayout(3,0));
@@ -87,10 +101,12 @@ public class MenuListDetailController {
      /* initialaling the jpanel
      
      */
+//        System.out.println(data.length +"wala");
    menupanel  = new JPanel[data.length];
   
 //     int ctn =0;
     for(int row = 0; row<data.length;row++){
+        
          
                 /* Loading image
                 
@@ -322,6 +338,7 @@ public class MenuListDetailController {
                     }
                 }
                 if(authflag){
+                    
                     view.setcomboDepartmentName(respdep[1].toString());
                 }
                 else{
@@ -346,11 +363,8 @@ public class MenuListDetailController {
                 }
             }
         }
-        catch(HeadlessException | PropertyVetoException be){
+        catch(HeadlessException | PropertyVetoException | NumberFormatException be){
             JOptionPane.showMessageDialog(null, be+"from ButtonActionListener");
-        }
-        catch(Exception se){
-             JOptionPane.showMessageDialog(null, se+"from ButtonActionListener");
         }
         }
         
@@ -374,7 +388,7 @@ public class MenuListDetailController {
                  if(but instanceof  JButton){
                  JButton button = (JButton) but;
                  if(button.getText().equalsIgnoreCase(strsrc)){
-                     button.requestFocusInWindow();
+//                     button.requestFocusInWindow();
                      flag = true;
                    panel.scrollRectToVisible(/*new Rectangle(button.getX(),button.getY(),button.getWidth()+100,button.getHeight()+100)*/new Rectangle(600, 600));
                  }
@@ -388,7 +402,7 @@ public class MenuListDetailController {
           }
 //            System.out.println(strsrc);
         }
-        catch(Exception ee){
+        catch(HeadlessException ee){
             JOptionPane.showMessageDialog(tview, ee+"from SearchListener");
         }
         }
@@ -439,5 +453,41 @@ public class MenuListDetailController {
         
         }
            
+       }
+       //class to handle document search
+       public class SearchDocumentListener implements DocumentListener{
+
+        @Override
+        public void insertUpdate(DocumentEvent e) {
+            searchMenu(e);
+        }
+
+        @Override
+        public void removeUpdate(DocumentEvent e) {
+            searchMenu(e);
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent e) {
+            searchMenu(e);
+        }
+           
+        //function to hanlde search
+        private void searchMenu(DocumentEvent ee){
+            try{
+                SwingUtilities.invokeLater(new Runnable(){
+
+                    @Override
+                    public void run() {
+                    tview.setPanel(drawPanel(tmodel.getMenuInfoObjectBySearchLike(mainview.getUserId(), tview.gettxtSearch())));
+                    }
+                    
+                });
+                
+            }
+            catch(Exception se){
+                DisplayMessages.displayError(tview, se.getMessage()+" from "+getClass().getName() , "Error");
+            }
+        }
        }
 }
