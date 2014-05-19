@@ -5,12 +5,14 @@
 package resturant.customer;
 
 import database.DBConnect;
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import reusableClass.DisplayMessages;
 
 /**
  *
@@ -193,5 +195,42 @@ public class CustomerModel extends DBConnect{
     return ExistingStatus;
     
 }
+    
+    //check whether customer have relation with the bill or has to pay
+    
+    public BigDecimal getCustomerReceivableAmount(int customerid){
+         PreparedStatement stmt;
+         ResultSet rs;
+         String strquery = "SELECT bill_total,total_received FROM bill WHERE customer_id = ?";
+//         ArrayList<BigDecimal> amounttotal = new ArrayList<>();
+//         ArrayList<BigDecimal> amountpaid = new ArrayList<>();
+         BigDecimal amttotal = BigDecimal.ZERO;
+         BigDecimal amtpaid = BigDecimal.ZERO;
+         
+         try{
+             initConnection();
+             stmt = conn.prepareStatement(strquery);
+//             System.out.println(customerid+"\n"+departmentid);
+             stmt.setInt(1, customerid);
+//             stmt.setInt(2, departmentid);
+             rs= stmt.executeQuery();
+             while(rs.next()){
+//               amounttotal.add(rs.getBigDecimal("bill_total"));
+//               amountpaid.add(rs.getBigDecimal("total_received"));
+//                 System.out.println(rs.getBigDecimal("bill_total"));
+              amttotal =  amttotal.add(rs.getBigDecimal("bill_total"));
+             amtpaid =   amtpaid.add(rs.getBigDecimal("total_received"));
+               
+             }
+//           System.out.println(amttotal + " \n"+ amtpaid);
+         }
+         catch(SQLException se){
+             DisplayMessages.displayError(null, se.getMessage()+" from getCustomerReceivableAmount "+getClass().getName(), "Error");
+         }
+         finally{
+             closeConnection();
+         }
+         return amttotal.subtract(amtpaid);
+     }
     
 }

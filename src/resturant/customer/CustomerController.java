@@ -9,6 +9,7 @@ import java.awt.KeyEventDispatcher;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.math.BigDecimal;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -105,8 +106,16 @@ public class CustomerController {
                         JOptionPane.showMessageDialog(cview, "Please Select From the list to Delete");
                         return;
                     }
-                    int choice = JOptionPane.showConfirmDialog(cview, "DO You Want To Delete Customer", "Customer Delete Window", JOptionPane.YES_NO_OPTION);
-                    if(choice == JOptionPane.YES_OPTION ){
+                    //check whether customer has relation with the amount with the company
+                    BigDecimal customeraccount = cmodel.getCustomerReceivableAmount(cview.getCustomerId());
+                    if(customeraccount.compareTo(BigDecimal.ZERO) !=0){
+                        DisplayMessages.displayError(cview, "Customer has monetary relation with this Company.\n So Deletion of Customer is not Allowed","Delete Alert Window");
+                        return;
+                    }
+                            
+                            
+                    if(DisplayMessages.displayInputYesNo(cview, "DO You Want To Delete Customer", "Customer Delete Window"))
+                    {
                         cmodel.DeleteCustomer(cview.getCustomerInfo());
                         cview.ClearAll();
                         cview.refreshJtableCustomerInfo(cmodel.getTableModelCustomerInfo());
