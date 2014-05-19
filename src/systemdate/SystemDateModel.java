@@ -13,7 +13,6 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 import javax.swing.JOptionPane;
 import reusableClass.DisplayMessages;
 
@@ -34,7 +33,7 @@ public void addSystemDate(Date date){
 //       stmtdate.setTimestamp(1,new Timestamp());
        stmtdate.setDate(1,new java.sql.Date(date.getTime()));
        stmtdate.executeUpdate();
-       JOptionPane.showMessageDialog(null, "Date "+date+"("+dateformat.format(date)+")"+" SuccuessFully Inserted.");
+       JOptionPane.showMessageDialog(null, "Date "+date+"("+dateformat.format(date)+")"+" SuccessFully Inserted.");
     }
     catch(SQLException se){
         JOptionPane.showMessageDialog(null, se+"from addSystemDate");
