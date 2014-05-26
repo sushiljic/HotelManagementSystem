@@ -53,7 +53,8 @@ public class ItemCategoryController {
                 //update
                 if(command.equals("Update")){
                     //boolean status = itemModel.checkDupItemCategory(categoryName);
-                        updateFunc();
+                    
+                    updateFunc();
                 }
                 
                 //delete
@@ -64,6 +65,7 @@ public class ItemCategoryController {
                 //cancle
                 if(command.equals("Cancel")){
                     //itemView.clearErrorTextField();
+                    itemView.disableBtns();
                     itemView.clearFrame();
                 }
             
@@ -81,7 +83,7 @@ public class ItemCategoryController {
               if(path == null) return;
               DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) path.getLastPathComponent();
               //System.out.println(selectedNode.getIndex(selectedNode));
-              
+              itemView.enableBtns();
               //check for root of the tree
               if(!selectedNode.isRoot()){
                   ///JOptionPane.showMessageDialog(itemView, "This Category Is Reserved By The System!", "Information", JOptionPane.INFORMATION_MESSAGE);
@@ -91,6 +93,7 @@ public class ItemCategoryController {
                   //process the category
                   //childNo is greater than 0 for root node in our category;
                   //parent stores the parent node name of selected node category;
+                  
                   int childNo = selectedNode.getDepth();
                   String parent = selectedNode.getParent().toString();
                   

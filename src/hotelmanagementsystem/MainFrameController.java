@@ -371,7 +371,6 @@ public final class MainFrameController {
                         new IssueStockReport(m,"stock.jrxml", "Item Stock Report");   
                     }
                 });
-              //  E
             }
             if(e.getActionCommand().equalsIgnoreCase("CenterstoreItemwiseIssue/ReturnReport")){
                 ExecuteCenterostoreIssueReport centerostoreIssueReport = new ExecuteCenterostoreIssueReport(MainFrameView, true);

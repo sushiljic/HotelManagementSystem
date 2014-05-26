@@ -102,6 +102,7 @@ public class DistributerController {
             //distroView.clearErr();
             distroView.clearTxtField();
             distroView.disableUpdate();
+            distroView.disableDelete();
             distroView.enableAdd();
         }
     }
@@ -147,6 +148,7 @@ public class DistributerController {
               distroView.showSelectedRow(rowList);
               
               distroView.enableUpdate();
+              distroView.enableDelete();
               distroView.disableAdd();
            }
        }
