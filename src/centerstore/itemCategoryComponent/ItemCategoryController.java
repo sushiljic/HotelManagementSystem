@@ -83,20 +83,18 @@ public class ItemCategoryController {
               //System.out.println(selectedNode.getIndex(selectedNode));
               
               //check for root of the tree
-              if(selectedNode.isRoot()){
+              if(!selectedNode.isRoot()){
                   ///JOptionPane.showMessageDialog(itemView, "This Category Is Reserved By The System!", "Information", JOptionPane.INFORMATION_MESSAGE);
                    // DisplayMessages.displayWarning(itemView,"This Category is reserved by the System!", "Warning");
-              }else{
+ 
                   //if selected category is not the root of the tree then
                   //process the category
                   //childNo is greater than 0 for root node in our category;
                   //parent stores the parent node name of selected node category;
                   int childNo = selectedNode.getDepth();
                   String parent = selectedNode.getParent().toString();
-                  String node = selectedNode.toString();
-                  //System.out.println(parent);
-                  //System.out.println(node);
                   
+                  String node = selectedNode.toString();
                   boolean parentStatus = true; // for parent
                   //parent node;
                   if(childNo > 0 || parent.equalsIgnoreCase("category list")){
@@ -105,10 +103,14 @@ public class ItemCategoryController {
                       String[] cDetails = itemModel.getItemSelectedCategory(node);
                       //display in the view
                       //System.out.println(cDetails[0]);
+                      if(cDetails[1].toString() == null)
+                           return;
                       itemView.setCategoryDetails(cDetails);
                   }else{ //child node;
-                      String[] cDetails = itemModel.getItemSelectedSubCategory(selectedNode.toString());
-                        itemView.setCategoryDetails(cDetails);
+                      String[] cDetails = itemModel.getItemSelectedSubCategory(node);
+                      if(cDetails[1].toString() == null)
+                           return;
+                      itemView.setCategoryDetails(cDetails);
                   }
               }
 
@@ -119,13 +121,10 @@ public class ItemCategoryController {
                 itemView.clearFrame();
                 //return;
             }
-            catch(ArrayIndexOutOfBoundsException index){
+            catch(ArrayIndexOutOfBoundsException | NumberFormatException index){
                 //System.out.println(index);
-                 DisplayMessages.displayError(itemView, "TreeListener:"+index, "Operation Error");
-                itemView.clearFrame();
-            }
-            catch(NumberFormatException numEx){
-                DisplayMessages.displayError(itemView, "TreeListener:"+numEx, "Operation Error");
+                 DisplayMessages.displayError(itemView, "TreeListener:"+index.getStackTrace(), "Exception Found");
+                 index.printStackTrace();
                 itemView.clearFrame();
             }
         }
@@ -242,7 +241,12 @@ public class ItemCategoryController {
                 "Notification",JOptionPane.ERROR_MESSAGE);
                 return;
         }
-                    
+       
+       /*boolean status = itemModel.checkDupItemCategory(categoryName);
+       if(status){
+           DisplayMessages.displayError(itemView, "Category Already Exist !", "Form Error");
+           return;
+       }*/
        int id = itemView.getCategoryId();
        if(itemModel.isContainsItem(id)){
            DisplayMessages.displayError(itemView, "This operation can not be proceed. \n Category contains item list.", "Error");
@@ -252,8 +256,7 @@ public class ItemCategoryController {
         String oldCategoryName = itemView.getOldCategoryName();
         //System.out.println(oldCategoryName);
         String oldParent = itemView.getOldParent();
-        
-                   
+               
         if(oldParent.equalsIgnoreCase("root")){
             if(oldCategoryName.equalsIgnoreCase(parentCategory)){
                 DisplayMessages.displayError(itemView, "Category can not be the sub cateogry of same Category !", "Form Error");
@@ -266,6 +269,12 @@ public class ItemCategoryController {
                 //if current parent is not root then insert to sub cateogry
                 //delete the main category
                 if(!parentCategory.equalsIgnoreCase("root")){
+                    boolean dup = itemModel.checkDupItemOnChild(categoryName);
+                    /*if(dup){
+                        DisplayMessages.displayInfo(itemView, "Operation Failed ! Category Already Exists!", "Information");
+                        return;
+                    }
+                    */
                     boolean opStatus = itemModel.changeParentToChild(categoryName, parentCategory, id);  
                     if(opStatus){
                         DisplayMessages.displayInfo(itemView, "Update Successful !", "Information");
@@ -293,6 +302,11 @@ public class ItemCategoryController {
             if(parentCategory.equalsIgnoreCase("root")){
                 
                 //itemModel.updateItemCategorySubNode(categoryName, parentCategory, id);
+                  boolean dup = itemModel.checkDupItemOnParent(categoryName);
+                    /*if(dup){
+                        DisplayMessages.displayInfo(itemView, "Operation Failed !Category Already Exists!", "Information");
+                        return;
+                    }*/
                 itemModel.changeChildToParent(categoryName, parentCategory, id);
             }
             else{
