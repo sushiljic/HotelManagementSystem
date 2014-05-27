@@ -15,20 +15,16 @@ import java.util.Map;
 import javax.print.PrintService;
 import javax.print.PrintServiceLookup;
 import javax.swing.JOptionPane;
-import net.sf.jasperreports.engine.JRBand;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
-import net.sf.jasperreports.engine.JRSection;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.design.JRDesignBand;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.export.JRPrintServiceExporter;
 import net.sf.jasperreports.engine.export.JRPrintServiceExporterParameter;
-import net.sf.jasperreports.engine.type.SplitTypeEnum;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.view.JRViewer;
 import report.ReportView;
@@ -59,28 +55,10 @@ public class PrintOrder extends DBConnect {
             
             InputStream file = BillPrint.class.getResource("OrderList.jrxml").openStream();
             jDesign = JRXmlLoader.load(file);
-            JRSection section = jDesign.getDetailSection();
-            /*
-            int pHeight = jDesign.getPageHeight();
-            if(row > 10){
-                row = row - 10;
-                pHeight = pHeight + row * 80;
-            }
-            //band.setHeight(band.getHeight()+ (row * 80));
-            System.out.println("page height :" +pHeight);
-            
-            jDesign.setPageHeight(pHeight);
-            System.out.println(jDesign.getPageHeight());
 //compile   
-            JRBand[] b = jDesign.getAllBands();
-            for(int i = 0; i < b.length; i++){
-                b[i].setSplitType(SplitTypeEnum.STRETCH);
-            }
-                    */
             jReport = JasperCompileManager.compileReport(jDesign);
             //fill report
             jPrint = JasperFillManager.fillReport(jReport, this.param, conn);
-           //ReportView view = new ReportView(jPrint,"Order List");
         }
         catch(JRException  | IOException e){
            JOptionPane.showMessageDialog(null,"report.bill.Billprint.contructor():"+e);
@@ -121,18 +99,14 @@ public class PrintOrder extends DBConnect {
                 printJob.setPrintService(printer[def]);
             }
             else{
-                new JRViewer(jPrint);
                 JasperPrintManager.printReport(jPrint, false);
-                //System.out.println("printed");
                 //return;
                 //selected = 0;
             }
             if(o || d){
-                new JRViewer(jPrint);
                 export.setParameter(JRExporterParameter.JASPER_PRINT, jPrint);
                 export.setParameter(JRPrintServiceExporterParameter.PRINT_SERVICE,printer[selected]);
                 export.exportReport();
-                //System.out.println("printed next");
             }
         }
         catch(JRException | PrinterException print){
