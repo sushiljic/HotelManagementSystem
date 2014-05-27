@@ -210,6 +210,64 @@ public class ItemCategoryModel extends DBConnect{
         }
         return dupStatus;
     }
+    
+    /*
+    *check duplicate item on category table
+    *@param category string holds category name
+    *@return boolean
+    */
+    public boolean checkDupItemOnParent(String category){
+        boolean dupStatus = true;
+        sql = "select count(category_name) as row from item_category where category_name = ?";
+        //boolean status = true;
+        initConnection();
+        
+        try{
+            PreparedStatement preStatement = conn.prepareStatement(sql);
+            preStatement.setString(1, category);
+            ResultSet result = preStatement.executeQuery();
+            
+            while (result.next()){
+                if(result.getInt("row") > 0)
+                    dupStatus = true;
+                else
+                    dupStatus = false;
+            }
+        }
+        catch(SQLException sqlEx){
+            displayError(sqlEx.getMessage());
+        }
+        return dupStatus;
+    }
+    
+    /*
+    *check deuplicate category on child
+    *@param category string, holds category name
+    *@param return boolean
+    */
+    public boolean checkDupItemOnChild(String category){
+        boolean dupStatus = true;
+        sql = "select count(sub_category_name) as row item_sub_category where sub_category_name = ?";
+        //boolean status = true;
+        initConnection();
+        
+        try{
+            PreparedStatement preStatement = conn.prepareStatement(sql);
+            preStatement.setString(1, category);
+            ResultSet result = preStatement.executeQuery();
+            
+            while (result.next()){
+                if(result.getInt("row") > 0)
+                    dupStatus = true;
+                else
+                    dupStatus = false;
+            }
+        }
+        catch(SQLException sqlEx){
+            displayError(sqlEx.getMessage());
+        }
+        return dupStatus;
+    }
     //retrive category for combobox;
    public String[] getItemCategoryCombo(){
          sql = "SELECT category_name FROM item_category WHERE parent = 1";
