@@ -19,6 +19,7 @@ import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
@@ -524,7 +525,11 @@ public class TableCrudView extends javax.swing.JDialog {
         txtTableSearch.setText(st);
     }
     public String getTableSearch(){
-         return txtTableSearch.getText();
+         return txtTableSearch.getText().trim();
+    }
+
+    public JButton getBtnTableSearch() {
+        return btnTableSearch;
     }
    
     public final void setButtonForEnter(JButton jb){
@@ -586,6 +591,9 @@ public class TableCrudView extends javax.swing.JDialog {
     }
     public void addTextTableSearchListener(ActionListener ListenForSearch){
         txtTableSearch.addActionListener(ListenForSearch);
+    }
+    public void addTableDocumentSearchListener(DocumentListener Listen){
+        txtTableSearch.getDocument().addDocumentListener(Listen);
     }
     public void setTableGroupRateEditableTrue(){
     txtTableGroupRate.setEditable(true);

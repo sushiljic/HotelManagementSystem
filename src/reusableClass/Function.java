@@ -245,7 +245,7 @@ public class Function  {
 
              @Override
              public void run() {
-           jf.setBackground(new Color(136,249,168));
+            jf.setBackground(new Color(136,249,168));
             jf.selectAll();
              }
              

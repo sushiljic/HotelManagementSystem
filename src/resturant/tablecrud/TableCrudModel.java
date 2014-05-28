@@ -204,6 +204,53 @@ public class TableCrudModel extends DBConnect {
            
         };
     }
+     public DefaultTableModel getTableInfoLike(String str){
+        DBConnect gettg = new DBConnect();
+        String st = str+"%";
+        PreparedStatement stmtget ;
+        ResultSet rs;
+        String[] columnName = new String[]{"Table Id","Table Name","TableGroup Name","Availability"};
+        String strQuery = "SELECT table_info.table_id,table_info.table_name,tablegroup.tablegroup_name,table_info.table_availability FROM table_info,tablegroup WHERE table_info.parent_tablegroup_id = tablegroup.tablegroup_id AND table_info.table_name LIKE ?  ORDER BY table_id desc";
+        ArrayList<Object[]> data = new ArrayList<Object[]>();
+        Object[][] finaldata = null;
+        try{
+            gettg.initConnection();
+            stmtget = gettg.conn.prepareStatement(strQuery);
+            stmtget.setString(1, st);
+            rs = stmtget.executeQuery();
+            while(rs.next()){
+                Object[] row = new Object[]{rs.getInt("table_id"),rs.getString("table_name"),rs.getString("tablegroup_name"),rs.getBoolean("table_availability")};
+            data.add(row);
+            }
+            finaldata = data.toArray(new Object[data.size()][]);
+            
+        }
+        
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, e+"from gettablegroupinfo");
+        }
+        finally{
+            gettg.closeConnection();
+        }
+        return new DefaultTableModel(finaldata,columnName){
+                @Override     
+            public boolean isCellEditable(int row, int col){
+               return false;
+           }
+                @Override
+                        public Class<?> getColumnClass(int columnIndex) {
+                    Class clazz = String.class;
+                    switch(columnIndex){
+                        case 3:
+                            clazz = Boolean.class;
+                            break;
+                    }
+                    return clazz;
+                }
+                
+           
+        };
+    }
     public Object[][] getTableGroupInfoObject(){
         PreparedStatement stmtget;
         ResultSet rsget ;
