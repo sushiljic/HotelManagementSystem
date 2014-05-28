@@ -17,6 +17,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyVetoException;
+import java.util.Map;
 import javax.swing.AbstractAction;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -224,8 +225,17 @@ public class OrderBillController extends SystemDateModel {
                
 //                 /*alejob
                 if(DisplayMessages.displayInputYesNo(obview, "Do You Want To Print the Bill","Print Bill")){
-                BillPrint bill = new BillPrint(obview.getBillParam());
-                bill.printBill();
+                    final Map print = obview.getBillParam();
+                    SwingUtilities.invokeLater(new Runnable(){
+
+                        @Override
+                        public void run() {
+                        BillPrint bill = new BillPrint(print);
+                    bill.printBill();
+                        }
+                        
+                    });
+                    
                 }
                  obview.clearOrderBill();
 //                 System.out.println("walal");

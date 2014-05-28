@@ -9,15 +9,12 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.KeyStroke;
 import javax.swing.event.DocumentListener;
 import reusableClass.Function;
 
@@ -25,15 +22,15 @@ import reusableClass.Function;
  *
  * @author SUSHIL
  */
-public class MenuListView extends JFrame {
-    JPanel SearchPane = new JPanel(new FlowLayout());
+    public class MenuListView extends JFrame {
+      JPanel SearchPane = new JPanel(new FlowLayout());
       JPanel Tablepanel = new JPanel(new GridLayout(0,1));
       JLabel lblSearch ;
       JButton btnSearch;
       JButton btnPrint;
       JTextField txtSearch;
    
-public MenuListView(JFrame parent,boolean modal){
+    public MenuListView(JFrame parent,boolean modal){
 
     initComponents();
     
@@ -45,7 +42,7 @@ public MenuListView(JFrame parent,boolean modal){
   
    
 }
-public void setPanel(/*MenuListView view,*/JPanel pnl){
+    public void setPanel(/*MenuListView view,*/JPanel pnl){
     
    
 //    remove(Tablepanel);
@@ -54,15 +51,16 @@ public void setPanel(/*MenuListView view,*/JPanel pnl){
     JScrollPane pane = new JScrollPane();
 //    pnl.setSize(300, 400);
     pane.setViewportView(pnl);
-    /*view.*/Tablepanel.add(pane);
+    /*view.*/
+    Tablepanel.add(pane);
     
 //            Tablepanel.repaint();;
     Tablepanel.validate();
     add(SearchPane,BorderLayout.NORTH);
     add(Tablepanel,BorderLayout.CENTER);
 //    repaint();
-    validate();
-    repaint();
+//    validate();
+//    repaint();
 }
 
 
@@ -112,18 +110,18 @@ public void setPanel(/*MenuListView view,*/JPanel pnl){
     public void addSearchListener(ActionListener Listen){
         btnSearch.addActionListener(Listen);
     }
-      public final void setButtonForEnter(JButton jb){
-         jb.registerKeyboardAction(jb.getActionForKeyStroke(
-                                      KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0, false)),
-                                      KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, false),
-                                      JComponent.WHEN_FOCUSED);
- 
-        jb.registerKeyboardAction(jb.getActionForKeyStroke(
-                                      KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0, true)),
-                                      KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, true),
-                                      JComponent.WHEN_FOCUSED);
-        
-    }
+//      public final void setButtonForEnter(JButton jb){
+//         jb.registerKeyboardAction(jb.getActionForKeyStroke(
+//                                      KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0, false)),
+//                                      KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, false),
+//                                      JComponent.WHEN_FOCUSED);
+// 
+//        jb.registerKeyboardAction(jb.getActionForKeyStroke(
+//                                      KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0, true)),
+//                                      KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, true),
+//                                      JComponent.WHEN_FOCUSED);
+//        
+//    }
     
      public void addTextSearchListener(ActionListener Listen){
          txtSearch.addActionListener(Listen);
