@@ -28,17 +28,6 @@
           <Group type="102" attributes="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
-                      <Component id="btnIssue" min="-2" pref="80" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="btnPrint" min="-2" pref="75" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
-                      <Component id="btnEdit" min="-2" pref="80" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="65" max="-2" attributes="0"/>
-                      <Component id="btnCancel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="166" max="32767" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jPanel1" max="32767" attributes="0"/>
                   </Group>
@@ -49,6 +38,17 @@
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" pref="106" max="-2" attributes="0"/>
+              <Component id="btnIssue" min="-2" pref="80" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="btnPrint" min="-2" pref="75" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
+              <Component id="btnEdit" min="-2" pref="80" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="65" max="-2" attributes="0"/>
+              <Component id="btnCancel" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
+          </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -56,14 +56,14 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace pref="18" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="btnIssue" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnEdit" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnCancel" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnPrint" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -95,9 +95,9 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                              <Component id="txtIssueQuantity" max="32767" attributes="0"/>
                               <Component id="txtCenterStockQuantity" max="32767" attributes="0"/>
                               <Component id="comboFrom" pref="100" max="32767" attributes="0"/>
+                              <Component id="txtIssueQuantity" alignment="1" max="32767" attributes="0"/>
                           </Group>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
@@ -128,13 +128,13 @@
                                   <Component id="comboItemBaseUnit" min="-2" pref="112" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <EmptySpace min="-2" pref="114" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" attributes="0">
                           <Component id="comboItemName" min="-2" pref="137" max="-2" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
+                  <EmptySpace min="-2" pref="114" max="-2" attributes="0"/>
               </Group>
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="32767" attributes="0"/>
@@ -156,12 +156,10 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="txtSearch" linkSize="1" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnSearch" linkSize="1" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="txtSearch" linkSize="1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnSearch" linkSize="1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -179,25 +177,20 @@
                   </Group>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
-                          <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
-                          <Component id="jLabel4" min="-2" pref="14" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="jLabel4" alignment="3" min="-2" pref="14" max="-2" attributes="0"/>
+                              <Component id="txtIssueQuantity" linkSize="1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <Component id="txtIssueQuantity" max="32767" attributes="0"/>
-                                  <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" attributes="0">
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="lblstockqty" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                                      <Component id="txtResturantStockQuantity" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
-                                  <Component id="lblrestro" min="-2" max="-2" attributes="0"/>
-                              </Group>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="lblstockqty" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                              <Component id="txtResturantStockQuantity" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                           </Group>
+                          <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
+                          <Component id="lblrestro" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -290,18 +283,6 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Issue Quantity:"/>
           </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="txtIssueQuantity">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.editors2.FontEditor">
-              <FontInfo relative="true">
-                <Font component="txtIssueQuantity" property="font" relativeSize="true" size="3"/>
-              </FontInfo>
-            </Property>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtIssueQuantityActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel5">
           <Properties>
@@ -416,6 +397,11 @@
             <Property name="text" type="java.lang.String" value="CenterStore"/>
           </Properties>
         </Component>
+        <Component class="javax.swing.JFormattedTextField" name="txtIssueQuantity">
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtIssueQuantityActionPerformed"/>
+          </Events>
+        </Component>
       </SubComponents>
     </Container>
     <Component class="javax.swing.JButton" name="btnIssue">
@@ -507,6 +493,7 @@
           <SubComponents>
             <Component class="javax.swing.JTable" name="tblIssueList">
               <Properties>
+                <Property name="autoCreateRowSorter" type="boolean" value="true"/>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                   <Table columnCount="4" rowCount="4">
                     <Column editable="true" title="Title 1" type="java.lang.Object"/>
@@ -515,6 +502,8 @@
                     <Column editable="true" title="Title 4" type="java.lang.Object"/>
                   </Table>
                 </Property>
+                <Property name="requestFocusEnabled" type="boolean" value="false"/>
+                <Property name="rowHeight" type="int" value="20"/>
               </Properties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="tblIssueList.getTableHeader().setReorderingAllowed(false);"/>
