@@ -24,7 +24,7 @@ public class executePurchaseReturn  extends JDialog {
        // prm.getItemList();
          prcontrol = new PurchaseReturnController( prmodel, prview);
         
-        prview.refreshJTable(prmodel.getItemList());
+       
         prview.setVisible(true);
         
     }

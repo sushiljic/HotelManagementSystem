@@ -256,6 +256,119 @@ public class PurchaseReturnModel {
         };
         
     }
+    public DefaultTableModel  getItemListLike(String st){
+        int colcount;
+     /*   Vector<String> columnNames = new Vector();
+        columnNames.add("Item Id");
+        columnNames.add("Item Name");
+        columnNames.add("Item Quantity");
+        columnNames.add("Item Base Unit");
+       columnNames.add("Distributor Id");
+        columnNames.add("Distributor Name");
+       
+         Vector<Vector<Object>> data = new Vector<Vector<Object>>();
+        */
+        String columnNames[] = {"Purchase Id","Item Name","Item Quantity","Item Base Unit","Distributor Name","Amount"};
+      ArrayList<Object[]> data = new ArrayList<Object[]>();
+      ArrayList<Object[]> fulldata = new ArrayList<Object[]>();
+      Object[][] finaldata = null;
+      String str = st+"%";
+     
+        String strQuery;
+        int test;
+        String[] arr;
+      //  strQuery = "SELECT item_id,item_name,total_qty,(SELECT unit_name FROM item_unit WHERE item_unit.unit_id = centerstore_stock.unit_id),distributor_id FROM centerstore_stock";
+      // strQuery = "SELECT purchase.purchase_id,(SELECT centerstore_stock.item_name FROM centerstore_stock WHERE purchase.item_id = centerstore_stock.item_id),purchase.quantity,(SELECT unit_name FROM item_unit WHERE item_unit.unit_id = purchase.unit_id),(SELECT distributor_name FROM distributor WHERE purchase.distributor_id = distributor.distributor_id),purchase.distributor_id,purchase.item_id  FROM purchase,distributor,centerstore_stock";
+        strQuery = "SELECT purchase.purchase_id,centerstore_stock.item_name,purchase.quantity,item_unit.unit_name,distributor.distributor_name,distributor.distributor_id,purchase.item_id,purchase.total_amount FROM purchase INNER JOIN item_unit on  purchase.unit_id = item_unit.unit_id INNER JOIN centerstore_stock ON purchase.item_id = centerstore_stock.item_id INNER JOIN distributor ON  purchase.distributor_id = distributor.distributor_id WHERE centerstore_stock.item_name LIKE ? ";
+        DBConnect preturn = new DBConnect();
+        try{
+        preturn.initConnection();
+        stmtItemList = preturn.conn.prepareStatement(strQuery);
+        stmtItemList.setString(1, str);
+         rsItemList = stmtItemList.executeQuery();
+                    //JOptionPane.showMessageDialog(null,"");
+       //  ResultSetMetaData metadata = rsItemList.getMetaData();
+         
+        
+       //  colcount = metadata.getColumnCount();
+        
+         // String arg = metadata.getColumnName(4);
+         // System.out.println(arg);
+         // return;
+    /*
+         while(rsItemList.next()){
+             Vector<Object> temp = new Vector<Object>();
+             Object strDistributorName= null;
+            for(int i =1;i<=colcount;i++){
+                temp.add(rsItemList.getObject(i));
+                //for getting name of distributor from its id
+                
+               if(metadata.getColumnName(i).equalsIgnoreCase("distributor_id")){
+                  //  System.out.println("distributoor detected");
+                   try{
+                       PreparedStatement stmtDistributorList;
+                       ResultSet rsdist;
+                       String query;
+                       query= "SELECT distributor_name FROM distributor WHERE distributor_id = ? ";
+                       
+                       stmtDistributorList = preturn.conn.prepareStatement(query);
+                       //stmtDistributorList.setString(1,String.valueOf(rsItemList.getInt("distributor_id")));
+                       stmtDistributorList.setObject(1,rsItemList.getObject("distributor_id"));
+                       rsdist = stmtDistributorList.executeQuery();
+                       while(rsdist.next()){
+                           strDistributorName = rsdist.getObject("distributor_name");
+                       }
+                       temp.add(strDistributorName);
+                       
+                   }
+                   catch(SQLException se){
+                       JOptionPane.showMessageDialog(null, se+"from disributor");
+                   }
+                   // temp.add("test");
+                  //  continue;
+                }
+                
+              //  test = rsItemList.getInt("distributor_id");
+           //  test =  rsItemList.getRowId("distributor_id");
+          // test =   Integer.parseInt(temp.elementAt(1).toString());
+            //JOptionPane.showMessageDialog(null,temp);
+            }
+          
+          
+            data.add(temp);
+        }
+  */
+         while(rsItemList.next()){
+             Object[] row = new Object[]{rsItemList.getString("purchase_id"),rsItemList.getString("item_name"),rsItemList.getFloat("quantity"),rsItemList.getString("unit_name"),rsItemList.getString("distributor_name"),rsItemList.getString("total_amount")};
+        Object[] full =  new Object[]{rsItemList.getString("purchase_id"),rsItemList.getString("item_name"),rsItemList.getFloat("quantity"),rsItemList.getString("unit_name"),rsItemList.getString("distributor_name"),rsItemList.getString("item_id"),rsItemList.getString("distributor_id")};
+             data.add(row);
+             fulldata.add(full);
+         }
+         finaldata = data.toArray(new Object[data.size()][]);
+         //it is for retriving the data
+         fullfinaldata = fulldata.toArray(new Object[fulldata.size()][]);
+        }
+        
+        catch(SQLException se){
+                        JOptionPane.showMessageDialog(null, se+"sql database error");
+
+        }
+        catch(Exception e){
+                        JOptionPane.showMessageDialog(null, e+"Purchase Return");
+
+        }
+        finally{
+            preturn.closeConnection();
+        }
+        return new DefaultTableModel(finaldata,columnNames){
+            @Override
+            public boolean isCellEditable(int row,int columns){
+                //all cells false
+                return false;
+            }
+        };
+        
+    }
     public String getUnitRelativeQuantity(String UnitId){
       PreparedStatement getrelqty;
       ResultSet getResultSet;

@@ -8,10 +8,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -48,6 +52,13 @@ public class PurchaseReturnController {
          * adding table click or key listner for jtable
          */
         prview.addRowSelectedListener(new ReturnRowListener(prview));
+        /*
+        adding the documetListn
+        */
+        prview.addSearchDocumentListener(new SearchDocumentListener());
+//        prview.addSearchPropertyChangeListener(new SearchPropertyChangeListener());
+        //refresh the jtable
+        prview.refreshJTable(prmodel.getItemList());
     }
     
     class PurchaseReturnListener implements ActionListener{
@@ -116,13 +127,12 @@ public class PurchaseReturnController {
                  String  strSearch =null;
                  int col =1;
                  String[] SearchBox = new String[6];
-                 //for indicating when item search for is found or not
-                 boolean flag = false;
+                
                  
                 try{
                     strSearch = prview.getSearch();
                     for(int row=0; row<prview.tblItemList.getModel().getRowCount();row++){
-                       if(strSearch.equalsIgnoreCase(prview.tblItemList.getValueAt(row,col).toString())){
+                       if(prview.tblItemList.getValueAt(row,col).toString().toLowerCase().startsWith(strSearch.toLowerCase())){
                         // JOptionPane.showMessageDialog(prview, "name foound");
                         //prview.setPurchaseReturn(displayRowValues());
                            //this collect the data of the item search in array
@@ -136,19 +146,18 @@ public class PurchaseReturnController {
                          prview.tblItemList.scrollRectToVisible(prview.tblItemList.getCellRect(row, 0, true));
                         //this will set the focus of th searched file in table
                         prview.tblItemList.setRowSelectionInterval(row, row);
-                         prview.setTextEditableFalse();
-                          prview.setPurchaseReturn(SearchBox);
-                           prview.setReturnQuantity("");
-                prview.setReturnReason("");
-                prview.enableReturnBtn();
+                        
+//                         prview.setTextEditableFalse();
+//                          prview.setPurchaseReturn(SearchBox);
+//                           prview.setReturnQuantity("");
+//                    prview.setReturnReason("");
+//                    prview.enableReturnBtn();
                        //  JOptionPane.showMessageDialog(prview, SearchBox);
-                          flag =true;
+//                          flag =true;
                           break;
                        } 
                     }
-                    if(flag==false){
-                        JOptionPane.showMessageDialog(prview, "The Item Doesnot Exists.");
-                    }
+                   
                     
                 }
                 catch(Exception e){
@@ -165,49 +174,7 @@ public class PurchaseReturnController {
     class TextPurchaseReturnListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent ae){
-              
-                 String  strSearch =null;
-                 int col =1;
-                 String[] SearchBox = new String[6];
-                 boolean flag = false;
-                 
-                try{
-                    strSearch = prview.getSearch();
-                    for(int row=0; row<prview.tblItemList.getModel().getRowCount();row++){
-                       if(strSearch.equalsIgnoreCase(prview.tblItemList.getValueAt(row,col).toString())){
-                        // JOptionPane.showMessageDialog(prview, "name foound");
-                        //prview.setPurchaseReturn(displayRowValues());
-                           //this collect the data of the item search in array
-                         for(int scol = 0;scol<prview.tblItemList.getModel().getColumnCount();scol++){
-                             SearchBox[scol] = prview.tblItemList.getValueAt(row, scol).toString();
-                            
-                             
-                         }
-                         //this will automatically set the view of scroll in the location of the value
-                         prview.tblItemList.scrollRectToVisible(prview.tblItemList.getCellRect(row, 0, true));
-                        //this will set the focus of th searched file in table
-                        prview.tblItemList.setRowSelectionInterval(row, row);
-                         prview.setTextEditableFalse();
-                          prview.setPurchaseReturn(SearchBox);
-                           prview.setReturnQuantity("");
-                prview.setReturnReason("");
-                prview.enableReturnBtn();
-                       //  JOptionPane.showMessageDialog(prview, SearchBox);
-                          flag = true;
-                          break;
-                       }
-                       
-                    }
-                    if(flag == false){
-                        JOptionPane.showMessageDialog(prview, "The Item Dosenot Exists..");
-                    }
-                    
-                }
-                catch(Exception e){
-                    JOptionPane.showMessageDialog(prview, e+"form search");
-                }
-            
-            
+            prview.getBtnSearch().doClick();
         }
     }
     
@@ -356,6 +323,7 @@ public class PurchaseReturnController {
                 rview.setTextEditableFalse();
                 rview.setReturnQuantity("");
                 rview.setReturnReason("");
+                rview.setReturnAmount("");
                 rview.enableReturnBtn();
             
         }
@@ -402,5 +370,43 @@ public class PurchaseReturnController {
              return st;
         }
     }
+    //doesnot work
+    //for property chagne listener
+    class SearchPropertyChangeListener implements PropertyChangeListener{
+
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+            System.out.println(prview.getSearch()+"wala");
+        }
+        
+    }
+    
+    class SearchDocumentListener implements DocumentListener{
+
+        @Override
+        public void insertUpdate(DocumentEvent e) {
+            ReloadTableModel();
+        }
+
+        @Override
+        public void removeUpdate(DocumentEvent e) {
+            ReloadTableModel();
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent e) {
+            ReloadTableModel();
+        }
+        private void ReloadTableModel(){
+            try{
+                prview.refreshJTable(prmodel.getItemListLike(prview.getSearch()));
+                
+            }
+            catch(Exception se){
+                
+            }
+        }
+    }
+    
      
 }
