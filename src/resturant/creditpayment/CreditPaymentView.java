@@ -89,7 +89,9 @@ public class CreditPaymentView extends javax.swing.JDialog {
         jLabel5.setText("Bill Id:");
 
         btnCancel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnCancel.setMnemonic('C');
         btnCancel.setText("Cancel");
+        btnCancel.setToolTipText("Alt + C");
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
@@ -113,7 +115,9 @@ public class CreditPaymentView extends javax.swing.JDialog {
         jLabel3.setText("Amount Receivable:");
 
         btnSave.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnSave.setMnemonic('S');
         btnSave.setText("Save");
+        btnSave.setToolTipText("ALT + S");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);

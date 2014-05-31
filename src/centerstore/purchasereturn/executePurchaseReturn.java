@@ -22,7 +22,7 @@ public class executePurchaseReturn  extends JDialog {
         prview = new PurchaseReturnView(parent,modal);
         prmodel = new PurchaseReturnModel();
        // prm.getItemList();
-         prcontrol = new PurchaseReturnController( prmodel, prview);
+         prcontrol = new PurchaseReturnController(prmodel, prview);
         
        
         prview.setVisible(true);
@@ -39,8 +39,8 @@ public class executePurchaseReturn  extends JDialog {
 
             @Override
             public void run() {
-              //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-             new executePurchaseReturn(new JFrame(),true);
+                //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                executePurchaseReturn executePurchaseReturn = new executePurchaseReturn(new JFrame(),true);
             }
         });
        

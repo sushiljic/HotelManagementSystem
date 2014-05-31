@@ -30,7 +30,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
-import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
@@ -126,7 +125,6 @@ public class OrderController  extends SystemDateModel{
         * adding main function
         */
       orderview.addAddOrder(new ItemCrudListener());
-      orderview.addAddOrderAndPrint(new ItemCrudListener());
       orderview.addEditOrder(new ItemCrudListener());
       orderview.addDeleteOrder(new ItemCrudListener());
       orderview.addCancelOrder(new ItemCrudListener());
@@ -491,112 +489,8 @@ public class OrderController  extends SystemDateModel{
             if(e.getActionCommand().equalsIgnoreCase("Order")){
               //  String[] info = new String[]{orderview.getOrderId(),orderview.getTableId(),orderview.getWaiterId(),orderview.getCustomerId()};
               //fetch default and order printer for particlar department
-//               final String dPrinter = ordermodel.getDefaultPrinter(orderview.getDepartmentId());
-//               final String oPrinter = ordermodel.getOrderPrinter(orderview.getDepartmentId());
-                //System.out.print(orderview.getDepartmentId());
-                
-//checking whether  the date has been closed by the admin
-                
-                
-                Object[] dateinfo = returnSystemDateInfo();
-                
-                //this is given first before of shotcut key
-                 orderview.setAddOrderEditableFalse();
-                 orderview.setAddOrderAndPrintEditableFalse();
-                   if(dateinfo[2] == Boolean.TRUE && dateinfo[3] == Boolean.FALSE){
-                       
-                   }
-                   else{
-                      JOptionPane.showMessageDialog(orderview, "Please First Open the Date to Perform Order Transaction.");
-                    return;
-                   }
-                if(orderview.getTableOrderList().getRowCount() <=0){
-                   JOptionPane.showMessageDialog(orderview, "Please Add Aleast one item to order");
-                   return;
-               }
-               /*
-               checking for the same table  and return if same table order
-               */
-//               for(int i=0;i<orderview.getTableOrderedList().getRowCount();i++){
-//                   if(orderview.getTableOrderedList().getValueAt(i, 1) != null ){
-//                   if(orderview.getTableOrderedList().getValueAt(i, 1).equals(orderview.getComboTableName())){
-//                      JOptionPane.showMessageDialog(orderview, "Table "+orderview.getComboTableName()+" is already packed");
-//                      return;
-//                   }
-//                   }
-//               }
-               if(orderview.getTableId() != 0 ){ 
-               if(ordermodel.checkExistingTableid(orderview.getTableId())){
-                  JOptionPane.showMessageDialog(orderview, "Table "+orderview.getComboTableName()+" is already packed");
-                      return;  
-               }
-               }
-//                System.out.println("wala");
-               if(DisplayMessages.displayInputYesNo(orderview, "Do you Want to Order ","Order  Window"))
-                {
-//                    System.out.println(orderview.getOrderId());
-                ordermodel.AddOrder(ordermodel.convertDefaultTableModelToObject(orderview.getTableOrderList()),Integer.parseInt(orderview.getOrderId()),orderview.getTableId(),orderview.getWaiterId(),orderview.getCustomerId(),mainview.getUserId(),orderview.getDepartmentId());
-                //set order to printer not needed
-//                Map para = new HashMap<>();
-//                para.put("orderId",Integer.parseInt(orderview.getOrderId()));
-//                PrintOrder order = new PrintOrder(para,oPrinter,dPrinter);
-//                order.printOrder();
-                
-                orderview.clearOrderData();
-                orderview.setMainOrderId(0);
-                orderview.getTableOrderList().setRowCount(0);
-               int neworderid = ordermodel.returnCurrentItentityId("order_list");
-                 orderview.setOrderId(String.valueOf(neworderid));
-                 orderview.setMainOrderId(neworderid);
-                 orderview.setDeleteEditableFalse();
-                
-                
-                  orderview.txtOrderQuantity.setEnabled(true);
-                   orderview.refreshOrderedListJTable(ordermodel.getOrderInfo(orderview.getDepartmentId()));
-                 
-                   /*
-                    * here is manipulation for refreshing the data in order pay if it is open
-                    */
-                 JInternalFrame[] iframes =   mainview.desktop.getAllFrames();
-                   for (JInternalFrame iframe : iframes) {
-                       if (iframe.getTitle().equalsIgnoreCase("Order Bill Pay Window")) {
-                           /*
-                            * refreshing the billorder view the ordered table data
-                            */
-//                           iframe.dispose();
-//                           ExecuteOrderBill billpay = new ExecuteOrderBill(mainview);
-//                           mainview.desktop.add(billpay.OrderBillView);
-//                           System.out.println("wala");
-//                           OrderBillController BillControll = null;
-                           OrderBillView BillView = (OrderBillView)iframe;
-//                           BillView.setSelected(true);
-//                           BillView.refreshJTableOrderedList(BillControll.obmodel.getOrderInfo());
-                          BillView.btnRefresh.doClick();
-//                       
-                       }
-                          /*
-                   here is manipulation and update of tabl
-                   */
-                       if(iframe.getTitle().equalsIgnoreCase("Table Status")){
-                           iframe.dispose();
-                           ExecuteTableStatusView tablestatus = new ExecuteTableStatusView(mainview);
-                           mainview.desktop.add(tablestatus.view);
-                       }
-                   }
-                
-                  
-                }
-                else{
-                    //perform thing to make it to previos condtion
-                   orderview.setAddOrderEditableTrue();
-                   orderview.setAddOrderAndPrintEditableTrue();
-                }
-            }
-            else if(e.getActionCommand().equalsIgnoreCase("Order&Print")){
-                 //  String[] info = new String[]{orderview.getOrderId(),orderview.getTableId(),orderview.getWaiterId(),orderview.getCustomerId()};
-              //fetch default and order printer for particlar department
-                final String dPrinter = ordermodel.getDefaultPrinter(orderview.getDepartmentId());
-                final String oPrinter = ordermodel.getOrderPrinter(orderview.getDepartmentId());
+                String dPrinter = ordermodel.getDefaultPrinter(orderview.getDepartmentId());
+                String oPrinter = ordermodel.getOrderPrinter(orderview.getDepartmentId());
                 //System.out.print(orderview.getDepartmentId());
                 
 //checking whether  the date has been closed by the admin
@@ -641,19 +535,10 @@ public class OrderController  extends SystemDateModel{
 //                    System.out.println(orderview.getOrderId());
                 ordermodel.AddOrder(ordermodel.convertDefaultTableModelToObject(orderview.getTableOrderList()),Integer.parseInt(orderview.getOrderId()),orderview.getTableId(),orderview.getWaiterId(),orderview.getCustomerId(),mainview.getUserId(),orderview.getDepartmentId());
                 //set order to printer
-                //do this in a thread so that it doesnot affect another system
-                    SwingUtilities.invokeLater(new Runnable(){
-
-                    @Override
-                    public void run() {
-                        Map para = new HashMap<>();
-                        para.put("orderId",Integer.parseInt(orderview.getOrderId()));
-                        PrintOrder order = new PrintOrder(para,oPrinter,dPrinter);
-                        order.printOrder();
-                    }
-                        
-                    });
-                
+                Map para = new HashMap<>();
+                para.put("orderId",Integer.parseInt(orderview.getOrderId()));
+                PrintOrder order = new PrintOrder(para,oPrinter,dPrinter);
+                order.printOrder();
                 
                 orderview.clearOrderData();
                 orderview.setMainOrderId(0);

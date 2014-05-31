@@ -50,9 +50,9 @@
 		<queryString>
 			<![CDATA[SELECT store.item_id, store.item_name,
 store.total_qty,item_unit.unit_name,item_unit.unit_type,
-item_unit.unit_relative_quantity
+item_unit.unit_relative_quantity, (store.total_qty/item_unit.unit_relative_quantity) as rqty
 FROM centerstore_stock store
-INNER JOIN item_unit ON store.unit_id = item_unit.unit_id ]]>
+INNER JOIN item_unit ON store.unit_id = item_unit.unit_id]]>
 		</queryString>
 		<field name="item_id" class="java.lang.Integer">
 			<fieldDescription><![CDATA[]]></fieldDescription>
@@ -72,6 +72,7 @@ INNER JOIN item_unit ON store.unit_id = item_unit.unit_id ]]>
 		<field name="unit_relative_quantity" class="java.lang.Double">
 			<fieldDescription><![CDATA[]]></fieldDescription>
 		</field>
+		<field name="rqty" class="java.lang.Double"/>
 		<group name="unit_type">
 			<groupExpression><![CDATA[$F{unit_type}]]></groupExpression>
 		</group>
@@ -169,7 +170,7 @@ INNER JOIN item_unit ON store.unit_id = item_unit.unit_id ]]>
 	<detail>
 		<band height="125" splitType="Stretch">
 			<componentElement>
-				<reportElement key="table 1" style="table 1" x="32" y="6" width="377" height="50" uuid="70c42bf3-36ce-4fc4-a45a-9852edafc807"/>
+				<reportElement key="table 1" style="table 1" x="33" y="0" width="377" height="50" uuid="70c42bf3-36ce-4fc4-a45a-9852edafc807"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<datasetRun subDataset="IssueStockData" uuid="612b2ae9-25a7-4a18-82e3-3d122b8663e4">
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>

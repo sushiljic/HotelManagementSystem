@@ -7,14 +7,11 @@
 package report.bill;
 
 import database.DBConnect;
-import java.awt.PrintJob;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.print.PrintService;
 import javax.print.PrintServiceLookup;
 import javax.swing.JOptionPane;
@@ -29,7 +26,8 @@ import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.export.JRPrintServiceExporter;
 import net.sf.jasperreports.engine.export.JRPrintServiceExporterParameter;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
-import reusableClass.DisplayMessages;
+import net.sf.jasperreports.view.JRViewer;
+import report.ReportView;
 
 /**
  *
@@ -57,7 +55,7 @@ public class PrintOrder extends DBConnect {
             
             InputStream file = BillPrint.class.getResource("OrderList.jrxml").openStream();
             jDesign = JRXmlLoader.load(file);
-            //compile
+//compile   
             jReport = JasperCompileManager.compileReport(jDesign);
             //fill report
             jPrint = JasperFillManager.fillReport(jReport, this.param, conn);

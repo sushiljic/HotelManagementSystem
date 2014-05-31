@@ -317,7 +317,7 @@ public class OrderBillController extends SystemDateModel {
         try{
             if(e.getActionCommand().equalsIgnoreCase("Save")){
                  //checking whether  the date has been closed by the admin
-                                Object[] dateinfo = returnSystemDateInfo();
+                                Object[] dateinfo = Function.returnSystemDateInfo();
                    if(dateinfo[2] == Boolean.TRUE && dateinfo[3] == Boolean.FALSE){
                        
                    }

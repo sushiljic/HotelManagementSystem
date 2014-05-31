@@ -7,6 +7,7 @@ package resturant.orderbill;
 import hotelmanagementsystem.MainFrameView;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import reusableClass.Function;
 import systemdate.SystemDateModel;
 
 /**
@@ -19,7 +20,7 @@ public class ExecuteOrderBill extends SystemDateModel{
      public  OrderBillController OrderBillController;
         public ExecuteOrderBill(MainFrameView mainview) {
           
-            Object[] dateinfo = returnSystemDateInfo();
+            Object[] dateinfo = Function.returnSystemDateInfo();
        if(dateinfo[2] == Boolean.TRUE && dateinfo[3] == Boolean.FALSE){
             OrderBillModel = new OrderBillModel();
              OrderBillView = new OrderBillView();
