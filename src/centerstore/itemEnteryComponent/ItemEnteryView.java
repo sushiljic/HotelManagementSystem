@@ -417,6 +417,18 @@ public class ItemEnteryView extends javax.swing.JDialog {
          txtSearch.getDocument().addDocumentListener(d);
      }
      
+     /**
+      * add action lister to text field which initiate the search func
+      * @param a
+      */
+     public void addAListenerToSText(ActionListener a){
+         txtSearch.addActionListener(a);
+     }
+     
+     /**
+      * display table with new data
+      * @param tModel 
+      */
      public void refreshItemTable(DefaultTableModel tModel){
          itemTable.setModel(tModel);
      }
@@ -641,6 +653,23 @@ public class ItemEnteryView extends javax.swing.JDialog {
         btnUpdate.setEnabled(true);
     }
     
+    /**
+     * used to pass search button to the controller to attach action event
+     * @return srchBtn, JButton
+     */
+    public JButton getSearchBtn(){
+        return btnSearch;
+    }
+    
+    /**
+     * highlight the selected row on the table and make it on top
+     * @param r, int row no;
+     * @param c int col no.
+     */
+    public void setSItemTable(int r, int c){
+        itemTable.scrollRectToVisible(itemTable.getCellRect(r, c, true));
+        itemTable.setRowSelectionInterval(r, r);
+    }
     
     /**
      * @param args the command line arguments

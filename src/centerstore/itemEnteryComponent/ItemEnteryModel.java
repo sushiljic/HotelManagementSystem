@@ -361,7 +361,7 @@ public class ItemEnteryModel extends DBConnect{
         initConnection();
         sql = "SELECT item_id,item_name,sub_category_name,unit_name,total_qty,item_buy_rate,item_expiry_date,item_threshold,\n" +
 "                distributor_name,item_entry_date FROM centerstore_stock, item_sub_category, distributor, item_unit \n" +
-"               WHERE centerstore_stock.category_id = item_sub_category.sub_category_id and centerstore_stock.unit_id = item_unit.unit_id and centerstore_stock.distributor_id = distributor.distributor_id ORDER BY centerstore_stock.item_entry_date DESC";
+"               WHERE centerstore_stock.category_id = item_sub_category.sub_category_id and centerstore_stock.unit_id = item_unit.unit_id and centerstore_stock.distributor_id = distributor.distributor_id and item_name LIKE ? ORDER BY centerstore_stock.item_entry_date DESC";
         
         //for storing data from data as object
         ArrayList<Object[]> data = new ArrayList<Object[]>();
@@ -369,8 +369,9 @@ public class ItemEnteryModel extends DBConnect{
             preStmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             //preStmt = conn.createStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
             preStmt.setString(1, key);
+            rs = preStmt.executeQuery();
             int rows = getNumberOfRows(rs);
-            int cols = rs.getMetaData().getColumnCount();
+            int cols = preStmt.getMetaData().getColumnCount();
            // obj = new Object[rows][cols];
             //table models size;
             tModel = new DefaultTableModel(rows, cols);
@@ -409,7 +410,7 @@ public class ItemEnteryModel extends DBConnect{
             //System.out.println(tModel.toString());
         }
         catch(SQLException ex){
-            DisplayMessages.displayError(null, "ItemEntryModel.getAllItemInfo()." +ex, "Database Error");
+            DisplayMessages.displayError(null, "ItemEntryModel.getSearchItemInfo()." +ex, "Database Error");
         }
         finally{
             closeConnection();
