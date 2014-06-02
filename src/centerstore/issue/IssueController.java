@@ -71,7 +71,7 @@ public class IssueController {
       issueView.addComboStoreToListener(new ComboStoreToListener());
       issueView.addShortcutForIssue(new ShortcutForIssue());
       //add the document listener for  the search
-      issueView.addtxtSearchDocumentListener(new SearchDocumentListener());
+//      issueView.addtxtSearchDocumentListener(new SearchDocumentListener());
         /*
       * setting 
       */
@@ -112,11 +112,11 @@ public class IssueController {
                }
              
               
-               if(  issueView.getIssueQuantity().equals("")|| issueView.getIssueQuantity().trim().isEmpty()){
+               if(  issueView.getIssueQuantity().equals("")|| issueView.getIssueQuantity() == 0){
                  JOptionPane.showMessageDialog(issueView, "Are You Crazy.Issue quantity is Empty");
                    return;   
                }
-               if(Float.parseFloat(issueView.getIssueQuantity()) > Float.parseFloat(issueView.getCenterStockQuantity())){
+               if(issueView.getIssueQuantity() > Float.parseFloat(issueView.getCenterStockQuantity())){
                    JOptionPane.showMessageDialog(issueView, "Issue Quantity can`t be greater than Stock Quantity");
                    return;
                }
@@ -142,7 +142,7 @@ public class IssueController {
                issueView.setCenterStockQuantity("");
                issueView.setIssueId(0);
                issueView.setItemId(0);
-               issueView.setIssueQuantity("");
+               issueView.setIssueQuantity(0);
                issueView.returnComboItemName().setSelectedIndex(0);
                //for combobox to and from
                  //for ComboStore from and to
@@ -188,7 +188,7 @@ public class IssueController {
              System.out.println(prevIssueQuantity);
               System.out.println();*/
                //for edit if the quantity is greater than the prevvois issue+ stock quantity which mean actual quantity
-              if(Float.parseFloat(issueView.getIssueQuantity()) > (Float.parseFloat(issueView.getCenterStockQuantity())+prevIssueQuantity)){
+              if(issueView.getIssueQuantity() > (Float.parseFloat(issueView.getCenterStockQuantity())+prevIssueQuantity)){
                    JOptionPane.showMessageDialog(issueView, "Issue Quantity can`t be greater than CenterStore Stock Quantity");
                    return;
                }
@@ -197,7 +197,7 @@ public class IssueController {
                return;
            }
            * */
-             if((Float.parseFloat(issueView.getResturantStockQuantity())-prevIssueQuantity+Float.parseFloat(issueView.getIssueQuantity()))< 0){
+             if((Float.parseFloat(issueView.getResturantStockQuantity())-prevIssueQuantity+issueView.getIssueQuantity())< 0){
                 JOptionPane.showMessageDialog(issueView, "Operation for Edit Quantiiy is not allowed.");
                return;  
              }
@@ -218,7 +218,7 @@ public class IssueController {
                issueView.setCenterStockQuantity("");
                issueView.setIssueId(0);
                issueView.setItemId(0);
-               issueView.setIssueQuantity("");
+               issueView.setIssueQuantity(0);
 //               issueView.setItemBaseUnit("");
                
                
@@ -275,7 +275,7 @@ public class IssueController {
                    if (strSearch.equalsIgnoreCase(returnItemName)) {
                        issueView.comboItemName.setSelectedItem(returnItemName);
                        // JOptionPane.showMessageDialog(issueView, "item found");
-                       issueView.setIssueQuantity("");
+                       issueView.setIssueQuantity(0);
                        issueView.disableEditBtn();
                        flag = true;
                        break;
@@ -376,7 +376,7 @@ public class IssueController {
             
           // System.out.println(issueView.getcomboItemBaseUnit());
             issueView.setTextEditableFalse();
-             issueView.setIssueQuantity("");
+            issueView.setIssueQuantity(0);
             //JOptionPane.showMessageDialog(issueView, issueView);
             issueView.enableIssueBtn();
             }
@@ -725,7 +725,7 @@ public class IssueController {
              * this set the curent stock quantiy remain in the centerstore+stock 
              */
             //this private int prevIssueQuantity is stored when the userr click on the table
-            prevIssueQuantity = Float.parseFloat(iview.getIssueQuantity());
+            prevIssueQuantity = iview.getIssueQuantity();
             /*
              * retreiving the unitrelativeQuantity to get actual quantity of item
              */

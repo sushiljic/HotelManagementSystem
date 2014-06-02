@@ -209,7 +209,7 @@ public class OrderModel  extends DBConnect{
                  String stradd = "INSERT INTO order_item_list (order_id,menu_id,quantity) VALUES(?,?,?)";
               String strSubtractSingleResturantStore = "UPDATE department_store_stock SET total_qty = department_store_stock.total_qty -(? * (select  menu.quantity*item_unit.unit_relative_quantity from menu INNER JOIN item_unit ON menu.unit_id = item_unit.unit_id WHERE menu.menu_id = ?)) WHERE item_id = (select item_id from menu where menu_id = ?)";
               String strSubtractHybridResturantStore = "UPDATE department_store_stock SET total_qty = department_store_stock.total_qty  - ?*? WHERE item_id = ?  ";
-             String strorderadd = "UPDATE  order_list SET table_id = ? ,waiter_id = ? ,customer_id = ? ,total_amount = ? ,date = ?,user_id= ? ,department_id = ? com_date = ? WHERE order_id = ?";
+             String strorderadd = "UPDATE  order_list SET table_id = ? ,waiter_id = ? ,customer_id = ? ,total_amount = ? ,date = ?,user_id= ? ,department_id = ?, com_date = ? WHERE order_id = ?";
              String strtablepack = " UPDATE table_info SET table_status = 1 WHERE table_id = ? ";
               String strordertable = "UPDATE  temp_order_table SET table_id = ? WHERE order_id = ?";
              

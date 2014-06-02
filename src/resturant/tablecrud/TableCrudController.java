@@ -16,6 +16,8 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import reusableClass.DisplayMessages;
@@ -40,8 +42,8 @@ public class TableCrudController {
         /*
          * setting jtable
          */
-         tableview.refreshGroupTableJTable(tablemodel.getTableGroupInfo());
-    tableview.refreshTableJTable(tablemodel.getTableInfo());
+        tableview.refreshGroupTableJTable(tablemodel.getTableGroupInfo());
+        tableview.refreshTableJTable(tablemodel.getTableInfo());
         /*
          * this listen for the change of the tap in tabbed pane
          */
@@ -73,6 +75,7 @@ public class TableCrudController {
         
         tableview.addComboTableGroupListener(new ComboTableGroupListener());
         tableview.addTableListSelectionListener(new returnTableRowSelectedListener(tableview));
+        tableview.addTableDocumentSearchListener(new TableDocumentSearchListener());
         
         /*
          * testing
@@ -105,31 +108,8 @@ public class TableCrudController {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-          //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-         String strsearch;
-            String[] SearchBox = new String[7];
-            boolean flag = false;
-            int col =1;
             try{
-                strsearch = tableview.getTableSearch().trim();
-                for(int row=0;row<tableview.tblTable.getRowCount();row++){
-                    if(strsearch.equalsIgnoreCase(tableview.tblTable.getValueAt(row, col).toString())||strsearch.equalsIgnoreCase(tableview.tblTable.getValueAt(row, col).toString())){
-                        for(int j = 0;j<tableview.tblTable.getColumnCount();j++){
-                            SearchBox[j] = tableview.tblTable.getValueAt(row, j).toString();
-                        }
-                       tableview.tblTable.scrollRectToVisible(tableview.tblTable.getCellRect(row, 0, true));
-                       tableview.tblTable.setRowSelectionInterval(row, row);
-                       tableview.setTable(SearchBox);
-                       tableview.enableTableEdit();
-                       tableview.enableTableDelete();
-                       tableview.setTableSearch("");
-                       flag = true;
-                    }
-                }
-                if(flag == false){
-                    JOptionPane.showMessageDialog(tableview, "Table Not Found.");
-                }
-                
+                tableview.getBtnTableSearch().doClick();
             }
             catch(Exception se){
                 JOptionPane.showMessageDialog(tableview, se+"From tablesearch Listener");
@@ -408,22 +388,22 @@ public class TableCrudController {
             try{
                 strsearch = tableview.getTableSearch().trim();
                 for(int row=0;row<tableview.tblTable.getRowCount();row++){
-                    if(strsearch.equalsIgnoreCase(tableview.tblTable.getValueAt(row, col).toString())||strsearch.equalsIgnoreCase(tableview.tblTable.getValueAt(row, col).toString())){
+                    if(tableview.tblTable.getValueAt(row, col).toString().toLowerCase().startsWith(strsearch.toLowerCase())){
                         for(int j = 0;j<tableview.tblTable.getColumnCount();j++){
                             SearchBox[j] = tableview.tblTable.getValueAt(row, j).toString();
                         }
                        tableview.tblTable.scrollRectToVisible(tableview.tblTable.getCellRect(row, 0, true));
                        tableview.tblTable.setRowSelectionInterval(row, row);
-                       tableview.setTable(SearchBox);
-                       tableview.enableTableEdit();
-                       tableview.enableTableDelete();
-                       tableview.setTableSearch("");
-                       flag = true;
+//                       tableview.setTable(SearchBox);
+//                       tableview.enableTableEdit();
+//                       tableview.enableTableDelete();
+//                       tableview.setTableSearch("");
+//                       flag = true;
                     }
                 }
-                if(flag == false){
-                    JOptionPane.showMessageDialog(tableview, "Table Not Found.");
-                }
+//                if(flag == false){
+//                    JOptionPane.showMessageDialog(tableview, "Table Not Found.");
+//                }
                 
             }
             catch(Exception se){
@@ -601,5 +581,33 @@ public class TableCrudController {
             
         }
         
+    }
+    
+    //for search mechanish
+    public class TableDocumentSearchListener implements DocumentListener{
+
+        @Override
+        public void insertUpdate(DocumentEvent e) {
+        ReloadTableModel();
+        }
+
+        @Override
+        public void removeUpdate(DocumentEvent e) {
+            ReloadTableModel();
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent e) {
+            ReloadTableModel();
+        }
+        private void ReloadTableModel(){
+            try{
+                tableview.refreshTableJTable(tablemodel.getTableInfoLike(tableview.getTableSearch()));
+                
+            }
+            catch(Exception se){
+                DisplayMessages.displayError(mainview, se.getMessage()+" from"+getClass().getName(), "Error From TableDocumentSearchListener");
+            }
+        }
     }
 }

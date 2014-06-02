@@ -116,6 +116,7 @@ public class SystemLogInController  extends UserCreditialModel{
                     if(!dateformat.format(posDate).equals(dateformat.format(SystemDate))){
 //                        JOptionPane.showMessageDialog(mainview, posDate.getTime()+"\n"+SystemDate.getTime());
                         DisplayMessages.displayInfo(mainview, "Computer Date( "+dateformat.format(SystemDate)+" ) and Our Software System Date( "+dateformat.format(posDate)+" )  Doesnot Match.\n Please Make Sure You are Running of the Current Date", " Date Info");
+                        
                     }
                     }
                     else{

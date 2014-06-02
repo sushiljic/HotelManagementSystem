@@ -249,6 +249,43 @@ public class ItemEnteryController {
         
     }
     
+    /* SearchDocumentListener
+    * listen for each key press and get data from database to show likely result in table
+    *
+    */
+    class SearchDocumentListener implements DocumentListener{
+
+        @Override
+        public void insertUpdate(DocumentEvent e) {
+            //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public void removeUpdate(DocumentEvent e) {
+            //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent e) {
+            //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+        
+        public void getSearchResult(DocumentEvent evt){
+            try{
+                SwingUtilities.invokeLater(new Runnable(){
+
+                    @Override
+                    public void run() {
+                            
+                    }    
+                });
+            }
+            catch(ExceptionInInitializerError ex){
+                DisplayMessages.displayError(itemEView, ex.getMessage(), "Error in Search Document Listener");
+            }
+        }
+    }
+    
     private void loadItemList(){
         itemList = itemEModel.isItemDuplicate();
        
@@ -442,7 +479,7 @@ public class ItemEnteryController {
             return;
         }
             searchByName(source);
-            itemEView.clearAllField();
+            //itemEView.clearAllField();
     }
     
     public void cancleFunc(){

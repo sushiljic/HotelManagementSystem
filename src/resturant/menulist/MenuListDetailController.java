@@ -151,8 +151,9 @@ public final class MenuListDetailController {
              
 //                MenuId.setBorder(BorderFactory.createBevelBorder(0));
                   JTable ItemInfo  = new JTable();
-                 JScrollPane jScrollPane1 = new javax.swing.JScrollPane();
-                String ItemType = new String();
+                  ItemInfo.setFocusable(false);
+                  JScrollPane jScrollPane1 = new javax.swing.JScrollPane();
+                  String ItemType = new String();
                  BigDecimal AvailStock = BigDecimal.ZERO;
                  Float strAvailStock = null;
                  /*
@@ -214,15 +215,15 @@ public final class MenuListDetailController {
                 MenuTitle.setFont(new Font("tahoma",1,16));
                 MenuName.setPreferredSize(new Dimension(80,20));
                 MenuTitle.setForeground(new Color(55, 150, 150));
-               MenuName.setFont(new Font("tahoma",1, 16));
+                MenuName.setFont(new Font("tahoma",1, 16));
                 MenuId.setFont(new Font("tahoma",1, 14)); 
-                 MenuId.setForeground(new Color(12,34,255));
-                  MenuName.setForeground(new Color(12,34,255));
-                 Rate.setBorder(BorderFactory.createBevelBorder(0));
+                MenuId.setForeground(new Color(12,34,255));
+                MenuName.setForeground(new Color(12,34,255));
+                Rate.setBorder(BorderFactory.createBevelBorder(0));
                  /*
                  process of addign in mig layout
                  */
-                 menupanel[row].add(MenuTitle,"span");
+                menupanel[row].add(MenuTitle,"span");
                 menupanel[row].add(MenuId,"gaptop 20");//for adding the gap between the data
                 menupanel[row].add(MenuIcon,"span 2 2");//for making two row and col span
 //               System.out.println("wala2");
@@ -240,7 +241,7 @@ public final class MenuListDetailController {
               jScrollPane1.setViewportView(ItemInfo);              
               jScrollPane1.setPreferredSize(new Dimension(250,60));
               JLabel MenuItemAvail = new JLabel(AvailStock+" unit  (approx) Available");
-               menupanel[row].add(MenuItemAvail,"span 2");
+              menupanel[row].add(MenuItemAvail,"span 2");
               menupanel[row].add(jScrollPane1,"cell 0 4 3 2");
              
              
@@ -251,7 +252,7 @@ public final class MenuListDetailController {
                       jScrollPane1.setPreferredSize(new Dimension(250,60));
                         JLabel MenuItemAvail = new JLabel(AvailStock+" unit  (approx) Available");
                menupanel[row].add(MenuItemAvail,"span 2");
-                      menupanel[row].add(jScrollPane1,"cell 0 4 3 2");
+               menupanel[row].add(jScrollPane1,"cell 0 4 3 2");
                 }
 //            menupanel[row].add(new JLabel(String.valueOf(row)));
                 Tpanel.add(menupanel[row]);
@@ -479,7 +480,7 @@ public final class MenuListDetailController {
 
                     @Override
                     public void run() {
-                    tview.setPanel(drawPanel(tmodel.getMenuInfoObjectBySearchLike(mainview.getUserId(), tview.gettxtSearch())));
+                    tview.setTablePanel(drawPanel(tmodel.getMenuInfoObjectBySearchLike(mainview.getUserId(), tview.gettxtSearch())));
                     }
                     
                 });

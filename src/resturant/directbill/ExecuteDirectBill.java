@@ -4,11 +4,10 @@
  */
 package resturant.directbill;
 
-import resturant.orderbill.*;
 import hotelmanagementsystem.MainFrameView;
-import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import reusableClass.Function;
 import systemdate.SystemDateModel;
 
 /**
@@ -26,7 +25,7 @@ public class ExecuteDirectBill extends SystemDateModel{
             OrderBillController = new DirectBillController(OrderBillModel,OrderBillView,mainview);
           
              try{   
-      Object[] dateinfo = returnSystemDateInfo();
+      Object[] dateinfo = Function.returnSystemDateInfo();
       if(dateinfo[2] == Boolean.TRUE && dateinfo[3] == Boolean.FALSE){
            OrderBillView.setVisible(true);
       }

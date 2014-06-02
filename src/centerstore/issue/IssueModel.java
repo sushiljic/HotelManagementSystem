@@ -557,7 +557,7 @@ public class IssueModel extends DBConnect {
    public DefaultTableModel getIssueListByWildSearch(String menuname){
        int colcount;
        int rowcount ;
-       String src = "%"+menuname+"%";
+       String src = menuname+"%";
       
       // String[] ColumnNames = { "Issue Id", "Item Name", "Issue Quantity","item BaseUnit","Issue From", "Issue To","Issue Date"};
        String strQuery = "SELECT issue.issue_id,centerstore_stock.item_name,issue.quantity,issue.unit_id,item_unit.unit_name,center_store_info.store_name as issue_from,department_info.department_name as issue_to,issue.issue_date FROM issue INNER JOIN department_store_stock ON issue.department_item_id = department_store_stock.department_item_id INNER JOIN  item_unit ON issue.unit_id = item_unit.unit_id INNER JOIN centerstore_stock ON department_store_stock.item_id = centerstore_stock.item_id INNER JOIN department_info ON issue.issue_to = department_info.department_id "

@@ -24,6 +24,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import reusableClass.Function;
+import reusableClass.Validator;
 
 
 /**
@@ -60,12 +61,21 @@ public class IssueView extends javax.swing.JDialog {
         setButtonForEnter(btnCancel);
         setButtonForEnter(btnSearch);
         txtCenterStockQuantity.addFocusListener(new Function.SetTextFieldFocusListener(txtCenterStockQuantity));
-        txtIssueQuantity.addFocusListener(new Function.SetTextFieldFocusListener(txtIssueQuantity));
+        txtIssueQuantity.addFocusListener(new Function.SetJFormattedTextFieldFocusListener(txtIssueQuantity));
         txtResturantStockQuantity.addFocusListener(new Function.SetTextFieldFocusListener(txtResturantStockQuantity));
         txtSearch.addFocusListener(new Function.SetTextFieldFocusListener(txtSearch));
-       selectionModel = tblIssueList.getSelectionModel();
-       selectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        selectionModel = tblIssueList.getSelectionModel();
+        selectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         kfmanager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
+        /*
+        making the float field only or issue quantity
+        */
+        Validator.DecimalMaker(txtIssueQuantity);
+        /* hides all search bar
+        */
+        jLabel2.setVisible(false);
+        btnSearch.setVisible(false);
+        txtSearch.setVisible(false);
 //        setModal(modal);
         
          /*
@@ -92,7 +102,6 @@ public class IssueView extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
         txtCenterStockQuantity = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        txtIssueQuantity = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         comboFrom = new javax.swing.JComboBox();
@@ -104,6 +113,7 @@ public class IssueView extends javax.swing.JDialog {
         txtResturantStockQuantity = new javax.swing.JTextField();
         comboItemName = new javax.swing.JComboBox();
         jLabel8 = new javax.swing.JLabel();
+        txtIssueQuantity = new javax.swing.JFormattedTextField();
         btnIssue = new javax.swing.JButton();
         btnEdit = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
@@ -149,13 +159,6 @@ public class IssueView extends javax.swing.JDialog {
         jLabel4.setFont(jLabel4.getFont().deriveFont(jLabel4.getFont().getSize()+3f));
         jLabel4.setText("Issue Quantity:");
 
-        txtIssueQuantity.setFont(txtIssueQuantity.getFont().deriveFont(txtIssueQuantity.getFont().getSize()+3f));
-        txtIssueQuantity.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtIssueQuantityActionPerformed(evt);
-            }
-        });
-
         jLabel5.setFont(jLabel5.getFont().deriveFont(jLabel5.getFont().getSize()+3f));
         jLabel5.setText("Item Base Unit:");
 
@@ -188,6 +191,12 @@ public class IssueView extends javax.swing.JDialog {
 
         jLabel8.setText("CenterStore");
 
+        txtIssueQuantity.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtIssueQuantityActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -203,9 +212,9 @@ public class IssueView extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(txtIssueQuantity)
                             .addComponent(txtCenterStockQuantity)
-                            .addComponent(comboFrom, 0, 100, Short.MAX_VALUE))
+                            .addComponent(comboFrom, 0, 100, Short.MAX_VALUE)
+                            .addComponent(txtIssueQuantity))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(37, 37, 37)
@@ -226,11 +235,11 @@ public class IssueView extends javax.swing.JDialog {
                                 .addGap(46, 46, 46)
                                 .addComponent(jLabel5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(comboItemBaseUnit, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(114, 114, 114))
+                                .addComponent(comboItemBaseUnit, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(comboItemName, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(114, 114, 114))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel2)
@@ -248,11 +257,10 @@ public class IssueView extends javax.swing.JDialog {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnSearch)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSearch)
+                    .addComponent(jLabel2))
                 .addGap(28, 28, 28)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
@@ -267,20 +275,17 @@ public class IssueView extends javax.swing.JDialog {
                     .addComponent(comboItemBaseUnit, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(40, 40, 40)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(34, 34, 34)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtIssueQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(28, 28, 28)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(txtIssueQuantity)
-                                .addGap(19, 19, 19))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(lblstockqty, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtResturantStockQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(4, 4, 4)
-                                .addComponent(lblrestro)))))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblstockqty, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtResturantStockQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(4, 4, 4)
+                        .addComponent(lblrestro)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
@@ -290,7 +295,7 @@ public class IssueView extends javax.swing.JDialog {
                 .addContainerGap(20, Short.MAX_VALUE))
         );
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnSearch, comboItemBaseUnit, comboItemName, txtSearch});
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnSearch, comboItemBaseUnit, comboItemName, txtIssueQuantity, txtSearch});
 
         btnIssue.setFont(btnIssue.getFont().deriveFont(btnIssue.getFont().getSize()+3f));
         btnIssue.setMnemonic('I');
@@ -320,6 +325,7 @@ public class IssueView extends javax.swing.JDialog {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Issued Item List"));
 
+        tblIssueList.setAutoCreateRowSorter(true);
         tblIssueList.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -331,6 +337,8 @@ public class IssueView extends javax.swing.JDialog {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblIssueList.setRequestFocusEnabled(false);
+        tblIssueList.setRowHeight(20);
         jScrollPane1.setViewportView(tblIssueList);
         tblIssueList.getTableHeader().setReorderingAllowed(false);
 
@@ -358,35 +366,35 @@ public class IssueView extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(61, 61, 61)
-                        .addComponent(btnIssue, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnPrint, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(38, 38, 38)
-                        .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(65, 65, 65)
-                        .addComponent(btnCancel)
-                        .addGap(0, 166, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(106, 106, 106)
+                .addComponent(btnIssue, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnPrint, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(38, 38, 38)
+                .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(65, 65, 65)
+                .addComponent(btnCancel)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnIssue)
                     .addComponent(btnEdit)
                     .addComponent(btnCancel)
                     .addComponent(btnPrint))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -406,6 +414,10 @@ public class IssueView extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtResturantStockQuantityActionPerformed
 
+    private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSearchActionPerformed
+
     private void txtIssueQuantityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIssueQuantityActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtIssueQuantityActionPerformed
@@ -413,10 +425,6 @@ public class IssueView extends javax.swing.JDialog {
     private void txtCenterStockQuantityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCenterStockQuantityActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCenterStockQuantityActionPerformed
-
-    private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtSearchActionPerformed
  public String getcomboItemName(){
     return comboItemName.getSelectedItem().toString();
 }
@@ -519,11 +527,11 @@ public class IssueView extends javax.swing.JDialog {
  public void setUnitId( int UnitId){
     this.UnitId = UnitId;
  }
- public String getIssueQuantity(){
-     return txtIssueQuantity.getText();
+ public Float getIssueQuantity(){
+     return new Float(((Number)txtIssueQuantity.getValue()).floatValue());
  }
- public void setIssueQuantity(String quantity){
-     txtIssueQuantity.setText(quantity);
+ public void setIssueQuantity(float quantity){
+     txtIssueQuantity.setValue(new Float(quantity));
  }
  public float getTotalQty(){
      return TotalQty ;
@@ -667,7 +675,7 @@ public void setTextEditableFalse(){
      info[0] = String.valueOf(getItemId());
      info[1] = getcomboItemName();
      info[2] = getCenterStockQuantity();
-     info[3] = getIssueQuantity();
+     info[3] = String.valueOf(getIssueQuantity());
      info[4] = String.valueOf(getUnitId());
     // info[5] = getItemBaseUnit();
      info[5] = getcomboItemBaseUnit();
@@ -689,7 +697,7 @@ public void setTextEditableFalse(){
      info[1] = String.valueOf(getUnitId());
      info[2] =  getCenterStockQuantity();
      info[3] = getResturantStockQuantity();
-     info[4] =  getIssueQuantity();
+     info[4] =  String.valueOf(getIssueQuantity());
 //     info[5] = getFrom();
 //     info[6] = getTo();
       info[5] = String.valueOf(getFromStoreId());
@@ -710,7 +718,7 @@ public void setTextEditableFalse(){
      setIssueId(Integer.parseInt(issuedata[0]));
      //this convert single string to the array of string
      setcomboItemName(new String[]{issuedata[1]});
-     setIssueQuantity(issuedata[2]);
+     setIssueQuantity(Float.valueOf(issuedata[2]));
      setcomboItemBaseUnit(new String[]{issuedata[3]});
      setcomboIssueFrom(new String[]{issuedata[4]});
      setcomboIssueTo(new String[]{issuedata[5]});
@@ -736,7 +744,7 @@ public void setTextEditableFalse(){
      try{
    setItemId(Integer.parseInt(info[0].toString()));
      
-     setUnitId(Integer.parseInt(info[2].toString()));
+   setUnitId(Integer.parseInt(info[2].toString()));
      
    setItemBaseUnit(info[3].toString());
      setUnitRelativeQuantity(Float.parseFloat(info[4].toString()));
@@ -921,7 +929,7 @@ public void setTextEditableFalse(){
     private javax.swing.JLabel lblstockqty;
     public javax.swing.JTable tblIssueList;
     private javax.swing.JTextField txtCenterStockQuantity;
-    private javax.swing.JTextField txtIssueQuantity;
+    private javax.swing.JFormattedTextField txtIssueQuantity;
     private javax.swing.JTextField txtResturantStockQuantity;
     private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables

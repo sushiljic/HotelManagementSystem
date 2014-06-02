@@ -199,7 +199,7 @@ public class MainFrameController {
         ChangeMenuBarName(MainFrameView.getAllMenuItemText(), MainFrameModel.getJMenuName());
        
         //setting the timer for  update of the time
-        Timer RefreshDate = new Timer(20000,new ActionListener(){
+        Timer RefreshDate = new Timer(10000,new ActionListener(){
 
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -208,6 +208,8 @@ public class MainFrameController {
                     DateFormat dateformat = new SimpleDateFormat("EEE, MMM  d ,Y");
                     if(Function.checkSystemDateExist()){
                     MainFrameView.setLblDate(dateformat.format(Function.returnSystemDate()));
+                    //manage the day status
+                    ManageDayStatus();
                     }
                 }
                 catch(Exception se){
@@ -216,11 +218,13 @@ public class MainFrameController {
             }
             
         });
+       
          //inserting the date according to the  point of sale system date
         DateFormat dateformat = new SimpleDateFormat("EEE, MMM  d ,Y");
         //check it there is date then only  update the date again the point of sale system date
         if(Function.checkSystemDateExist()){
         MainFrameView.setLblDate(dateformat.format(Function.returnSystemDate()));
+        ManageDayStatus();
 //        //check the date of the computer and pointofsale system and state status both doesnot coincide
 //        Date posDate = Function.returnSystemDate();
 //        Date SystemDate = new Date();
@@ -238,6 +242,23 @@ public class MainFrameController {
             JOptionPane.showMessageDialog(MainFrameView, e+"from mainFrameContructor"+getClass().getName());
         }
     }
+    //this change the mainframe image for showing status of the day
+     private void ManageDayStatus(){
+             //for changing image according to the day status
+                    Object[] dateinfo = Function.returnSystemDateInfo();
+                    //check it is open
+                    if(dateinfo[2].equals(Boolean.TRUE)){
+//                        System.out.println("wala started");
+                        MainFrameView.LoadlblDayStatus("daystarted.png");
+                    }
+                    else if(dateinfo[3].equals(Boolean.FALSE)){
+                        MainFrameView.LoadlblDayStatus("dayclosed.png");
+//                        System.out.println("wala closed");
+                    }
+                    else{
+//                        System.out.println("wala nothing happends");
+                    }
+        }
     
     public void ChangeMenuBarName(ArrayList MenuBar,String[] title){
         try{

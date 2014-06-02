@@ -5,11 +5,9 @@
 package centerstore.itemEnteryComponent;
 
 //import java.awt.Frame;
-import java.awt.Font;
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.event.ActionListener;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import javax.swing.table.*;
@@ -412,6 +410,16 @@ public class ItemEnteryView extends javax.swing.JDialog {
         txtSearch.addFocusListener(f);
         txtTheresHold.addFocusListener(f);
     }
+     
+     /*listener used to listen each key stroke in search box and forward it
+     */
+     public void addDocumentListenerToSearch(DocumentListener d){
+         txtSearch.getDocument().addDocumentListener(d);
+     }
+     
+     public void refreshItemTable(DefaultTableModel tModel){
+         itemTable.setModel(tModel);
+     }
    //key listener;
     /*
     public void addKeyListenerToBtn(KeyListener l){

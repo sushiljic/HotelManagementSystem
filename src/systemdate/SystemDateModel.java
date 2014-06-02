@@ -173,42 +173,7 @@ public void closeSystemDate(){
         JOptionPane.showMessageDialog(null, se+"from openSystemData"+getClass().getName());
     }
 }
-public  Object[] returnSystemDateInfo(){
-    PreparedStatement stmtset;
-    ResultSet rs;
-    Date date = null;
-    boolean open = false;
-    boolean close = false;
-    int id = 0;
-    Object[] info = new Object[4];
-    String strget = "select system_date_id,date,open_status,close_status from system_date where  system_date_id = (select max(system_date_id) from system_date)";
-//    String stropen = "UPDATE system_date SET open_status = 1 where system_date_id = ?";
-    try{
-        initConnection();
-//        conn.setAutoCommit(false);
-        stmtset = conn.prepareStatement(strget);
-        rs = stmtset.executeQuery();
-        while(rs.next()){
-        
-           info[0] = rs.getObject("system_date_id");
-           info[1]=rs.getObject("date");
-           info[2] = rs.getObject("open_status");
-           info[3]  =rs.getObject("close_status");
-//           System.out.println(id);
-           
-        }
-    
-      
-    }
-    catch(SQLException se){
-        JOptionPane.showMessageDialog(null, se+"from openSystemData"+getClass().getName());
-    }
-    finally{
-        closeConnection();
-    }
-    return info;
-    
-}
+
 public int  returnOrderedListNumber(){
     PreparedStatement stmt;
     ResultSet rs;
