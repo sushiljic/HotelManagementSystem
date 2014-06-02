@@ -41,6 +41,7 @@ import resturant.customer.CustomerController;
 import resturant.customer.CustomerModel;
 import resturant.customer.CustomerView;
 import reusableClass.DisplayMessages;
+import reusableClass.Function;
 import reusableClass.Validator;
 import systemdate.SystemDateModel;
 
@@ -502,7 +503,7 @@ public class DirectBillController  extends SystemDateModel{
         try{
             if(e.getActionCommand().equalsIgnoreCase("Save")){
               //checking whether  the date has been closed by the admin
-                                Object[] dateinfo = returnSystemDateInfo();
+                                Object[] dateinfo = Function.returnSystemDateInfo();
                    if(dateinfo[2] == Boolean.TRUE && dateinfo[3] == Boolean.FALSE){
                        
                    }
