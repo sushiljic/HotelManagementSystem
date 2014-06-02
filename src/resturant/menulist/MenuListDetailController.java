@@ -218,8 +218,8 @@ public final class MenuListDetailController {
                 MenuName.setFont(new Font("tahoma",1, 16));
                 MenuId.setFont(new Font("tahoma",1, 14)); 
                 MenuId.setForeground(new Color(12,34,255));
-                 MenuName.setForeground(new Color(12,34,255));
-                 Rate.setBorder(BorderFactory.createBevelBorder(0));
+                MenuName.setForeground(new Color(12,34,255));
+                Rate.setBorder(BorderFactory.createBevelBorder(0));
                  /*
                  process of addign in mig layout
                  */
@@ -480,7 +480,7 @@ public final class MenuListDetailController {
 
                     @Override
                     public void run() {
-                    tview.setPanel(drawPanel(tmodel.getMenuInfoObjectBySearchLike(mainview.getUserId(), tview.gettxtSearch())));
+                    tview.setTablePanel(drawPanel(tmodel.getMenuInfoObjectBySearchLike(mainview.getUserId(), tview.gettxtSearch())));
                     }
                     
                 });

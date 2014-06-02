@@ -62,6 +62,26 @@ import reusableClass.Function;
 //    validate();
 //    repaint();
 }
+    public void setTablePanel(/*MenuListView view,*/JPanel pnl){
+    
+   
+//    remove(Tablepanel);
+    getContentPane().setLayout( new BorderLayout());
+    Tablepanel.removeAll();
+    JScrollPane pane = new JScrollPane();
+//    pnl.setSize(300, 400);
+    pane.setViewportView(pnl);
+    /*view.*/
+    Tablepanel.add(pane);
+    
+//            Tablepanel.repaint();;
+    Tablepanel.validate();
+//    add(SearchPane,BorderLayout.NORTH);
+//    add(Tablepanel,BorderLayout.CENTER);
+//    repaint();
+//    validate();
+//    repaint();
+}
 
 
   
