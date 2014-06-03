@@ -19,6 +19,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import reusableClass.Function;
 
 
 /**
@@ -50,6 +51,10 @@ public class PurchaseReturnView extends javax.swing.JDialog {
         txtReturnQuantity.addFocusListener(new SetFocusListener(txtReturnQuantity));
         txtSearch.addFocusListener(new SetFocusListener(txtSearch));
         txtStockQuantity.addFocusListener(new SetFocusListener(txtStockQuantity));
+        //make button ready for enter also
+        Function.setButtonForEnter(btnCancel);
+        Function.setButtonForEnter(btnReturn);
+        Function.setButtonForEnter(btnSearch);
      //   txtareaReturnReason.addFocusListener(new SetFocusListener(txtareaReturnReason));
          /*
          * centering the frame
