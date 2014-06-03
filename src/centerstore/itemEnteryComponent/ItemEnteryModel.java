@@ -353,6 +353,71 @@ public class ItemEnteryModel extends DBConnect{
         return tModel;
     }
     
+    /*
+    
+    */
+    public DefaultTableModel getSearchItemInfo(String search, Object[][] unitDetails){
+        String key = search+"%";
+        initConnection();
+        sql = "SELECT item_id,item_name,sub_category_name,unit_name,total_qty,item_buy_rate,item_expiry_date,item_threshold,\n" +
+"                distributor_name,item_entry_date FROM centerstore_stock, item_sub_category, distributor, item_unit \n" +
+"               WHERE centerstore_stock.category_id = item_sub_category.sub_category_id and centerstore_stock.unit_id = item_unit.unit_id and centerstore_stock.distributor_id = distributor.distributor_id and item_name LIKE ? ORDER BY centerstore_stock.item_entry_date DESC";
+        
+        //for storing data from data as object
+        ArrayList<Object[]> data = new ArrayList<Object[]>();
+        try{
+            preStmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            //preStmt = conn.createStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+            preStmt.setString(1, key);
+            rs = preStmt.executeQuery();
+            int rows = getNumberOfRows(rs);
+            int cols = preStmt.getMetaData().getColumnCount();
+           // obj = new Object[rows][cols];
+            //table models size;
+            tModel = new DefaultTableModel(rows, cols);
+            //int i = 1; //for tracking rows;
+            while(rs.next()){
+                Object uni = rs.getObject("unit_name");
+                float tQty = rs.getFloat("total_qty");
+                float rQty = 0;
+                for(int i = 0; i < unitDetails.length; i++){
+                    if(unitDetails[i][1].equals(uni)){
+                        rQty = Float.parseFloat(unitDetails[i][2].toString());
+                        break;
+                    }
+                }
+                
+                float stock = (float) tQty/rQty;
+                
+                Object[] row = new Object[]{rs.getObject("item_id"),rs.getObject("item_name"),rs.getObject("sub_category_name"),
+                    rs.getObject("unit_name"), stock, rs.getObject("item_buy_rate"),rs.getObject("item_threshold"),
+                    rs.getObject("distributor_name"), rs.getObject("item_expiry_date"),rs.getObject("item_entry_date")     
+                };//,
+                    
+                data.add(row); // add each object to data to make array of array list
+            }
+            //convert arrlist to array of size data object
+            entryTable = data.toArray(new Object[data.size()][]);
+            
+            //System.out.println(finalData);
+            tModel = new DefaultTableModel(entryTable,
+                    new String[]{"Id","Name","Category","Unit","Stock","Buy Rate", "Threshold", "Distributor", "Expiry Date", "Entry Date"}){
+                         @Override
+                         public boolean isCellEditable(int rows,int columns){
+                             return false;    
+                        }
+                    };
+            //System.out.println(tModel.toString());
+        }
+        catch(SQLException ex){
+            DisplayMessages.displayError(null, "ItemEntryModel.getSearchItemInfo()." +ex, "Database Error");
+        }
+        finally{
+            closeConnection();
+        }
+        return tModel;
+    }
+    
        //database opertion main
     public void addItemEntery(String[] txtItem, String[] ids, String category){
         //System.out.println(itemName);

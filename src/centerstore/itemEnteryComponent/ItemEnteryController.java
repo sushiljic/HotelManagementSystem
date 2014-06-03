@@ -62,6 +62,8 @@ public class ItemEnteryController {
             itemEView.addListenerToDistro(new DistroListener());
             itemEView.addFocusToField(new AddFoucsListener());
             itemEView.setTableModel(itemEModel.getAllItemInfo(unitDetails));
+            itemEView.addDocumentListenerToSearch(new SearchDocumentListener());;
+            itemEView.addAListenerToSText(new SearchListener());
             
         }
         catch(NullPointerException ex){ 
@@ -131,8 +133,12 @@ public class ItemEnteryController {
     class SearchListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent ad){
-            searchFunc();
-            
+            String item = itemEView.getSearchItem();
+            if(item.isEmpty()){
+                DisplayMessages.displayError(itemEView, "Select Item First !", "Form Error !");
+                return;
+            }
+            searchByName(item);
         }
     }
     class DistroListener implements ActionListener{
@@ -249,6 +255,57 @@ public class ItemEnteryController {
         
     }
     
+    /* SearchDocumentListener
+    * listen for each key press and get data from database to show likely result in table
+    *
+    */
+    class SearchDocumentListener implements DocumentListener{
+
+        @Override
+        public void insertUpdate(DocumentEvent e) {
+            getSearchResult(e);//throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public void removeUpdate(DocumentEvent e) {
+            getSearchResult(e);//throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent e) {
+            getSearchResult(e);//throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+        
+        public void getSearchResult(DocumentEvent evt){
+            try{
+                SwingUtilities.invokeLater(new Runnable(){
+
+                    @Override
+                    public void run() {
+                            itemEView.refreshItemTable(itemEModel.getSearchItemInfo(itemEView.getSearchItem(), unitDetails));
+                    }    
+                });
+            }
+            catch(ExceptionInInitializerError ex){
+                DisplayMessages.displayError(itemEView, ex.getMessage(), "Error in Search Document Listener");
+            }
+        }
+    }
+    
+    /**
+     * used to initiate click event on search button
+     * when enter is hit at the search text field
+     */
+    class SearchActionListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            //itemEView.getSearchBtn().doClick();
+            searchFunc();
+        }
+        
+    }
+    
     private void loadItemList(){
         itemList = itemEModel.isItemDuplicate();
        
@@ -280,10 +337,29 @@ public class ItemEnteryController {
         return true;
     }
     
+    /**
+     * search item by name and display item,
+     * search on the basis of like
+     * @param name , string 
+     */
     public void searchByName(String name){
-        Object[][] entryTable = itemEModel.getEntryTable();
+        //Object[][] entryTable = itemEModel.getEntryTable();
         JTable tbl = itemEView.getTable();
-        int cols = tbl.getColumnCount();
+        String[] searchList = new String[tbl.getModel().getColumnCount()];
+        for(int r = 0; r < tbl.getModel().getRowCount(); r++){
+            
+            if(tbl.getValueAt(r, 1).toString().toLowerCase().startsWith(name.toLowerCase())){
+                for(int c = 0; c < tbl.getModel().getColumnCount(); c++){
+                    searchList[c] = tbl.getValueAt(r,c).toString();
+                }
+            }
+            itemEView.showSelectedRowList(searchList);
+            itemEView.setSItemTable(r, r);
+            
+            break;
+        }
+        //itemEView.showSelectedRowList(ob);
+        /*int cols = tbl.getColumnCount();
         
         String[] ob = new String[cols];
         for (Object[] entryTable1 : entryTable) {
@@ -293,8 +369,8 @@ public class ItemEnteryController {
                 }
             }
         }
-       
-        itemEView.showSelectedRowList(ob);
+       */
+        
         
     }
     
@@ -442,7 +518,7 @@ public class ItemEnteryController {
             return;
         }
             searchByName(source);
-            itemEView.clearAllField();
+            //itemEView.clearAllField();
     }
     
     public void cancleFunc(){

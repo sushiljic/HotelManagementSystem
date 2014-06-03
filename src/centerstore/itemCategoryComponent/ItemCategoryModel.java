@@ -247,7 +247,7 @@ public class ItemCategoryModel extends DBConnect{
     */
     public boolean checkDupItemOnChild(String category){
         boolean dupStatus = true;
-        sql = "select count(sub_category_name) as row item_sub_category where sub_category_name = ?";
+        sql = "select count(sub_category_name) as row from item_sub_category where sub_category_name = ?";
         //boolean status = true;
         initConnection();
         
