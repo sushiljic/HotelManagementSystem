@@ -83,6 +83,7 @@ public final class MenuListDetailController {
             JOptionPane.showMessageDialog(mainview, e+" From menuList");
         }
         tview.addSearchListener(new SearchListener());
+        tview.addtxtSearchListener(new TxtSearchListener());
         tview.addPrintListener(new PrintListener(Tpanel) );
         tview.addTextSearchDocumentListener(new SearchDocumentListener());
     }
@@ -388,10 +389,10 @@ public final class MenuListDetailController {
 //                 if(but.get)
                  if(but instanceof  JButton){
                  JButton button = (JButton) but;
-                 if(button.getText().equalsIgnoreCase(strsrc)){
-//                     button.requestFocusInWindow();
-                     flag = true;
-                   panel.scrollRectToVisible(/*new Rectangle(button.getX(),button.getY(),button.getWidth()+100,button.getHeight()+100)*/new Rectangle(600, 600));
+                 if(button.getText().toLowerCase().startsWith(strsrc.toLowerCase())){
+                    button.requestFocusInWindow();
+                    flag = true;
+                    panel.scrollRectToVisible(/*new Rectangle(button.getX(),button.getY(),button.getWidth()+100,button.getHeight()+100)*/new Rectangle(600, 600));
                  }
                  }
              }
@@ -490,5 +491,13 @@ public final class MenuListDetailController {
                 DisplayMessages.displayError(tview, se.getMessage()+" from "+getClass().getName() , "Error");
             }
         }
+       }
+       public class TxtSearchListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            tview.getBtnSearch().doClick();
+        }
+           
        }
 }

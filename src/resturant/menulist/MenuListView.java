@@ -127,6 +127,9 @@ import reusableClass.Function;
     public void settxtSearch(String st){
        txtSearch.setText(st);
     }
+    public void addtxtSearchListener(ActionListener Listen){
+        txtSearch.addActionListener(Listen);
+    }
     public void addSearchListener(ActionListener Listen){
         btnSearch.addActionListener(Listen);
     }
@@ -153,6 +156,11 @@ import reusableClass.Function;
      public void addTextSearchDocumentListener(DocumentListener listen){
          txtSearch.getDocument().addDocumentListener(listen);
      }
+
+    public JButton getBtnSearch() {
+        return btnSearch;
+    }
+     
    
     /**
      * @param args the command line arguments
