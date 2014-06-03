@@ -17,6 +17,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -112,6 +113,12 @@ public class SystemLogInController  extends UserCreditialModel{
                     if(Function.checkSystemDateExist()){  
                    //check the date of the computer and pointofsale system and state status both doesnot coincide
                     Date posDate = Function.returnSystemDate();
+//                    //getting date 
+//                    Long sysdate = posDate.getTime();
+//                    Long compdate = new Date().getTime();
+//                    System.out.println("Computer date"+ compdate +"System date"+sysdate);
+//                    Calendar call = Calendar.getInstance();
+//                    call.
                     Date SystemDate = new Date();
                     if(!dateformat.format(posDate).equals(dateformat.format(SystemDate))){
 //                        JOptionPane.showMessageDialog(mainview, posDate.getTime()+"\n"+SystemDate.getTime());
