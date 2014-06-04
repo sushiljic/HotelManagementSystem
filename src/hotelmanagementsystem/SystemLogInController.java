@@ -129,7 +129,7 @@ public class SystemLogInController  extends UserCreditialModel{
                     compCdate = Function.TruncateTime(compCdate);
 //                    System.out.println(posCdate.getTime()+" is before"+compCdate.getTime() );
                     if(posCdate.before(compCdate)){
-                        System.out.println(posCdate.getTime()+" is before"+compCdate.getTime() );
+//                        System.out.println(posCdate.getTime()+" is before"+compCdate.getTime() );
                         if(DisplayMessages.displayInputYesNo(inView, "Do You want to Synchronize the Pos Date According to Computer Date?\n Please make You Understand the Risks Since It cannot be Undone", "Synchronize Window")){
                             model.SynchronisePosDate(posCdate, compCdate, Function.returnSystemDateInfo());
                         }
