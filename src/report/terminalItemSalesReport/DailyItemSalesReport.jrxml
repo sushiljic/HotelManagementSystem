@@ -109,6 +109,7 @@ and bill.department_id = $P{depId}]]>
 		<field name="department_name" class="java.lang.String">
 			<fieldDescription><![CDATA[]]></fieldDescription>
 		</field>
+		<variable name="grandTotal" class="java.math.BigDecimal" calculation="Sum"/>
 		<group name="unit_type">
 			<groupExpression><![CDATA[]]></groupExpression>
 		</group>
@@ -240,6 +241,7 @@ and bill.department_id = $P{depId}]]>
 								<text><![CDATA[S.N.]]></text>
 							</staticText>
 						</jr:columnHeader>
+						<jr:columnFooter height="15" rowSpan="1"/>
 						<jr:detailCell style="table_TD" height="16" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="40" height="16" uuid="12084b99-5080-4810-8a98-b39bcf2ea21d"/>
@@ -258,6 +260,7 @@ and bill.department_id = $P{depId}]]>
 								<text><![CDATA[Item Name]]></text>
 							</staticText>
 						</jr:columnHeader>
+						<jr:columnFooter height="15" rowSpan="1"/>
 						<jr:detailCell style="table 2_TD" height="16" rowSpan="1">
 							<textField isStretchWithOverflow="true">
 								<reportElement x="0" y="0" width="145" height="16" uuid="79b91c59-c93d-453a-86cb-c00a8627d0dd"/>
@@ -276,6 +279,7 @@ and bill.department_id = $P{depId}]]>
 								<text><![CDATA[Qty.]]></text>
 							</staticText>
 						</jr:columnHeader>
+						<jr:columnFooter height="15" rowSpan="1"/>
 						<jr:detailCell style="table 2_TD" height="16" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="63" height="16" uuid="43861e9e-c9bb-4ed8-b6c9-eeabc7d40ea0"/>
@@ -294,6 +298,13 @@ and bill.department_id = $P{depId}]]>
 								<text><![CDATA[Retail Price]]></text>
 							</staticText>
 						</jr:columnHeader>
+						<jr:columnFooter height="15" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="70" height="15" uuid="5fc70fce-60be-442c-9c84-b9cf17c10066"/>
+								<textElement textAlignment="Right"/>
+								<text><![CDATA[Grand Total :]]></text>
+							</staticText>
+						</jr:columnFooter>
 						<jr:detailCell style="table 2_TD" height="16" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="70" height="16" uuid="8a31abfa-3caa-4752-866c-011548c36a6a"/>
@@ -312,6 +323,12 @@ and bill.department_id = $P{depId}]]>
 								<text><![CDATA[Total Amount]]></text>
 							</staticText>
 						</jr:columnHeader>
+						<jr:columnFooter height="15" rowSpan="1">
+							<textField>
+								<reportElement style="table_TD" x="0" y="0" width="93" height="15" uuid="b7c5c3b4-e578-4554-a029-b320f0fe19f9"/>
+								<textFieldExpression><![CDATA[$V{grandTotal}.setScale(2,RoundingMode.HALF_UP)]]></textFieldExpression>
+							</textField>
+						</jr:columnFooter>
 						<jr:detailCell style="table 2_TD" height="16" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="93" height="16" uuid="f38d8e58-5388-4e6b-a986-b9c366ba8ba8"/>
@@ -330,6 +347,7 @@ and bill.department_id = $P{depId}]]>
 								<text><![CDATA[Bill No.]]></text>
 							</staticText>
 						</jr:columnHeader>
+						<jr:columnFooter height="15" rowSpan="1"/>
 						<jr:detailCell style="table 2_TD" height="16" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="50" height="16" uuid="e85318a5-7f5f-4344-a98d-a3439f97a121"/>
@@ -348,6 +366,7 @@ and bill.department_id = $P{depId}]]>
 								<text><![CDATA[Complimentary]]></text>
 							</staticText>
 						</jr:columnHeader>
+						<jr:columnFooter height="15" rowSpan="1"/>
 						<jr:detailCell style="table 2_TD" height="16" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="76" height="16" uuid="27cef8f8-85b8-423e-b117-b82ade56adf5"/>

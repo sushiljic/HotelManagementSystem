@@ -19,7 +19,6 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import report.ReportView;
-import report.complementary.ComplementaryReport;
 
 /**
  *
@@ -50,7 +49,7 @@ public class DepartmentItem extends DBConnect {
             //fill report
             jPrint = JasperFillManager.fillReport(jReport, this.param, conn);
              
-            ReportView displayReport = new ReportView(jPrint,"Complementary Report");
+            new ReportView(jPrint,"Complementary Report");
         }
         catch(JRException | IOException ex){
             JOptionPane.showMessageDialog(null,"report.complementary.Complementary.contructor():"+ex);

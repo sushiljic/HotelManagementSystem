@@ -109,6 +109,7 @@ WHERE bill.void != 1 AND bill.bill_datetime = $P{day} AND menu.item_type = false
 		<field name="department_name" class="java.lang.String">
 			<fieldDescription><![CDATA[]]></fieldDescription>
 		</field>
+		<variable name="grandTotal" class="java.math.BigDecimal"/>
 		<group name="unit_type">
 			<groupExpression><![CDATA[]]></groupExpression>
 		</group>
@@ -236,6 +237,7 @@ WHERE bill.void != 1 AND bill.bill_datetime = $P{day} AND menu.item_type = false
 								<text><![CDATA[S.N.]]></text>
 							</staticText>
 						</jr:columnHeader>
+						<jr:columnFooter height="16" rowSpan="1"/>
 						<jr:detailCell style="table_TD" height="16" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="30" height="16" uuid="e39bee0c-4404-48ca-8daa-8a515fe52f92"/>
@@ -254,6 +256,7 @@ WHERE bill.void != 1 AND bill.bill_datetime = $P{day} AND menu.item_type = false
 								<text><![CDATA[Item Name]]></text>
 							</staticText>
 						</jr:columnHeader>
+						<jr:columnFooter height="16" rowSpan="1"/>
 						<jr:detailCell style="table 2_TD" height="16" rowSpan="1">
 							<textField isStretchWithOverflow="true">
 								<reportElement x="0" y="0" width="112" height="16" uuid="6c016b3d-c634-49f9-b275-12038aee4353"/>
@@ -272,6 +275,7 @@ WHERE bill.void != 1 AND bill.bill_datetime = $P{day} AND menu.item_type = false
 								<text><![CDATA[Qty.]]></text>
 							</staticText>
 						</jr:columnHeader>
+						<jr:columnFooter height="16" rowSpan="1"/>
 						<jr:detailCell style="table 2_TD" height="16" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="50" height="16" uuid="bd1a722d-9b69-44f9-8256-ecc768c6d933"/>
@@ -290,6 +294,13 @@ WHERE bill.void != 1 AND bill.bill_datetime = $P{day} AND menu.item_type = false
 								<text><![CDATA[Retail Price]]></text>
 							</staticText>
 						</jr:columnHeader>
+						<jr:columnFooter height="16" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="70" height="16" uuid="e008decc-c019-4807-90f0-7e19ead6f176"/>
+								<textElement textAlignment="Right"/>
+								<text><![CDATA[Grand Total :]]></text>
+							</staticText>
+						</jr:columnFooter>
 						<jr:detailCell style="table 2_TD" height="16" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="70" height="16" uuid="c1ac6d80-4828-4323-b4ae-3402d29d600f"/>
@@ -308,6 +319,12 @@ WHERE bill.void != 1 AND bill.bill_datetime = $P{day} AND menu.item_type = false
 								<text><![CDATA[Total Amount]]></text>
 							</staticText>
 						</jr:columnHeader>
+						<jr:columnFooter height="16" rowSpan="1">
+							<textField>
+								<reportElement style="table_TD" x="0" y="0" width="78" height="16" uuid="fc8cb30d-0952-4509-92d0-15dce741a1e0"/>
+								<textFieldExpression><![CDATA[$V{grandTotal}.setScale(2,RoundingMode.HALF_UP)]]></textFieldExpression>
+							</textField>
+						</jr:columnFooter>
 						<jr:detailCell style="table 2_TD" height="16" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="78" height="16" uuid="2df44317-848c-49e0-924f-87acdd7c585e"/>
@@ -326,6 +343,7 @@ WHERE bill.void != 1 AND bill.bill_datetime = $P{day} AND menu.item_type = false
 								<text><![CDATA[Bill No.]]></text>
 							</staticText>
 						</jr:columnHeader>
+						<jr:columnFooter height="16" rowSpan="1"/>
 						<jr:detailCell style="table 2_TD" height="16" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="50" height="16" uuid="92d5d6c1-322e-487a-84c1-104983047ffb"/>
@@ -344,6 +362,7 @@ WHERE bill.void != 1 AND bill.bill_datetime = $P{day} AND menu.item_type = false
 								<text><![CDATA[Complimentary]]></text>
 							</staticText>
 						</jr:columnHeader>
+						<jr:columnFooter height="16" rowSpan="1"/>
 						<jr:detailCell style="table 2_TD" height="16" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="76" height="16" uuid="2588c55d-cd34-4b05-a6dc-047122f6e500"/>
@@ -360,6 +379,7 @@ WHERE bill.void != 1 AND bill.bill_datetime = $P{day} AND menu.item_type = false
 								<text><![CDATA[Department]]></text>
 							</staticText>
 						</jr:columnHeader>
+						<jr:columnFooter height="16" rowSpan="1"/>
 						<jr:detailCell style="table_TD" height="16" rowSpan="1">
 							<textField isStretchWithOverflow="true">
 								<reportElement x="0" y="0" width="90" height="16" uuid="150cdea5-4b03-4a6e-a041-6138bf910aa1"/>

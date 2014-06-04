@@ -105,6 +105,7 @@ WHERE bill.void != 1
 		<field name="bill_datetime" class="java.sql.Date">
 			<fieldDescription><![CDATA[]]></fieldDescription>
 		</field>
+		<variable name="totalAmount" class="java.math.BigDecimal" calculation="Sum"/>
 		<group name="unit_type">
 			<groupExpression><![CDATA[]]></groupExpression>
 		</group>
@@ -236,6 +237,7 @@ WHERE bill.void != 1
 								<text><![CDATA[S.N.]]></text>
 							</staticText>
 						</jr:columnHeader>
+						<jr:columnFooter height="18" rowSpan="1"/>
 						<jr:detailCell style="table_TD" height="16" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="30" height="16" uuid="ff204804-fe09-43f4-b7f4-bee912258235"/>
@@ -254,6 +256,7 @@ WHERE bill.void != 1
 								<text><![CDATA[Item Name]]></text>
 							</staticText>
 						</jr:columnHeader>
+						<jr:columnFooter height="18" rowSpan="1"/>
 						<jr:detailCell style="table 2_TD" height="16" rowSpan="1">
 							<textField isStretchWithOverflow="true">
 								<reportElement x="0" y="0" width="112" height="16" uuid="f6ddc331-5531-4891-8716-684dc3661d0f"/>
@@ -272,6 +275,7 @@ WHERE bill.void != 1
 								<text><![CDATA[Qty.]]></text>
 							</staticText>
 						</jr:columnHeader>
+						<jr:columnFooter height="18" rowSpan="1"/>
 						<jr:detailCell style="table 2_TD" height="16" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="50" height="16" uuid="aebfbdc7-f0d2-45b4-8efc-b070fa97206c"/>
@@ -290,6 +294,15 @@ WHERE bill.void != 1
 								<text><![CDATA[Retail Price]]></text>
 							</staticText>
 						</jr:columnHeader>
+						<jr:columnFooter height="18" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="70" height="17" uuid="584a0906-d6dd-4dfa-9aee-2ee3cffbf50b"/>
+								<textElement textAlignment="Right">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Grand Total :]]></text>
+							</staticText>
+						</jr:columnFooter>
 						<jr:detailCell style="table 2_TD" height="16" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="70" height="16" uuid="90686afe-ee69-4e93-a124-48b32af87de8"/>
@@ -308,6 +321,12 @@ WHERE bill.void != 1
 								<text><![CDATA[Total Amount]]></text>
 							</staticText>
 						</jr:columnHeader>
+						<jr:columnFooter height="18" rowSpan="1">
+							<textField>
+								<reportElement style="table_TD" x="0" y="0" width="78" height="18" uuid="ac661205-6614-469d-9614-2c187b4c2031"/>
+								<textFieldExpression><![CDATA[$V{totalAmount}.setScale(2,RoundingMode.HALF_UP)]]></textFieldExpression>
+							</textField>
+						</jr:columnFooter>
 						<jr:detailCell style="table 2_TD" height="16" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="78" height="16" uuid="f7465cfa-8aa8-4d90-b5ce-79fd63ce44ad"/>
@@ -326,6 +345,7 @@ WHERE bill.void != 1
 								<text><![CDATA[Bill No.]]></text>
 							</staticText>
 						</jr:columnHeader>
+						<jr:columnFooter height="18" rowSpan="1"/>
 						<jr:detailCell style="table 2_TD" height="16" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="50" height="16" uuid="8c9e9fa6-c5a6-45e0-bc0a-a2e3d028289a"/>
@@ -344,6 +364,7 @@ WHERE bill.void != 1
 								<text><![CDATA[Complimentary]]></text>
 							</staticText>
 						</jr:columnHeader>
+						<jr:columnFooter height="18" rowSpan="1"/>
 						<jr:detailCell style="table 2_TD" height="16" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="76" height="16" uuid="e6e632a0-ee09-4e59-80e8-b7a071ef06d0"/>
@@ -360,6 +381,7 @@ WHERE bill.void != 1
 								<text><![CDATA[Date]]></text>
 							</staticText>
 						</jr:columnHeader>
+						<jr:columnFooter height="18" rowSpan="1"/>
 						<jr:detailCell style="table_TD" height="16" rowSpan="1">
 							<textField isStretchWithOverflow="true">
 								<reportElement x="0" y="0" width="90" height="16" uuid="5380f874-8964-45f4-bfef-5e45b26d2da7"/>
