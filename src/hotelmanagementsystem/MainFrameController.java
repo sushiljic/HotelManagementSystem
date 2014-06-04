@@ -70,6 +70,7 @@ import resturant.salesreport.ExecuteSalesReport;
 import resturant.tablecrud.ExecuteTableStatusView;
 import resturant.voidreport.ExecuteVoidReport;
 import resturant.wastage.ExecuteWastage;
+import resturant.wastagereport.ExecuteWastageReport;
 import reusableClass.DisplayMessages;
 import reusableClass.Function;
 import systemdate.ExecuteDateClose;
@@ -151,6 +152,7 @@ public class MainFrameController {
         MainFrameView.addWaiterServiceReportListener(new MenuItemListener());
         MainFrameView.addMenuListListener(new MenuItemListener());
         MainFrameView.addVoidReportListener(new MenuItemListener());
+        MainFrameView.addWastageReportListener(new MenuItemListener());
        /*
         for system date
         */
@@ -583,6 +585,9 @@ public class MainFrameController {
             }
             if(e.getActionCommand().equalsIgnoreCase("VoidReport")){
                 ExecuteVoidReport executeVoidReport = new ExecuteVoidReport(MainFrameView, true);
+            }
+            if(e.getActionCommand().equalsIgnoreCase("WastageReport")){
+                ExecuteWastageReport executeWastageReport = new ExecuteWastageReport(MainFrameView, true);
             }
             /*
             system date
