@@ -27,11 +27,17 @@ public class ItemWiseSalesReportModel extends DBConnect {
     
     
     
-      public Object[][] getMenuInfo(int departmentid){
+      public Object[][] getMenuInfo(int departmentid,boolean trackablestatus,boolean nontrackablestatus){
           PreparedStatement stmtget;
           ResultSet rsget;
           ArrayList<Object[]> data = new ArrayList<Object[]>();
-          String strgetMenu = "SELECT menu.menu_id,menu.menu_name,item_unit.unit_name,menu.retail_price FROM menu INNER JOIN item_unit  ON  menu.unit_id = item_unit.unit_id WHERE department_id = ?";
+          String strgetMenu = "SELECT menu.menu_id,menu.menu_name,item_unit.unit_name,menu.retail_price FROM menu INNER JOIN item_unit  ON  menu.unit_id = item_unit.unit_id WHERE department_id = ? ";
+          if(trackablestatus){
+              strgetMenu += " AND menu.item_type = 1 ";  
+          }
+          if(nontrackablestatus){
+              strgetMenu += " AND menu.item_type = 0";
+          }
           DBConnect getMenu = new DBConnect();
           try{
               getMenu.initConnection();

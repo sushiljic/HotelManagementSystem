@@ -9,8 +9,6 @@ import java.awt.Component;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeListener;
@@ -21,7 +19,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
-import javax.swing.JTextField;
+import javax.swing.JRadioButton;
 import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
@@ -38,6 +36,8 @@ public class ItemWiseSalesReportView extends javax.swing.JDialog {
 
     /**
      * Creates new form ItemWiseSalesReportView
+     * @param parent
+     * @param modal
      */
     public ItemWiseSalesReportView(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -159,12 +159,27 @@ int width = gd.getDisplayMode().getWidth();
         DayChooserPanel.setVisible(false);
     }
     public boolean getBooleanIncludeAll(){
-        if(checkboxIncludeAll.isSelected()){
-            return true;
-        }
-        else 
-            return false;
+        return checkboxIncludeAll.isSelected();
     }
+    public void setTrackableStatus(boolean flag){
+        radioTrackable.setSelected(flag);
+    }
+    public void setNonTrackableStatus(boolean flag){
+        radioNontrackable.setSelected(flag);
+    }
+    public void setBothStatus(boolean flag){
+        radioBoth.setSelected(flag);
+    }
+    public boolean getTrackableStatus(){
+        return radioTrackable.isSelected();
+    }
+    public boolean getNonTrackableStatus(){
+        return radioNontrackable.isSelected();
+    }
+    public boolean getBothStatus(){
+        return radioBoth.isSelected();
+    }
+   
 //     public Date getStartDateString(){
 //        return StartDateChooser.getDate();
 //    }
@@ -206,6 +221,15 @@ int width = gd.getDisplayMode().getWidth();
     public void addComboDepartmentListener(ActionListener Listen){
        ComboDepartmentName.addActionListener(Listen);
    }
+    public void addRadioTrackableListener(ActionListener Listen){
+        radioTrackable.addActionListener(Listen);
+    }
+    public void addRadioNonTrackableListener(ActionListener Listen){
+        radioNontrackable.addActionListener(Listen);
+    }
+    public void addRadioBothListener(ActionListener listen){
+        radioBoth.addActionListener(listen);
+    }
    public void refreshTableReport(DefaultTableModel dtm){
        tblReport.setModel(dtm);
    }
@@ -284,6 +308,7 @@ int width = gd.getDisplayMode().getWidth();
     //   setUnitId("");
        setStartDate(null);
        setEndDate(null);
+       radioBoth.setSelected(true);
 //       checkRadioIssue();
 
    }
@@ -299,26 +324,7 @@ int width = gd.getDisplayMode().getWidth();
                                       JComponent.WHEN_FOCUSED);
         
     }
-      public final class SetFocusListener implements FocusListener{
-      JTextField jf;
-        public SetFocusListener(JTextField field){
-         jf = field;   
-        }
-
-        @Override
-        public void focusGained(FocusEvent e) {
-         //   throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        jf.setBackground(new Color(136,249,168));
-        jf.selectAll();
-        }
-
-        @Override
-        public void focusLost(FocusEvent e) {
-        //    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-       jf.setBackground(Color.white);
-        }
-        
-    }
+      
       public void setDailyDate(Date d){
           pDay = d;
       }
@@ -329,6 +335,19 @@ int width = gd.getDisplayMode().getWidth();
         public JComboBox returnMenuName(){
             return comboMenuName;
         }
+
+    public JRadioButton getRadioBoth() {
+        return radioBoth;
+    }
+
+    public JRadioButton getRadioNontrackable() {
+        return radioNontrackable;
+    }
+
+    public JRadioButton getRadioTrackable() {
+        return radioTrackable;
+    }
+        
       
       public Map getDailyAllParam(){
           Map para = new HashMap<>();
@@ -428,6 +447,7 @@ int width = gd.getDisplayMode().getWidth();
         YearChooser = new com.toedter.calendar.JYearChooser();
         DayChooserPanel = new javax.swing.JPanel();
         DayChooser = new com.toedter.calendar.JCalendar();
+        buttonGroup2 = new javax.swing.ButtonGroup();
         jPanel2 = new javax.swing.JPanel();
         StartDateChooser = new com.toedter.calendar.JDateChooser();
         jLabel2 = new javax.swing.JLabel();
@@ -442,6 +462,10 @@ int width = gd.getDisplayMode().getWidth();
         comboMenuName = new javax.swing.JComboBox();
         jLabel4 = new javax.swing.JLabel();
         ComboDepartmentName = new javax.swing.JComboBox();
+        jPanel1 = new javax.swing.JPanel();
+        radioBoth = new javax.swing.JRadioButton();
+        radioNontrackable = new javax.swing.JRadioButton();
+        radioTrackable = new javax.swing.JRadioButton();
 
         tblReport.setBorder(new javax.swing.border.MatteBorder(null));
         tblReport.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -701,6 +725,46 @@ int width = gd.getDisplayMode().getWidth();
 
         ComboDepartmentName.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Choose Menu Type"));
+
+        buttonGroup1.add(radioBoth);
+        radioBoth.setText("Both");
+        radioBoth.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radioBothActionPerformed(evt);
+            }
+        });
+
+        buttonGroup1.add(radioNontrackable);
+        radioNontrackable.setText("Non Trackable");
+
+        buttonGroup1.add(radioTrackable);
+        radioTrackable.setText("Trackable");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(radioTrackable)
+                .addGap(89, 89, 89)
+                .addComponent(radioNontrackable)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(radioBoth)
+                .addGap(31, 31, 31))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(radioTrackable)
+                    .addComponent(radioNontrackable)
+                    .addComponent(radioBoth))
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -730,6 +794,9 @@ int width = gd.getDisplayMode().getWidth();
                     .addComponent(ComboDepartmentName, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(comboMenuName, 0, 142, Short.MAX_VALUE))
                 .addGap(28, 28, 28))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnCancel, btnOk});
@@ -742,6 +809,8 @@ int width = gd.getDisplayMode().getWidth();
                     .addComponent(jLabel4)
                     .addComponent(ComboDepartmentName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(comboMenuName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -762,47 +831,14 @@ int width = gd.getDisplayMode().getWidth();
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void radioBothActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioBothActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_radioBothActionPerformed
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ItemWiseSalesReportView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ItemWiseSalesReportView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ItemWiseSalesReportView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ItemWiseSalesReportView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                ItemWiseSalesReportView dialog = new ItemWiseSalesReportView(new javax.swing.JFrame(), true);
-//                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-//                    @Override
-//                    public void windowClosing(java.awt.event.WindowEvent e) {
-//                   setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-//                    }
-//                });
-                dialog.setVisible(true);
-            }
-        });
-    }
+    
     
     private Date pDay;
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -823,6 +859,7 @@ int width = gd.getDisplayMode().getWidth();
     private javax.swing.JButton btnReportCancel;
     private javax.swing.JButton btnSaveAsExcel;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JCheckBox checkboxIncludeAll;
     public javax.swing.JComboBox comboMenuName;
     private com.toedter.calendar.JDayChooser jDayChooser1;
@@ -834,12 +871,16 @@ int width = gd.getDisplayMode().getWidth();
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblEndDate;
     private javax.swing.JLabel lblReportTitle;
     private javax.swing.JLabel lblStartDate;
+    private javax.swing.JRadioButton radioBoth;
+    private javax.swing.JRadioButton radioNontrackable;
+    private javax.swing.JRadioButton radioTrackable;
     public javax.swing.JTable tblReport;
     // End of variables declaration//GEN-END:variables
 }
