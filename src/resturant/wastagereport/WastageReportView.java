@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package resturant.salesreport;
+package resturant.wastagereport;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -11,6 +11,7 @@ import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Date;
@@ -18,8 +19,10 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
@@ -30,8 +33,8 @@ import javax.swing.table.TableCellRenderer;
  *
  * @author SUSHIL
  */
-public class SalesReportView extends javax.swing.JDialog {
-    private String ItemId = new String();
+public class WastageReportView extends javax.swing.JDialog {
+    private int ItemId = 0;
 //    private String D = new String();
     private int Departmentid = 0;
     /**
@@ -39,7 +42,7 @@ public class SalesReportView extends javax.swing.JDialog {
      * @param parent
      * @param modal
      */
-    public SalesReportView(java.awt.Frame parent, boolean modal) {
+    public WastageReportView(java.awt.Frame parent, boolean modal) {
        super(parent, modal);
        
         initComponents();
@@ -61,16 +64,19 @@ public class SalesReportView extends javax.swing.JDialog {
     /*
      * self written fucntuon
      */
-//    public void setComboItemName(String[] itemName){
-//        DefaultComboBoxModel itemmodel = new DefaultComboBoxModel(itemName);
-//        comboItemName.setModel(itemmodel);
-//    }
-//    public void setComboItemName(String itemName){
-//        comboItemName.setSelectedItem(itemName);
-//    }
-//    public String getComboItemName(){
-//        return comboItemName.getSelectedItem().toString();
-//    }
+    public void setComboItemName(String[] itemName){
+        DefaultComboBoxModel itemmodel = new DefaultComboBoxModel(itemName);
+        comboItemName.setModel(itemmodel);
+    }
+    public void setComboItemName(String itemName){
+        comboItemName.setSelectedItem(itemName);
+    }
+    public String getComboItemName(){
+        return comboItemName.getSelectedItem().toString();
+    }
+    public JComboBox returnComboItemName(){
+        return comboItemName;
+    }
 //     public void setComboBaseUnitName(String[] itemName){
 //        DefaultComboBoxModel itemmodel = new DefaultComboBoxModel(itemName);
 //        comboBaseUnitName.setModel(itemmodel);
@@ -81,10 +87,10 @@ public class SalesReportView extends javax.swing.JDialog {
 //    public String getComboBaseUnitName(){
 //        return comboBaseUnitName.getSelectedItem().toString();
 //    }
-    public void setItemId(String id){
+    public void setItemId(int id){
         ItemId = id;
     }
-    public String getItemId(){
+    public int getItemId(){
         return ItemId;
     }
     public int getScreenHeight(){
@@ -102,12 +108,7 @@ return height;
 int width = gd.getDisplayMode().getWidth();
         return width;
     }
-     public void setComboReportType(String itemName){
-        ComboPeriodType.setSelectedItem(itemName);
-    }
-    public String getComboReportType(){
-        return ComboPeriodType.getSelectedItem().toString();
-    }
+    
 //    public void setUnitId(String id){
 //        UnitId = id;
 //    }
@@ -159,6 +160,38 @@ int width = gd.getDisplayMode().getWidth();
     public int getDepartmentId(){
         return Departmentid;
     }
+    public boolean getBooleanIncludeAllItemName(){
+        return checkboxIncludeAll.isSelected();
+    }
+    public void setRadioMenu(boolean flag){
+        radioMenuType.setSelected(flag);
+    }
+    public void setRadioItem(boolean flag){
+        radioItemType.setSelected(flag);
+    }
+    public boolean getRadioMenu(){
+        return radioMenuType.isSelected();
+    }
+    public boolean getRadioItem(){
+        return radioItemType.isSelected();
+    }
+
+    public JCheckBox getCheckboxIncludeAll() {
+        return checkboxIncludeAll;
+    }
+
+    public JRadioButton getRadioItemType() {
+        return radioItemType;
+    }
+
+    public JRadioButton getRadioMenuType() {
+        return radioMenuType;
+    }
+
+    
+    
+    
+    
 //    public boolean getBooleanIncludeAll(){
 //        if(checkboxIncludeAll.isSelected()){
 //            return true;
@@ -179,7 +212,7 @@ int width = gd.getDisplayMode().getWidth();
 //        EndDateChooser.setDate(dt);
 //    }
     public void setOnComboItemNameSelect(Object[] data){
-        setItemId(data[0].toString());
+        setItemId(Integer.parseInt(data[0].toString()));
       //  setUnitId(data[2].toString());
     }
    public void addOkListener(ActionListener ListenForOk){
@@ -208,6 +241,18 @@ int width = gd.getDisplayMode().getWidth();
    public void addComboDepartmentListener(ActionListener Listen){
        ComboDepartmentName.addActionListener(Listen);
    }
+   public void addComboItemNameSelectListener(ActionListener ListenForSelect){
+       comboItemName.addActionListener(ListenForSelect);
+   }
+   public void addCheckIncludeAllListener(ItemListener Listen){
+       checkboxIncludeAll.addItemListener(Listen);
+   }
+   public void addRadioMenuTypeListener(ActionListener Listen){
+       radioMenuType.addActionListener(Listen);
+   }
+   public void addRadioItemTypeListener(ActionListener Listen){
+       radioItemType.addActionListener(Listen);
+   }
    public void refreshTableReport(DefaultTableModel dtm){
        tblReport.setModel(dtm);
    }
@@ -218,15 +263,11 @@ int width = gd.getDisplayMode().getWidth();
       jc.insertItemAt("SELECT", 0);
       jc.setSelectedIndex(0);
     }
-//   public void addComboItemNameSelectListener(ActionListener ListenForSelect){
-//       comboItemName.addActionListener(ListenForSelect);
-//   }
+   
 //   public void addComboBaseUnitListener(ActionListener ListenForSelect){
 //       comboBaseUnitName.addActionListener(ListenForSelect);
 //   }
-   public void addComboReportTypeListener(ActionListener ListenForSelect){
-       ComboPeriodType.addActionListener(ListenForSelect);
-   }
+   
 //   public void addCheckIncludeAllListener(ItemListener Listen){
 //       checkboxIncludeAll.addItemListener(Listen);
 //   }
@@ -270,7 +311,7 @@ int width = gd.getDisplayMode().getWidth();
 //   }
    public String[] getIssueReport(){
        String[] data = new String[1];
-       data[0] = getItemId();
+       data[0] = String.valueOf(getItemId());
     //   data[1] = getUnitId();
      //  data[2] = String.valueOf(getBooleanRadioButton());
        return data;
@@ -283,7 +324,8 @@ int width = gd.getDisplayMode().getWidth();
        return date;
    }
    public void clearAll(){
-       setItemId("");
+       setItemId(0);
+       radioMenuType.setSelected(true);
     //   setUnitId("");
        setStartDate(null);
        setEndDate(null);
@@ -410,15 +452,20 @@ int width = gd.getDisplayMode().getWidth();
         YearChooser = new com.toedter.calendar.JYearChooser();
         DayChooserPanel = new javax.swing.JPanel();
         DayChooser = new com.toedter.calendar.JCalendar();
+        buttonGroup2 = new javax.swing.ButtonGroup();
         jPanel2 = new javax.swing.JPanel();
         StartDateChooser = new com.toedter.calendar.JDateChooser();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         EndDateChooser = new com.toedter.calendar.JDateChooser();
-        jLabel8 = new javax.swing.JLabel();
-        ComboPeriodType = new javax.swing.JComboBox();
         jLabel1 = new javax.swing.JLabel();
         ComboDepartmentName = new javax.swing.JComboBox();
+        jPanel1 = new javax.swing.JPanel();
+        radioMenuType = new javax.swing.JRadioButton();
+        radioItemType = new javax.swing.JRadioButton();
+        comboItemName = new javax.swing.JComboBox();
+        checkboxIncludeAll = new javax.swing.JCheckBox();
+        jLabel4 = new javax.swing.JLabel();
         btnOk = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
 
@@ -603,7 +650,7 @@ int width = gd.getDisplayMode().getWidth();
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Sales Report");
+        setTitle("Wastage Report");
         setModalityType(java.awt.Dialog.ModalityType.DOCUMENT_MODAL);
         setResizable(false);
 
@@ -619,35 +666,72 @@ int width = gd.getDisplayMode().getWidth();
 
         EndDateChooser.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
-        jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel8.setText("Select Period:");
-
-        ComboPeriodType.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        ComboPeriodType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Daily", "Monthly" }));
-        ComboPeriodType.setActionCommand("comboPeriodType");
-
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("Department Name:");
 
         ComboDepartmentName.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Choose Wastage Type"));
+
+        buttonGroup1.add(radioMenuType);
+        radioMenuType.setText("Menu Type");
+
+        buttonGroup1.add(radioItemType);
+        radioItemType.setText("Item Type");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(44, 44, 44)
+                .addComponent(radioMenuType, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(radioItemType)
+                .addGap(72, 72, 72))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(radioMenuType)
+                    .addComponent(radioItemType))
+                .addContainerGap())
+        );
+
+        comboItemName.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        comboItemName.setActionCommand("ComboItemName");
+
+        checkboxIncludeAll.setText("Include All");
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel4.setText("Name:");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 132, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(EndDateChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(StartDateChooser, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
-                    .addComponent(ComboPeriodType, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(ComboDepartmentName, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 132, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(EndDateChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(StartDateChooser, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
+                            .addComponent(ComboDepartmentName, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(checkboxIncludeAll, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(comboItemName, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -657,11 +741,14 @@ int width = gd.getDisplayMode().getWidth();
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(ComboDepartmentName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ComboPeriodType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboItemName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(checkboxIncludeAll, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(19, 19, 19)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(StartDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -672,9 +759,7 @@ int width = gd.getDisplayMode().getWidth();
                 .addContainerGap())
         );
 
-        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {ComboDepartmentName, ComboPeriodType, StartDateChooser});
-
-        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel1, jLabel8});
+        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {ComboDepartmentName, StartDateChooser});
 
         btnOk.setText("Ok");
 
@@ -687,7 +772,7 @@ int width = gd.getDisplayMode().getWidth();
             .addGroup(layout.createSequentialGroup()
                 .addGap(47, 47, 47)
                 .addComponent(btnOk, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 128, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(68, 68, 68))
             .addGroup(layout.createSequentialGroup()
@@ -707,7 +792,7 @@ int width = gd.getDisplayMode().getWidth();
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancel)
                     .addComponent(btnOk, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnCancel, btnOk});
@@ -732,20 +817,20 @@ int width = gd.getDisplayMode().getWidth();
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(SalesReportView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(WastageReportView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(SalesReportView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(WastageReportView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(SalesReportView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(WastageReportView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(SalesReportView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(WastageReportView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                SalesReportView dialog = new SalesReportView(new javax.swing.JFrame(), true);
+                WastageReportView dialog = new WastageReportView(new javax.swing.JFrame(), true);
 //                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
 //                    @Override
 //                    public void windowClosing(java.awt.event.WindowEvent e) {
@@ -758,7 +843,6 @@ int width = gd.getDisplayMode().getWidth();
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox ComboDepartmentName;
-    private javax.swing.JComboBox ComboPeriodType;
     public javax.swing.JDialog DailogReport;
     public com.toedter.calendar.JCalendar DayChooser;
     private javax.swing.JPanel DayChooserPanel;
@@ -774,20 +858,26 @@ int width = gd.getDisplayMode().getWidth();
     private javax.swing.JButton btnReportCancel;
     private javax.swing.JButton btnSaveAsExcel;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup buttonGroup2;
+    private javax.swing.JCheckBox checkboxIncludeAll;
+    public javax.swing.JComboBox comboItemName;
     private com.toedter.calendar.JDayChooser jDayChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblEndDate;
     private javax.swing.JLabel lblReportTitle;
     private javax.swing.JLabel lblStartDate;
+    private javax.swing.JRadioButton radioItemType;
+    private javax.swing.JRadioButton radioMenuType;
     public javax.swing.JTable tblReport;
     // End of variables declaration//GEN-END:variables
 }

@@ -2,30 +2,35 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package resturant.salesreport;
+package resturant.wastagereport;
 
 import hotelmanagementsystem.MainFrameView;
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Date;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
-import report.terminalSalesReport.SalesReport;
+import javax.swing.JRadioButton;
+import reusableClass.DisplayMessages;
+import reusableClass.Function;
 //import report.terminalSalesReport.MonthlySalesReport;
 
 /**
  *
  * @author SUSHIL
  */
-public class SalesReportController {
-    SalesReportModel IRModel;
-    SalesReportView IRView;
+public class WastageReportController {
+    WastageReportModel IRModel;
+    WastageReportView IRView;
     MainFrameView mainview;
      public Date time;
     
-    public SalesReportController(SalesReportModel model,SalesReportView view,MainFrameView main){
+    public WastageReportController(WastageReportModel model,WastageReportView view,MainFrameView main){
         IRModel= model;
         IRView = view;
         mainview = main;
@@ -40,15 +45,13 @@ public class SalesReportController {
         IRView.addCancelReportListener(new SalesReportListener());
         IRView.addPrintListener(new SalesReportListener());
         IRView.addSaveAsExcelListener(new SalesReportListener());
-        /*
-         * for comboitemname select
-         */
-//        IRView.addComboItemNameSelectListener(new ComboSelectListener());
-//        IRView.addComboBaseUnitListener(new ComboSelectListener());
-        IRView.addComboReportTypeListener(new ComboReportTypeListener());
-        /*
-         * property change for the jdatechoser
-         */
+       //Add Menu type or Item type Listener
+        IRView.addRadioMenuTypeListener(new WastageTypeListener());
+        IRView.addRadioItemTypeListener(new WastageTypeListener());
+        //add include all Listener
+        IRView.addCheckIncludeAllListener(new CheckIncludeAllListener());
+        //add itemcobo type listener
+//        IRView.addComboItemNameSelectListener(new ComboItemNameSelectListener());
         IRView.addDayChooserListener(new DayPropertyListener());
         IRView.addMonthChooserListener(new MonthPropertyListener());
         IRView.addComboDepartmentListener(new ComboDepartmentListener());
@@ -68,6 +71,7 @@ public class SalesReportController {
                 IRView.returnComboDepartmentName().setSelectedIndex(0);
                 }
             }
+          IRView.getCheckboxIncludeAll().setSelected(true);
         }
         catch(Exception se){
             JOptionPane.showMessageDialog(view, se+"from constructor "+getClass().getName());
@@ -95,6 +99,9 @@ public class SalesReportController {
                    JOptionPane.showMessageDialog(IRView.DailogReport,"Please Select  Department Name ");
                     return;  
                 }
+                if(IRView.getItemId() == 0){
+                    DisplayMessages.displayInfo(IRView.DailogReport, "Please Select the  Name", "Select Name");
+                }
                 if(IRView.getStartDate() == null){
                      JOptionPane.showMessageDialog(IRView.DailogReport,"Please Select  Start Date ");
                     return;
@@ -103,83 +110,30 @@ public class SalesReportController {
                      JOptionPane.showMessageDialog(IRView.DailogReport,"Please Select  End Date ");
                     return;
                 }
-                    Date[] date = IRView.getIssueReportDate();
-               
-              
-                    /*
-                     * issue report should be fetche from database
-                     */
-                           
-                            
-                      String title = " Sales Report ";
-                        /*
-                         * when icnlude all is clicked then true is passed as parameter
-                         */
-                        if(IRView.getComboReportType().equalsIgnoreCase("Daily")){
-                           
-//                          title  = "Daily "+ title;
-                            String report = "DailySalesReport.jrxml";
-                            title = "Daily Sales Report";
-                          SalesReport dView = new SalesReport(IRView.getReportPara(),report,title);
-                        }
-                        else{
-//                            title = "Monthly"+ title;
-                            String report = "MonthlySalesReport.jrxml";
-                            title = "Monthly Sales Report";
-                            SalesReport mReport = new SalesReport(IRView.getReportParams(),report,title);
-                        }
-                          
-                            
-//                             IRView.setlblReportTitle(title);
-                             //String[] itemdata = IRView.getIssueReport();
-//                        IRView.refreshTableReport(IRModel.getSalesList(date));
-//                         if(IRView.getTableReport().getRowCount() <= 0){
-//                            JOptionPane.showMessageDialog(IRView.DailogReport, "Record Not Found");
-//                            return;
-//                        }
-//                        DefaultTableModel ModelTableReport = (DefaultTableModel) IRView.tblReport.getModel();
-//                        BigDecimal ItemTotal = BigDecimal.ZERO;
-//                         BigDecimal TotalSVC = BigDecimal.ZERO;
-//                          BigDecimal TotalVAT = BigDecimal.ZERO;
-//                           BigDecimal TotalDiscount = BigDecimal.ZERO;
-//                         BigDecimal TotalBillAmount = BigDecimal.ZERO;
-//                          BigDecimal TotalReceivedAmount = BigDecimal.ZERO;
-                          
-//                        String UnitType = new String();
-//                       for(int i=0;i<ModelTableReport.getRowCount();i++){
-//                         ItemTotal = ItemTotal.add(new BigDecimal(ModelTableReport.getValueAt(i, 1).toString()));
-//                          TotalSVC = TotalSVC.add(new BigDecimal(ModelTableReport.getValueAt(i, 2).toString()));
-//                          TotalVAT = TotalVAT.add(new BigDecimal(ModelTableReport.getValueAt(i, 3).toString()));
-//                          TotalDiscount = TotalDiscount.add(new BigDecimal(ModelTableReport.getValueAt(i, 4).toString()));
-//                          TotalBillAmount = TotalBillAmount.add(new BigDecimal(ModelTableReport.getValueAt(i, 5).toString()));
-//                          TotalReceivedAmount = TotalReceivedAmount.add(new BigDecimal(ModelTableReport.getValueAt(i, 6).toString()));
-//                        }
-//                       // System.out.println(TotalQuantity+UnitType);
-//                        //IRView.tblReport.getModel();
-//                        ModelTableReport.addRow(new Object[]{"Total",ItemTotal,TotalSVC,TotalVAT,TotalDiscount,TotalBillAmount,TotalReceivedAmount});
-                      
-//                        else{
-//                               title  = "Monthly "+ title;
-//                             IRView.setlblReportTitle(title);
-//                         //   IRView.refreshTableReport(IRModel.getIssueList(null, date, true));
-//                        }
+                 //display the menuwise wastage report
+                 if(IRView.getRadioMenu()){
+                     if(IRView.getBooleanIncludeAllItemName()){
+                         
+                     }
+                     else{
+                         
+                     }
+                 }
+                 //display the itemwise wastage report
+                 else{
+                      if(IRView.getBooleanIncludeAllItemName()){
+                         
+                     }
+                     else{
+                         
+                     }
                      
-//                         DateFormat dt = DateFormat.getDateInstance(DateFormat.FULL);
-//                        IRView.setlblStartDate(dt.format(IRView.getStartDate()));
-//                        IRView.setlblEndDate(dt.format(IRView.getEndDate()));
-//                        IRView.DailogReport.pack();
-//                        IRView.DailogReport.setModal(true);
-                         IRView.setVisible(false);
+                 }
+                 
+                   
+                 IRView.setVisible(false);
 //                        IRView.DailogReport.setVisible(true);
-               //for viewing report
-                        if(IRView.getComboReportType().equalsIgnoreCase("Daily")){
-                           
-                         // title  = "Daily "+ title;
-                            
-                        }
-                        else{
-                            //title = "Monthly"+ title;
-                        }
+              
               
                
                
@@ -195,48 +149,14 @@ public class SalesReportController {
             }
             
         }
-        catch(Exception ire){
+        catch(HeadlessException ire){
             JOptionPane.showMessageDialog(IRView, "From IssueReportListener ");
         }
         }
         
     }
    
-    public class ComboReportTypeListener implements ActionListener{
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-         //   throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        try{
-           JComboBox jreport = (JComboBox)e.getSource();
-           if(jreport.getSelectedItem().equals("Daily")){
-             //  JOptionPane.showMessageDialog(jreport, "wala daiay");
-             //  IRView.DialogPeriodType.pack();
-             //  IRView.DialogPeriodType.setModal(true);
-                 IRView.hideMonthPanel();
-                 IRView.showDayChooserPanel();
-                IRView.DialogPeriodType.pack();
-                 IRView.DialogPeriodType.setModal(true);
-              //  IRView.DayChooser.setVisible(true);
-               IRView.DialogPeriodType.setVisible(true);
-             
-               
-           }
-           else if(jreport.getSelectedItem().equals("Monthly")){
-               // JOptionPane.showMessageDialog(jreport, "wala daiay");
-                IRView.hideDayChooserPanel();
-                IRView.showMonthPanel();
-                  IRView.DialogPeriodType.pack();
-                 IRView.DialogPeriodType.setModal(true);
-                  IRView.DialogPeriodType.setVisible(true);
-           }
-        }
-        catch(Exception ce){
-            JOptionPane.showMessageDialog(IRView, "From ComboReportTypeListener");
-        }
-        }
-        
-    }
+    
 
      public class DayPropertyListener implements PropertyChangeListener{
 
@@ -301,4 +221,52 @@ public class SalesReportController {
         }
         
     }
+   
+   public class WastageTypeListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+        try{
+            JRadioButton jradio = (JRadioButton)e.getSource();
+            if(jradio == IRView.getRadioMenuType()){
+                //display the list of the menu item
+                IRView.setComboItemName(Function.returnSecondColumn(IRModel.getMenuInfo(IRView.getDepartmentId())));
+                Function.AddSelectInCombo(IRView.returnComboItemName());
+            }
+            else{
+                IRView.setComboItemName(Function.returnSecondColumn(IRModel.getItemInfoForMenu(IRView.getDepartmentId())));
+                Function.AddSelectInCombo(IRView.returnComboItemName());
+            }
+            
+        }
+        catch(Exception se){
+            DisplayMessages.displayError(IRView, se.getMessage()+"from "+ getClass().getName(), "WastageTypeListener Error");
+        }
+        }
+       
+   }
+   public class CheckIncludeAllListener implements ItemListener{
+
+        @Override
+        public void itemStateChanged (ItemEvent e) {
+        try{
+            if(e.getStateChange() == 1)
+            {
+                IRView.returnComboItemName().setEnabled(false);
+            }
+            else{
+                IRView.returnComboItemName().setEnabled(true);
+            }
+        }
+        catch(Exception se){
+            DisplayMessages.displayError(IRView, se.getMessage()+"from CheckIncludeAllListener()" +getClass().getName(), " CheckIncludeAllListener Error");
+        }
+        }
+
+       
+
+       
+       
+   }
 }
+
