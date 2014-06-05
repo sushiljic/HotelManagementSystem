@@ -70,6 +70,7 @@ import resturant.salesreport.ExecuteSalesReport;
 import resturant.tablecrud.ExecuteTableStatusView;
 import resturant.voidreport.ExecuteVoidReport;
 import resturant.wastage.ExecuteWastage;
+import resturant.wastagereport.ExecuteWastageReport;
 import reusableClass.DisplayMessages;
 import reusableClass.Function;
 import systemdate.ExecuteDateClose;
@@ -151,6 +152,7 @@ public class MainFrameController {
         MainFrameView.addWaiterServiceReportListener(new MenuItemListener());
         MainFrameView.addMenuListListener(new MenuItemListener());
         MainFrameView.addVoidReportListener(new MenuItemListener());
+        MainFrameView.addWastageReportListener(new MenuItemListener());
        /*
         for system date
         */
@@ -199,7 +201,7 @@ public class MainFrameController {
         ChangeMenuBarName(MainFrameView.getAllMenuItemText(), MainFrameModel.getJMenuName());
        
         //setting the timer for  update of the time
-        Timer RefreshDate = new Timer(10000,new ActionListener(){
+        Timer RefreshDate = new Timer(5000,new ActionListener(){
 
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -247,11 +249,11 @@ public class MainFrameController {
              //for changing image according to the day status
                     Object[] dateinfo = Function.returnSystemDateInfo();
                     //check it is open
-                    if(dateinfo[2].equals(Boolean.TRUE)){
+                    if(dateinfo[2].equals(Boolean.TRUE) && dateinfo[3].equals(Boolean.FALSE)){
 //                        System.out.println("wala started");
                         MainFrameView.LoadlblDayStatus("daystarted.png");
                     }
-                    else if(dateinfo[3].equals(Boolean.FALSE)){
+                    else if(dateinfo[2].equals(Boolean.TRUE) && dateinfo[3].equals(Boolean.TRUE) ){
                         MainFrameView.LoadlblDayStatus("dayclosed.png");
 //                        System.out.println("wala closed");
                     }
@@ -583,6 +585,9 @@ public class MainFrameController {
             }
             if(e.getActionCommand().equalsIgnoreCase("VoidReport")){
                 ExecuteVoidReport executeVoidReport = new ExecuteVoidReport(MainFrameView, true);
+            }
+            if(e.getActionCommand().equalsIgnoreCase("WastageReport")){
+                ExecuteWastageReport executeWastageReport = new ExecuteWastageReport(MainFrameView, true);
             }
             /*
             system date

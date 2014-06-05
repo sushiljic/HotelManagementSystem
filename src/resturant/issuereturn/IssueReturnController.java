@@ -13,9 +13,12 @@ import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import reusableClass.DisplayMessages;
 
 /**
  *
@@ -36,18 +39,19 @@ public class IssueReturnController {
         * implementing the actionlistener for the buttons in view
         */
        issueReturnView.addSearchListnener(new IssueReturnListener());
-       issueReturnView.addKeySearchListener(new IssueReturnKeyListener());
+//       issueReturnView.addKeySearchListener(new IssueReturnKeyListener());
        
        issueReturnView.addReturnListener(new IssueReturnListener());
-       issueReturnView.addKeyReturnListener(new IssueReturnKeyListener());
+//       issueReturnView.addKeyReturnListener(new IssueReturnKeyListener());
        
        issueReturnView.addCancelListener(new IssueReturnListener());
-       issueReturnView.addKeyCancelListener(new IssueReturnKeyListener());
+//       issueReturnView.addKeyCancelListener(new IssueReturnKeyListener());
        
        issueReturnView.addTextSearchListener(new TextIssueReturnListener());
        issueReturnView.addComboDepartmentNameListener(new ComboListener());
        
        issueReturnView.addRowSelectedListener(new returnRowSelectedListener(issueReturnView));
+       issueReturnView.addTxtSearchDocumentListener(new TxtSearchDocumentListener());
        try{
               issueReturnView.setcomboDepartmentName(issueReturnModel.returnSecondColumn(issueReturnModel.getRespectiveDepartment(mainview.getUserId())));
             //if it has only one element select it order wise add select into it
@@ -356,7 +360,7 @@ public class IssueReturnController {
         int issueid = IRView.getIssueId();
         Float UnitRelativeQuantity = issueReturnModel.getUnitRelativeQuantity(issueReturnModel.getUnitIdByIssueId(issueid));
 //        System.out.println(UnitRelativeQuantity);
-        System.out.println(String.valueOf(issueReturnModel.getStockQuantityfromResturantStore(issueid))+"wala"+issueid);
+//        System.out.println(String.valueOf(issueReturnModel.getStockQuantityfromResturantStore(issueid))+"wala"+issueid);
         IRView.setStockQuantity(String.valueOf(issueReturnModel.getStockQuantityfromResturantStore(IRView.getIssueId())/UnitRelativeQuantity));
         IRView.enableReturnBtn();
         IRView.setlblStoreTitle(displayRowValues(lead)[5]);
@@ -392,5 +396,32 @@ public class IssueReturnController {
             }
             return st;
         }
+    }
+    class TxtSearchDocumentListener implements DocumentListener{
+
+        @Override
+        public void insertUpdate(DocumentEvent e) {
+            ReloadTable();
+        }
+
+        @Override
+        public void removeUpdate(DocumentEvent e) {
+            ReloadTable();
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent e) {
+            ReloadTable();
+        }
+        private void ReloadTable(){
+            try{
+                issueReturnView.refreshJTable(issueReturnModel.getResturantItemListLikeSearch(issueReturnView.getDepartmentId(), issueReturnView.getSearch()));
+                
+            }
+            catch(Exception se){
+                DisplayMessages.displayError(mainview, se.getMessage()+" from "+ getClass().getName(), "Search Document Listener Error");
+            }
+        }
+        
     }
 }

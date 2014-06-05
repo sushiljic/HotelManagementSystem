@@ -5,15 +5,17 @@
 package hotelmanagementsystem;
 
 import database.DBConnect;
-import java.sql.Blob;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import javax.swing.JButton;
 import javax.swing.JMenu;
 import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
+import reusableClass.DisplayMessages;
 
 /**
  *
@@ -401,4 +403,38 @@ public class MainFrameModel extends DBConnect {
        }
        return name.toArray(new String[name.size()]);
     }
+     public void SynchronisePosDate(Calendar posdate,Calendar comdate,Object[] dateinfo){
+         PreparedStatement syndate;
+         ResultSet rsdate;
+         String qryClosedDate = "UPDATE system_date set close_status = ? WHERE system_date_id = ?";
+         String qryInsertDate = "INSERT INTO system_date (date,open_status,close_status) VALUES(?,1,1)";
+         try{
+            initConnection();
+            conn.setAutoCommit(false);
+         //check if it not closed the closed the date
+         if(dateinfo[2].equals(Boolean.TRUE) && dateinfo[3].equals(Boolean.FALSE)){
+           
+            syndate = conn.prepareStatement(qryClosedDate);
+            syndate.setInt(1, 1);
+            syndate.setObject(2, dateinfo[0]);
+            syndate.executeUpdate();
+         }
+         //now insert the date with open and close flag true till it reach to comdate
+         while(posdate.before(comdate) ){
+//             System.out.println("wala");
+             posdate.add(Calendar.DATE,1);
+//             System.err.println(posdate.getTime());
+             //this restrict the last date so that it will also not be inserted
+             if(!posdate.equals(comdate)){
+             syndate = conn.prepareStatement(qryInsertDate);
+             syndate.setDate(1,new java.sql.Date(posdate.getTime().getTime()));
+             syndate.executeUpdate();
+             }
+         }
+         conn.commit();
+         }
+         catch(SQLException se){
+             DisplayMessages.displayError(null, se.getMessage(), "SynchronisePosDate Error");
+         }
+     }
 }

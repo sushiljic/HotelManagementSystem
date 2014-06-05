@@ -25,6 +25,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
@@ -553,6 +554,13 @@ public class Function  {
                 
              }
              return menuinfo;
+         }
+         public static Calendar TruncateTime(Calendar cal){
+             cal.set(Calendar.HOUR_OF_DAY, 0);
+             cal.set(Calendar.MINUTE,0);
+             cal.set(Calendar.SECOND, 0);
+             cal.set(Calendar.MILLISECOND, 0);
+             return cal;
          }
 }
 

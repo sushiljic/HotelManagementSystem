@@ -54,7 +54,7 @@ public class IssueReturnModel extends DBConnect {
         
         String strIssueReturn = "INSERT INTO issue_return(issue_id,quantity,unit_id,return_reason,return_date) VALUES(?,?,?,?,?)";
 //        String strUpdateCenterStore = "UPDATE centerstore_stock SET total_qty = ? WHERE item_id =?";
-         String strUpdateCenterStore = "UPDATE centerstore_stock SET total_qty = ? WHERE item_id =?";
+        String strUpdateCenterStore = "UPDATE centerstore_stock SET total_qty = ? WHERE item_id =?";
         String strResturantStock = "UPDATE department_store_stock SET total_qty = ? WHERE department_item_id =?";
         String strIssue = "UPDATE issue SET quantity = ? WHERE issue_id = ?";
         
@@ -68,10 +68,10 @@ public class IssueReturnModel extends DBConnect {
              */
             String UnitId = getUnitIdByIssueId(Integer.parseInt(ReturnInfo[0]));
           //  String ItemId =
-             int ItemId = getItemIdByIssueId(Integer.parseInt(ReturnInfo[0]));
+            int ItemId = getItemIdByIssueId(Integer.parseInt(ReturnInfo[0]));
             int DepartmentItemId = getDepartmentItemIdByIssueId(Integer.parseInt(ReturnInfo[0]));
             issueReturn.initConnection();
-           stmtIssueReturn = issueReturn.conn.prepareStatement(strIssueReturn);
+            stmtIssueReturn = issueReturn.conn.prepareStatement(strIssueReturn);
             issueReturn.conn.setAutoCommit(false);
             stmtIssueReturn.setString(1, ReturnInfo[0]);
             stmtIssueReturn.setBigDecimal(2, new BigDecimal(ReturnInfo[4]).setScale(3, RoundingMode.HALF_UP));
@@ -84,7 +84,7 @@ public class IssueReturnModel extends DBConnect {
              */
             //for finding the quantity in cneterstore_stock
             BigDecimal quan;
-             PreparedStatement stmtcheck;
+            PreparedStatement stmtcheck;
     //obtaing the quantiy of the item to be issued if it is true
             String strCheck = "SELECT total_qty FROM centerstore_stock WHERE item_id = ?";
                    
@@ -101,7 +101,7 @@ public class IssueReturnModel extends DBConnect {
             
             BigDecimal UnitRelativeQuantity;
             UnitRelativeQuantity = new BigDecimal(getUnitRelativeQuantity(UnitId)).setScale(3, RoundingMode.HALF_UP);
-           NetQuantity = quan.add(new BigDecimal(ReturnInfo[4]).setScale(3, RoundingMode.HALF_UP).multiply(UnitRelativeQuantity));
+            NetQuantity = quan.add(new BigDecimal(ReturnInfo[4]).setScale(3, RoundingMode.HALF_UP).multiply(UnitRelativeQuantity));
             stmtUpdateCenterStore = issueReturn.conn.prepareStatement(strUpdateCenterStore);
             issueReturn.conn.setAutoCommit(false);
             stmtUpdateCenterStore.setBigDecimal(1,NetQuantity);
@@ -113,7 +113,7 @@ public class IssueReturnModel extends DBConnect {
       //      NetQuantityForResturant = Integer.parseInt(strIssueReturn)
            /*  int quan = 0;
              PreparedStatement stmtcheck;
-    //obtaing the quantiy of the item to be issued if it is true
+            //obtaing the quantiy of the item to be issued if it is true
             String strCheck = "SELECT quantity FROM department_store_stock WHERE item_id = ?";
                     
                     issueReturn.conn.setAutoCommit(false);
@@ -188,6 +188,59 @@ public class IssueReturnModel extends DBConnect {
            getissue.initConnection();
            stmtIssueInfo = getissue.conn.prepareStatement(strQuery);
            stmtIssueInfo.setInt(1, departmentid);
+           rsResult = stmtIssueInfo.executeQuery();
+           
+           ResultSetMetaData metadata = rsResult.getMetaData();
+           colcount = metadata.getColumnCount();
+            
+           while(rsResult.next()){
+              Object[] row = new Object[]{rsResult.getString("issue_id"),rsResult.getString("item_name"),rsResult.getFloat("quantity"),rsResult.getString("unit_name"),rsResult.getString("center_store_info.store_name"),rsResult.getString("department_info.department_name"),rsResult.getString("issue_date")};
+              /* for(int i=0;i<colcount;i++){
+                   row[i] = rsResult.getObject(i+1);
+               }*/
+              
+               data.add(row);
+               
+              // data
+              
+           }
+            finalData = data.toArray(new Object[data.size()][]);
+           
+       }
+        catch(Exception se){
+            JOptionPane.showMessageDialog(null, se+"form getResturantItemList");
+        }
+         finally{
+           getissue.closeConnection();
+       }
+       return new DefaultTableModel(finalData,ColumnNames){
+          @Override
+          public boolean isCellEditable(int rows,int columns){
+          //all cell false
+                  return false;    
+          }
+                  
+       };
+    }
+    public DefaultTableModel getResturantItemListLikeSearch( int departmentid,String src){
+         int colcount;
+       int rowcount ;
+       String search = src +"%";
+      // String[] ColumnNames = { "Issue Id", "Item Name", "Issue Quantity","item BaseUnit","Issue From", "Issue To","Issue Date"};
+       String strQuery = "SELECT issue.issue_id,issue.department_item_id,centerstore_stock.item_name,issue.quantity,issue.unit_id,item_unit.unit_name,center_store_info.store_name,department_info.department_name,issue.issue_date FROM issue INNER JOIN item_unit ON issue.unit_id = item_unit.unit_id INNER JOIN  department_store_stock ON issue.department_item_id = department_store_stock.department_item_id INNER JOIN centerstore_stock ON department_store_stock.item_id = centerstore_stock.item_id INNER JOIN center_store_info ON issue.issue_from = center_store_info.store_id INNER JOIN department_info ON issue.issue_to = department_info.department_id WHERE department_store_stock.department_id = ? AND centerstore_stock.item_name LIKE  ? ORDER BY issue.issue_date desc";
+       String ColumnNames[] = {"Issue Id","Item Name","Issue Quantity","Item BaseUnit","Issue From","Issue To","Issue Date"};
+      //Object[][] data = null;
+     //  List<Object[]> data = new ArrayList<Object[]>();
+   ArrayList<Object[]> data = new ArrayList<Object[]>();
+    Object[][] finalData =null;
+       DBConnect getissue = new DBConnect();
+       ResultSet rsResult;
+       PreparedStatement stmtIssueInfo;
+       try{
+           getissue.initConnection();
+           stmtIssueInfo = getissue.conn.prepareStatement(strQuery);
+           stmtIssueInfo.setInt(1, departmentid);
+           stmtIssueInfo.setString(2, search);
            rsResult = stmtIssueInfo.executeQuery();
            
            ResultSetMetaData metadata = rsResult.getMetaData();

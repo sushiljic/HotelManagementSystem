@@ -2,13 +2,15 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package resturant.itemwisesalesreport;
+package resturant.wastagereport;
 
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeListener;
@@ -17,9 +19,11 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JRadioButton;
+import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
@@ -29,18 +33,17 @@ import javax.swing.table.TableCellRenderer;
  *
  * @author SUSHIL
  */
-public class ItemWiseSalesReportView extends javax.swing.JDialog {
-    private String MenuId = new String();
- //   private String UnitId = new String();
+public class WastageReportView extends javax.swing.JDialog {
+    private int ItemId = 0;
+//    private String D = new String();
     private int Departmentid = 0;
-
     /**
-     * Creates new form ItemWiseSalesReportView
+     * Creates new form SalesReportView
      * @param parent
      * @param modal
      */
-    public ItemWiseSalesReportView(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    public WastageReportView(java.awt.Frame parent, boolean modal) {
+       super(parent, modal);
        
         initComponents();
 //          comboBaseUnitName.setVisible(false);
@@ -61,15 +64,18 @@ public class ItemWiseSalesReportView extends javax.swing.JDialog {
     /*
      * self written fucntuon
      */
-    public void setComboMenuName(String[] itemName){
+    public void setComboItemName(String[] itemName){
         DefaultComboBoxModel itemmodel = new DefaultComboBoxModel(itemName);
-        comboMenuName.setModel(itemmodel);
+        comboItemName.setModel(itemmodel);
     }
-    public void setComboMenuName(String itemName){
-        comboMenuName.setSelectedItem(itemName);
+    public void setComboItemName(String itemName){
+        comboItemName.setSelectedItem(itemName);
     }
-    public String getComboMenuName(){
-        return comboMenuName.getSelectedItem().toString();
+    public String getComboItemName(){
+        return comboItemName.getSelectedItem().toString();
+    }
+    public JComboBox returnComboItemName(){
+        return comboItemName;
     }
 //     public void setComboBaseUnitName(String[] itemName){
 //        DefaultComboBoxModel itemmodel = new DefaultComboBoxModel(itemName);
@@ -81,17 +87,11 @@ public class ItemWiseSalesReportView extends javax.swing.JDialog {
 //    public String getComboBaseUnitName(){
 //        return comboBaseUnitName.getSelectedItem().toString();
 //    }
-    public void setMenuId(String id){
-        MenuId = id;
+    public void setItemId(int id){
+        ItemId = id;
     }
-    public String getMenuId(){
-        return MenuId;
-    }
-       public void setDepartmentId(int id){
-        Departmentid = id;
-    }
-    public int getDepartmentId(){
-        return Departmentid;
+    public int getItemId(){
+        return ItemId;
     }
     public int getScreenHeight(){
 //        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -108,13 +108,15 @@ return height;
 int width = gd.getDisplayMode().getWidth();
         return width;
     }
-     public void setComboReportType(String itemName){
-        ComboPeriodType.setSelectedItem(itemName);
-    }
-    public String getComboReportType(){
-        return ComboPeriodType.getSelectedItem().toString();
-    }
-     public void setComboDepartmentName(Object[] name){
+    
+//    public void setUnitId(String id){
+//        UnitId = id;
+//    }
+//    public String getUnitId(){
+//        return UnitId;
+//    }
+       //for store name
+    public void setComboDepartmentName(Object[] name){
         DefaultComboBoxModel model = new DefaultComboBoxModel(name);
         ComboDepartmentName.setModel(model);
 //        ComboDepartmentName.setSelectedIndex(0);
@@ -128,12 +130,6 @@ int width = gd.getDisplayMode().getWidth();
     public JComboBox returnComboDepartmentName(){
     return ComboDepartmentName;
     }
-//    public void setUnitId(String id){
-//        UnitId = id;
-//    }
-//    public String getUnitId(){
-//        return UnitId;
-//    }
     public Date getStartDate(){
         return StartDateChooser.getDate();
     }
@@ -158,28 +154,51 @@ int width = gd.getDisplayMode().getWidth();
     public void hideDayChooserPanel(){
         DayChooserPanel.setVisible(false);
     }
-    public boolean getBooleanIncludeAll(){
+       public void setDepartmentId(int id){
+        Departmentid = id;
+    }
+    public int getDepartmentId(){
+        return Departmentid;
+    }
+    public boolean getBooleanIncludeAllItemName(){
         return checkboxIncludeAll.isSelected();
     }
-    public void setTrackableStatus(boolean flag){
-        radioTrackable.setSelected(flag);
+    public void setRadioMenu(boolean flag){
+        radioMenuType.setSelected(flag);
     }
-    public void setNonTrackableStatus(boolean flag){
-        radioNontrackable.setSelected(flag);
+    public void setRadioItem(boolean flag){
+        radioItemType.setSelected(flag);
     }
-    public void setBothStatus(boolean flag){
-        radioBoth.setSelected(flag);
+    public boolean getRadioMenu(){
+        return radioMenuType.isSelected();
     }
-    public boolean getTrackableStatus(){
-        return radioTrackable.isSelected();
+    public boolean getRadioItem(){
+        return radioItemType.isSelected();
     }
-    public boolean getNonTrackableStatus(){
-        return radioNontrackable.isSelected();
+
+    public JCheckBox getCheckboxIncludeAll() {
+        return checkboxIncludeAll;
     }
-    public boolean getBothStatus(){
-        return radioBoth.isSelected();
+
+    public JRadioButton getRadioItemType() {
+        return radioItemType;
     }
-   
+
+    public JRadioButton getRadioMenuType() {
+        return radioMenuType;
+    }
+
+    
+    
+    
+    
+//    public boolean getBooleanIncludeAll(){
+//        if(checkboxIncludeAll.isSelected()){
+//            return true;
+//        }
+//        else 
+//            return false;
+//    }
 //     public Date getStartDateString(){
 //        return StartDateChooser.getDate();
 //    }
@@ -192,8 +211,8 @@ int width = gd.getDisplayMode().getWidth();
 //    public void setEndDate(Date dt){
 //        EndDateChooser.setDate(dt);
 //    }
-    public void setOnComboMenuNameSelect(Object[] data){
-        setMenuId(data[0].toString());
+    public void setOnComboItemNameSelect(Object[] data){
+        setItemId(Integer.parseInt(data[0].toString()));
       //  setUnitId(data[2].toString());
     }
    public void addOkListener(ActionListener ListenForOk){
@@ -214,40 +233,41 @@ int width = gd.getDisplayMode().getWidth();
    public void addDayChooserListener(PropertyChangeListener ListenForClick){
      //  DayChooser.add
        DayChooser.addPropertyChangeListener(ListenForClick);
+     
    }
    public void addMonthChooserListener(PropertyChangeListener ListenForClick){
        MonthChooser.addPropertyChangeListener(ListenForClick);
    }
-    public void addComboDepartmentListener(ActionListener Listen){
+   public void addComboDepartmentListener(ActionListener Listen){
        ComboDepartmentName.addActionListener(Listen);
    }
-    public void addRadioTrackableListener(ActionListener Listen){
-        radioTrackable.addActionListener(Listen);
-    }
-    public void addRadioNonTrackableListener(ActionListener Listen){
-        radioNontrackable.addActionListener(Listen);
-    }
-    public void addRadioBothListener(ActionListener listen){
-        radioBoth.addActionListener(listen);
-    }
+   public void addComboItemNameSelectListener(ActionListener ListenForSelect){
+       comboItemName.addActionListener(ListenForSelect);
+   }
+   public void addCheckIncludeAllListener(ItemListener Listen){
+       checkboxIncludeAll.addItemListener(Listen);
+   }
+   public void addRadioMenuTypeListener(ActionListener Listen){
+       radioMenuType.addActionListener(Listen);
+   }
+   public void addRadioItemTypeListener(ActionListener Listen){
+       radioItemType.addActionListener(Listen);
+   }
    public void refreshTableReport(DefaultTableModel dtm){
        tblReport.setModel(dtm);
    }
    public DefaultTableModel getTableReport(){
        return (DefaultTableModel)tblReport.getModel();
    }
- public void addComboMenuNameSelectListener(ActionListener ListenForSelect){
-       comboMenuName.addActionListener(ListenForSelect);
-   }
+    public void AddSelectInCombo(JComboBox jc){
+      jc.insertItemAt("SELECT", 0);
+      jc.setSelectedIndex(0);
+    }
+   
 //   public void addComboBaseUnitListener(ActionListener ListenForSelect){
 //       comboBaseUnitName.addActionListener(ListenForSelect);
 //   }
-   public void addCheckIncludeAllListener(ItemListener Listen){
-       checkboxIncludeAll.addItemListener(Listen);
-   }
-   public void addComboReportTypeListener(ActionListener ListenForSelect){
-       ComboPeriodType.addActionListener(ListenForSelect);
-   }
+   
 //   public void addCheckIncludeAllListener(ItemListener Listen){
 //       checkboxIncludeAll.addItemListener(Listen);
 //   }
@@ -289,26 +309,26 @@ int width = gd.getDisplayMode().getWidth();
 //       radioIssue.setSelected(false);
 //       radioIssueReturn.setSelected(true);
 //   }
-   public String[] getItemWiseSalesReport(){
+   public String[] getIssueReport(){
        String[] data = new String[1];
-       data[0] = getMenuId();
+       data[0] = String.valueOf(getItemId());
     //   data[1] = getUnitId();
      //  data[2] = String.valueOf(getBooleanRadioButton());
        return data;
       // data[2] = getStartDate();
    }
-   public Date[] getItemWiseSalesReportDate(){
+   public Date[] getIssueReportDate(){
        Date[] date = new Date[2];
        date[0] = getStartDate();
        date[1] = getEndDate();
        return date;
    }
    public void clearAll(){
-       setMenuId("");
+       setItemId(0);
+       radioMenuType.setSelected(true);
     //   setUnitId("");
        setStartDate(null);
        setEndDate(null);
-       radioBoth.setSelected(true);
 //       checkRadioIssue();
 
    }
@@ -324,68 +344,53 @@ int width = gd.getDisplayMode().getWidth();
                                       JComponent.WHEN_FOCUSED);
         
     }
-      
-      public void setDailyDate(Date d){
-          pDay = d;
-      }
-        public void AddSelectInCombo(JComboBox jc){
-      jc.insertItemAt("SELECT", 0);
-      jc.setSelectedIndex(0);
-    }
-        public JComboBox returnMenuName(){
-            return comboMenuName;
+      public final class SetFocusListener implements FocusListener{
+      JTextField jf;
+        public SetFocusListener(JTextField field){
+         jf = field;   
         }
 
-    public JRadioButton getRadioBoth() {
-        return radioBoth;
-    }
+        @Override
+        public void focusGained(FocusEvent e) {
+         //   throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        jf.setBackground(new Color(136,249,168));
+        }
 
-    public JRadioButton getRadioNontrackable() {
-        return radioNontrackable;
-    }
-
-    public JRadioButton getRadioTrackable() {
-        return radioTrackable;
-    }
+        @Override
+        public void focusLost(FocusEvent e) {
+        //    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       jf.setBackground(Color.white);
+        }
         
-      
-      public Map getDailyAllParam(){
-          Map para = new HashMap<>();
-          para.put("pDay",pDay);
-          para.put("title", "Daily All Item Sales Report of " +getComboDepartmentName());
-          para.put("depId", getDepartmentId());
-          return para;
-      }
-      
-      public Map getMonthlyAllParam(){
-          Map para = new HashMap<>();
-          para.put("frmDate",getStartDate());
-          para.put("toDate",getEndDate());
-          para.put("title", "Monthly All Item Sales Report of " +getComboDepartmentName());
-          para.put("depId", getDepartmentId());
-          return para;
-      }
-      
-      public Map getDailyParam(){
-          Map para = new HashMap<>();
-          para.put("pDay",pDay);
-          para.put("pId", Integer.parseInt(getMenuId()));
-          para.put("title", "Daily Item Sales Report of " +getComboMenuName() + " of " +getComboDepartmentName());
-          para.put("depId", getDepartmentId());
-          return para;
-      }
-      
-      public Map getMonthlyParam(){
-          Map para = new HashMap<>();
-          para.put("frmDate",getStartDate());
-          para.put("toDate", getEndDate());
-          para.put("pId", Integer.parseInt(getMenuId()));
-          para.put("title", "Monthly Item Sales Report of " +getComboMenuName() + " of " +getComboDepartmentName());
-          para.put("depId",getDepartmentId());
-          return para;
-      }
-      
-      
+    }
+
+        
+    public void setDailyDate(Date d){
+        pDay = d;
+    }
+    
+    public Map getReportParams(){
+        Map para = new HashMap<>();
+        para.put("title","Monthly Sales Report of " +getComboDepartmentName());
+        para.put("frmDate", getStartDate());
+        para.put("toDate", getEndDate());
+        para.put("depId", getDepartmentId());
+        return para;
+    }
+    /*public Date getDailyDate(){
+        return pDay;
+    }
+    */
+    public Map getReportPara(){
+        @SuppressWarnings("Convert2Diamond")
+        Map para = new HashMap<>();
+        para.put("pDay",pDay);
+        para.put("depId", getDepartmentId());
+        para.put("title", "Daily Sales Report of " +getComboDepartmentName());
+        return para;
+    }
+    //for daily sales report ;
+    private Date pDay;
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -403,24 +408,24 @@ int width = gd.getDisplayMode().getWidth();
                 Component c = super.prepareRenderer(renderer,row,column);
                 if(!isRowSelected(row)){
                     c.setBackground(getBackground());
-                    //   c.setBackground(new Color(227,197,132));
+                    c.setBackground(new Color(227,197,132));
                     int ModelRow = convertRowIndexToModel(row);
                     // int ModelColumn = convertColumnIndexToModel(column);
 
                     //getting the value of boolean for true and false and changin color
-                    Object type = getModel().getValueAt(ModelRow,0);
+                    Object type = getModel().getValueAt(ModelRow,7);
                     //  Boolean hybridType = (Boolean)getModel().getValueAt(ModelRow,9);
-                    //            if(type == "Cash" ){
-                        //                c.setBackground(getBackground());
-                        //                /* if(true == hybridType ){
-                            //                    getColumnModel().getColumn(9).s
-                            //                }
-                        //                */
-                        //            }
-                    //            if("Credit" == type ){
-                        //                c.setBackground(new Color(205,185,215));
-                        //            }
-                    if(type.equals("Total")){
+                    if(type == "Cash" ){
+                        c.setBackground(getBackground());
+                        /* if(true == hybridType ){
+                            getColumnModel().getColumn(9).s
+                        }
+                        */
+                    }
+                    if("Credit" == type ){
+                        c.setBackground(new Color(205,185,215));
+                    }
+                    if(type != "Credit" && type!="Cash"){
                         c.setBackground(new Color(227,197,132));
 
                     }
@@ -453,19 +458,16 @@ int width = gd.getDisplayMode().getWidth();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         EndDateChooser = new com.toedter.calendar.JDateChooser();
-        jLabel8 = new javax.swing.JLabel();
-        ComboPeriodType = new javax.swing.JComboBox();
-        btnOk = new javax.swing.JButton();
-        btnCancel = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        checkboxIncludeAll = new javax.swing.JCheckBox();
-        comboMenuName = new javax.swing.JComboBox();
-        jLabel4 = new javax.swing.JLabel();
         ComboDepartmentName = new javax.swing.JComboBox();
         jPanel1 = new javax.swing.JPanel();
-        radioBoth = new javax.swing.JRadioButton();
-        radioNontrackable = new javax.swing.JRadioButton();
-        radioTrackable = new javax.swing.JRadioButton();
+        radioMenuType = new javax.swing.JRadioButton();
+        radioItemType = new javax.swing.JRadioButton();
+        comboItemName = new javax.swing.JComboBox();
+        checkboxIncludeAll = new javax.swing.JCheckBox();
+        jLabel4 = new javax.swing.JLabel();
+        btnOk = new javax.swing.JButton();
+        btnCancel = new javax.swing.JButton();
 
         tblReport.setBorder(new javax.swing.border.MatteBorder(null));
         tblReport.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -546,7 +548,7 @@ int width = gd.getDisplayMode().getWidth();
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, DailogReportLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(DailogReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 778, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 728, Short.MAX_VALUE)
                     .addGroup(DailogReportLayout.createSequentialGroup()
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -648,7 +650,7 @@ int width = gd.getDisplayMode().getWidth();
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Itemwise Sales Report");
+        setTitle("Wastage Report");
         setModalityType(java.awt.Dialog.ModalityType.DOCUMENT_MODAL);
         setResizable(false);
 
@@ -664,28 +666,72 @@ int width = gd.getDisplayMode().getWidth();
 
         EndDateChooser.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
-        jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel8.setText("Select Period:");
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel1.setText("Department Name:");
 
-        ComboPeriodType.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        ComboPeriodType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Daily", "Monthly" }));
-        ComboPeriodType.setActionCommand("comboPeriodType");
+        ComboDepartmentName.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Choose Wastage Type"));
+
+        buttonGroup1.add(radioMenuType);
+        radioMenuType.setText("Menu Type");
+
+        buttonGroup1.add(radioItemType);
+        radioItemType.setText("Item Type");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(44, 44, 44)
+                .addComponent(radioMenuType, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(radioItemType)
+                .addGap(72, 72, 72))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(radioMenuType)
+                    .addComponent(radioItemType))
+                .addContainerGap())
+        );
+
+        comboItemName.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        comboItemName.setActionCommand("ComboItemName");
+
+        checkboxIncludeAll.setText("Include All");
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel4.setText("Name:");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(EndDateChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(StartDateChooser, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
-                    .addComponent(ComboPeriodType, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 132, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(EndDateChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(StartDateChooser, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
+                            .addComponent(ComboDepartmentName, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(checkboxIncludeAll, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(comboItemName, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -693,9 +739,16 @@ int width = gd.getDisplayMode().getWidth();
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ComboPeriodType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel1)
+                    .addComponent(ComboDepartmentName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboItemName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(checkboxIncludeAll, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(19, 19, 19)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(StartDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -706,97 +759,26 @@ int width = gd.getDisplayMode().getWidth();
                 .addContainerGap())
         );
 
-        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {ComboPeriodType, StartDateChooser});
+        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {ComboDepartmentName, StartDateChooser});
 
         btnOk.setText("Ok");
 
         btnCancel.setText("Cancel");
-
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel1.setText("Menu Name");
-
-        checkboxIncludeAll.setText("Include All");
-
-        comboMenuName.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        comboMenuName.setActionCommand("ComboMenuName");
-
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel4.setText("Department Name:");
-
-        ComboDepartmentName.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Choose Menu Type"));
-
-        buttonGroup1.add(radioBoth);
-        radioBoth.setText("Both");
-        radioBoth.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                radioBothActionPerformed(evt);
-            }
-        });
-
-        buttonGroup1.add(radioNontrackable);
-        radioNontrackable.setText("Non Trackable");
-
-        buttonGroup1.add(radioTrackable);
-        radioTrackable.setText("Trackable");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addComponent(radioTrackable)
-                .addGap(89, 89, 89)
-                .addComponent(radioNontrackable)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(radioBoth)
-                .addGap(31, 31, 31))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(radioTrackable)
-                    .addComponent(radioNontrackable)
-                    .addComponent(radioBoth))
-                .addContainerGap())
-        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(47, 47, 47)
+                .addComponent(btnOk, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(68, 68, 68))
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(47, 47, 47)
-                .addComponent(btnOk, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 128, Short.MAX_VALUE)
-                .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(68, 68, 68))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(checkboxIncludeAll, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(118, 118, 118)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(ComboDepartmentName, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(comboMenuName, 0, 142, Short.MAX_VALUE))
-                .addGap(28, 28, 28))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnCancel, btnOk});
@@ -804,18 +786,7 @@ int width = gd.getDisplayMode().getWidth();
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(ComboDepartmentName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(comboMenuName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(checkboxIncludeAll))
-                .addGap(14, 14, 14)
+                .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -826,24 +797,52 @@ int width = gd.getDisplayMode().getWidth();
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnCancel, btnOk});
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {ComboDepartmentName, comboMenuName});
-
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void radioBothActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioBothActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_radioBothActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    
-    
-    private Date pDay;
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(WastageReportView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(WastageReportView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(WastageReportView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(WastageReportView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the dialog */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                WastageReportView dialog = new WastageReportView(new javax.swing.JFrame(), true);
+//                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+//                    @Override
+//                    public void windowClosing(java.awt.event.WindowEvent e) {
+//                   setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+//                    }
+//                });
+                dialog.setVisible(true);
+            }
+        });
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox ComboDepartmentName;
-    private javax.swing.JComboBox ComboPeriodType;
     public javax.swing.JDialog DailogReport;
     public com.toedter.calendar.JCalendar DayChooser;
     private javax.swing.JPanel DayChooserPanel;
@@ -861,7 +860,7 @@ int width = gd.getDisplayMode().getWidth();
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JCheckBox checkboxIncludeAll;
-    public javax.swing.JComboBox comboMenuName;
+    public javax.swing.JComboBox comboItemName;
     private com.toedter.calendar.JDayChooser jDayChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -870,7 +869,6 @@ int width = gd.getDisplayMode().getWidth();
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -878,9 +876,8 @@ int width = gd.getDisplayMode().getWidth();
     private javax.swing.JLabel lblEndDate;
     private javax.swing.JLabel lblReportTitle;
     private javax.swing.JLabel lblStartDate;
-    private javax.swing.JRadioButton radioBoth;
-    private javax.swing.JRadioButton radioNontrackable;
-    private javax.swing.JRadioButton radioTrackable;
+    private javax.swing.JRadioButton radioItemType;
+    private javax.swing.JRadioButton radioMenuType;
     public javax.swing.JTable tblReport;
     // End of variables declaration//GEN-END:variables
 }

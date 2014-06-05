@@ -193,6 +193,7 @@ public class MainFrameView extends javax.swing.JFrame {
         MenuItemWastage = new javax.swing.JMenuItem();
         jSeparator44 = new javax.swing.JPopupMenu.Separator();
         MenuItemCreditPayment = new javax.swing.JMenuItem();
+        jSeparator47 = new javax.swing.JPopupMenu.Separator();
         jMenu2 = new javax.swing.JMenu();
         MenuItemItemReport = new javax.swing.JMenuItem();
         jSeparator21 = new javax.swing.JPopupMenu.Separator();
@@ -233,6 +234,8 @@ public class MainFrameView extends javax.swing.JFrame {
         MenuItemVoidReport = new javax.swing.JMenuItem();
         jSeparator35 = new javax.swing.JPopupMenu.Separator();
         MenuItemMenuList = new javax.swing.JMenuItem();
+        jSeparator48 = new javax.swing.JPopupMenu.Separator();
+        MenuItemWastageReport = new javax.swing.JMenuItem();
         jMenu9 = new javax.swing.JMenu();
         MenuItemSystemDateConfig = new javax.swing.JMenuItem();
         jSeparator37 = new javax.swing.JPopupMenu.Separator();
@@ -726,6 +729,7 @@ public class MainFrameView extends javax.swing.JFrame {
         MenuItemCreditPayment.setText("Credit Payment");
         MenuItemCreditPayment.setActionCommand("CreditPayment");
         jMenu6.add(MenuItemCreditPayment);
+        jMenu6.add(jSeparator47);
 
         jMenuBar2.add(jMenu6);
 
@@ -850,6 +854,11 @@ public class MainFrameView extends javax.swing.JFrame {
         MenuItemMenuList.setText("Menu List");
         MenuItemMenuList.setActionCommand("MenuList");
         jMenu5.add(MenuItemMenuList);
+        jMenu5.add(jSeparator48);
+
+        MenuItemWastageReport.setText("Wastage Report");
+        MenuItemWastageReport.setActionCommand("WastageReport");
+        jMenu5.add(MenuItemWastageReport);
 
         jMenuBar2.add(jMenu5);
 
@@ -1183,6 +1192,7 @@ public class MainFrameView extends javax.swing.JFrame {
         btnMenuDetailView.addActionListener(Listen);
         
     }
+    
     public void addUserCreditialListener(ActionListener Listen){
         MenuItemUserCreditial.addActionListener(Listen);
     }
@@ -1206,6 +1216,9 @@ public class MainFrameView extends javax.swing.JFrame {
     }
     public void addWaiterServiceReportListener(ActionListener Listen){
         MenuItemWaiterServiceReport.addActionListener(Listen);
+    }
+    public void addWastageReportListener(ActionListener Listen){
+        MenuItemWastageReport.addActionListener(Listen);
     }
     public void addMouseAdapter(MouseAdapter Listen){
         btnReport.addMouseListener(Listen);
@@ -1414,6 +1427,7 @@ public class MainFrameView extends javax.swing.JFrame {
     private javax.swing.JMenuItem MenuItemWaiterServiceReport;
     private javax.swing.JMenuItem MenuItemWaiterSetup;
     private javax.swing.JMenuItem MenuItemWastage;
+    private javax.swing.JMenuItem MenuItemWastageReport;
     private javax.swing.JMenuItem MenuitemPurchaseReturn;
     public javax.swing.JPopupMenu ReportPopUpMenu;
     private javax.swing.JMenuItem TerminalMenuCategoryIssueReport;
@@ -1490,6 +1504,8 @@ public class MainFrameView extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator44;
     private javax.swing.JPopupMenu.Separator jSeparator45;
     private javax.swing.JSeparator jSeparator46;
+    private javax.swing.JPopupMenu.Separator jSeparator47;
+    private javax.swing.JPopupMenu.Separator jSeparator48;
     private javax.swing.JPopupMenu.Separator jSeparator5;
     private javax.swing.JPopupMenu.Separator jSeparator6;
     private javax.swing.JPopupMenu.Separator jSeparator7;

@@ -59,7 +59,7 @@ public class MenuListModel extends DBConnect {
         ResultSet rsget ;
         DBConnect dbget  = new DBConnect();
         ArrayList<Object[]> data = new ArrayList<Object[]>();
-        String menu = "%"+menuname+"%";
+        String menu = menuname+"%";
         
 //        String strget = "SELECT menu_id,menu_name,menu.department_item_id,item_type,centerstore_stock.item_name,menu.unit_id,item_unit.unit_name,quantity,retail_price,wholesale_price,image_path,hybrid_type,department_info.department_name FROM menu LEFT JOIN department_store_stock ON menu.department_item_id = department_store_stock.department_item_id LEFT JOIN centerstore_stock ON department_store_stock.item_id = centerstore_stock.item_id  LEFT JOIN item_unit ON menu.unit_id = item_unit.unit_id  LEFT JOIN department_info ON menu.department_id= department_info.department_id   WHERE menu.department_id = ? ORDER BY date desc";
           String strget = "SELECT menu_id,menu_name,menu.department_item_id,item_type,centerstore_stock.item_name,menu.unit_id,item_unit.unit_name,quantity,retail_price,wholesale_price,image_path,hybrid_type,department_info.department_name,menu_image FROM menu LEFT JOIN department_store_stock ON menu.department_item_id = department_store_stock.department_item_id LEFT JOIN centerstore_stock ON department_store_stock.item_id = centerstore_stock.item_id  LEFT JOIN item_unit ON menu.unit_id = item_unit.unit_id  LEFT JOIN department_info ON menu.department_id= department_info.department_id LEFT JOIN department_user ON menu.department_id = department_user.department_id   WHERE department_user.user_id = ? AND menu.menu_name LIKE ? ORDER BY date desc";

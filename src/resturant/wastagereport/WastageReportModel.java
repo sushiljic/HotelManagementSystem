@@ -2,10 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package resturant.itemwisesalesreport;
+package resturant.wastagereport;
 
 import database.DBConnect;
-import java.math.BigDecimal;
+import function.function;
 import java.math.RoundingMode;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,23 +21,51 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author SUSHIL
  */
-public class ItemWiseSalesReportModel extends DBConnect {
+public class WastageReportModel extends DBConnect {
     public Object MenuInfo[][] = null;
     
     
     
     
-      public Object[][] getMenuInfo(int departmentid,boolean trackablestatus,boolean nontrackablestatus){
+      //retreiving the itemname in the respective department
+       public Object[][] getItemInfoForMenu(int storeid){
+       String strQuery = "SELECT department_store_stock.department_item_id,centerstore_stock.item_name,department_store_stock.unit_id,item_unit.unit_name,item_unit.unit_relative_quantity,item_unit.unit_type,centerstore_stock.category_id,item_category.category_name FROM department_store_stock,centerstore_stock,item_unit,item_category WHERE department_store_stock.unit_id = item_unit.unit_id AND department_store_stock.item_id = centerstore_stock.item_id AND centerstore_stock.category_id = item_category.category_id and department_store_stock.department_id = ?";
+      PreparedStatement stmtItemInfo;
+      ResultSet rsResult;
+      Object[][] Itemdata = null;
+//       DBConnect getitem = new DBConnect();
+       try{
+           initConnection();
+          
+           stmtItemInfo = conn.prepareStatement(strQuery,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+          stmtItemInfo.setInt(1, storeid);
+           rsResult = stmtItemInfo.executeQuery();
+           /*
+            * calling funtion from function package for returning the data value
+            */
+           Itemdata =returnData(rsResult);
+      //   JOptionPane.showMessageDialog(null, Itemdata[2]);
+         //  returnItemName(returnData(rsResult));
+         //  JOptionPane.showMessageDialog(null,Itemdata);
+         //  returnItemName(Itemdata);
+          
+       }
+       catch(SQLException se){
+           JOptionPane.showMessageDialog(null, se+"from getItemInfoForMenu "+getClass().getName());
+       }
+       finally{
+           closeConnection();
+       }
+       return Itemdata;
+       
+   }
+        //retreiving menuname in respective department
+       public Object[][] getMenuInfo(int departmentid){
           PreparedStatement stmtget;
+          Object[][] MenuInfo = null;
           ResultSet rsget;
           ArrayList<Object[]> data = new ArrayList<Object[]>();
-          String strgetMenu = "SELECT menu.menu_id,menu.menu_name,item_unit.unit_name,menu.retail_price FROM menu INNER JOIN item_unit  ON  menu.unit_id = item_unit.unit_id WHERE department_id = ? ";
-          if(trackablestatus){
-              strgetMenu += " AND menu.item_type = 1 ";  
-          }
-          if(nontrackablestatus){
-              strgetMenu += " AND menu.item_type = 0";
-          }
+          String strgetMenu = "SELECT menu.menu_id,menu.menu_name,item_unit.unit_name,menu.retail_price FROM menu LEFT JOIN item_unit ON  menu.unit_id = item_unit.unit_id WHERE department_id = ?";
           DBConnect getMenu = new DBConnect();
           try{
               getMenu.initConnection();
@@ -45,7 +73,7 @@ public class ItemWiseSalesReportModel extends DBConnect {
               stmtget.setInt(1, departmentid);
               rsget = stmtget.executeQuery();
               while(rsget.next()){
-                  Object[] row = new Object[]{rsget.getString("menu_id"),rsget.getString("menu_name"),rsget.getString("unit_name"),rsget.getString("retail_price")};
+                  Object[] row = new Object[]{rsget.getString("menu_id"),rsget.getString("menu_name"),rsget.getString("unit_name"),rsget.getDouble("retail_price")};
                   data.add(row);
               }
               MenuInfo = data.toArray(new Object[data.size()][]);
@@ -173,14 +201,11 @@ public class ItemWiseSalesReportModel extends DBConnect {
   }
     
      
-       public DefaultTableModel getSalesList(String MenuId,Date[] date,boolean statusall){
+       public DefaultTableModel getSalesList(Date[] date){
             PreparedStatement stmtIssueInfo;
           ResultSet rsResult;
-          String ColumnNames[] = new String[]{"Menu Id","Menu Name","Quantity","Rate","Total Amount","Bill Id","ComplimentaryType","Date"};
-            String strQuery = "SELECT bill_item_info.menu_id,menu.menu_name,bill_item_info.quantity,menu.retail_price,bill_item_info.bill_id,bill_item_info.complimentary_type,bill.bill_datetime FROM bill_item_info INNER JOIN menu ON bill_item_info.menu_id = menu.menu_id INNER JOIN bill ON bill_item_info.bill_id = bill.bill_id WHERE bill.void != 1 AND bill.bill_datetime > ? AND bill.bill_datetime < ? ";
-            if(!statusall){
-                strQuery += "  AND bill_item_info.menu_id = ?";
-            }
+          String ColumnNames[] = new String[]{"Bill No"," Item Amount","SVC","VAT","Discount"," Bill Total"," Received Amount","Payment Type"};
+            String strQuery = "SELECT bill.bill_id,bill.item_total_amount,bill.service_charge,bill.vat,bill.bill_discount,bill_total,total_received,payment_type FROM bill WHERE  bill.void != 1 AND bill_datetime > ? AND bill_datetime < ? ";
        ArrayList<Object[]> data = new ArrayList<Object[]>();
     Object[][] finalData =null;
        DBConnect getissue = new DBConnect();
@@ -190,14 +215,11 @@ public class ItemWiseSalesReportModel extends DBConnect {
         //   System.out.println(new Timestamp(date[0].getTime())+"\n"+new Timestamp(date[1].getTime()));
            stmtIssueInfo.setTimestamp(1,new Timestamp(date[0].getTime()) );
             stmtIssueInfo.setTimestamp(2,new Timestamp(date[1].getTime()) );
-            if(!statusall){
-                stmtIssueInfo.setString(3, MenuId);
-            }
           rsResult =  stmtIssueInfo.executeQuery();
             while(rsResult.next()){
-//               String st = rsResult.getBoolean("payment_type")== true?"Cash":"Credit";
-                BigDecimal TotalAmount = rsResult.getBigDecimal("retail_price").setScale(2, RoundingMode.HALF_UP).multiply(rsResult.getBigDecimal("quantity").setScale(3, RoundingMode.HALF_UP));
-                Object[] row = new Object[]{rsResult.getString("menu_id"),rsResult.getString("menu_name"),rsResult.getBigDecimal("quantity").setScale(3, RoundingMode.HALF_UP),rsResult.getBigDecimal("retail_price").setScale(2, RoundingMode.HALF_UP),TotalAmount.setScale(2, RoundingMode.HALF_UP),rsResult.getInt("bill_id"),rsResult.getBoolean("complimentary_type"),rsResult.getDate("bill_datetime")};
+               String st = rsResult.getBoolean("payment_type")== true?"Cash":"Credit";
+           
+                Object[] row = new Object[]{rsResult.getInt("bill_id"),rsResult.getBigDecimal("item_total_amount").setScale(2, RoundingMode.HALF_UP),rsResult.getBigDecimal("service_charge").setScale(2, RoundingMode.HALF_UP),rsResult.getBigDecimal("vat").setScale(2, RoundingMode.HALF_UP),rsResult.getBigDecimal("bill_discount").setScale(2, RoundingMode.HALF_UP),rsResult.getBigDecimal("bill_total").setScale(2, RoundingMode.HALF_UP),rsResult.getBigDecimal("total_received").setScale(2, RoundingMode.HALF_UP),st};
                 data.add(row);
             }
              finalData = data.toArray(new Object[data.size()][]);
@@ -214,16 +236,6 @@ public class ItemWiseSalesReportModel extends DBConnect {
           public boolean isCellEditable(int rows,int columns){
           //all cell false
                   return false;    
-          }
-          @Override
-          public Class<?> getColumnClass(int columnIndex){
-              Class clazz = String.class;
-              switch(columnIndex){
-                  case 6:
-                      
-                      clazz = Boolean.class;
-              }
-              return clazz;
           }
                   
        };   
@@ -252,4 +264,57 @@ public class ItemWiseSalesReportModel extends DBConnect {
       }
       return data.toArray(new Object[data.size()][]);
   }
+        //get menuid by menuname
+         public int getMenuIdByMenuName(String menuname){
+        PreparedStatement stmt = null;
+        ResultSet rs;
+        int menuid = 0;
+      
+//      ArrayList<Object[]> data = new ArrayList<>();
+      try{
+          initConnection();
+          stmt = conn.prepareStatement("SELECT menu.menu_id FROM menu WHERE menu.menu_name = ?");
+         stmt.setString(1, menuname);
+          rs = stmt.executeQuery();
+          rs.next();
+          menuid = rs.getInt(1);
+           
+          
+          
+      }
+      catch(SQLException se ){
+          JOptionPane.showMessageDialog(null, se+"from getMenuIdByMenuName "+getClass().getName());
+      }
+      finally{
+          closeConnection();
+      }
+      return menuid;
+  }
+         //get itemid by itemname
+         public int getItemIdByItemName(String menuname){
+        PreparedStatement stmt = null;
+        ResultSet rs;
+        int menuid = 0;
+      
+//      ArrayList<Object[]> data = new ArrayList<>();
+      try{
+          initConnection();
+          stmt = conn.prepareStatement("SELECT centerstore_stock.item_id FROM centerstore_stock WHERE item_name =  ?");
+         stmt.setString(1, menuname);
+          rs = stmt.executeQuery();
+          rs.next();
+          menuid = rs.getInt(1);
+           
+          
+          
+      }
+      catch(SQLException se ){
+          JOptionPane.showMessageDialog(null, se+"from getItemIdByItemName "+getClass().getName());
+      }
+      finally{
+          closeConnection();
+      }
+      return menuid;
+  }
+    
 }

@@ -15,7 +15,10 @@ import java.beans.PropertyChangeListener;
 import java.util.Date;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import javax.swing.JRadioButton;
 import report.terminalItemSalesReport.ItemSalesReport;
+import reusableClass.DisplayMessages;
+import reusableClass.Function;
 
 
 /**
@@ -26,7 +29,7 @@ public class ItemWiseSalesReportController {
     ItemWiseSalesReportModel IRModel;
     ItemWiseSalesReportView IRView;
     private MainFrameView mainview;
-     public Date time;
+    public Date time;
     
     public ItemWiseSalesReportController(ItemWiseSalesReportModel model,ItemWiseSalesReportView view,MainFrameView main){
         IRModel= model;
@@ -56,8 +59,15 @@ public class ItemWiseSalesReportController {
          */
         IRView.addCheckIncludeAllListener(new CheckIncludeAllListener());
          IRView.addComboDepartmentListener(new ComboDepartmentListener());
+         //adding the trackable and nontrackable listener
+         IRView.addRadioBothListener(new ItemTypeStatusListener());
+         IRView.addRadioTrackableListener(new ItemTypeStatusListener());
+         IRView.addRadioNonTrackableListener(new ItemTypeStatusListener());
+         
          try{
          IRView.setComboDepartmentName(IRModel.returnMenuName(IRModel.getRespectiveDepartment(mainview.getUserId())));
+         //set the both radio of that selected
+         IRView.setBothStatus(true);
         //if it has only one element select it order wise add select into it
             int combosize = IRView.returnComboDepartmentName().getModel().getSize();
             if(combosize >1){
@@ -133,12 +143,31 @@ public class ItemWiseSalesReportController {
                             String report = "DailyAllItemSalesReport.jrxml";
                             String title = "Daily Item Sales Report";
                             ItemSalesReport sales = new ItemSalesReport(IRView.getDailyAllParam(),report,title);
+                            if(IRView.getBothStatus()){
+                                //display the report with both trackable and non trackable report
+                            }
+                            else if(IRView.getTrackableStatus()){
+                                //display the report with trackable menu sales
+                            }
+                            else if(IRView.getNonTrackableStatus()){
+                                //display the repor with nontrackable menu sales
+                            }
                          }
                         else if(IRView.getComboReportType().equalsIgnoreCase("Daily")){
                             //DailyItemSalesReport dReport = new DailyItemSalesReport(IRView.getDailyParam());
                             String report = "DailyItemSalesReport.jrxml";
                             String title = "Daily Item Sales Report";
                             ItemSalesReport sales = new ItemSalesReport(IRView.getDailyParam(),report,title);
+                            
+                             if(IRView.getBothStatus()){
+                                //display the report with both trackable and non trackable report
+                            }
+                            else if(IRView.getTrackableStatus()){
+                                //display the report with trackable menu sales
+                            }
+                            else if(IRView.getNonTrackableStatus()){
+                                //display the repor with nontrackable menu sales
+                            }
                         }              
                         
                         else if(IRView.getComboReportType().equalsIgnoreCase("Monthly") && IRView.getBooleanIncludeAll() ){
@@ -146,11 +175,29 @@ public class ItemWiseSalesReportController {
                             String title = "Monthly Item Sales Report";
                             ItemSalesReport sales = new ItemSalesReport(IRView.getMonthlyAllParam(),report,title);
 // MonthlyAllSalesReport monthly = new MonthlyAllSalesReport(IRView.getMonthlyAllParam());
+                             if(IRView.getBothStatus()){
+                                //display the report with both trackable and non trackable report
+                            }
+                            else if(IRView.getTrackableStatus()){
+                                //display the report with trackable menu sales
+                            }
+                            else if(IRView.getNonTrackableStatus()){
+                                //display the repor with nontrackable menu sales
+                            }
                          }
                         else if(IRView.getComboReportType().equalsIgnoreCase("Monthly")){
                             String report = "MonthlyItemSalesReport.jrxml";
                             ItemSalesReport sales = new ItemSalesReport(IRView.getMonthlyParam(),report,"Montyly Item Sales Report");
 //MonthlyItemSalesReport mReport = new MonthlyItemSalesReport(IRView.getMonthlyParam());
+                             if(IRView.getBothStatus()){
+                                //display the report with both trackable and non trackable report
+                            }
+                            else if(IRView.getTrackableStatus()){
+                                //display the report with trackable menu sales
+                            }
+                            else if(IRView.getNonTrackableStatus()){
+                                //display the repor with nontrackable menu sales
+                            }
                         }
                          
 //                        if(IRView.getBooleanIncludeAll()){
@@ -291,7 +338,7 @@ public class ItemWiseSalesReportController {
         }
         
     }
-     public class ComboMenuNameSelectListener implements ActionListener{
+    public class ComboMenuNameSelectListener implements ActionListener{
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -322,7 +369,7 @@ public class ItemWiseSalesReportController {
         }
        
    }
-      public class CheckIncludeAllListener implements ItemListener{
+    public class CheckIncludeAllListener implements ItemListener{
 
       
 
@@ -338,7 +385,7 @@ public class ItemWiseSalesReportController {
         }
         }
     }
-   public class ComboDepartmentListener implements ActionListener{
+    public class ComboDepartmentListener implements ActionListener{
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -356,7 +403,7 @@ public class ItemWiseSalesReportController {
                    if(data[1].equals(jc.getSelectedItem())){
                        IRView.setDepartmentId(Integer.parseInt(data[0].toString()));
 //                       IRView.refreshTableIssueStockReport(IRModel.getSalesList(IRView.getDepartmentId()));
-                        IRView.setComboMenuName(IRModel.returnMenuName(IRModel.getMenuInfo(IRView.getDepartmentId())));
+                        IRView.setComboMenuName(IRModel.returnMenuName(IRModel.getMenuInfo(IRView.getDepartmentId(),false,false)));
                         IRView.AddSelectInCombo(IRView.returnMenuName());
                    }
                }
@@ -368,4 +415,33 @@ public class ItemWiseSalesReportController {
         }
         
     }
+    public class ItemTypeStatusListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+        try{
+            JRadioButton jradio = (JRadioButton)e.getSource();
+            if(jradio == IRView.getRadioBoth()){
+                IRView.setComboMenuName(Function.returnSecondColumn(IRModel.getMenuInfo(IRView.getDepartmentId(), false, false)));
+                Function.AddSelectInCombo(IRView.returnMenuName());
+                
+            }
+            else if(jradio ==IRView.getRadioTrackable()){
+                IRView.setComboMenuName(Function.returnSecondColumn(IRModel.getMenuInfo(IRView.getDepartmentId(), true, false)));
+                Function.AddSelectInCombo(IRView.returnMenuName());
+                
+            }
+            else if(jradio == IRView.getRadioNontrackable()){
+                IRView.setComboMenuName(Function.returnSecondColumn(IRModel.getMenuInfo(IRView.getDepartmentId(), false, true)));
+                Function.AddSelectInCombo(IRView.returnMenuName());
+                
+            }
+        }
+        catch(Exception se){
+            DisplayMessages.displayError(IRView, se.getMessage() +" from "+ getClass().getName(),"ItemTypeStatusListener Error");
+        }
+        }
+        
+    }
+   
 }

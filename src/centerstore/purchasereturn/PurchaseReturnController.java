@@ -45,9 +45,9 @@ public class PurchaseReturnController {
         /*
          * adding key listner for the view
          */
-        prview.addKeyReturnListener(new PurchaseReturnKeyListener());
-        prview.addKeyCancelListener(new PurchaseReturnKeyListener());
-        prview.addKeySearchlistener(new PurchaseReturnKeyListener());
+//        prview.addKeyReturnListener(new PurchaseReturnKeyListener());
+//        prview.addKeyCancelListener(new PurchaseReturnKeyListener());
+//        prview.addKeySearchlistener(new PurchaseReturnKeyListener());
         /*
          * adding table click or key listner for jtable
          */

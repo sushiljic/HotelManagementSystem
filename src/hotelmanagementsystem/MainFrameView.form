@@ -289,6 +289,8 @@
                 <Property name="actionCommand" type="java.lang.String" value="CreditPayment"/>
               </Properties>
             </MenuItem>
+            <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator47">
+            </MenuItem>
           </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenu2">
@@ -472,6 +474,14 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Menu List"/>
                 <Property name="actionCommand" type="java.lang.String" value="MenuList"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator48">
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="MenuItemWastageReport">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Wastage Report"/>
+                <Property name="actionCommand" type="java.lang.String" value="WastageReport"/>
               </Properties>
             </MenuItem>
           </SubComponents>

@@ -17,6 +17,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -112,12 +113,29 @@ public class SystemLogInController  extends UserCreditialModel{
                     if(Function.checkSystemDateExist()){  
                    //check the date of the computer and pointofsale system and state status both doesnot coincide
                     Date posDate = Function.returnSystemDate();
+//                  
+                    
                     Date SystemDate = new Date();
                     if(!dateformat.format(posDate).equals(dateformat.format(SystemDate))){
 //                        JOptionPane.showMessageDialog(mainview, posDate.getTime()+"\n"+SystemDate.getTime());
                         DisplayMessages.displayInfo(mainview, "Computer Date( "+dateformat.format(SystemDate)+" ) and Our Software System Date( "+dateformat.format(posDate)+" )  Doesnot Match.\n Please Make Sure You are Running of the Current Date", " Date Info");
                         
                     }
+                      //getting date 
+                    Calendar posCdate = Calendar.getInstance();
+                    Calendar compCdate = Calendar.getInstance();
+                    posCdate.setTime(posDate);//setting the date of pos system
+                    //truncate the compCdate time part
+                    compCdate = Function.TruncateTime(compCdate);
+//                    System.out.println(posCdate.getTime()+" is before"+compCdate.getTime() );
+                    if(posCdate.before(compCdate)){
+//                        System.out.println(posCdate.getTime()+" is before"+compCdate.getTime() );
+                        if(DisplayMessages.displayInputYesNo(inView, "Do You want to Synchronize the Pos Date According to Computer Date?\n Please make You Understand the Risks Since It cannot be Undone", "Synchronize Window")){
+                            model.SynchronisePosDate(posCdate, compCdate, Function.returnSystemDateInfo());
+                        }
+                        
+                    }
+                    
                     }
                     else{
                         DisplayMessages.displayInfo(inView, "Please Setup the Date In order to Perform  Transaction", "System Date Info");

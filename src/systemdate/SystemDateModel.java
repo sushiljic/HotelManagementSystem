@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import javax.swing.JOptionPane;
@@ -22,6 +23,7 @@ import reusableClass.DisplayMessages;
  */
 public class SystemDateModel extends DBConnect {
     DateFormat dateformat = DateFormat.getDateInstance(DateFormat.FULL);
+    DateFormat SimpleFormat = new SimpleDateFormat("YYY-M-dd");
     
 public void addSystemDate(Date date){
     PreparedStatement stmtdate;
@@ -66,12 +68,16 @@ public void openSystemDate(){
     Date date = null;
     boolean open = false;
     boolean close = false;
+    Calendar Nextdate = null;
     int id = 0;
     String strget = "select system_date_id,date,open_status,close_status from system_date where  system_date_id = (select max(system_date_id) from system_date)";
     String stropen = "UPDATE system_date SET open_status = 1 where system_date_id = ?";
+    String strdate = "INSERT INTO system_date (date,open_status) VALUES(?,?) ";
     try{
         initConnection();
         conn.setAutoCommit(false);
+       
+        //retreive the data
         stmtset = conn.prepareStatement(strget);
         rs = stmtset.executeQuery();
         while(rs.next()){
@@ -83,16 +89,31 @@ public void openSystemDate(){
 //           System.out.println(id);
            
         }
+//        if(date != null){
+//            if(close == true){
+//                JOptionPane.showMessageDialog(null, "Cannot Open The System since it is Already closed for"+date);
+//                
+//            }
+//            else{
+//                if(open == true){
+//                    JOptionPane.showMessageDialog(null, "System is Already Open for date "+date+" ("+dateformat.format(date)+")");
+//                }
+//                else{
+//                   if(DisplayMessages.displayInputYesNo(null, "Do you Want To Open System  for "+date+" ("+dateformat.format(date)+")"+"?", "Open System Windows"))
+//                   {
+//                       conn.setAutoCommit(false);
+//                       stmtset = conn.prepareStatement(stropen);
+//                       stmtset.setInt(1, id);
+//                       stmtset.executeUpdate();
+//                       JOptionPane.showMessageDialog(null, "Successfully  Day Opened for "+date+" ("+dateformat.format(date)+")");
+//                   }
+//                }
+//            }
+//        }
         if(date != null){
-            if(close == true){
-                JOptionPane.showMessageDialog(null, "Cannot Open The System since it is Already closed for"+date);
-            }
-            else{
-                if(open == true){
-                    JOptionPane.showMessageDialog(null, "System is Already Open for date "+date+" ("+dateformat.format(date)+")");
-                }
-                else{
-                   if(DisplayMessages.displayInputYesNo(null, "Do you Want To Open System  for "+date+" ("+dateformat.format(date)+")"+"?", "Open System Windows"))
+            if(open == Boolean.FALSE && close == Boolean.FALSE){
+                //update that day if it is not also open and also not closed
+                if(DisplayMessages.displayInputYesNo(null, "Do you Want To Open System  for "+date+" ("+dateformat.format(date)+")"+"?", "Open System Windows"))
                    {
                        conn.setAutoCommit(false);
                        stmtset = conn.prepareStatement(stropen);
@@ -100,8 +121,33 @@ public void openSystemDate(){
                        stmtset.executeUpdate();
                        JOptionPane.showMessageDialog(null, "Successfully  Day Opened for "+date+" ("+dateformat.format(date)+")");
                    }
-                }
+                
             }
+            if( open == Boolean.TRUE && close == Boolean.TRUE){
+                //insert the neew day
+                 //adding the next day in next row of system_date
+                
+                Nextdate = Calendar.getInstance();
+                Nextdate.setTime(date);
+                Nextdate.add(Calendar.DATE, 1);
+//                Nextdate.gett
+//                       System.out.println(Nextdate);
+                if(DisplayMessages.displayInputYesNo(null, "Do you Want To Open System  for " + SimpleFormat.format(Nextdate.getTime()) +"  ("+dateformat.format(Nextdate.getTime())+")"+"?", "Open System Windows"))
+                   {
+                    conn.setAutoCommit(false);
+                    stmtset = conn.prepareStatement(strdate);
+                    //calculating the next day
+                    stmtset.setDate(1,new java.sql.Date(Nextdate.getTime().getTime()));
+                    stmtset.setInt(2, 1);//open status =1
+                    stmtset.executeUpdate();
+                    JOptionPane.showMessageDialog(null, "Successfully  Day Opened for "+ SimpleFormat.format(Nextdate.getTime())+ " ("+dateformat.format(Nextdate.getTime())+")");
+                   }
+               
+                
+            }
+            if(open == Boolean.TRUE && close == Boolean.FALSE){
+                   JOptionPane.showMessageDialog(null, "System is Already Open for date "+date+" ("+dateformat.format(date.getTime())+")");
+               }
         }
         else{
             JOptionPane.showMessageDialog(null, "Please First Set The Date For the System");
@@ -123,7 +169,7 @@ public void closeSystemDate(){
     int id = 0;
     String strget = "select system_date_id,date,open_status,close_status from system_date where  system_date_id = (select max(system_date_id) from system_date)";
     String strclose = "UPDATE system_date SET close_status = 1 where system_date_id = ?";
-    String strdate = "INSERT INTO system_date (date) VALUES(?) ";
+//    String strdate = "INSERT INTO system_date (date) VALUES(?) ";
     try{
         initConnection();
         conn.setAutoCommit(false);
@@ -146,16 +192,16 @@ public void closeSystemDate(){
                        stmtset = conn.prepareStatement(strclose);
                        stmtset.setInt(1, id);
                        stmtset.executeUpdate();
-                       //adding the next day in next row of system_date
-                       Nextdate = Calendar.getInstance();
-                       Nextdate.setTime(date);
-                       Nextdate.add(Calendar.DATE, 1);
-//                       System.out.println(Nextdate);
-                       conn.setAutoCommit(false);
-                       stmtset = conn.prepareStatement(strdate);
-                       //calculating the next day
-                       stmtset.setDate(1,new java.sql.Date(Nextdate.getTime().getTime()));
-                       stmtset.executeUpdate();
+//                       //adding the next day in next row of system_date
+//                       Nextdate = Calendar.getInstance();
+//                       Nextdate.setTime(date);
+//                       Nextdate.add(Calendar.DATE, 1);
+////                       System.out.println(Nextdate);
+//                       conn.setAutoCommit(false);
+//                       stmtset = conn.prepareStatement(strdate);
+//                       //calculating the next day
+//                       stmtset.setDate(1,new java.sql.Date(Nextdate.getTime().getTime()));
+//                       stmtset.executeUpdate();
                        JOptionPane.showMessageDialog(null, "Successfully  Day Closed for "+date+" ("+dateformat.format(date)+")");
                    }
             }

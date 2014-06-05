@@ -5,6 +5,7 @@
 package resturant.directbill;
 
 import hotelmanagementsystem.MainFrameView;
+import java.awt.HeadlessException;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import reusableClass.Function;
@@ -36,7 +37,7 @@ public class ExecuteDirectBill extends SystemDateModel{
       
        
       }
-      catch(Exception e){
+      catch(HeadlessException e){
           JOptionPane.showMessageDialog(OrderBillView, e+"from constructor "+getClass().getName());
       }
         }
