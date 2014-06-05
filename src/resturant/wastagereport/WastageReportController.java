@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import reusableClass.DisplayMessages;
 import reusableClass.Function;
+import report.wastage.WastageReport;
 //import report.terminalSalesReport.MonthlySalesReport;
 
 /**
@@ -113,19 +114,19 @@ public class WastageReportController {
                  //display the menuwise wastage report
                  if(IRView.getRadioMenu()){
                      if(IRView.getBooleanIncludeAllItemName()){
-                         
+                         new WastageReport(IRView.getMWastageParms(),"allMenuWastage.jrxml","Wasteage Report");
                      }
                      else{
-                         
+                         new WastageReport(IRView.getMWastageParam(),"menuWastage.jrxml","Wasteage Report");
                      }
                  }
                  //display the itemwise wastage report
                  else{
                       if(IRView.getBooleanIncludeAllItemName()){
-                         
+                         new WastageReport(IRView.getIWastageParms(),"allItemWastage.jrxml","Wasteage Report");
                      }
                      else{
-                         
+                         new WastageReport(IRView.getIWastageParam(),"itemWastage.jrxml","Wasteage Report");
                      }
                      
                  }

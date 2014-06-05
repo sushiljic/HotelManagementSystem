@@ -368,25 +368,45 @@ int width = gd.getDisplayMode().getWidth();
     public void setDailyDate(Date d){
         pDay = d;
     }
-    
-    public Map getReportParams(){
+    /**
+     * collects parameter for menuwastage report
+     * @return 
+     */
+    public Map getMWastageParms(){
         Map para = new HashMap<>();
-        para.put("title","Monthly Sales Report of " +getComboDepartmentName());
+        para.put("title","Wastage Report of Menu for " +getComboDepartmentName());
         para.put("frmDate", getStartDate());
         para.put("toDate", getEndDate());
         para.put("depId", getDepartmentId());
         return para;
     }
-    /*public Date getDailyDate(){
-        return pDay;
-    }
-    */
-    public Map getReportPara(){
-        @SuppressWarnings("Convert2Diamond")
+    
+    public Map getMWastageParam(){
         Map para = new HashMap<>();
-        para.put("pDay",pDay);
+        para.put("title", "Wastage Report of " + getComboItemName() + " for " +getComboDepartmentName());
+        para.put("frm",getStartDate());
+        para.put("to",getEndDate());
+        para.put("depId",getDepartmentId());
+        //para.put("menu");
+        return para;
+    }
+    
+    public Map getIWastageParms(){
+        Map para = new HashMap<>();
+        para.put("title","Wastage Report of Items for " +getComboDepartmentName());
+        para.put("frmDate", getStartDate());
+        para.put("toDate", getEndDate());
         para.put("depId", getDepartmentId());
-        para.put("title", "Daily Sales Report of " +getComboDepartmentName());
+        return para;
+    }
+    
+    public Map getIWastageParam(){
+        Map para = new HashMap<>();
+        para.put("title", "Wastage Report of " + getComboItemName() + " for " +getComboDepartmentName());
+        para.put("frm",getStartDate());
+        para.put("to",getEndDate());
+        para.put("depId",getDepartmentId());
+        //para.put("menu");
         return para;
     }
     //for daily sales report ;
