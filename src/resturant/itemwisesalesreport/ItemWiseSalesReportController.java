@@ -140,63 +140,75 @@ public class ItemWiseSalesReportController {
                         //for viewing jasper report 
                         if(IRView.getComboReportType().equalsIgnoreCase("Daily") && IRView.getBooleanIncludeAll() ){
                              //DailyAllItemSalesReport report = new DailyAllItemSalesReport(IRView.getDailyAllParam());
-                            String report = "DailyAllItemSalesReport.jrxml";
-                            String title = "Daily Item Sales Report";
-                            ItemSalesReport sales = new ItemSalesReport(IRView.getDailyAllParam(),report,title);
+                            //String report = "DailyAllItemSalesReport.jrxml";
+                            //String title = "Daily Item Sales Report";
+                            //ItemSalesReport sales = new ItemSalesReport(IRView.getDailyAllParam(),report,title);
                             if(IRView.getBothStatus()){
                                 //display the report with both trackable and non trackable report
+                                new ItemSalesReport(IRView.getDailyAllParam(),"DailyAllItemSalesReport.jrxml","Daily Sales Report");
                             }
                             else if(IRView.getTrackableStatus()){
                                 //display the report with trackable menu sales
+                                new ItemSalesReport(IRView.getDailyAllTrack(),"DailyAllTrackable.jrxml","Daily Sales Report Trackable");
                             }
                             else if(IRView.getNonTrackableStatus()){
                                 //display the repor with nontrackable menu sales
+                                new ItemSalesReport(IRView.getDailyAllUnTrack(),"DailyAllUntrackable.jrxml","Daily Sales Report Untrackable");
                             }
                          }
                         else if(IRView.getComboReportType().equalsIgnoreCase("Daily")){
                             //DailyItemSalesReport dReport = new DailyItemSalesReport(IRView.getDailyParam());
-                            String report = "DailyItemSalesReport.jrxml";
-                            String title = "Daily Item Sales Report";
-                            ItemSalesReport sales = new ItemSalesReport(IRView.getDailyParam(),report,title);
+                            //String report = "DailyItemSalesReport.jrxml";
+                            //String title = "Daily Item Sales Report";
+                            //ItemSalesReport sales = new ItemSalesReport(IRView.getDailyParam(),report,title);
                             
                              if(IRView.getBothStatus()){
                                 //display the report with both trackable and non trackable report
+                                 new ItemSalesReport(IRView.getDailyParam(),"DailyItemSalesReport","Daily Item Sales Report");
                             }
                             else if(IRView.getTrackableStatus()){
                                 //display the report with trackable menu sales
+                                new ItemSalesReport(IRView.getDailyTrack(),"DailySalesTrackable.jrxml","Daily Item Sales Report Trackable");
                             }
                             else if(IRView.getNonTrackableStatus()){
                                 //display the repor with nontrackable menu sales
+                                new ItemSalesReport(IRView.getDailyTrack(),"DailySalesUntrackable.jrxml","Daily Item Sales Report Untrackable");
                             }
                         }              
                         
                         else if(IRView.getComboReportType().equalsIgnoreCase("Monthly") && IRView.getBooleanIncludeAll() ){
-                            String report = "MonthlyAllItemSalesReport.jrxml";
-                            String title = "Monthly Item Sales Report";
-                            ItemSalesReport sales = new ItemSalesReport(IRView.getMonthlyAllParam(),report,title);
+                            //String report = "MonthlyAllItemSalesReport.jrxml";
+                            //String title = "Monthly Item Sales Report";
+                            //ItemSalesReport sales = new ItemSalesReport(IRView.getMonthlyAllParam(),report,title);
 // MonthlyAllSalesReport monthly = new MonthlyAllSalesReport(IRView.getMonthlyAllParam());
                              if(IRView.getBothStatus()){
                                 //display the report with both trackable and non trackable report
+                                 new ItemSalesReport(IRView.getMonthlyAllParam(),"MonthlyAllItemSalesReport.jrxml","Monthly Sales Report");
                             }
                             else if(IRView.getTrackableStatus()){
                                 //display the report with trackable menu sales
+                                new ItemSalesReport(IRView.getMonthlyAllTrack(),"MonthlyAllTrackable.jrxml","Monthly Sales Report Trackable");
                             }
                             else if(IRView.getNonTrackableStatus()){
                                 //display the repor with nontrackable menu sales
+                                new ItemSalesReport(IRView.getMonthlyAllUnTrack(),"MonthlyAllUntrackable.jrxml","Monthly Sales Report Untrackable");
                             }
                          }
                         else if(IRView.getComboReportType().equalsIgnoreCase("Monthly")){
-                            String report = "MonthlyItemSalesReport.jrxml";
-                            ItemSalesReport sales = new ItemSalesReport(IRView.getMonthlyParam(),report,"Montyly Item Sales Report");
+                            //String report = "MonthlyItemSalesReport.jrxml";
+                            //ItemSalesReport sales = new ItemSalesReport(IRView.getMonthlyParam(),report,"Montyly Item Sales Report");
 //MonthlyItemSalesReport mReport = new MonthlyItemSalesReport(IRView.getMonthlyParam());
                              if(IRView.getBothStatus()){
                                 //display the report with both trackable and non trackable report
+                                 new ItemSalesReport(IRView.getMonthlyParam(),"MonthlyItemSalesReport.jrxml","Monthly Sales Report ");
                             }
                             else if(IRView.getTrackableStatus()){
                                 //display the report with trackable menu sales
+                                new ItemSalesReport(IRView.getMonthlyTrack(),"MonthlyTrackable.jrxml","Monthly Sales Report Trackable");
                             }
                             else if(IRView.getNonTrackableStatus()){
                                 //display the repor with nontrackable menu sales
+                                new ItemSalesReport(IRView.getMonthlyUnTrack(),"MonthlyUntrackable.jrxml","Monthly Sales Report Untrackable");
                             }
                         }
                          

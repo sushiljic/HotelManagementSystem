@@ -352,7 +352,22 @@ int width = gd.getDisplayMode().getWidth();
       public Map getDailyAllParam(){
           Map para = new HashMap<>();
           para.put("pDay",pDay);
-          para.put("title", "Daily All Item Sales Report of " +getComboDepartmentName());
+          para.put("title", "Daily Sales Report of All Item for " +getComboDepartmentName());
+          para.put("depId", getDepartmentId());
+          return para;
+      }
+      
+      public Map getDailyAllTrack(){
+          Map para = new HashMap<>();
+          para.put("pDay",pDay);
+          para.put("title", "Daily Sales Report fo All Trackable Item for " +getComboDepartmentName());
+          para.put("depId", getDepartmentId());
+          return para;
+      }
+      public Map getDailyAllUnTrack(){
+          Map para = new HashMap<>();
+          para.put("pDay",pDay);
+          para.put("title", "Daily Sales Report of All Untrackable Item for " +getComboDepartmentName());
           para.put("depId", getDepartmentId());
           return para;
       }
@@ -361,7 +376,25 @@ int width = gd.getDisplayMode().getWidth();
           Map para = new HashMap<>();
           para.put("frmDate",getStartDate());
           para.put("toDate",getEndDate());
-          para.put("title", "Monthly All Item Sales Report of " +getComboDepartmentName());
+          para.put("title", "Monthly Sales Report of All Item for " +getComboDepartmentName());
+          para.put("depId", getDepartmentId());
+          return para;
+      }
+      
+      public Map getMonthlyAllTrack(){
+          Map para = new HashMap<>();
+          para.put("frmDate",getStartDate());
+          para.put("toDate",getEndDate());
+          para.put("title", "Monthly Sales Report of All Trackable Item for " +getComboDepartmentName());
+          para.put("depId", getDepartmentId());
+          return para;
+      }
+      
+      public Map getMonthlyAllUnTrack(){
+          Map para = new HashMap<>();
+          para.put("frmDate",getStartDate());
+          para.put("toDate",getEndDate());
+          para.put("title", "Monthly Sales Report fo All Untrackable Item for " +getComboDepartmentName());
           para.put("depId", getDepartmentId());
           return para;
       }
@@ -375,6 +408,23 @@ int width = gd.getDisplayMode().getWidth();
           return para;
       }
       
+     public Map getDailyTrack(){
+          Map para = new HashMap<>();
+          para.put("pDay",pDay);
+          para.put("pId", Integer.parseInt(getMenuId()));
+          para.put("title", "Daily Sales Report of Trackable Item " +getComboMenuName() + " of " +getComboDepartmentName());
+          para.put("depId", getDepartmentId());
+          return para;
+      }
+      
+     public Map getDailyUnTrack(){
+          Map para = new HashMap<>();
+          para.put("pDay",pDay);
+          para.put("pId", Integer.parseInt(getMenuId()));
+          para.put("title", "Daily Sales Report of Untrackable Item " +getComboMenuName() + " of " +getComboDepartmentName());
+          para.put("depId", getDepartmentId());
+          return para;
+      }
       public Map getMonthlyParam(){
           Map para = new HashMap<>();
           para.put("frmDate",getStartDate());
@@ -385,7 +435,25 @@ int width = gd.getDisplayMode().getWidth();
           return para;
       }
       
+      public Map getMonthlyTrack(){
+          Map para = new HashMap<>();
+          para.put("frmDate",getStartDate());
+          para.put("toDate", getEndDate());
+          para.put("pId", Integer.parseInt(getMenuId()));
+          para.put("title", "Monthly Sales Report of Trackable Item " +getComboMenuName() + " of " +getComboDepartmentName());
+          para.put("depId",getDepartmentId());
+          return para;
+      }
       
+      public Map getMonthlyUnTrack(){
+          Map para = new HashMap<>();
+          para.put("frmDate",getStartDate());
+          para.put("toDate", getEndDate());
+          para.put("pId", Integer.parseInt(getMenuId()));
+          para.put("title", "Monthly Sales Report of Untrackable Item " +getComboMenuName() + " of " +getComboDepartmentName());
+          para.put("depId",getDepartmentId());
+          return para;
+      }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

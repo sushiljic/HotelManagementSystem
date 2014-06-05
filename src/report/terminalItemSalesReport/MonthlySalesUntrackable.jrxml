@@ -73,6 +73,9 @@
 		<parameter name="depId" class="java.lang.Integer">
 			<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
 		</parameter>
+		<parameter name="item" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
 		<queryString>
 			<![CDATA[SELECT
 bill_item_info.quantity*menu.retail_price AS total_amount, menu.menu_name,bill_item_info.quantity,
@@ -82,7 +85,7 @@ INNER JOIN menu ON bill_item_info.menu_id = menu.menu_id
 INNER JOIN bill ON bill_item_info.bill_id = bill.bill_id 
 INNER JOIN department_info dep on bill.department_id = dep.department_id
 WHERE bill.void != 1
- AND bill.bill_datetime > $P{frm} AND bill.bill_datetime < $P{to} and dep.department_id = $P{depId} and menu.item_type = false]]>
+ AND bill.bill_datetime > $P{frm} AND bill.bill_datetime < $P{to} and dep.department_id = $P{depId} and menu.item_type = false AND bill_item_info.menu_id = $P{item}]]>
 		</queryString>
 		<field name="total_amount" class="java.math.BigDecimal">
 			<fieldDescription><![CDATA[]]></fieldDescription>
@@ -116,6 +119,7 @@ WHERE bill.void != 1
 	<parameter name="toDate" class="java.util.Date"/>
 	<parameter name="title" class="java.lang.String"/>
 	<parameter name="depId" class="java.lang.Integer"/>
+	<parameter name="pId" class="java.lang.Integer"/>
 	<queryString>
 		<![CDATA[select * from company_info]]>
 	</queryString>
@@ -217,7 +221,7 @@ WHERE bill.void != 1
 			<componentElement>
 				<reportElement key="table 2" style="table 2" x="3" y="6" width="552" height="50" isPrintWhenDetailOverflows="true" uuid="5eb6b7c2-224a-4280-beff-f79e4d8241e5"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="MonthlyAllItemSales" uuid="de4e3cbb-933a-46ea-803e-cc6352e586d9">
+					<datasetRun subDataset="MonthlyAllItemSales" uuid="a2b8fd61-5fea-477f-80df-35d66d44f32b">
 						<datasetParameter name="frm">
 							<datasetParameterExpression><![CDATA[$P{frmDate}]]></datasetParameterExpression>
 						</datasetParameter>
@@ -226,6 +230,9 @@ WHERE bill.void != 1
 						</datasetParameter>
 						<datasetParameter name="to">
 							<datasetParameterExpression><![CDATA[$P{toDate}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="item">
+							<datasetParameterExpression><![CDATA[$P{pId}]]></datasetParameterExpression>
 						</datasetParameter>
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					</datasetRun>

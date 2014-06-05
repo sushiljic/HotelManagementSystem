@@ -70,6 +70,9 @@
 		<parameter name="depId" class="java.lang.Integer">
 			<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
 		</parameter>
+		<parameter name="item" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
 		<queryString>
 			<![CDATA[SELECT bill_item_info.quantity*menu.retail_price AS total_amount,
 bill_item_info.menu_id,menu.menu_name,bill_item_info.quantity,
@@ -80,7 +83,7 @@ INNER JOIN menu ON bill_item_info.menu_id = menu.menu_id
 INNER JOIN bill ON bill_item_info.bill_id = bill.bill_id
 inner join department_info dep on bill.department_id = dep.department_id 
 and dep.department_id = $P{depId}
-WHERE bill.void != 1 AND bill.bill_datetime = $P{day} AND menu.item_type = false]]>
+WHERE bill.void != 1 AND bill.bill_datetime = $P{day} AND menu.item_type = false AND bill_item_info.menu_id = $P{item}]]>
 		</queryString>
 		<field name="total_amount" class="java.math.BigDecimal">
 			<fieldDescription><![CDATA[]]></fieldDescription>
@@ -119,6 +122,7 @@ WHERE bill.void != 1 AND bill.bill_datetime = $P{day} AND menu.item_type = false
 	</parameter>
 	<parameter name="title" class="java.lang.String"/>
 	<parameter name="depId" class="java.lang.Integer"/>
+	<parameter name="pId" class="java.lang.Integer"/>
 	<queryString>
 		<![CDATA[select * from company_info]]>
 	</queryString>
@@ -220,12 +224,15 @@ WHERE bill.void != 1 AND bill.bill_datetime = $P{day} AND menu.item_type = false
 			<componentElement>
 				<reportElement key="table 2" style="table 2" x="2" y="2" width="552" height="50" isPrintWhenDetailOverflows="true" uuid="16f2a7c6-a117-4cce-a298-fcfd63940c2e"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="DailyAllItemSales" uuid="c344520f-724c-4992-935b-6e94ea2c7b2f">
+					<datasetRun subDataset="DailyAllItemSales" uuid="ce8de09f-db85-4d73-afbe-f1ac32020abe">
 						<datasetParameter name="day">
 							<datasetParameterExpression><![CDATA[$P{pDay}]]></datasetParameterExpression>
 						</datasetParameter>
 						<datasetParameter name="depId">
 							<datasetParameterExpression><![CDATA[$P{depId}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="item">
+							<datasetParameterExpression><![CDATA[$P{pId}]]></datasetParameterExpression>
 						</datasetParameter>
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					</datasetRun>
