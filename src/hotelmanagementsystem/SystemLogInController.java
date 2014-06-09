@@ -121,20 +121,24 @@ public class SystemLogInController  extends UserCreditialModel{
                         DisplayMessages.displayInfo(mainview, "Computer Date( "+dateformat.format(SystemDate)+" ) and Our Software System Date( "+dateformat.format(posDate)+" )  Doesnot Match.\n Please Make Sure You are Running of the Current Date", " Date Info");
                         
                     }
-                      //getting date 
-                    Calendar posCdate = Calendar.getInstance();
-                    Calendar compCdate = Calendar.getInstance();
-                    posCdate.setTime(posDate);//setting the date of pos system
-                    //truncate the compCdate time part
-                    compCdate = Function.TruncateTime(compCdate);
-//                    System.out.println(posCdate.getTime()+" is before"+compCdate.getTime() );
-                    if(posCdate.before(compCdate)){
-//                        System.out.println(posCdate.getTime()+" is before"+compCdate.getTime() );
-                        if(DisplayMessages.displayInputYesNo(inView, "Do You want to Synchronize the Pos Date According to Computer Date?\n Please make You Understand the Risks Since It cannot be Undone", "Synchronize Window")){
-                            model.SynchronisePosDate(posCdate, compCdate, Function.returnSystemDateInfo());
-                        }
+                    //check whether the user is authenticated user to let module to be usered
+                    if(Function.getUserAdminStatus(mainview.getUserId()) || Function.getUserSuperAdminStatus(mainview.getUserId()))
+                        {
+                        //getting date 
+                        Calendar posCdate = Calendar.getInstance();
+                        Calendar compCdate = Calendar.getInstance();
+                        posCdate.setTime(posDate);//setting the date of pos system
+                        //truncate the compCdate time part
+                        compCdate = Function.TruncateTime(compCdate);
+    //                    System.out.println(posCdate.getTime()+" is before"+compCdate.getTime() );
+                        if(posCdate.before(compCdate)){
+    //                        System.out.println(posCdate.getTime()+" is before"+compCdate.getTime() );
+                            if(DisplayMessages.displayInputYesNo(inView, "Do You want to Synchronize the Our Software System Date According to Computer Date?\n Please make You Understand the Risks Since It cannot be Undone", "Synchronize Window")){
+                                model.SynchronisePosDate(posCdate, compCdate, Function.returnSystemDateInfo());
+                            }
                         
-                    }
+                        }
+                        }
                     
                     }
                     else{
