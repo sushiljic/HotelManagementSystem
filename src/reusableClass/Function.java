@@ -562,6 +562,46 @@ public class Function  {
              cal.set(Calendar.MILLISECOND, 0);
              return cal;
          }
+         //get the admin status of the user
+         public static boolean getUserAdminStatus(int userid){
+             DBConnect getAdmin = new DBConnect();
+             boolean adminflag = false;
+             String strQry = "SELECT admin FROM sys_user_info WHERE userid = ?";
+             PreparedStatement psadmin;
+             ResultSet rs;
+             try{
+                 getAdmin.initConnection();
+                 psadmin = getAdmin.conn.prepareStatement(strQry);
+                 psadmin.setInt(1, userid);
+                 rs = psadmin.executeQuery();
+                 rs.next();
+                 adminflag = rs.getBoolean(1);
+             }
+             catch(SQLException se){
+                 JOptionPane.showMessageDialog(null, se.getMessage(), "From getUserAdminStatus",JOptionPane.ERROR_MESSAGE);
+             }
+             return adminflag;
+         }
+         //get the super admin status of user
+          public static boolean getUserSuperAdminStatus(int userid){
+             DBConnect getAdmin = new DBConnect();
+             boolean adminflag = false;
+             String strQry = "SELECT super_admin FROM sys_user_info WHERE userid = ? ";
+             PreparedStatement psadmin;
+             ResultSet rs;
+             try{
+                 getAdmin.initConnection();
+                 psadmin = getAdmin.conn.prepareStatement(strQry);
+                 psadmin.setInt(1, userid);
+                 rs = psadmin.executeQuery();
+                 rs.next();
+                 adminflag = rs.getBoolean(1);
+             }
+             catch(SQLException se){
+                 JOptionPane.showMessageDialog(null, se.getMessage(), "From getUserAdminStatus",JOptionPane.ERROR_MESSAGE);
+             }
+             return adminflag;
+         }
 }
 
        
