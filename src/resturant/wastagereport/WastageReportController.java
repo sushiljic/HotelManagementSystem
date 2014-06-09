@@ -100,8 +100,10 @@ public class WastageReportController {
                    JOptionPane.showMessageDialog(IRView.DailogReport,"Please Select  Department Name ");
                     return;  
                 }
+                if(!IRView.getBooleanIncludeAllItemName()){
                 if(IRView.getItemId() == 0){
                     DisplayMessages.displayInfo(IRView.DailogReport, "Please Select the  Name", "Select Name");
+                }
                 }
                 if(IRView.getStartDate() == null){
                      JOptionPane.showMessageDialog(IRView.DailogReport,"Please Select  Start Date ");
@@ -114,19 +116,19 @@ public class WastageReportController {
                  //display the menuwise wastage report
                  if(IRView.getRadioMenu()){
                      if(IRView.getBooleanIncludeAllItemName()){
-                         new WastageReport(IRView.getMWastageParms(),"allMenuWastage.jrxml","Wasteage Report");
+                         WastageReport wastageReport = new WastageReport(IRView.getMWastageParms(),"allMenuWastage.jrxml","Wasteage Report");
                      }
                      else{
-                         new WastageReport(IRView.getMWastageParam(),"menuWastage.jrxml","Wasteage Report");
+                         WastageReport wastageReport = new WastageReport(IRView.getMWastageParam(),"menuWastage.jrxml","Wasteage Report");
                      }
                  }
                  //display the itemwise wastage report
                  else{
                       if(IRView.getBooleanIncludeAllItemName()){
-                         new WastageReport(IRView.getIWastageParms(),"allItemWastage.jrxml","Wasteage Report");
+                          WastageReport wastageReport = new WastageReport(IRView.getIWastageParms(),"allItemWastage.jrxml","Wasteage Report");
                      }
                      else{
-                         new WastageReport(IRView.getIWastageParam(),"itemWastage.jrxml","Wasteage Report");
+                          WastageReport wastageReport = new WastageReport(IRView.getIWastageParam(),"itemWastage.jrxml","Wasteage Report");
                      }
                      
                  }
@@ -140,13 +142,15 @@ public class WastageReportController {
                
             }
             if(e.getActionCommand().equalsIgnoreCase("Cancel")){
-                IRView.setVisible(false);
                 IRView.clearAll();
+                IRView.setVisible(false);
+                
             }
             if(e.getActionCommand().equalsIgnoreCase("ReportCancel")){
+                IRView.clearAll();
                 IRView.DailogReport.setVisible(false);
                 IRView.setVisible(true);
-                IRView.clearAll();
+                
             }
             
         }

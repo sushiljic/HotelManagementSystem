@@ -9,6 +9,8 @@ package resturant.creditpayment;
 import hotelmanagementsystem.MainFrameView;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
+import reusableClass.DisplayMessages;
+import reusableClass.Function;
 
 /**
  *
@@ -24,10 +26,17 @@ public class ExecuteCreditPayment {
 
             @Override
             public void run() {
+                Object[] dateinfo = Function.returnSystemDateInfo();
+      if(dateinfo[2] == Boolean.TRUE && dateinfo[3] == Boolean.FALSE){
         creditPaymentView = new CreditPaymentView(parent, modal);
         creditPaymentModel = new CreditPaymentModel();
         creditPaymentController = new CreditPaymentController(creditPaymentModel, creditPaymentView, (MainFrameView)parent);
         creditPaymentView.setVisible(true);
+           }
+         
+      else{
+        DisplayMessages.displayInfo(parent, "Please First Open the Date to Perform Monetary Transaction.", "Credit Payment Window");
+        }
             }
         });
        

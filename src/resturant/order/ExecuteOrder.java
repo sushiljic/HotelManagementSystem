@@ -37,6 +37,7 @@ public class ExecuteOrder extends SystemDateModel {
       else{
           
          JOptionPane.showMessageDialog(OrderView, "Please First Open the Date to Perform Order Transaction.");
+//         return;
          
        
       }

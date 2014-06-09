@@ -290,6 +290,10 @@ public final class MenuListDetailController {
                 Boolean authflag =false;
                 
                 ExecuteOrder order = new ExecuteOrder(mainview);
+                //incase the day is not opened return from here
+                if(order.OrderView == null){
+                    return;
+                }
                 //checking whether they are legal to issue the menuid
                 ComboBoxModel departmentmodel = order.OrderView.returnComboDepartmentName().getModel();
                 //check agiant each row
