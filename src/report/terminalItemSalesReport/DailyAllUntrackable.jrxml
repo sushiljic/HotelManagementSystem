@@ -109,7 +109,9 @@ WHERE bill.void != 1 AND bill.bill_datetime = $P{day} and menu.item_type = false
 		<field name="department_name" class="java.lang.String">
 			<fieldDescription><![CDATA[]]></fieldDescription>
 		</field>
-		<variable name="grandTotal" class="java.math.BigDecimal" calculation="Sum"/>
+		<variable name="grandTotal" class="java.math.BigDecimal" calculation="Sum">
+			<variableExpression><![CDATA[$F{total_amount}]]></variableExpression>
+		</variable>
 		<group name="unit_type">
 			<groupExpression><![CDATA[]]></groupExpression>
 		</group>

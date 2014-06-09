@@ -109,6 +109,12 @@ WHERE (bill.total_received < bill.bill_total) AND (bill.bill_datetime >= $P{frm}
 		<field name="bill_datetime" class="java.sql.Date">
 			<fieldDescription><![CDATA[]]></fieldDescription>
 		</field>
+		<variable name="tAmt" class="java.math.BigDecimal" calculation="Sum">
+			<variableExpression><![CDATA[$F{bill_total}]]></variableExpression>
+		</variable>
+		<variable name="tPay" class="java.math.BigDecimal" calculation="Sum">
+			<variableExpression><![CDATA[$F{payableAmt}]]></variableExpression>
+		</variable>
 		<group name="unit_type">
 			<groupExpression><![CDATA[]]></groupExpression>
 		</group>
@@ -237,13 +243,14 @@ WHERE (bill.total_received < bill.bill_total) AND (bill.bill_datetime >= $P{frm}
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					</datasetRun>
 					<jr:column width="37" uuid="58f8b70a-b107-48a4-87e9-02b80008158a">
-						<jr:columnHeader style="table_CH" height="16" rowSpan="1">
+						<jr:columnHeader style="table_CH" height="17" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="0" width="37" height="16" uuid="6441e90a-7ad4-48e5-ab56-ba1344b65ebb"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<text><![CDATA[S.N.]]></text>
 							</staticText>
 						</jr:columnHeader>
+						<jr:columnFooter height="18" rowSpan="1"/>
 						<jr:detailCell style="table_TD" height="16" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="37" height="16" uuid="e39bee0c-4404-48ca-8daa-8a515fe52f92"/>
@@ -255,13 +262,14 @@ WHERE (bill.total_received < bill.bill_total) AND (bill.bill_datetime >= $P{frm}
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="130" uuid="9d9ea2dd-4311-4ebd-96dc-118ef1cfbd46">
-						<jr:columnHeader style="table 2_CH" height="16" rowSpan="1">
+						<jr:columnHeader style="table 2_CH" height="17" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="0" width="130" height="16" uuid="fbed9564-7a65-4d43-97a5-c4144ad03362"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<text><![CDATA[Customer Name]]></text>
 							</staticText>
 						</jr:columnHeader>
+						<jr:columnFooter height="18" rowSpan="1"/>
 						<jr:detailCell style="table 2_TD" height="16" rowSpan="1">
 							<textField isStretchWithOverflow="true">
 								<reportElement x="0" y="0" width="130" height="16" uuid="ae81d7fb-dd60-4d3b-8541-32842762933d"/>
@@ -273,13 +281,23 @@ WHERE (bill.total_received < bill.bill_total) AND (bill.bill_datetime >= $P{frm}
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="57" uuid="cbff1cd7-3b0d-48f5-8908-50e64501752a">
-						<jr:columnHeader style="table 2_CH" height="16" rowSpan="1">
+						<jr:columnHeader style="table 2_CH" height="17" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="0" width="57" height="16" uuid="35ab1875-917f-4f29-94ff-034721427790"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<text><![CDATA[Bill No.]]></text>
 							</staticText>
 						</jr:columnHeader>
+						<jr:columnFooter height="18" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="57" height="18" uuid="f4b0f818-fa13-4455-b32d-7a339c58ed2f"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font isBold="true"/>
+									<paragraph rightIndent="5"/>
+								</textElement>
+								<text><![CDATA[Total :]]></text>
+							</staticText>
+						</jr:columnFooter>
 						<jr:detailCell style="table 2_TD" height="16" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="57" height="16" uuid="a9d781c0-6ac7-477f-9b81-2a5fe66d6946"/>
@@ -291,13 +309,23 @@ WHERE (bill.total_received < bill.bill_total) AND (bill.bill_datetime >= $P{frm}
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="85" uuid="e0525f12-4fc5-47ae-8e1a-45524f4845df">
-						<jr:columnHeader style="table 2_CH" height="16" rowSpan="1">
+						<jr:columnHeader style="table 2_CH" height="17" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="0" width="85" height="16" uuid="eb2d6ffa-d131-4b18-8fc0-bb173a17457c"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<text><![CDATA[Total Amount]]></text>
 							</staticText>
 						</jr:columnHeader>
+						<jr:columnFooter height="18" rowSpan="1">
+							<textField>
+								<reportElement style="table_TD" x="0" y="0" width="85" height="18" uuid="eac98f4f-cbad-4d4f-887d-8ed088f1e05a"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font isBold="true"/>
+									<paragraph rightIndent="5"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{tAmt}.setScale(2,RoundingMode.HALF_UP)]]></textFieldExpression>
+							</textField>
+						</jr:columnFooter>
 						<jr:detailCell style="table 2_TD" height="16" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="85" height="16" uuid="f399177f-92b9-46d0-a596-9d99a44f1469"/>
@@ -309,13 +337,23 @@ WHERE (bill.total_received < bill.bill_total) AND (bill.bill_datetime >= $P{frm}
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="84" uuid="b7c8b93b-3cce-4f6d-8122-94c81eef2eb5">
-						<jr:columnHeader style="table 2_CH" height="16" rowSpan="1">
+						<jr:columnHeader style="table 2_CH" height="17" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="0" width="84" height="16" uuid="ff3028cc-6465-48ab-a71c-1a8142ac43b9"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<text><![CDATA[Payable Amt.]]></text>
 							</staticText>
 						</jr:columnHeader>
+						<jr:columnFooter height="18" rowSpan="1">
+							<textField>
+								<reportElement style="table_TD" x="0" y="0" width="84" height="18" uuid="b1e058e8-b88f-4154-9e28-5703dd74920a"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font isBold="true"/>
+									<paragraph rightIndent="5"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{tPay}.setScale(2,RoundingMode.HAlF_UP)]]></textFieldExpression>
+							</textField>
+						</jr:columnFooter>
 						<jr:detailCell style="table 2_TD" height="16" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="84" height="16" uuid="00eaca9a-66c8-43dc-966e-2ef4d2114423"/>
@@ -327,13 +365,14 @@ WHERE (bill.total_received < bill.bill_total) AND (bill.bill_datetime >= $P{frm}
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="104" uuid="4d1d96fe-b792-4702-974b-97b49e959816">
-						<jr:columnHeader style="table_CH" height="16" rowSpan="1">
+						<jr:columnHeader style="table_CH" height="17" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="0" width="104" height="16" uuid="ba89f7cd-5e5e-4738-ab36-38cb14f59ed8"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<text><![CDATA[Department]]></text>
 							</staticText>
 						</jr:columnHeader>
+						<jr:columnFooter height="18" rowSpan="1"/>
 						<jr:detailCell style="table_TD" height="16" rowSpan="1">
 							<textField isStretchWithOverflow="true">
 								<reportElement x="0" y="0" width="104" height="16" uuid="1b52f485-ab1b-498a-8e31-0a84d8cc8009"/>
@@ -345,13 +384,14 @@ WHERE (bill.total_received < bill.bill_total) AND (bill.bill_datetime >= $P{frm}
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="50" uuid="7e8996f2-9091-4678-9d38-a31e37eaf3e1">
-						<jr:columnHeader style="table 2_CH" height="16" rowSpan="1">
+						<jr:columnHeader style="table 2_CH" height="17" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="0" width="50" height="16" uuid="149017ad-b773-466c-b970-263dc89cceea"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<text><![CDATA[Date]]></text>
 							</staticText>
 						</jr:columnHeader>
+						<jr:columnFooter height="18" rowSpan="1"/>
 						<jr:detailCell style="table 2_TD" height="16" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="50" height="16" uuid="10fe99ff-a7b1-4f44-9b8e-6b459be246f2"/>

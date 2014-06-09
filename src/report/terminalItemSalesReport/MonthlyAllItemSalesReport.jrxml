@@ -214,6 +214,13 @@ WHERE bill.void != 1
 				</textElement>
 				<textFieldExpression><![CDATA[$P{title}]]></textFieldExpression>
 			</textField>
+			<textField>
+				<reportElement x="0" y="24" width="555" height="18" uuid="6a382197-ec4c-451c-89c7-ed1a0119777e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["From " + new SimpleDateFormat("dd/MM/yyyy, EEEE").format($P{frmDate})+" To "+new SimpleDateFormat("dd/MM/yyyy, EEEE").format($P{toDate})]]></textFieldExpression>
+			</textField>
 		</band>
 	</columnHeader>
 	<detail>
@@ -447,13 +454,6 @@ WHERE bill.void != 1
 					</jr:column>
 				</jr:table>
 			</componentElement>
-			<textField>
-				<reportElement x="1" y="-19" width="552" height="18" uuid="d933e8cc-4db3-478e-9e33-b09a3610de4a"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA["From " + new SimpleDateFormat("dd/MM/yyyy, EEEE").format($P{frmDate})+" To "+new SimpleDateFormat("dd/MM/yyyy, EEEE").format($P{toDate})]]></textFieldExpression>
-			</textField>
 		</band>
 	</detail>
 </jasperReport>
