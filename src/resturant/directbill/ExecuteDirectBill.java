@@ -18,17 +18,17 @@ import systemdate.SystemDateModel;
 public class ExecuteDirectBill extends SystemDateModel{
    public DirectBillModel OrderBillModel;
     public  DirectBillView OrderBillView;
-     public  DirectBillController OrderBillController;
-        public ExecuteDirectBill(MainFrameView mainview) {
-           OrderBillModel = new DirectBillModel();
-             OrderBillView = new DirectBillView();
-            
-            OrderBillController = new DirectBillController(OrderBillModel,OrderBillView,mainview);
+    public  DirectBillController OrderBillController;
+    public ExecuteDirectBill(MainFrameView mainview) {
+           
           
-             try{   
+     try{   
       Object[] dateinfo = Function.returnSystemDateInfo();
       if(dateinfo[2] == Boolean.TRUE && dateinfo[3] == Boolean.FALSE){
-           OrderBillView.setVisible(true);
+          OrderBillModel = new DirectBillModel();
+          OrderBillView = new DirectBillView();
+          OrderBillController = new DirectBillController(OrderBillModel,OrderBillView,mainview);
+          OrderBillView.setVisible(true);
       }
       else{
          JOptionPane.showMessageDialog(OrderBillView, "Please First Open the Date to Perform Order Transaction.");

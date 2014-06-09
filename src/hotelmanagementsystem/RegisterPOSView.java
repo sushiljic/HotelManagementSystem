@@ -7,8 +7,7 @@
 package hotelmanagementsystem;
 
 import java.awt.event.ActionListener;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
+import reusableClass.Function;
 
 /**
  *
@@ -18,10 +17,14 @@ public class RegisterPOSView extends javax.swing.JDialog {
 
     /**
      * Creates new form RegisterPOS
+     * @param parent
+     * @param modal
      */
     public RegisterPOSView(javax.swing.JFrame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        Function.setButtonForEnter(btnCancel);
+        Function.setButtonForEnter(btnRegister);
     }
 
     public String gettxtRegisterCode() {
@@ -42,7 +45,9 @@ public class RegisterPOSView extends javax.swing.JDialog {
     public void addRegisterListener(ActionListener listen){
         btnRegister.addActionListener(listen);
     }
-    
+    public void addCancelListener(ActionListener Listen){
+        btnCancel.addActionListener(Listen);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -59,6 +64,7 @@ public class RegisterPOSView extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
         btnRegister = new javax.swing.JButton();
         txtRegisterCode = new javax.swing.JTextField();
+        btnCancel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -68,6 +74,7 @@ public class RegisterPOSView extends javax.swing.JDialog {
         jLabel1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         lblSerialCode.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        lblSerialCode.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setText("Serial Code:");
@@ -75,7 +82,9 @@ public class RegisterPOSView extends javax.swing.JDialog {
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setText("Register Code:");
 
+        btnRegister.setMnemonic('r');
         btnRegister.setText("Register");
+        btnRegister.setToolTipText("ALT + R");
         btnRegister.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRegisterActionPerformed(evt);
@@ -84,6 +93,10 @@ public class RegisterPOSView extends javax.swing.JDialog {
 
         txtRegisterCode.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         txtRegisterCode.setForeground(new java.awt.Color(153, 0, 0));
+
+        btnCancel.setMnemonic('c');
+        btnCancel.setText("Cancel");
+        btnCancel.setToolTipText("ALT +C");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -102,7 +115,11 @@ public class RegisterPOSView extends javax.swing.JDialog {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(lblSerialCode, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnCancel)
+                                .addGap(31, 31, 31))
                             .addComponent(txtRegisterCode, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE))))
                 .addContainerGap())
         );
@@ -118,7 +135,9 @@ public class RegisterPOSView extends javax.swing.JDialog {
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtRegisterCode, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
-                .addComponent(btnRegister, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnRegister, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
+                    .addComponent(btnCancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -174,6 +193,7 @@ public class RegisterPOSView extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnRegister;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

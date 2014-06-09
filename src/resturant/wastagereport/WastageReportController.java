@@ -52,7 +52,7 @@ public class WastageReportController {
         //add include all Listener
         IRView.addCheckIncludeAllListener(new CheckIncludeAllListener());
         //add itemcobo type listener
-//        IRView.addComboItemNameSelectListener(new ComboItemNameSelectListener());
+        IRView.addComboItemNameSelectListener(new ComboItemNameSelectListener());
         IRView.addDayChooserListener(new DayPropertyListener());
         IRView.addMonthChooserListener(new MonthPropertyListener());
         IRView.addComboDepartmentListener(new ComboDepartmentListener());
@@ -100,8 +100,10 @@ public class WastageReportController {
                    JOptionPane.showMessageDialog(IRView.DailogReport,"Please Select  Department Name ");
                     return;  
                 }
+                if(!IRView.getBooleanIncludeAllItemName()){
                 if(IRView.getItemId() == 0){
                     DisplayMessages.displayInfo(IRView.DailogReport, "Please Select the  Name", "Select Name");
+                }
                 }
                 if(IRView.getStartDate() == null){
                      JOptionPane.showMessageDialog(IRView.DailogReport,"Please Select  Start Date ");
@@ -114,19 +116,19 @@ public class WastageReportController {
                  //display the menuwise wastage report
                  if(IRView.getRadioMenu()){
                      if(IRView.getBooleanIncludeAllItemName()){
-                         new WastageReport(IRView.getMWastageParms(),"allMenuWastage.jrxml","Wasteage Report");
+                         WastageReport wastageReport = new WastageReport(IRView.getMWastageParms(),"allMenuWastage.jrxml","Wasteage Report");
                      }
                      else{
-                         new WastageReport(IRView.getMWastageParam(),"menuWastage.jrxml","Wasteage Report");
+                         WastageReport wastageReport = new WastageReport(IRView.getMWastageParam(),"menuWastage.jrxml","Wasteage Report");
                      }
                  }
                  //display the itemwise wastage report
                  else{
                       if(IRView.getBooleanIncludeAllItemName()){
-                         new WastageReport(IRView.getIWastageParms(),"allItemWastage.jrxml","Wasteage Report");
+                          WastageReport wastageReport = new WastageReport(IRView.getIWastageParms(),"allItemWastage.jrxml","Wasteage Report");
                      }
                      else{
-                         new WastageReport(IRView.getIWastageParam(),"itemWastage.jrxml","Wasteage Report");
+                          WastageReport wastageReport = new WastageReport(IRView.getIWastageParam(),"itemWastage.jrxml","Wasteage Report");
                      }
                      
                  }
@@ -140,13 +142,15 @@ public class WastageReportController {
                
             }
             if(e.getActionCommand().equalsIgnoreCase("Cancel")){
-                IRView.setVisible(false);
                 IRView.clearAll();
+                IRView.setVisible(false);
+                
             }
             if(e.getActionCommand().equalsIgnoreCase("ReportCancel")){
+                IRView.clearAll();
                 IRView.DailogReport.setVisible(false);
                 IRView.setVisible(true);
-                IRView.clearAll();
+                
             }
             
         }
@@ -159,7 +163,7 @@ public class WastageReportController {
    
     
 
-     public class DayPropertyListener implements PropertyChangeListener{
+   public class DayPropertyListener implements PropertyChangeListener{
 
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
@@ -178,7 +182,7 @@ public class WastageReportController {
         }
         
     }
-    public class MonthPropertyListener implements PropertyChangeListener{
+   public class MonthPropertyListener implements PropertyChangeListener{
 
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
@@ -267,6 +271,32 @@ public class WastageReportController {
        
 
        
+       
+   }
+   public class ComboItemNameSelectListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try{
+                JComboBox jc = (JComboBox)e.getSource();
+                if(jc.getSelectedIndex() == 0){
+                    IRView.setItemId(0);
+                    return;
+                }
+                //update menuid into the itemid
+                if(IRView.getRadioMenu()){
+                    IRView.setItemId(IRModel.getMenuIdByMenuName(IRView.getComboItemName()));
+//                    System.out.println(IRView.getItemId());
+                }
+                else{
+                    IRView.setItemId(IRModel.getItemIdByItemName(IRView.getComboItemName()));
+//                    System.out.println(IRView.getItemId());
+                }
+            }
+            catch(Exception se){
+                DisplayMessages.displayError(IRView, se.getMessage()+"from" +getClass().getName(), "ComboItemNameSelectListener");
+            }
+        }
        
    }
 }

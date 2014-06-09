@@ -27,6 +27,7 @@ public class RegisterPOSController {
         registerPOSView = view;
         
         registerPOSView.addRegisterListener(new RegisterListener());
+        registerPOSView.addCancelListener(new RegisterListener());
     }
  public class RegisterListener implements ActionListener{
 
@@ -48,6 +49,9 @@ public class RegisterPOSController {
                    }
                    
                    
+               }
+               if(e.getActionCommand().equalsIgnoreCase("Cancel")){
+                   registerPOSView.setVisible(false);
                }
             }
             catch(HeadlessException se){
