@@ -52,7 +52,7 @@ public class WastageReportController {
         //add include all Listener
         IRView.addCheckIncludeAllListener(new CheckIncludeAllListener());
         //add itemcobo type listener
-//        IRView.addComboItemNameSelectListener(new ComboItemNameSelectListener());
+        IRView.addComboItemNameSelectListener(new ComboItemNameSelectListener());
         IRView.addDayChooserListener(new DayPropertyListener());
         IRView.addMonthChooserListener(new MonthPropertyListener());
         IRView.addComboDepartmentListener(new ComboDepartmentListener());
@@ -163,7 +163,7 @@ public class WastageReportController {
    
     
 
-     public class DayPropertyListener implements PropertyChangeListener{
+   public class DayPropertyListener implements PropertyChangeListener{
 
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
@@ -182,7 +182,7 @@ public class WastageReportController {
         }
         
     }
-    public class MonthPropertyListener implements PropertyChangeListener{
+   public class MonthPropertyListener implements PropertyChangeListener{
 
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
@@ -271,6 +271,32 @@ public class WastageReportController {
        
 
        
+       
+   }
+   public class ComboItemNameSelectListener implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try{
+                JComboBox jc = (JComboBox)e.getSource();
+                if(jc.getSelectedIndex() == 0){
+                    IRView.setItemId(0);
+                    return;
+                }
+                //update menuid into the itemid
+                if(IRView.getRadioMenu()){
+                    IRView.setItemId(IRModel.getMenuIdByMenuName(IRView.getComboItemName()));
+//                    System.out.println(IRView.getItemId());
+                }
+                else{
+                    IRView.setItemId(IRModel.getItemIdByItemName(IRView.getComboItemName()));
+//                    System.out.println(IRView.getItemId());
+                }
+            }
+            catch(Exception se){
+                DisplayMessages.displayError(IRView, se.getMessage()+"from" +getClass().getName(), "ComboItemNameSelectListener");
+            }
+        }
        
    }
 }
