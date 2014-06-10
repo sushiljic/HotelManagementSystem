@@ -21,6 +21,10 @@ import java.util.Calendar;
 import java.util.Date;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import license.Customer;
+import registrator.RegisterPOSController;
+import registrator.RegisterPOSModel;
+import registrator.RegisterPOSView;
 import reusableClass.CyptoAES;
 import reusableClass.DisplayMessages;
 import reusableClass.Function;
@@ -51,8 +55,10 @@ public class SystemLogInController  extends UserCreditialModel{
            }
            else{
 //              executeCompanySetup  companysetup = new executeCompanySetup(mainview, true); 
-              //executing the companysetup files
              
+                 
+               
+                  //executing the companysetup files   
                  CompanySetupModel cmodel ;
                  CompanySetupView cview ;
                  CompanySetupController ccontrol;
@@ -61,8 +67,32 @@ public class SystemLogInController  extends UserCreditialModel{
                 cmodel = new CompanySetupModel();
                 cview = new CompanySetupView(mainview,true);
                 cview.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
-               ccontrol = new CompanySetupController(cview,cmodel,mainview);
-               cview.setVisible(true);
+                ccontrol = new CompanySetupController(cview,cmodel,mainview);
+                cview.setVisible(true);
+                
+                 //load the run RegisterModule to register  for the user
+                  //this will run only one time when company will be setup
+                 final RegisterPOSView registerPosView  = new RegisterPOSView(mainview, true);
+                 RegisterPOSModel registerposModel = new RegisterPOSModel();
+                 RegisterPOSController registerposcontroller = new RegisterPOSController(registerposModel, registerPosView);
+                 registerPosView.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+                 registerPosView.getBtnCancel().setVisible(false);
+                 //generate the serial code load into the serial code
+                 String cName = Function.getCompanyName();
+                 String serialcode = new String();
+                 Customer Client = new Customer(cName);
+                 serialcode = Client.GenerateCode();
+                 registerPosView.setLblSerialCode(serialcode);
+                 registerPosView.addWindowListener(new WindowAdapter(){
+                      @Override
+                      public void windowClosed(WindowEvent evt){
+                          if(DisplayMessages.displayInputYesNo(registerPosView, "Do you Want to Close the System?", " Software Registration")){
+                              System.exit(0);
+                          }
+                      }
+                  });
+                 registerPosView.setVisible(true);
+                
              
               
              
@@ -200,7 +230,7 @@ public class SystemLogInController  extends UserCreditialModel{
     public class CloseAdapter extends WindowAdapter{
         @Override
         public void windowClosing(WindowEvent we){
-              int choice = JOptionPane.showConfirmDialog(inView, "This will Close The System","Exit System",JOptionPane.YES_NO_CANCEL_OPTION);
+              int choice = JOptionPane.showConfirmDialog(inView, "This will Close The System","Exit System",JOptionPane.YES_NO_OPTION);
               if(choice == JOptionPane.YES_OPTION){
                   System.exit(0);
               }

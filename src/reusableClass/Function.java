@@ -602,6 +602,27 @@ public class Function  {
              }
              return adminflag;
          }
+          //get the companyname
+          public static String getCompanyName(){
+             DBConnect getAdmin = new DBConnect();
+             String name = new String();
+             String strQry = "SELECT  company_name from company_info";
+             PreparedStatement psadmin;
+             ResultSet rs;
+             try{
+                 getAdmin.initConnection();
+                 psadmin = getAdmin.conn.prepareStatement(strQry);
+//                 psadmin.setInt(1, userid);
+                 rs = psadmin.executeQuery();
+                 while(rs.next()){
+                 name = rs.getString(1);
+                 }
+             }
+             catch(SQLException se){
+                 JOptionPane.showMessageDialog(null, se.getMessage(), "From getCompanyName",JOptionPane.ERROR_MESSAGE);
+             }
+             return name;
+         }
 }
 
        
