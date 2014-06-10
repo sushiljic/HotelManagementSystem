@@ -265,6 +265,7 @@
 							<staticText>
 								<reportElement x="0" y="0" width="45" height="19" uuid="8679bb45-929d-4f59-91f3-1ec2721ef1c3"/>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font isBold="true"/>
 									<paragraph rightIndent="5"/>
 								</textElement>
 								<text><![CDATA[Total :]]></text>
@@ -292,6 +293,7 @@
 							<textField>
 								<reportElement x="0" y="0" width="93" height="19" uuid="a432414e-4d2b-4f0c-b45f-ab3170cbea79"/>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font isBold="true"/>
 									<paragraph rightIndent="5"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$V{itemTotal}.setScale(2,RoundingMode.HALF_UP)]]></textFieldExpression>
@@ -319,6 +321,7 @@
 							<textField>
 								<reportElement x="0" y="0" width="60" height="19" uuid="adda7d2f-24a9-4010-a2d9-aafb3d7ae462"/>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font isBold="true"/>
 									<paragraph rightIndent="5"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$V{discount}.setScale(2,RoundingMode.HALF_UP)]]></textFieldExpression>
@@ -346,6 +349,7 @@
 							<textField>
 								<reportElement x="0" y="0" width="57" height="19" uuid="6de33d46-5b30-401e-87f3-a580f76665d1"/>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font isBold="true"/>
 									<paragraph rightIndent="5"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$V{svc}.setScale(2,RoundingMode.HALF_UP)]]></textFieldExpression>
@@ -373,6 +377,7 @@
 							<textField>
 								<reportElement x="0" y="0" width="52" height="19" uuid="cae65819-a9eb-4c17-ab8d-34aa4258139c"/>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font isBold="true"/>
 									<paragraph rightIndent="5"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$V{vat}.setScale(2,RoundingMode.HALF_UP)]]></textFieldExpression>
@@ -400,6 +405,7 @@
 							<textField>
 								<reportElement x="0" y="0" width="75" height="19" uuid="a2a2f6b4-b37b-4c15-925d-68cfd13515f3"/>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font isBold="true"/>
 									<paragraph rightIndent="5"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$V{total}.setScale(2,RoundingMode.HALF_UP)]]></textFieldExpression>
@@ -428,6 +434,7 @@
 							<textField>
 								<reportElement x="0" y="0" width="75" height="19" uuid="bced7798-2ee0-4f73-829d-06cce48c5361"/>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font isBold="true"/>
 									<paragraph rightIndent="5"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$V{received}.setScale(2,RoundingMode.HALF_UP)]]></textFieldExpression>

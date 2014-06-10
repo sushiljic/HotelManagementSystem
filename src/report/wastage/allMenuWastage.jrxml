@@ -200,7 +200,7 @@ where was.menu_type_flag = true and was.department_id = $P{dep} and was.date >= 
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA["From " + new SimpleDateFormat("dd/MM/yyyy, EEEE").format($P{frmDate})+" To "+new SimpleDateFormat("dd/MM/yyyy, EEEE").format($P{toDate})]]></textFieldExpression>
+				<textFieldExpression><![CDATA["From " + new SimpleDateFormat("yyyy-MM-dd, EEEE").format($P{frmDate})+" To "+new SimpleDateFormat("yyyy-MM-dd, EEEE").format($P{toDate})]]></textFieldExpression>
 			</textField>
 		</band>
 	</columnHeader>
@@ -310,7 +310,7 @@ where was.menu_type_flag = true and was.department_id = $P{dep} and was.date >= 
 						<jr:tableFooter height="19" rowSpan="1">
 							<textField>
 								<reportElement style="table_TD" x="0" y="0" width="110" height="19" uuid="ebc060f1-57a9-4816-8bc8-5fe2586e0a6e"/>
-								<textElement textAlignment="Right">
+								<textElement textAlignment="Right" verticalAlignment="Middle">
 									<paragraph rightIndent="5"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$V{total}.setScale(2,RoundingMode.HALF_UP)]]></textFieldExpression>

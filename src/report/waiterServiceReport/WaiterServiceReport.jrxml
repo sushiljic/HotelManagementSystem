@@ -202,7 +202,7 @@ AND order_list.waiter_id = $P{id} and order_list.department_id = $P{depId}]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA["From " + new SimpleDateFormat("dd/MM/yyyy, EEEE").format($P{frmDate})+" To "+new SimpleDateFormat("dd/MM/yyyy, EEEE").format($P{toDate})]]></textFieldExpression>
+				<textFieldExpression><![CDATA["From " + new SimpleDateFormat("yyyy-MM-dd, EEEE").format($P{frmDate})+" To "+new SimpleDateFormat("yyyy-MM-dd, EEEE").format($P{toDate})]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="102" y="2" width="352" height="18" uuid="f8ec1f52-dab1-4ab2-ad60-d207d191827e"/>
@@ -302,6 +302,7 @@ AND order_list.waiter_id = $P{id} and order_list.department_id = $P{depId}]]>
 							<staticText>
 								<reportElement x="0" y="0" width="64" height="18" uuid="67ed6d6c-8e88-4c0e-8458-01ff5afb5c81"/>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font isBold="true"/>
 									<paragraph rightIndent="5"/>
 								</textElement>
 								<text><![CDATA[Total :]]></text>
@@ -329,6 +330,7 @@ AND order_list.waiter_id = $P{id} and order_list.department_id = $P{depId}]]>
 							<textField>
 								<reportElement x="0" y="0" width="104" height="18" uuid="a2166b7f-2be1-4ffe-a17a-c787424c6ca0"/>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font isBold="true"/>
 									<paragraph rightIndent="5"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$V{total}.setScale(2,RoundingMode.HALF_UP)]]></textFieldExpression>

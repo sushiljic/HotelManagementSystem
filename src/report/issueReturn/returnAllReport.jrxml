@@ -197,7 +197,7 @@ ORDER BY issue_return.return_date desc]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA["From " + new SimpleDateFormat("EE dd/MM/yyyy").format($P{frmDate})+" To  "+new SimpleDateFormat("EE dd/MM/yyyy").format($P{toDate})]]></textFieldExpression>
+				<textFieldExpression><![CDATA["From " + new SimpleDateFormat("yyyy-MM-dd, EEEE").format($P{frmDate})+" To  "+new SimpleDateFormat("yyyy-MM-dd, EEEE").format($P{toDate})]]></textFieldExpression>
 			</textField>
 		</band>
 	</columnHeader>

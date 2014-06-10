@@ -202,7 +202,7 @@ WHERE bill_item_info.complimentary_type = 1 AND (bill.bill_datetime >= $P{frm}) 
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[new SimpleDateFormat("yyyy-MM-dd").format($P{frmDate})+" - "+new SimpleDateFormat("yyyy-MM-dd").format($P{toDate})]]></textFieldExpression>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("yyyy-MM-dd, EEEE").format($P{frmDate})+" - "+new SimpleDateFormat("yyyy-MM-dd, EEEE").format($P{toDate})]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="102" y="0" width="352" height="18" uuid="38a6f496-c039-41fb-b4bc-be22813f22d1"/>

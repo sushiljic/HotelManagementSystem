@@ -196,7 +196,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA["From " + new SimpleDateFormat("dd/MM/yyyy, EEEE").format($P{frmDate})+" To "+new SimpleDateFormat("dd/MM/yyyy, EEEE").format($P{toDate})]]></textFieldExpression>
+				<textFieldExpression><![CDATA["From " + new SimpleDateFormat("yyyy-MM-dd, EEEE").format($P{frmDate})+" To "+new SimpleDateFormat("yyyy-MM-dd, EEEE").format($P{toDate})]]></textFieldExpression>
 			</textField>
 		</band>
 	</columnHeader>
@@ -286,6 +286,7 @@
 							<staticText>
 								<reportElement x="0" y="0" width="64" height="18" uuid="0eaee1aa-6cba-4844-a062-cf30adb1ad5a"/>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font isBold="true"/>
 									<paragraph rightIndent="5"/>
 								</textElement>
 								<text><![CDATA[Total :]]></text>
@@ -313,6 +314,7 @@
 							<textField>
 								<reportElement x="0" y="0" width="104" height="18" uuid="66916f92-ffd5-4540-8268-d15bd70905a4"/>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font isBold="true"/>
 									<paragraph rightIndent="5"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$V{total}.setScale(2,RoundingMode.HALF_UP)]]></textFieldExpression>

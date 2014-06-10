@@ -299,7 +299,9 @@ WHERE bill.void != 1 AND bill.bill_datetime = $P{day} AND menu.item_type = true]
 						<jr:columnFooter height="17" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="0" width="70" height="17" uuid="ff1b17be-dec0-4a31-a8b5-a9f6eeab8d7f"/>
-								<textElement textAlignment="Right"/>
+								<textElement textAlignment="Right">
+									<font isBold="true"/>
+								</textElement>
 								<text><![CDATA[Grand Total :]]></text>
 							</staticText>
 						</jr:columnFooter>
@@ -324,6 +326,9 @@ WHERE bill.void != 1 AND bill.bill_datetime = $P{day} AND menu.item_type = true]
 						<jr:columnFooter height="17" rowSpan="1">
 							<textField>
 								<reportElement style="table_TD" x="0" y="0" width="78" height="17" uuid="98830164-af78-4fad-a884-0ad646f7926c"/>
+								<textElement>
+									<font isBold="true"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$V{grandTotal}.setScale(2,RoundingMode.HALF_UP)]]></textFieldExpression>
 							</textField>
 						</jr:columnFooter>
