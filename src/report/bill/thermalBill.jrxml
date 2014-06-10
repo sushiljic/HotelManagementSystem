@@ -201,7 +201,7 @@ WHERE
 		</band>
 	</pageHeader>
 	<detail>
-		<band height="187" splitType="Stretch">
+		<band height="676" splitType="Stretch">
 			<componentElement>
 				<reportElement key="table 1" x="2" y="2" width="186" height="55" uuid="2b791a62-4f78-41ae-a84e-345ead4e4b33"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
