@@ -382,11 +382,13 @@ int width = gd.getDisplayMode().getWidth();
     }
     
     public Map getMWastageParam(){
+        System.out.println(getItemId());
         Map para = new HashMap<>();
         para.put("title", "Wastage Report of " + getComboItemName() + " for " +getComboDepartmentName());
-        para.put("frm",getStartDate());
-        para.put("to",getEndDate());
+        para.put("frmDate",getStartDate());
+        para.put("toDate",getEndDate());
         para.put("depId",getDepartmentId());
+        para.put("menu",getItemId());
         //para.put("menu");
         return para;
     }
@@ -403,9 +405,10 @@ int width = gd.getDisplayMode().getWidth();
     public Map getIWastageParam(){
         Map para = new HashMap<>();
         para.put("title", "Wastage Report of " + getComboItemName() + " for " +getComboDepartmentName());
-        para.put("frm",getStartDate());
-        para.put("to",getEndDate());
+        para.put("frmDate",getStartDate());
+        para.put("toDate",getEndDate());
         para.put("depId",getDepartmentId());
+        para.put("menu",getItemId());
         //para.put("menu");
         return para;
     }

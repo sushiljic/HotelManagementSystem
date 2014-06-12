@@ -179,7 +179,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[new SimpleDateFormat("yyyy-MM-dd").format($P{frmDate})+" - "+new SimpleDateFormat("yyyy-MM-dd").format($P{toDate})]]></textFieldExpression>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("yyyy-MM-dd, EEEE").format($P{frmDate})+" - "+new SimpleDateFormat("yyyy-MM-dd, EEEE").format($P{toDate})]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="102" y="0" width="352" height="18" uuid="0c3d0634-4388-463c-b9e0-78374bbd5fd7"/>

@@ -269,6 +269,7 @@ purchase.purchase_date,purchase.total_amount,centerstore_stock.item_expiry_date 
 							<staticText>
 								<reportElement x="0" y="0" width="60" height="16" uuid="998f4be8-47d6-4157-91d0-33e8050d709a"/>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font isBold="true"/>
 									<paragraph rightIndent="5"/>
 								</textElement>
 								<text><![CDATA[Total :]]></text>
@@ -296,6 +297,7 @@ purchase.purchase_date,purchase.total_amount,centerstore_stock.item_expiry_date 
 							<textField>
 								<reportElement x="0" y="0" width="95" height="16" uuid="57eb0b85-949c-4eb5-8e0b-026574482c05"/>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font isBold="true"/>
 									<paragraph rightIndent="5"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$V{total}.setScale(2,RoundingMode.HALF_UP)]]></textFieldExpression>

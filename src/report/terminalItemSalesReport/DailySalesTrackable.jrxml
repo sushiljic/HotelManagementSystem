@@ -112,7 +112,9 @@ WHERE bill.void != 1 AND bill.bill_datetime = $P{day} AND menu.item_type = true 
 		<field name="department_name" class="java.lang.String">
 			<fieldDescription><![CDATA[]]></fieldDescription>
 		</field>
-		<variable name="grandTotal" class="java.math.BigDecimal"/>
+		<variable name="grandTotal" class="java.math.BigDecimal" calculation="Sum">
+			<variableExpression><![CDATA[$F{total_amount}]]></variableExpression>
+		</variable>
 		<group name="unit_type">
 			<groupExpression><![CDATA[]]></groupExpression>
 		</group>
@@ -304,7 +306,9 @@ WHERE bill.void != 1 AND bill.bill_datetime = $P{day} AND menu.item_type = true 
 						<jr:columnFooter height="16" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="0" width="70" height="16" uuid="e008decc-c019-4807-90f0-7e19ead6f176"/>
-								<textElement textAlignment="Right"/>
+								<textElement textAlignment="Right">
+									<font isBold="true"/>
+								</textElement>
 								<text><![CDATA[Grand Total :]]></text>
 							</staticText>
 						</jr:columnFooter>
@@ -329,6 +333,9 @@ WHERE bill.void != 1 AND bill.bill_datetime = $P{day} AND menu.item_type = true 
 						<jr:columnFooter height="16" rowSpan="1">
 							<textField>
 								<reportElement style="table_TD" x="0" y="0" width="78" height="16" uuid="fc8cb30d-0952-4509-92d0-15dce741a1e0"/>
+								<textElement>
+									<font isBold="true"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$V{grandTotal}.setScale(2,RoundingMode.HALF_UP)]]></textFieldExpression>
 							</textField>
 						</jr:columnFooter>

@@ -109,7 +109,9 @@ and bill.department_id = $P{depId}]]>
 		<field name="department_name" class="java.lang.String">
 			<fieldDescription><![CDATA[]]></fieldDescription>
 		</field>
-		<variable name="grandTotal" class="java.math.BigDecimal" calculation="Sum"/>
+		<variable name="grandTotal" class="java.math.BigDecimal" calculation="Sum">
+			<variableExpression><![CDATA[$F{total_amount}]]></variableExpression>
+		</variable>
 		<group name="unit_type">
 			<groupExpression><![CDATA[]]></groupExpression>
 		</group>
@@ -301,7 +303,9 @@ and bill.department_id = $P{depId}]]>
 						<jr:columnFooter height="15" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="0" width="70" height="15" uuid="5fc70fce-60be-442c-9c84-b9cf17c10066"/>
-								<textElement textAlignment="Right"/>
+								<textElement textAlignment="Right">
+									<font isBold="true"/>
+								</textElement>
 								<text><![CDATA[Grand Total :]]></text>
 							</staticText>
 						</jr:columnFooter>
@@ -326,6 +330,9 @@ and bill.department_id = $P{depId}]]>
 						<jr:columnFooter height="15" rowSpan="1">
 							<textField>
 								<reportElement style="table_TD" x="0" y="0" width="93" height="15" uuid="b7c5c3b4-e578-4554-a029-b320f0fe19f9"/>
+								<textElement>
+									<font isBold="true"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$V{grandTotal}.setScale(2,RoundingMode.HALF_UP)]]></textFieldExpression>
 							</textField>
 						</jr:columnFooter>

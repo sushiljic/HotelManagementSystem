@@ -197,11 +197,11 @@ where was.menu_type_flag = false and was.department_id = $P{dep} and was.date >=
 				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="2" y="20" width="799" height="18" uuid="752b0fb8-f795-48d7-9214-870a8a02d1d9"/>
+				<reportElement x="0" y="20" width="801" height="18" uuid="f42a9305-018a-46f2-88bc-669f86063d51"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA["From " + new SimpleDateFormat("EE dd/MM/yyyy").format($P{frmDate})+" To  "+new SimpleDateFormat("EE dd/MM/yyyy").format($P{toDate})]]></textFieldExpression>
+				<textFieldExpression><![CDATA["From " + new SimpleDateFormat("yyyy-MM-dd, EEEE").format($P{frmDate})+" To "+new SimpleDateFormat("yyyy-MM-dd, EEEE").format($P{toDate})]]></textFieldExpression>
 			</textField>
 		</band>
 	</columnHeader>

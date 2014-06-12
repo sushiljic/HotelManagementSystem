@@ -204,7 +204,7 @@ where was.menu_type_flag = true and was.department_id = $P{dep} and was.date >= 
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA["From " + new SimpleDateFormat("EE dd/MM/yyyy").format($P{frmDate})+" To  "+new SimpleDateFormat("EE dd/MM/yyyy").format($P{toDate})]]></textFieldExpression>
+				<textFieldExpression><![CDATA["From " + new SimpleDateFormat("yyyy-MM-dd, EEEE").format($P{frmDate})+" To  "+new SimpleDateFormat("yyyy-MM-dd, EEEE").format($P{toDate})]]></textFieldExpression>
 			</textField>
 		</band>
 	</columnHeader>
@@ -213,7 +213,7 @@ where was.menu_type_flag = true and was.department_id = $P{dep} and was.date >= 
 			<componentElement>
 				<reportElement key="table 2" style="table 2" x="1" y="3" width="800" height="96" uuid="4452495a-a2e9-487d-b370-188e98250f50"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="issueAll" uuid="0c0ec117-b7fe-4908-9dd5-675f3ed667eb">
+					<datasetRun subDataset="issueAll" uuid="d5e5c5a0-78b4-4506-9386-d6c382149dcf">
 						<datasetParameter name="frm">
 							<datasetParameterExpression><![CDATA[$P{frmDate}]]></datasetParameterExpression>
 						</datasetParameter>

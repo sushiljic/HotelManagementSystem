@@ -108,6 +108,12 @@ WHERE (bill.total_received < bill.bill_total) AND (bill.bill_datetime >= $P{frm}
 		<field name="bill_datetime" class="java.sql.Date">
 			<fieldDescription><![CDATA[]]></fieldDescription>
 		</field>
+		<variable name="tAmt" class="java.math.BigDecimal" calculation="Sum">
+			<variableExpression><![CDATA[$F{bill_total}]]></variableExpression>
+		</variable>
+		<variable name="tPay" class="java.math.BigDecimal" calculation="Sum">
+			<variableExpression><![CDATA[$F{payableAmt}]]></variableExpression>
+		</variable>
 		<group name="unit_type">
 			<groupExpression><![CDATA[]]></groupExpression>
 		</group>
@@ -203,7 +209,7 @@ WHERE (bill.total_received < bill.bill_total) AND (bill.bill_datetime >= $P{frm}
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA["From " + new SimpleDateFormat("dd/MM/yyyy, EEEE").format($P{frmDate})+" To "+new SimpleDateFormat("dd/MM/yyyy, EEEE").format($P{toDate})]]></textFieldExpression>
+				<textFieldExpression><![CDATA["From " + new SimpleDateFormat("yyyy-MM-dd, EEEE").format($P{frmDate})+" To "+new SimpleDateFormat("yyyy-MM-dd, EEEE").format($P{toDate})]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="102" y="0" width="352" height="18" uuid="af451a20-5bc9-48da-b64c-095603b9fed9"/>
@@ -232,6 +238,7 @@ WHERE (bill.total_received < bill.bill_total) AND (bill.bill_datetime >= $P{frm}
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					</datasetRun>
 					<jr:column width="37" uuid="58f8b70a-b107-48a4-87e9-02b80008158a">
+						<jr:tableFooter height="17" rowSpan="1"/>
 						<jr:columnHeader style="table_CH" height="16" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="0" width="37" height="16" uuid="6441e90a-7ad4-48e5-ab56-ba1344b65ebb"/>
@@ -250,6 +257,7 @@ WHERE (bill.total_received < bill.bill_total) AND (bill.bill_datetime >= $P{frm}
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="130" uuid="9d9ea2dd-4311-4ebd-96dc-118ef1cfbd46">
+						<jr:tableFooter height="17" rowSpan="1"/>
 						<jr:columnHeader style="table 2_CH" height="16" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="0" width="130" height="16" uuid="fbed9564-7a65-4d43-97a5-c4144ad03362"/>
@@ -268,6 +276,16 @@ WHERE (bill.total_received < bill.bill_total) AND (bill.bill_datetime >= $P{frm}
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="57" uuid="cbff1cd7-3b0d-48f5-8908-50e64501752a">
+						<jr:tableFooter height="17" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="57" height="17" uuid="fd5943ab-4334-44fe-929b-7ba7bcf4d3b4"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font isBold="true"/>
+									<paragraph rightIndent="5"/>
+								</textElement>
+								<text><![CDATA[Total :]]></text>
+							</staticText>
+						</jr:tableFooter>
 						<jr:columnHeader style="table 2_CH" height="16" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="0" width="57" height="16" uuid="35ab1875-917f-4f29-94ff-034721427790"/>
@@ -286,6 +304,16 @@ WHERE (bill.total_received < bill.bill_total) AND (bill.bill_datetime >= $P{frm}
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="85" uuid="e0525f12-4fc5-47ae-8e1a-45524f4845df">
+						<jr:tableFooter height="17" rowSpan="1">
+							<textField>
+								<reportElement style="table_TD" x="0" y="0" width="85" height="17" uuid="5e758232-0837-4866-a770-6aae185c412d"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font isBold="true"/>
+									<paragraph rightIndent="5"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{tAmt}.setScale(2,RoundingMode.HALF_UP)]]></textFieldExpression>
+							</textField>
+						</jr:tableFooter>
 						<jr:columnHeader style="table 2_CH" height="16" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="0" width="85" height="16" uuid="eb2d6ffa-d131-4b18-8fc0-bb173a17457c"/>
@@ -304,6 +332,16 @@ WHERE (bill.total_received < bill.bill_total) AND (bill.bill_datetime >= $P{frm}
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="84" uuid="b7c8b93b-3cce-4f6d-8122-94c81eef2eb5">
+						<jr:tableFooter height="17" rowSpan="1">
+							<textField>
+								<reportElement style="table_TD" x="0" y="0" width="84" height="17" uuid="7a51b916-a94b-4c62-8fe6-b85cf09a9d9b"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font isBold="true"/>
+									<paragraph rightIndent="5"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{tPay}.setScale(2,RoundingMode.HALF_UP)]]></textFieldExpression>
+							</textField>
+						</jr:tableFooter>
 						<jr:columnHeader style="table 2_CH" height="16" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="0" width="84" height="16" uuid="ff3028cc-6465-48ab-a71c-1a8142ac43b9"/>
@@ -322,6 +360,7 @@ WHERE (bill.total_received < bill.bill_total) AND (bill.bill_datetime >= $P{frm}
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="104" uuid="4d1d96fe-b792-4702-974b-97b49e959816">
+						<jr:tableFooter height="17" rowSpan="1"/>
 						<jr:columnHeader style="table_CH" height="16" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="0" width="104" height="16" uuid="ba89f7cd-5e5e-4738-ab36-38cb14f59ed8"/>
@@ -340,6 +379,7 @@ WHERE (bill.total_received < bill.bill_total) AND (bill.bill_datetime >= $P{frm}
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="50" uuid="7e8996f2-9091-4678-9d38-a31e37eaf3e1">
+						<jr:tableFooter height="17" rowSpan="1"/>
 						<jr:columnHeader style="table 2_CH" height="16" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="0" width="50" height="16" uuid="149017ad-b773-466c-b970-263dc89cceea"/>

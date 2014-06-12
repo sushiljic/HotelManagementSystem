@@ -68,13 +68,13 @@
 			<defaultValueExpression><![CDATA[new SimpleDateFormat("yyyy-MM-dd").parse("2013-12-2")]]></defaultValueExpression>
 		</parameter>
 		<parameter name="to" class="java.util.Date">
-			<defaultValueExpression><![CDATA[new SimpleDateFormat("yyyy-MM-dd").parse("2013-12-7")]]></defaultValueExpression>
+			<defaultValueExpression><![CDATA[new SimpleDateFormat("yyyy-MM-dd").parse("2014-12-7")]]></defaultValueExpression>
 		</parameter>
 		<parameter name="depId" class="java.lang.Integer">
 			<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
 		</parameter>
 		<queryString>
-			<![CDATA[SELECT
+			<![CDATA[SELECT menu.item_type,
 bill_item_info.quantity*menu.retail_price AS total_amount, menu.menu_name,bill_item_info.quantity,
 menu.retail_price,bill_item_info.bill_id,bill_item_info.complimentary_type,bill.bill_datetime,
 bill.bill_datetime FROM bill_item_info 
@@ -84,6 +84,9 @@ INNER JOIN department_info dep on bill.department_id = dep.department_id
 WHERE bill.void != 1
  AND bill.bill_datetime > $P{frm} AND bill.bill_datetime < $P{to} and dep.department_id = $P{depId}]]>
 		</queryString>
+		<field name="item_type" class="java.lang.Boolean">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
 		<field name="total_amount" class="java.math.BigDecimal">
 			<fieldDescription><![CDATA[]]></fieldDescription>
 		</field>
@@ -105,7 +108,13 @@ WHERE bill.void != 1
 		<field name="bill_datetime" class="java.sql.Date">
 			<fieldDescription><![CDATA[]]></fieldDescription>
 		</field>
-		<variable name="grandTotal" class="java.math.BigDecimal" calculation="Sum">
+		<variable name="totalTrack" class="java.math.BigDecimal" calculation="Sum">
+			<variableExpression><![CDATA[( $F{item_type} ? $F{total_amount} : 0)]]></variableExpression>
+		</variable>
+		<variable name="totalNonTrack" class="java.math.BigDecimal" calculation="Sum">
+			<variableExpression><![CDATA[( !$F{item_type} ? $F{total_amount}: 0)]]></variableExpression>
+		</variable>
+		<variable name="total" class="java.math.BigDecimal" calculation="Sum">
 			<variableExpression><![CDATA[$F{total_amount}]]></variableExpression>
 		</variable>
 		<group name="unit_type">
@@ -199,18 +208,18 @@ WHERE bill.void != 1
 				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="2" y="20" width="552" height="18" uuid="1c652a7d-9615-4a76-a9f6-8b37ca6136e0"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[new SimpleDateFormat("yyyy-MM-dd").format($P{frmDate})+" - "+new SimpleDateFormat("yyyy-MM-dd").format($P{toDate})]]></textFieldExpression>
-			</textField>
-			<textField>
 				<reportElement x="102" y="2" width="352" height="18" uuid="33f9f326-2adf-4142-b24e-299648234bb3"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="14" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{title}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="24" width="555" height="18" uuid="6a382197-ec4c-451c-89c7-ed1a0119777e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["From " + new SimpleDateFormat("yyyy-MM-dd, EEEE").format($P{frmDate})+" To "+new SimpleDateFormat("yyyy-MM-dd, EEEE").format($P{toDate})]]></textFieldExpression>
 			</textField>
 		</band>
 	</columnHeader>
@@ -232,6 +241,7 @@ WHERE bill.void != 1
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					</datasetRun>
 					<jr:column width="30" uuid="4a32f403-2e20-44ac-b687-4a7a1774e3d8">
+						<jr:tableFooter height="17" rowSpan="1"/>
 						<jr:columnHeader style="table_CH" height="16" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="0" width="30" height="16" uuid="8ddf3616-a557-4c75-8774-bc1f27e027f7"/>
@@ -239,7 +249,7 @@ WHERE bill.void != 1
 								<text><![CDATA[S.N.]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:columnFooter height="16" rowSpan="1"/>
+						<jr:columnFooter height="18" rowSpan="1"/>
 						<jr:detailCell style="table_TD" height="16" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="30" height="16" uuid="ff204804-fe09-43f4-b7f4-bee912258235"/>
@@ -251,6 +261,7 @@ WHERE bill.void != 1
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="112" uuid="5bcd8932-c9ac-44dd-9812-c62dd3c5b21a">
+						<jr:tableFooter height="17" rowSpan="1"/>
 						<jr:columnHeader style="table 2_CH" height="16" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="0" width="112" height="16" uuid="bd13f41a-cb4c-4d73-bdd5-0304b21d44dc"/>
@@ -258,7 +269,7 @@ WHERE bill.void != 1
 								<text><![CDATA[Item Name]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:columnFooter height="16" rowSpan="1"/>
+						<jr:columnFooter height="18" rowSpan="1"/>
 						<jr:detailCell style="table 2_TD" height="16" rowSpan="1">
 							<textField isStretchWithOverflow="true">
 								<reportElement x="0" y="0" width="112" height="16" uuid="f6ddc331-5531-4891-8716-684dc3661d0f"/>
@@ -270,6 +281,7 @@ WHERE bill.void != 1
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="50" uuid="986e5611-d944-45e0-adc3-8143f24cbbac">
+						<jr:tableFooter height="17" rowSpan="1"/>
 						<jr:columnHeader style="table 2_CH" height="16" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="0" width="50" height="16" uuid="283e8c22-50f2-464e-aade-397a028dc8f9"/>
@@ -277,7 +289,7 @@ WHERE bill.void != 1
 								<text><![CDATA[Qty.]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:columnFooter height="16" rowSpan="1"/>
+						<jr:columnFooter height="18" rowSpan="1"/>
 						<jr:detailCell style="table 2_TD" height="16" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="50" height="16" uuid="aebfbdc7-f0d2-45b4-8efc-b070fa97206c"/>
@@ -289,6 +301,16 @@ WHERE bill.void != 1
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="70" uuid="b4c44823-8c2b-497f-9b44-4db66b1adf3b">
+						<jr:tableFooter height="17" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="70" height="17" uuid="7bedef1b-6f43-4420-b8c3-d75f640f1fb6"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font isBold="true"/>
+									<paragraph rightIndent="5"/>
+								</textElement>
+								<text><![CDATA[Untrackable :]]></text>
+							</staticText>
+						</jr:tableFooter>
 						<jr:columnHeader style="table 2_CH" height="16" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="0" width="70" height="16" uuid="c465db31-b8b1-44fa-bfd8-6a7db9c0661a"/>
@@ -296,11 +318,14 @@ WHERE bill.void != 1
 								<text><![CDATA[Retail Price]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:columnFooter height="16" rowSpan="1">
+						<jr:columnFooter height="18" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="70" height="16" uuid="63ad9391-dfeb-4af0-bcf7-26091fd84bfb"/>
-								<textElement textAlignment="Right"/>
-								<text><![CDATA[Grand Total :]]></text>
+								<reportElement x="0" y="0" width="70" height="18" uuid="a6eab212-8f93-44b5-bd96-2187084bfb7a"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font isBold="true"/>
+									<paragraph rightIndent="5"/>
+								</textElement>
+								<text><![CDATA[Trackable :]]></text>
 							</staticText>
 						</jr:columnFooter>
 						<jr:detailCell style="table 2_TD" height="16" rowSpan="1">
@@ -314,6 +339,16 @@ WHERE bill.void != 1
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="78" uuid="66bf330b-3626-4135-8973-bcba664a2b32">
+						<jr:tableFooter height="17" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="78" height="17" uuid="a0d8a0d9-4904-4691-99cd-a64698249d24"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font isBold="true"/>
+									<paragraph rightIndent="5"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{totalNonTrack}.setScale(2,RoundingMode.HALF_UP)]]></textFieldExpression>
+							</textField>
+						</jr:tableFooter>
 						<jr:columnHeader style="table 2_CH" height="16" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="0" width="78" height="16" uuid="f188f615-6d95-4f31-a4b7-d01260bbbfe7"/>
@@ -321,7 +356,16 @@ WHERE bill.void != 1
 								<text><![CDATA[Total Amount]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:columnFooter height="16" rowSpan="1"/>
+						<jr:columnFooter height="18" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="78" height="18" uuid="c5e03899-e85a-4649-81ae-a39690adc1c6"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font isBold="true"/>
+									<paragraph rightIndent="5"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{totalTrack}.setScale(2,RoundingMode.HALF_UP)]]></textFieldExpression>
+							</textField>
+						</jr:columnFooter>
 						<jr:detailCell style="table 2_TD" height="16" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="78" height="16" uuid="f7465cfa-8aa8-4d90-b5ce-79fd63ce44ad"/>
@@ -333,6 +377,7 @@ WHERE bill.void != 1
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="50" uuid="b99f0fb7-81b6-47ff-b6c0-8ad6f959fba5">
+						<jr:tableFooter height="17" rowSpan="1"/>
 						<jr:columnHeader style="table 2_CH" height="16" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="0" width="50" height="16" uuid="6fa357b3-63dd-4269-a717-73dcec644bfc"/>
@@ -340,7 +385,7 @@ WHERE bill.void != 1
 								<text><![CDATA[Bill No.]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:columnFooter height="16" rowSpan="1"/>
+						<jr:columnFooter height="18" rowSpan="1"/>
 						<jr:detailCell style="table 2_TD" height="16" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="50" height="16" uuid="8c9e9fa6-c5a6-45e0-bc0a-a2e3d028289a"/>
@@ -352,6 +397,16 @@ WHERE bill.void != 1
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="76" uuid="2f8062af-d1bb-458c-bf34-e5c571ca36e3">
+						<jr:tableFooter height="17" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="76" height="17" uuid="59e0e17b-0105-4716-a6dc-d38d868d4f47"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font isBold="true" isStrikeThrough="false"/>
+									<paragraph rightIndent="5"/>
+								</textElement>
+								<text><![CDATA[Grand Total :]]></text>
+							</staticText>
+						</jr:tableFooter>
 						<jr:columnHeader style="table 2_CH" height="16" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="0" width="76" height="16" uuid="f34189c6-4ffc-4603-9811-39118423581f"/>
@@ -359,7 +414,7 @@ WHERE bill.void != 1
 								<text><![CDATA[Complimentary]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:columnFooter height="16" rowSpan="1"/>
+						<jr:columnFooter height="18" rowSpan="1"/>
 						<jr:detailCell style="table 2_TD" height="16" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="76" height="16" uuid="e6e632a0-ee09-4e59-80e8-b7a071ef06d0"/>
@@ -369,6 +424,16 @@ WHERE bill.void != 1
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="90" uuid="bd2be580-7169-416e-abe0-a55c174125ca">
+						<jr:tableFooter height="17" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="17" uuid="2cc5c150-732e-4e54-a78a-4fed4dadcafd"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font isBold="true" isStrikeThrough="false"/>
+									<paragraph rightIndent="5"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{total}.setScale(2,RoundingMode.HALF_UP)]]></textFieldExpression>
+							</textField>
+						</jr:tableFooter>
 						<jr:columnHeader style="table_CH" height="16" rowSpan="1">
 							<staticText>
 								<reportElement x="0" y="0" width="90" height="16" uuid="2d3055a9-6768-4018-8b3f-bcde5fd08bd1"/>
@@ -376,7 +441,7 @@ WHERE bill.void != 1
 								<text><![CDATA[Date]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:columnFooter height="16" rowSpan="1"/>
+						<jr:columnFooter height="18" rowSpan="1"/>
 						<jr:detailCell style="table_TD" height="16" rowSpan="1">
 							<textField isStretchWithOverflow="true">
 								<reportElement x="0" y="0" width="90" height="16" uuid="5380f874-8964-45f4-bfef-5e45b26d2da7"/>
