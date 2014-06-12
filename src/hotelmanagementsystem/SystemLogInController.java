@@ -22,9 +22,11 @@ import java.util.Date;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import license.Customer;
+import registrator.ExecuteRegister;
 import registrator.RegisterPOSController;
 import registrator.RegisterPOSModel;
 import registrator.RegisterPOSView;
+import registrator.RegistrationReminderController;
 import reusableClass.CyptoAES;
 import reusableClass.DisplayMessages;
 import reusableClass.Function;
@@ -46,6 +48,8 @@ public class SystemLogInController  extends UserCreditialModel{
         inView.addCancelListener(new ValidateUserListener());
         inView.addTxtListener(new TxtValidateUserListener());
         inView.addWindowListener(new CloseAdapter());
+        //showing of registration reminder if it is to be displayed
+        RegistrationReminderController registrationReminderController = new RegistrationReminderController(mainview, true);
         
     }
      public void RegisterHandler(){
@@ -69,7 +73,7 @@ public class SystemLogInController  extends UserCreditialModel{
                 cview.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
                 ccontrol = new CompanySetupController(cview,cmodel,mainview);
                 cview.setVisible(true);
-                
+                /*not need been implemented by executeRegister
                  //load the run RegisterModule to register  for the user
                   //this will run only one time when company will be setup
                  final RegisterPOSView registerPosView  = new RegisterPOSView(mainview, true);
@@ -92,6 +96,9 @@ public class SystemLogInController  extends UserCreditialModel{
                       }
                   });
                  registerPosView.setVisible(true);
+                    */
+                 //call the second type of executeregister
+//                 ExecuteRegister executeRegister = new ExecuteRegister(mainview, true, true);
                 
              
               
