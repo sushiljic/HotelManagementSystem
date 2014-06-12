@@ -27,8 +27,9 @@ public class RegisterPOSModel extends DBConnect {
             initConnection();
             stmt = conn.prepareStatement(strQry);
             rs = stmt.executeQuery();
-            rs.next();
+            while(rs.next()){
             code = rs.getString(1);
+            }
         }
         catch(SQLException se){
             DisplayMessages.displayError(null, se.getMessage()+"fron getRegisterCode"+getClass().getName(),"Error");

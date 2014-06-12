@@ -6,7 +6,14 @@
 
 package registrator;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.security.NoSuchAlgorithmException;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
+import license.Customer;
+import reusableClass.DisplayMessages;
+import reusableClass.Function;
 
 /**
  *
@@ -21,6 +28,38 @@ public class ExecuteRegister {
         registerPOSView = new RegisterPOSView(parent, modal);
         registerPOSController = new RegisterPOSController(registerPOSModel, registerPOSView);
         registerPOSView.setVisible(true);
+    }
+    public ExecuteRegister(JFrame parent,boolean modal,boolean type){
+          //load the run RegisterModule to register  for the user
+                  //this will run only one time when company will be setup
+                registerPOSModel = new RegisterPOSModel();
+                registerPOSView = new RegisterPOSView(parent, modal);
+                registerPOSView.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+                registerPOSView.addWindowListener(new WindowAdapter(){
+                      @Override
+                      public void windowClosing(WindowEvent evt){
+                          if(DisplayMessages.displayInputYesNo(registerPOSView, "Do you Want to Close the System?", " Software Registration")){
+                              System.exit(0);
+                          }
+                      }
+                  });
+                
+                registerPOSController = new RegisterPOSController(registerPOSModel, registerPOSView);
+                
+                registerPOSView.getBtnCancel().setVisible(false);
+                 //generate the serial code load into the serial code
+                 String cName = Function.getCompanyName();
+                 String serialcode = new String();
+                 Customer Client = new Customer(cName);
+                 try{
+                 serialcode = Client.GenerateCode();
+                 }
+                 catch(NoSuchAlgorithmException se){
+                     DisplayMessages.displayError(registerPOSView, se.getMessage(), "from ExecuteRegister");
+                 }
+                 registerPOSView.setLblSerialCode(serialcode);
+                 
+                 registerPOSView.setVisible(true);
     }
     public RegisterPOSView getRegisterPosView(){
         return registerPOSView;
