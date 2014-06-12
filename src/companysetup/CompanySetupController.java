@@ -101,9 +101,9 @@ public final class CompanySetupController {
              //this will click the register button
              companyview.clickBtnRegister();
 //             JOptionPane.showMessageDialog(mainview, "Wala");
-              companyview.pack();
+             companyview.pack();
               
-              companyview.addWindowCloseListener(new SystemCloseListener());
+             companyview.addWindowCloseListener(new SystemCloseListener());
              
          }
     }

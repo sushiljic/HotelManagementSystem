@@ -41,6 +41,7 @@ import javax.swing.JInternalFrame;
 import javax.swing.JMenu;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
+import registrator.ExecuteRegister;
 import report.distributorReport.DistributorReport;
 import report.issueStock.IssueStockReport;
 import resturant.complimentary.ExecuteComplimentary;
@@ -99,6 +100,7 @@ public class MainFrameController {
         MainFrameView.addCustomerSetupListener(new MenuItemListener());
         MainFrameView.addDistributorSetupListener(new MenuItemListener());
         MainFrameView.addWaiterSetupListener(new MenuItemListener());
+        MainFrameView.addSoftwareRegistration(new MenuItemListener());
         MainFrameView.addUnitSetupListener(new MenuItemListener());
         MainFrameView.addGroupSetupListener(new MenuItemListener());
         MainFrameView.addItemEntryListener(new MenuItemListener());
@@ -306,6 +308,9 @@ public class MainFrameController {
                // MainFrameView.jDialog1.setVisible(true);
 //                JDialog WaiterSetup = new JDialog(new ExecuteWaiter(),"",Dialog.ModalityType.DOCUMENT_MODAL);
                 ExecuteWaiter Waiter = new ExecuteWaiter(MainFrameView, true);
+            }
+            if(e.getActionCommand().equalsIgnoreCase("SoftwareRegistration")){
+                ExecuteRegister  executeRegister = new ExecuteRegister(MainFrameView, true);
             }
             
             /*

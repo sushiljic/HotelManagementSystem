@@ -19,9 +19,9 @@ public class ExecuteCustomer extends JDialog {
     public ExecuteCustomer(JFrame parent,boolean modal){
         super(parent,modal);
          CustomerView = new CustomerView(parent,modal);
-       CustomerModel = new CustomerModel();
+         CustomerModel = new CustomerModel();
         
-         CustomerController = new CustomerController(CustomerModel,CustomerView);
+        CustomerController = new CustomerController(CustomerModel,CustomerView);
 //         CustomerView.addWindowListener(new WindowAdapter(){
 //             public void windowClosing(WindowEvent e){
 //                 JOptionPane.showMessageDialog(rootPane, "");

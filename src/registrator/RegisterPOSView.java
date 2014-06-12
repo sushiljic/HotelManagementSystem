@@ -4,9 +4,10 @@
  * and open the template in the editor.
  */
 
-package hotelmanagementsystem;
+package registrator;
 
 import java.awt.event.ActionListener;
+import javax.swing.JButton;
 import reusableClass.Function;
 
 /**
@@ -14,7 +15,7 @@ import reusableClass.Function;
  * @author SUSHIL
  */
 public class RegisterPOSView extends javax.swing.JDialog {
-
+    String orgSerialCode =null;
     /**
      * Creates new form RegisterPOS
      * @param parent
@@ -25,28 +26,56 @@ public class RegisterPOSView extends javax.swing.JDialog {
         initComponents();
         Function.setButtonForEnter(btnCancel);
         Function.setButtonForEnter(btnRegister);
+        Function.setButtonForEnter(btnTryTrial);
+        setLocationRelativeTo(null);
     }
 
     public String gettxtRegisterCode() {
-        return txtRegisterCode.getText();
+        
+        return txtRegisterCode.getText().replaceAll("-", "").trim();
+        
     }
 
     public void settxtRegisterCode(String jTextField1) {
-        this.txtRegisterCode.setText(jTextField1);
+        txtRegisterCode.setValue(jTextField1);
     }
 
     public String getLblSerialCode() {
         return lblSerialCode.getText();
     }
+    public String getorgSerialCode(){
+        return orgSerialCode;
+    }
+    public void setorgSerailCode(String st){
+        orgSerialCode = st;
+    }
 
+    public JButton getBtnCancel() {
+        return btnCancel;
+    }
+
+    public JButton getBtnRegister() {
+        return btnRegister;
+    }
+
+    public JButton getBtnTryTrial() {
+        return btnTryTrial;
+    }
+    
     public void setLblSerialCode(String lblSerialCode) {
         this.lblSerialCode.setText(lblSerialCode);
+    }
+    public void setbtnTryTrialVisible(boolean bl){
+        btnTryTrial.setVisible(bl);
     }
     public void addRegisterListener(ActionListener listen){
         btnRegister.addActionListener(listen);
     }
     public void addCancelListener(ActionListener Listen){
         btnCancel.addActionListener(Listen);
+    }
+    public void addTryTrialListener(ActionListener Listen){
+        btnTryTrial.addActionListener(Listen);
     }
 
     /**
@@ -59,12 +88,13 @@ public class RegisterPOSView extends javax.swing.JDialog {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        lblSerialCode = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         btnRegister = new javax.swing.JButton();
-        txtRegisterCode = new javax.swing.JTextField();
         btnCancel = new javax.swing.JButton();
+        lblSerialCode = new javax.swing.JTextField();
+        txtRegisterCode = new javax.swing.JFormattedTextField();
+        btnTryTrial = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -72,9 +102,6 @@ public class RegisterPOSView extends javax.swing.JDialog {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/dream_web.png"))); // NOI18N
         jLabel1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
-        lblSerialCode.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        lblSerialCode.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setText("Serial Code:");
@@ -91,12 +118,26 @@ public class RegisterPOSView extends javax.swing.JDialog {
             }
         });
 
-        txtRegisterCode.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        txtRegisterCode.setForeground(new java.awt.Color(153, 0, 0));
-
         btnCancel.setMnemonic('c');
         btnCancel.setText("Cancel");
         btnCancel.setToolTipText("ALT +C");
+
+        lblSerialCode.setEditable(false);
+        lblSerialCode.setBackground(new java.awt.Color(255, 255, 255));
+        lblSerialCode.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        lblSerialCode.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
+        txtRegisterCode.setForeground(new java.awt.Color(102, 153, 255));
+        try {
+            txtRegisterCode.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("****-****-****")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        txtRegisterCode.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtRegisterCode.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+
+        btnTryTrial.setText("Try Trial");
+        btnTryTrial.setActionCommand("TryTrial");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -108,36 +149,43 @@ public class RegisterPOSView extends javax.swing.JDialog {
                         .addContainerGap()
                         .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 381, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(36, 36, 36)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(36, 36, 36)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(18, 18, 18))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(27, 27, 27)
+                                .addComponent(btnTryTrial, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(lblSerialCode, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(btnRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
                                 .addComponent(btnCancel)
                                 .addGap(31, 31, 31))
-                            .addComponent(txtRegisterCode, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE))))
+                            .addComponent(lblSerialCode)
+                            .addComponent(txtRegisterCode))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(41, 41, 41)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lblSerialCode, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblSerialCode, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtRegisterCode, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE))
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
+                    .addComponent(txtRegisterCode))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnRegister, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
-                    .addComponent(btnCancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnRegister, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
+                    .addComponent(btnCancel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnTryTrial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -195,10 +243,11 @@ public class RegisterPOSView extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnRegister;
+    private javax.swing.JButton btnTryTrial;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel lblSerialCode;
-    private javax.swing.JTextField txtRegisterCode;
+    private javax.swing.JTextField lblSerialCode;
+    private javax.swing.JFormattedTextField txtRegisterCode;
     // End of variables declaration//GEN-END:variables
 }

@@ -90,6 +90,14 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MenuItemWaiterSetupActionPerformed"/>
               </Events>
             </MenuItem>
+            <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator49">
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="MenuItemRegistration">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Software Registration"/>
+                <Property name="actionCommand" type="java.lang.String" value="SoftwareRegistration"/>
+              </Properties>
+            </MenuItem>
           </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenu3">

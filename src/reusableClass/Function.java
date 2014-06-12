@@ -602,6 +602,51 @@ public class Function  {
              }
              return adminflag;
          }
+          //get the companyname
+          public static String getCompanyName(){
+             DBConnect getAdmin = new DBConnect();
+             String name = new String();
+             String strQry = "SELECT  company_name from company_info";
+             PreparedStatement psadmin;
+             ResultSet rs;
+             try{
+                 getAdmin.initConnection();
+                 psadmin = getAdmin.conn.prepareStatement(strQry);
+//                 psadmin.setInt(1, userid);
+                 rs = psadmin.executeQuery();
+                 while(rs.next()){
+                 name = rs.getString(1);
+                 }
+             }
+             catch(SQLException se){
+                 JOptionPane.showMessageDialog(null, se.getMessage(), "From getCompanyName",JOptionPane.ERROR_MESSAGE);
+             }
+             return name;
+         }
+          public static int getNumberofSystemDateInserted(){
+    PreparedStatement stmtdate;
+    ResultSet rsdate;
+    DBConnect db  = new DBConnect();
+     int rows =0;
+    try{
+        db.initConnection();
+        stmtdate = db.conn.prepareStatement("SELECT count(system_date_id) FROM system_date",ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+        rsdate= stmtdate.executeQuery();
+        while(rsdate.next()){
+            rows = rsdate.getInt(1);
+        }
+       
+        rsdate.beforeFirst();
+       
+    }
+    catch(SQLException se){
+        JOptionPane.showMessageDialog(null, "From getNumberofSystemDateInserted:"+se.getMessage());
+    }
+    finally{
+        db.closeConnection();
+    }
+     return rows;
+}
 }
 
        

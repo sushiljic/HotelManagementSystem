@@ -153,6 +153,8 @@ public class MainFrameView extends javax.swing.JFrame {
         MenuItemDistributorSetup = new javax.swing.JMenuItem();
         jSeparator10 = new javax.swing.JPopupMenu.Separator();
         MenuItemWaiterSetup = new javax.swing.JMenuItem();
+        jSeparator49 = new javax.swing.JPopupMenu.Separator();
+        MenuItemRegistration = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         MenuItemUnitSetup = new javax.swing.JMenuItem();
         jSeparator7 = new javax.swing.JPopupMenu.Separator();
@@ -600,6 +602,11 @@ public class MainFrameView extends javax.swing.JFrame {
             }
         });
         jMenu1.add(MenuItemWaiterSetup);
+        jMenu1.add(jSeparator49);
+
+        MenuItemRegistration.setText("Software Registration");
+        MenuItemRegistration.setActionCommand("SoftwareRegistration");
+        jMenu1.add(MenuItemRegistration);
 
         jMenuBar2.add(jMenu1);
 
@@ -1065,6 +1072,9 @@ public class MainFrameView extends javax.swing.JFrame {
     public void addWaiterSetupListener(ActionListener Listen){
         MenuItemWaiterSetup.addActionListener(Listen);
     }
+    public void addSoftwareRegistration(ActionListener Listen){
+        MenuItemRegistration.addActionListener(Listen);
+    }
     public void addUnitSetupListener(ActionListener Listen){
         MenuItemUnitSetup.addActionListener(Listen);
     }
@@ -1411,6 +1421,7 @@ public class MainFrameView extends javax.swing.JFrame {
     private javax.swing.JMenuItem MenuItemPurchaseReport;
     private javax.swing.JMenuItem MenuItemPurchaseReturnReport;
     private javax.swing.JMenuItem MenuItemReceivableReport;
+    private javax.swing.JMenuItem MenuItemRegistration;
     private javax.swing.JMenuItem MenuItemSVCReport;
     private javax.swing.JMenuItem MenuItemSalesReport;
     private javax.swing.JMenuItem MenuItemSystemDateClose;
@@ -1506,6 +1517,7 @@ public class MainFrameView extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator46;
     private javax.swing.JPopupMenu.Separator jSeparator47;
     private javax.swing.JPopupMenu.Separator jSeparator48;
+    private javax.swing.JPopupMenu.Separator jSeparator49;
     private javax.swing.JPopupMenu.Separator jSeparator5;
     private javax.swing.JPopupMenu.Separator jSeparator6;
     private javax.swing.JPopupMenu.Separator jSeparator7;

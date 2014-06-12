@@ -13,10 +13,11 @@ package testinggithub;
 import org.jasypt.util.password.BasicPasswordEncryptor;
 import org.jasypt.util.password.ConfigurablePasswordEncryptor;
 import org.jasypt.util.password.StrongPasswordEncryptor;
+import reusableClass.CyptoAES;
  
 public class PasswordEncryption {
 public static void main(String[] args) {
- 
+ /*
 // for basic encryptions
 BasicPasswordEncryptor encryptor = new BasicPasswordEncryptor();
 String password = encryptor.encryptPassword("helloworld");
@@ -40,6 +41,10 @@ String password3 = encryptor3.encryptPassword("helloworld");
 System.out
 .println("Password encrypted by Configurable password encryptor: "
 + password3);
+         */
+    System.out.println(CyptoAES.decypt("zd+n7avvXr0pnAOw62l18A=="));
 }
+         
  
+    
 }
