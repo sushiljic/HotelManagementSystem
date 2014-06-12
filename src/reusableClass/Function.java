@@ -623,6 +623,30 @@ public class Function  {
              }
              return name;
          }
+          public static int getNumberofSystemDateInserted(){
+    PreparedStatement stmtdate;
+    ResultSet rsdate;
+    DBConnect db  = new DBConnect();
+     int rows =0;
+    try{
+        db.initConnection();
+        stmtdate = db.conn.prepareStatement("SELECT count(system_date_id) FROM system_date",ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+        rsdate= stmtdate.executeQuery();
+        while(rsdate.next()){
+            rows = rsdate.getInt(1);
+        }
+       
+        rsdate.beforeFirst();
+       
+    }
+    catch(SQLException se){
+        JOptionPane.showMessageDialog(null, "From getNumberofSystemDateInserted:"+se.getMessage());
+    }
+    finally{
+        db.closeConnection();
+    }
+     return rows;
+}
 }
 
        
