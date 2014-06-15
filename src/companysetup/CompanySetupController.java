@@ -16,10 +16,13 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -38,6 +41,7 @@ public final class CompanySetupController {
     private final MainFrameView mainview;
     private String Identifier = new String();
     private Double[] ChargeData = new Double[2]; 
+    private int status ;
      public CompanySetupController(CompanySetupView view,CompanySetupModel model,MainFrameView mview){
         companyview = view;
         companymodel = model;
@@ -72,28 +76,15 @@ public final class CompanySetupController {
            // companyview.addSaveKeyListener(new CompanySaveCancelKeyListener());
            // companyview.addCancelKeyListener(new CompanySaveCancelKeyListener());
             
-            
-              if(companymodel.checkRegister() == 1){
-                //JOptionPane.showMessageDialog(companyview,"Company Already register");
-             companyview.hidebtnRegister();
-             /*
-              * showing view if regiester
-              */
-              companyview.showPanelCompany();
-              /*
-                     * her setcompanyview set the view of companysetupjava ans getcompanyifo retrieves data from database
-                     */
-                      setCompanyView(companymodel.getCompanyInfo()); 
-                      companyview.hideSaveBtn();
-                      companyview.hideCancelBtn();
-                      companyview.hidelblCompanyLogo();
-                      companyview.hidebtnCompanyLogo();
-                      companyview.setTxtEditableFalse();
-                      companyview.addWindowCloseListener(new CompanyCloseListener());
-             
-            // return;
+         //checking the status of company
+            try{
+             status= Function.getCompanyStatus();
             }
-         else{
+            catch(Exception se){
+                DisplayMessages.displayError(view, se.getMessage(), "from CompanySetupController ");
+                companyview.setVisible(false);
+            }
+            if(status == 0){
              companyview.hidebtnView();
              companyview.hidebtnUpdate();
              companyview.hidebtnChargeSetup();
@@ -104,8 +95,26 @@ public final class CompanySetupController {
              companyview.pack();
               
              companyview.addWindowCloseListener(new SystemCloseListener());
-             
-         }
+            }
+            else{
+                
+                companyview.hidebtnRegister();
+             /*
+              * showing view if regiester
+              */
+                companyview.showPanelCompany();
+              /*
+                * her setcompanyview set the view of companysetupjava ans getcompanyifo retrieves data from database
+                */
+                setCompanyView(companymodel.getCompanyInfo()); 
+                companyview.hideSaveBtn();
+                companyview.hideCancelBtn();
+                companyview.hidelblCompanyLogo();
+                companyview.hidebtnCompanyLogo();
+                companyview.setTxtEditableFalse();
+                companyview.addWindowCloseListener(new CompanyCloseListener());
+            }
+        
     }
 //    class WindowCloseListener extends WindowAdapter{
 //        @Override
@@ -185,7 +194,7 @@ public final class CompanySetupController {
                 return;
             }   
                       
-                       if(DisplayMessages.displayInputYesNo(companyview, "Do You Want To Register the Company?"," Register Window"))
+                    if(DisplayMessages.displayInputYesNo(companyview, "Do You Want To Register the Company?"," Register Window"))
                       {
                             /*
                        image method to save in images directories but now store indatabase
@@ -199,20 +208,25 @@ public final class CompanySetupController {
 //                           companymodel.SaveImage(companyview.getImageFile(), companyview.getBufferedImage());
                        }
                           
-                   
+                   try{
                     if(companyview.getBufferedImage() != null){
 //                            JOptionPane.showMessageDialog(mainview, "from no null bufrere image");
-                        companymodel.registerCompany(getInfoIntoStringArray(),Function.returnFileFromBufferedImage(companyview.getImageFile(), companyview.getBufferedImage()));   
+                        if(companymodel.registerCompany(getInfoIntoStringArray(),Function.returnFileFromBufferedImage(companyview.getImageFile(), companyview.getBufferedImage()))){
+//                            DisplayMessages.displayInfo(companyview, "Company Inserted Successfully", "Company Insertion");
+                        }   
                         
                         }
                         else{
-                            companymodel.registerCompany(getInfoIntoStringArray(), null);
+                            if(companymodel.registerCompany(getInfoIntoStringArray(), null)){
+                            
+                            }
                         }
+                   
                     /*
                       there the companymodel detail give information about the setcompany
                       */
-                      
-                      mainview.setCompany(companymodel.getCompanyDetail());
+                     DisplayMessages.displayInfo(companyview, "Company Inserted Successfully", "Company Insertion");  
+                    mainview.setCompany(companymodel.getCompanyDetail());
                     companyview.showbtnView();
                     companyview.showbtnUpdate();
                     companyview.showbtnChargeSetup();
@@ -220,6 +234,10 @@ public final class CompanySetupController {
                     
                     Identifier = new String();
                     companyview.setVisible(false);
+                    }
+                   catch(FileNotFoundException | NoSuchAlgorithmException | SQLException se){
+                       DisplayMessages.displayError(companyview, se.getMessage(), "From CompanySaveCancelListener ");
+                   }
                        }
                    }
                    catch(HeadlessException | IOException e){
