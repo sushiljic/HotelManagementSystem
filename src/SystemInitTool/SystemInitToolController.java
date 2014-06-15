@@ -7,11 +7,13 @@
 package SystemInitTool;
 
 import database.readDatabase;
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.nio.file.Paths;
+import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import reusableClass.DisplayMessages;
 import reusableClass.Function;
@@ -52,7 +54,7 @@ public class SystemInitToolController {
                   return;
               }
                //procedd to test
-             
+             try{
            if(themodel.checkConnection(theview.getServerLocation(),theview.getUserName(),new String(theview.getPassword()))){
             JOptionPane.showMessageDialog(theview, "Connection SucessFull.\n Now Select The Database From ComboBox For Your System");
             //load all the datbase name in the combobox
@@ -64,6 +66,10 @@ public class SystemInitToolController {
               JOptionPane.showMessageDialog(theview, "Connection Failed.\n Please Ensure UserName and Password provided are Correct");
           theview.setBtnSaveEditable(false);
            }
+             }
+             catch(HeadlessException | SQLException se){
+                 DisplayMessages.displayError(theview,"Connection Failed.\n Please Ensure UserName and Password provided are Correct", "");
+             }
            }
            if(e.getActionCommand().equalsIgnoreCase("Save")){
                if(theview.returnComboboxDatabaseName().getSelectedIndex() == 0){

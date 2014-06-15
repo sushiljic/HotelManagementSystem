@@ -28,23 +28,24 @@ public class SystemInitToolModel extends DBConnect {
     String Url;
     
     
-    public boolean checkConnection(String location,String username,String password){
+    public boolean checkConnection(String location,String username,String password) throws SQLException{
         boolean flag = false;
-        try{
+//        try{
 //            String url = "jdbc:sqlserver://"+location+";";
              String url = "jdbc:mysql://"+location;
         Url = url;
         Username = username;
         Password = password;
         connect = DriverManager.getConnection(url, username, password);
-       flag = true; 
+        flag = true; 
 //       System.out.println("wala");
-                }
-        catch(SQLException se){
-            JOptionPane.showMessageDialog(null, se);
-//             System.out.println("wala");
-            flag = false;
-        }
+//                }
+//        catch(SQLException se){
+//            JOptionPane.showMessageDialog(null, se);
+////             System.out.println("wala");
+//            flag = false;
+//        }
+//        System.err.println(flag);
         return flag;
 //   
     }
