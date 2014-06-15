@@ -15,7 +15,9 @@ import javax.swing.JButton;
 import javax.swing.JMenu;
 import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
+import reusableClass.CyptoAES;
 import reusableClass.DisplayMessages;
+import reusableClass.Function;
 
 /**
  *
@@ -81,6 +83,7 @@ public class MainFrameModel extends DBConnect {
        }
        return registerstatus;
     }
+    
 //    public Object[][] getUserCreditial(int userid){
 //        PreparedStatement stmtget ;
 //        ResultSet get;
@@ -352,12 +355,12 @@ public class MainFrameModel extends DBConnect {
          return AllGenerateBillId;
     }
     //right method
-    public void MakeAllInvalidBillIdFalse(){
+    public void MakeAllInvalidBillIdFalse()throws SQLException{
          PreparedStatement stmtget;
         ResultSet rsget;
          String strInvalid = "update  generate_billid set bill_status = 0 where autoinc_billid  not in (select bill_id from  bill)";
        
-        try{
+//        try{
             initConnection();
            
            
@@ -366,13 +369,13 @@ public class MainFrameModel extends DBConnect {
            stmtget.executeUpdate();
          
             
-        }
-        catch(SQLException se){
-            JOptionPane.showMessageDialog(null, se+"from getAllGeneratedBill_id");
-        }
-        finally{
-            closeConnection();
-        }
+//        }
+//        catch(SQLException se){
+//            JOptionPane.showMessageDialog(null, se+"from getAllGeneratedBill_id");
+//        }
+//        finally{
+//            closeConnection();
+//        }
     }
      public String[] getJMenuName(){
         PreparedStatement getc;

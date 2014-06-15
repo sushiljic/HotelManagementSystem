@@ -102,8 +102,10 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenu3">
           <Properties>
-            <Property name="mnemonic" type="int" value="67"/>
-            <Property name="text" type="java.lang.String" value="CenterStore Setup"/>
+            <Property name="mnemonic" type="int" value="66"/>
+            <Property name="text" type="java.lang.String" value="Basic Setup"/>
+            <Property name="toolTipText" type="java.lang.String" value="Ctrl +B"/>
+            <Property name="actionCommand" type="java.lang.String" value="BasicSetup"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="MenuItemUnitSetup">
@@ -952,18 +954,15 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
                           <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
                               <Group type="102" attributes="0">
                                   <Component id="lblCompanyName" min="-2" pref="22" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="lblAddress" min="-2" pref="10" max="-2" attributes="0"/>
                                   <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                                  <Component id="lblPhoneNumber" max="32767" attributes="0"/>
+                                  <Component id="lblAddress" max="32767" attributes="0"/>
+                                  <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                                  <Component id="lblPhoneNumber" min="-2" pref="14" max="-2" attributes="0"/>
                               </Group>
-                              <Group type="102" alignment="1" attributes="0">
-                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                  <Component id="ImageLabel" min="-2" pref="55" max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="ImageLabel" min="-2" pref="55" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <Component id="jPanel3" max="32767" attributes="0"/>

@@ -15,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -52,27 +53,46 @@ public class SystemLogInController  extends UserCreditialModel{
         RegistrationReminderController registrationReminderController = new RegistrationReminderController(mainview, true);
         
     }
-     public void RegisterHandler(){
-        try{
-           if(model.getCompanyRegister()){
-            mainview.setCompany(model.getCompanyDetail());
-           }
-           else{
-//              executeCompanySetup  companysetup = new executeCompanySetup(mainview, true); 
-             
-                 
-               
-                  //executing the companysetup files   
-                 CompanySetupModel cmodel ;
-                 CompanySetupView cview ;
-                 CompanySetupController ccontrol;
-     
-   
+     public void RegisterHandler() throws SQLException{
+//        try{
+            //get status of company
+            int status = Function.getCompanyStatus();
+            if(status == 0){
+              //company is not inserted into database  
+                //executing the companysetup files   
+                CompanySetupModel cmodel ;
+                CompanySetupView cview ;
+                CompanySetupController ccontrol;
+
+
                 cmodel = new CompanySetupModel();
                 cview = new CompanySetupView(mainview,true);
                 cview.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
                 ccontrol = new CompanySetupController(cview,cmodel,mainview);
-                cview.setVisible(true);
+                cview.setVisible(true);  
+            }
+            else if(status == 1 || status == 2){
+                 mainview.setCompany(model.getCompanyDetail());
+            }
+//           if(model.getCompanyRegister()){
+//           
+//           }
+//           else{
+////              executeCompanySetup  companysetup = new executeCompanySetup(mainview, true); 
+//             
+//                 
+//               
+//                  //executing the companysetup files   
+//                 CompanySetupModel cmodel ;
+//                 CompanySetupView cview ;
+//                 CompanySetupController ccontrol;
+//     
+//   
+//                cmodel = new CompanySetupModel();
+//                cview = new CompanySetupView(mainview,true);
+//                cview.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+//                ccontrol = new CompanySetupController(cview,cmodel,mainview);
+//                cview.setVisible(true);
                 /*not need been implemented by executeRegister
                  //load the run RegisterModule to register  for the user
                   //this will run only one time when company will be setup
@@ -115,12 +135,12 @@ public class SystemLogInController  extends UserCreditialModel{
 //              }
 //             }   
 //             });
-           }
+//           }
            
-        }
-        catch(Exception re){
-            JOptionPane.showMessageDialog(mainview, re+"From Registerhandler");
-        }
+//        }
+//        catch(SQLException re){
+//            JOptionPane.showMessageDialog(mainview, re+"From Registerhandler");
+//        }
     }
     public class ValidateUserListener implements ActionListener{
 
@@ -137,8 +157,13 @@ public class SystemLogInController  extends UserCreditialModel{
                    inView.setVisible(false);
                    mainview.setUserName(username);
                    //check for register
+                   try{
                    RegisterHandler();
-                   
+                   }
+                   catch(SQLException se){
+                       DisplayMessages.displayError(inView, se.getMessage(), "From Login");
+                       System.exit(0);
+                   }
                    
                    
                    mainview.setLogOutVisibleTrue();
