@@ -11,10 +11,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import javax.swing.JDialog;
-import license.Customer;
 import license.Validation;
 import reusableClass.CyptoAES;
 import reusableClass.DisplayMessages;
@@ -38,94 +36,78 @@ public class RegisterPOSController {
         
         registerPOSView.addRegisterListener(new RegisterListener());
         registerPOSView.addCancelListener(new RegisterListener());
-        registerPOSView.addTryTrialListener(new RegisterListener());
+//        registerPOSView.addTryTrialListener(new RegisterListener());
         try{
         //check wther it is trial version of registerversion
-        strSerialCode = registerPOSModel.getSerialCode();
-//        System.out.println(strSerialCode);
-        if(strSerialCode!= null){
-        decyptSerialCode = CyptoAES.decypt(strSerialCode);
-        }
-        //set the original serail code
-        registerPOSView.setorgSerailCode(decyptSerialCode);
-        //get license codeif there is
-        strLicenseCode = registerPOSModel.getRegisterCode();
-        if(strLicenseCode != null){
-        decyptRegisterCode = CyptoAES.decypt(strLicenseCode);
-        }
-//        System.out.println(registerPOSView.getorgSerialCode());
-        
-        if(decyptSerialCode == null){
-            registerPOSView.setbtnTryTrialVisible(true);
-            //try code
-            registerPOSView.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
-            registerPOSView.addWindowListener(new WindowAdapter(){
-                      @Override
-                      public void windowClosing(WindowEvent evt){
-                          if(DisplayMessages.displayInputYesNo(registerPOSView, "Do you Want to Close the System?", " Software Registration")){
-                              System.exit(0);
-                          }
-                      }
-                  });
-             registerPOSView.getBtnCancel().setVisible(false);
-                 //generate the serial code load into the serial code
-                 String cName = Function.getCompanyName();
-                 String serialcode = new String();
-                 Customer Client = new Customer(cName);
-                 try{
-                 serialcode = Client.GenerateCode();
-                 }
-                 catch(NoSuchAlgorithmException se){
-                     DisplayMessages.displayError(registerPOSView, se.getMessage(), "from ExecuteRegister");
-                 }
-                 registerPOSView.setLblSerialCode(serialcode);
-                 registerPOSView.getBtnCancel().setVisible(false);
-        }
-        else{
-            registerPOSView.setbtnTryTrialVisible(false);
-            //decypt and display the serial code if it is of nine character
-//            System.out.println(decyptSerialCode.toCharArray().length);
-//            if(decyptSerialCode.toCharArray().length > 8){
-//                decyptSerialCode = decyptSerialCode.substring(0, 8);
-////                System.err.println(decyptSerialCode);
-//                //display the serial code not
-//                registerPOSView.setLblSerialCode(decyptSerialCode);
-//                
-//            }
-            //check whether it have how man days
-             if(decyptSerialCode.toCharArray().length >8){
-                System.out.println(decyptSerialCode);
-                //display the view class
-                if(decyptSerialCode.substring(8, 9).equalsIgnoreCase("0")){
-//                    System.out.println("wala");
-                //set the number of day in progress bar
-               int  workingdays = Function.getNumberofSystemDateInserted();
-                System.out.println(workingdays);
-                registerPOSView.setLblSerialCode(decyptSerialCode);
-                if(workingdays > 35){
-                registerPOSView.getBtnCancel().setVisible(false);
-                //try code
-                registerPOSView.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
-                registerPOSView.addWindowListener(new WindowAdapter(){
-                      @Override
-                      public void windowClosing(WindowEvent evt){
-                          if(DisplayMessages.displayInputYesNo(registerPOSView, "Do you Want to Close the System?", " Software Registration")){
-                              System.exit(0);
-                          }
-                      }
-                  });
-                }
-                else{
-//                 System.out.println(workingdays);    
-               registerPOSView.getBtnCancel().setVisible(true);
-                }
-                }
+             strSerialCode = registerPOSModel.getSerialCode();
+             //        System.out.println(strSerialCode);
+            if(strSerialCode!= null){
+            decyptSerialCode = CyptoAES.decypt(strSerialCode);
             }
-        }
-        if(strLicenseCode != null){
-           registerPOSView.settxtRegisterCode(decyptRegisterCode);
-           registerPOSView.getBtnRegister().setVisible(false);
-        }
+            //set the original serail code
+            registerPOSView.setorgSerailCode(decyptSerialCode);
+           
+            int status = Function.getCompanyStatus();
+            if(status == 0){
+                //if company is not inserted in the company
+            }
+            else if(status == 1){
+               //if company is not registerd nut inserted
+                
+                if(decyptSerialCode != null){
+
+//                registerPOSView.setbtnTryTrialVisible(false);
+
+                  //check whether it have how man days
+                if(decyptSerialCode.toCharArray().length >8){
+                    //System.out.println(decyptSerialCode);
+                      //display the view class
+                    
+                    if(decyptSerialCode.substring(8, 9).equalsIgnoreCase("0")){
+      //                    System.out.println("wala");
+                      //set the number of day in progress bar
+                        
+                        int  workingdays = Function.getNumberofSystemDateInserted();
+      //                System.out.println(workingdays);
+                        
+                        registerPOSView.setLblSerialCode(decyptSerialCode.substring(0, 8));
+                        if(workingdays > 35){
+                        registerPOSView.getBtnCancel().setVisible(false);
+                        //try code
+                        registerPOSView.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+                        registerPOSView.addWindowListener(new WindowAdapter(){
+                              @Override
+                              public void windowClosing(WindowEvent evt){
+                                  if(DisplayMessages.displayInputYesNo(registerPOSView, "Do you Want to Close the System?", " Software Registration")){
+                                      System.exit(0);
+                                  }
+                              }
+                          });
+                        }
+                        else{
+        //                 System.out.println(workingdays);    
+                       registerPOSView.getBtnCancel().setVisible(true);
+                        }
+                      }
+                  }
+              }
+                
+            }
+            else{
+                //if conpany is registered
+                 //get license codeif there is
+//                JOptionPane.showMessageDialog(view, "wala");
+                strLicenseCode = registerPOSModel.getRegisterCode();
+                if(strLicenseCode != null){
+                decyptRegisterCode = CyptoAES.decypt(strLicenseCode);
+                }
+                //set serial and license key
+                registerPOSView.setLblSerialCode(decyptSerialCode);
+//                System.out.println(decyptRegisterCode);
+                registerPOSView.settxtRegisterCode(decyptRegisterCode);
+                registerPOSView.getBtnRegister().setVisible(false);
+                
+            }
         }
         catch(SQLException se){
             DisplayMessages.displayError(view, se.getMessage(),"from RegisterPOSController");
@@ -142,7 +124,7 @@ public class RegisterPOSController {
                   
 //                   String registercode = registerPOSView.gettxtRegisterCode();
                    String serialcode = registerPOSView.getLblSerialCode();
-                   System.out.println(serialcode);
+//                   System.out.println(serialcode);
                    String regcode = registerPOSView.gettxtRegisterCode();
                    String encregcode = null;
 //                   System.out.println(regcode +"wala");
@@ -157,8 +139,12 @@ public class RegisterPOSController {
                    Validation validate = new Validation();
                    
                    if(validate.Validate(serialcode, regcode.toUpperCase())){
-                       encregcode = CyptoAES.encrypt(regcode);
                        try{
+                       if(regcode != null){
+                       encregcode = CyptoAES.encrypt(regcode);
+                       }
+                      
+                           //this function register and truncate the indicator in serial key
                        registerPOSModel.setRegisterCode(encregcode);
                        
                        DisplayMessages.displayInfo(registerPOSView, "Thank You For Registration.", "Registration Window");
@@ -169,28 +155,28 @@ public class RegisterPOSController {
                        }
                    }
                    else{
-                      DisplayMessages.displayInfo(registerPOSView, "Invalid License Number.\nPlease Contact you Software Provider.", "License Register"); 
+                      DisplayMessages.displayInfo(registerPOSView, "Invalid License Number.\nPlease Contact your Software Provider.", "License Register"); 
                    }
                    
                    
                    
                }
-               if(e.getActionCommand().equalsIgnoreCase("TryTrial")){
-                   String decyptserial = null;
-                   String serialcode = registerPOSView.getLblSerialCode();
-                   serialcode += "0";
-//                   System.out.println(serialcode);
-                   decyptserial = CyptoAES.encrypt(serialcode);
-//                   System.out.println(decyptserial);
-                   try {
-                   registerPOSModel.setSerialCode(decyptserial);
-                   }
-                   catch(SQLException se){
-                   DisplayMessages.displayError(registerPOSView, "Can`t Insert the serial code into Database"+se.getMessage(), "Try Trial Error");
-                   }
-                   registerPOSView.setVisible(false);
-                   
-               }
+//               if(e.getActionCommand().equalsIgnoreCase("TryTrial")){
+//                   String decyptserial = null;
+//                   String serialcode = registerPOSView.getLblSerialCode();
+//                   serialcode += "0";
+////                   System.out.println(serialcode);
+//                   decyptserial = CyptoAES.encrypt(serialcode);
+////                   System.out.println(decyptserial);
+//                   try {
+//                   registerPOSModel.setSerialCode(decyptserial);
+//                   }
+//                   catch(SQLException se){
+//                   DisplayMessages.displayError(registerPOSView, "Can`t Insert the serial code into Database"+se.getMessage(), "Try Trial Error");
+//                   }
+//                   registerPOSView.setVisible(false);
+//                   
+//               }
                if(e.getActionCommand().equalsIgnoreCase("Cancel")){
                    registerPOSView.setVisible(false);
                }
