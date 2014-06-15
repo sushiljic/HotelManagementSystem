@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import reusableClass.DisplayMessages;
 /**
  *
  * @author SUSHIL
@@ -69,7 +70,7 @@ public class DBConnect  extends readDatabase {
         }
        
         catch(SQLException se) {
-            JOptionPane.showMessageDialog(null, se+getClass().getName());
+            DisplayMessages.displayError(null,"Either Datbase Doesnot exists or password doesnot match\n", se.getMessage()+getClass().getName());
              System.exit(0);
             
             //System.err.println(se+"There is error conneting with database");
