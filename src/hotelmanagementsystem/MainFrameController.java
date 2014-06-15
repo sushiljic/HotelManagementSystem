@@ -83,7 +83,7 @@ import systemdate.ExecuteSystemDateChoose;
  *
  * @author SUSHIL
  */
-public class MainFrameController {
+public final class MainFrameController {
     MainFrameModel MainFrameModel;
     MainFrameView MainFrameView;
     SystemLogInView sysview;
