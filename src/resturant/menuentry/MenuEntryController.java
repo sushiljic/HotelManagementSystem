@@ -600,11 +600,11 @@ boolean hasFocus, int row, int col)
              * this load all the relative unitname that can be used to issue the item
              */
            // JOptionPane.showMessageDialog(issueView, ItemUnitInfo);
-            MenuEntryView.setComboItemBaseUnit(MenuEntryModel.returnItemBaseUnit(ItemUnitInfo));
+            MenuEntryView.setComboItemBaseUnit(Function.returnSecondColumn(ItemUnitInfo));
             Function.AddSelectInCombo(MenuEntryView.returnComboItemBaseUnit());
         
-            Object[][] ItemCategory = MenuEntryModel.getCategoryInfo();
-            MenuEntryView.setComboItemCategory(MenuEntryModel.returnCategoryName(ItemCategory));
+            Object[][] ItemCategory = MenuEntryModel.getSubCategoryInfo();
+            MenuEntryView.setComboItemCategory(Function.returnSecondColumn(ItemCategory));
             Function.AddSelectInCombo(MenuEntryView.returnComboItemCategory());
                 
             }
@@ -644,11 +644,11 @@ boolean hasFocus, int row, int col)
              * this load all the relative unitname that can be used to issue the item
              */
            // JOptionPane.showMessageDialog(issueView, ItemUnitInfo);
-            MenuEntryView.setComboItemBaseUnit(MenuEntryModel.returnItemBaseUnit(ItemUnitInfo));
+            MenuEntryView.setComboItemBaseUnit(Function.returnSecondColumn(ItemUnitInfo));
             Function.AddSelectInCombo(MenuEntryView.returnComboItemBaseUnit());
         
-            Object[][] ItemCategory = MenuEntryModel.getCategoryInfo();
-            MenuEntryView.setComboItemCategory(MenuEntryModel.returnCategoryName(ItemCategory));
+            Object[][] ItemCategory = MenuEntryModel.getSubCategoryInfo();
+            MenuEntryView.setComboItemCategory(Function.returnSecondColumn(ItemCategory));
             Function.AddSelectInCombo(MenuEntryView.returnComboItemCategory());
          }
      }
@@ -729,10 +729,10 @@ boolean hasFocus, int row, int col)
              * this load all the relative unitname that can be used to issue the item
              */
            // JOptionPane.showMessageDialog(issueView, ItemUnitInfo);
-            MenuEntryView.setComboItemBaseUnit(MenuEntryModel.returnItemBaseUnit(ItemCategoryInfo));
+            MenuEntryView.setComboItemBaseUnit(Function.returnSecondColumn(ItemCategoryInfo));
             Function.AddSelectInCombo(MenuEntryView.returnComboItemBaseUnit());
-             Object[][] ItemCategory = MenuEntryModel.getCategoryInfo();
-            MenuEntryView.setComboItemCategory(MenuEntryModel.returnCategoryName(ItemCategory));
+             Object[][] ItemCategory = MenuEntryModel.getSubCategoryInfo();
+            MenuEntryView.setComboItemCategory(Function.returnSecondColumn(ItemCategory));
             Function.AddSelectInCombo(MenuEntryView.returnComboItemCategory());
             //MenuEntryView.setComboItemCategory(category);
             //loading only after loading alla comboitembaseunit
@@ -788,7 +788,7 @@ boolean hasFocus, int row, int col)
           ItemUnitInfo = MenuEntryModel.getUnitInfo(MenuEntryView.getUnitId(),true);
            }
            else { */
-            ItemCategoryInfo = MenuEntryModel.getCategoryInfo();
+            ItemCategoryInfo = MenuEntryModel.getSubCategoryInfo();
             if(jCat.getSelectedIndex() == 0){
                 MenuEntryView.setCategoryId(0);
             }
@@ -842,7 +842,7 @@ boolean hasFocus, int row, int col)
              * this load all the relative unitname that can be used to issue the item
              */
            // JOptionPane.showMessageDialog(issueView, ItemUnitInfo);
-            MenuEntryView.setComboHybridItemBaseUnit(MenuEntryModel.returnItemBaseUnit(ItemCategoryInfo));
+            MenuEntryView.setComboHybridItemBaseUnit(Function.returnSecondColumn(ItemCategoryInfo));
             Function.AddSelectInCombo(MenuEntryView.returnComboHybridItemBaseUnit());
             //MenuEntryView.setComboItemCategory(category);
             //loading only after loading alla comboitembaseunit
@@ -897,7 +897,7 @@ boolean hasFocus, int row, int col)
            try{
               // JOptionPane.showMessageDialog(MenuEntryView, "wala");
                JComboBox jCat = (JComboBox) e.getSource();
-               Object[][] catInfo = MenuEntryModel.getCategoryInfo();
+               Object[][] catInfo = MenuEntryModel.getSubCategoryInfo();
                if(jCat.getSelectedIndex() == 0){
                    MenuEntryView.setCategoryId(0);
 //                   JOptionPane.showMessageDialog(null, "walais");
@@ -949,7 +949,7 @@ boolean hasFocus, int row, int col)
             }
            MenuEntryView.setDepartmentId(Integer.parseInt(cat_id[0].toString()));
            // loading repective item
-           MenuEntryView.setComboItemName(MenuEntryModel.returnCategoryName(MenuEntryModel.getItemInfoForMenu(MenuEntryView.getDepartmentId())));
+           MenuEntryView.setComboItemName(Function.returnSecondColumn(MenuEntryModel.getItemInfoForMenu(MenuEntryView.getDepartmentId())));
            Function.AddSelectInCombo(MenuEntryView.returnComboItemName());
            MenuEntryView.refreshJTable(MenuEntryModel.getMenuList(MenuEntryView.getDepartmentId()));
         //System.out.println(cat_id[0]);
@@ -1010,7 +1010,7 @@ boolean hasFocus, int row, int col)
             MenuEntryView.setComboItemBaseUnit(Function.returnSecondColumn(ItemUnitInfo));
             Function.AddSelectInCombo(MenuEntryView.returnComboItemBaseUnit());
         
-            Object[][] ItemCategory = MenuEntryModel.getCategoryInfo();
+            Object[][] ItemCategory = MenuEntryModel.getSubCategoryInfo();
             MenuEntryView.setComboItemCategory(Function.returnSecondColumn(ItemCategory));
             Function.AddSelectInCombo(MenuEntryView.returnComboItemCategory());
                 }
@@ -1191,10 +1191,10 @@ boolean hasFocus, int row, int col)
              * this load all the relative unitname that can be used to issue the item
              */
            // JOptionPane.showMessageDialog(issueView, ItemUnitInfo);
-            MenuEntryView.setComboItemBaseUnit(MenuEntryModel.returnItemBaseUnit(ItemUnitInfo));
+            MenuEntryView.setComboItemBaseUnit(Function.returnSecondColumn(ItemUnitInfo));
             Function.AddSelectInCombo(MenuEntryView.returnComboItemBaseUnit());
-            Object[][] ItemCategory = MenuEntryModel.getCategoryInfo();
-            MenuEntryView.setComboItemCategory(MenuEntryModel.returnCategoryName(ItemCategory));
+            Object[][] ItemCategory = MenuEntryModel.getSubCategoryInfo();
+            MenuEntryView.setComboItemCategory(Function.returnSecondColumn(ItemCategory));
             Function.AddSelectInCombo(MenuEntryView.returnComboItemCategory());
                  }  
             }
