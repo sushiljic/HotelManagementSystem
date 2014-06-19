@@ -11,10 +11,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
-<<<<<<< HEAD
-=======
-//import report.waiterServiceReport.AllWaiterServiceReport;
->>>>>>> 50ce93e2ad153fa44487388370308a8f58ab3a48
+
 import report.waiterServiceReport.WaiterServiceReport;
 
 /**
