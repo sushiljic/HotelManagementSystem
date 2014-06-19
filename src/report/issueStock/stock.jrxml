@@ -168,7 +168,7 @@ INNER JOIN item_unit ON store.unit_id = item_unit.unit_id]]>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="125" splitType="Stretch">
+		<band height="336" splitType="Stretch">
 			<componentElement>
 				<reportElement key="table 1" style="table 1" x="33" y="0" width="377" height="50" uuid="70c42bf3-36ce-4fc4-a45a-9852edafc807"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">

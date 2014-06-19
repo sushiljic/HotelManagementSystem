@@ -10,11 +10,14 @@ import java.awt.event.ActionListener;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
@@ -89,8 +92,17 @@ public class IssueStockReportController {
             }
             if(e.getActionCommand().equalsIgnoreCase("Print")){
               
-                //IRView.dispose();
-                //IssueStockReport stock = new IssueStockReport(Map new Map(),"","");
+               SwingUtilities.invokeLater(new Runnable(){
+
+                   @Override
+                   public void run() {
+                       Map m = new HashMap<>();
+                       m.put("title", "Item Stock Report of "+IRView.getComboDepartmentName());
+                       m.put("depId",IRView.getDepartmentId());
+                        new IssueStockReport(m,"terminalIssueStockReport.jrxml", "Item Stock Report");
+                   }
+               });
+               
                 //TerminalIssueStockReport stock = new TerminalIssueStockReport();
                
             }
