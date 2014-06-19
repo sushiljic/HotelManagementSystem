@@ -1652,15 +1652,7 @@ public class OrderController  extends SystemDateModel{
                 if(e.getKeyCode() == KeyEvent.VK_INSERT){
                     orderview.addcomboMenuNameFocus();
                 }
-                //to cancel
-                //not needed
-                /*
-                if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
-                    orderview.getBtnCancelOrder().doClick();
-                  
-                }
-                        */
-            
+         
             }
             }
             }

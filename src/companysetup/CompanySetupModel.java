@@ -13,11 +13,14 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.NoSuchAlgorithmException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
+import license.Customer;
+import reusableClass.CyptoAES;
 
 
 /**
@@ -35,15 +38,16 @@ public class CompanySetupModel {
     private ResultSet rsCheck;
     private ResultSet rsget;
     //private ResultSet 
-    public void registerCompany(String[] CompanyInfo,File image) {
-        strQuery = "INSERT INTO company_info (company_name,company_address,bill_greet,phone,fax,website,email,pan_no,company_logo,register,company_slogan,company_logo_image) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
+    public boolean registerCompany(String[] CompanyInfo,File image) throws NoSuchAlgorithmException,FileNotFoundException,SQLException {
+        boolean status= false;
+        strQuery = "INSERT INTO company_info (company_name,company_address,bill_greet,phone,fax,website,email,pan_no,company_logo,register,company_slogan,company_logo_image,serial_code) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)";
 //         if(image != null){    
 //          strQuery += ",  company_logo = ?,company_logo_image = ? ";
 //                    }
         DBConnect entry = new DBConnect();
          FileInputStream fis = null;
          
-        try{
+        
            
 //        InputStream fis = getClass().getResource("/images/imageorder.png").openStream();    
         entry.initConnection();
@@ -70,24 +74,19 @@ public class CompanySetupModel {
         else{
             stmtEntry.setBinaryStream(12, null);
         }
+        //enter serialcode
+        //calculate serial code and append the 0 at last before encypting
+        Customer customer = new Customer(CompanyInfo[0]);
+        String customerSerailNo = customer.GenerateCode();
+        String encytSerialNo= CyptoAES.encrypt(customerSerailNo+"0");
+        stmtEntry.setString(13,encytSerialNo);
         stmtEntry.executeUpdate();
         entry.conn.commit();
-        JOptionPane.showMessageDialog(null, "Company Register Successfully");
-        
-        }
-        catch(SQLException | FileNotFoundException se){
-            JOptionPane.showMessageDialog(null, se+"Register error!!");
-        } 
-        finally{
-            try {
-                if(fis != null){
-                fis.close();
-                }
-                entry.closeConnection();
-            } catch (IOException ex) {
-               JOptionPane.showMessageDialog(null, ex+"image error!!");
-            }
-        }
+        status = true;
+        entry.closeConnection();
+//        JOptionPane.showMessageDialog(null, "Company Register Successfully");
+        return status;
+     
         
         
     }

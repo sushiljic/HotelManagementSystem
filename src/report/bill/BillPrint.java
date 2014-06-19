@@ -76,7 +76,8 @@ public class BillPrint extends DBConnect {
             JasperPrintManager.printReport(jPrint, false);
         }
         catch(JRException print){
-            JOptionPane.showMessageDialog(null, "report.bill.BillPrint.printBill():"+print, "Opreation Failed!", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "report.bill.BillPrint.printBill():"+print.getMessage(), "Opreation Failed!", JOptionPane.ERROR_MESSAGE);
         }
+        
     }
 }

@@ -32,6 +32,7 @@ import java.awt.event.WindowEvent;
 import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.net.URI;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -82,7 +83,7 @@ import systemdate.ExecuteSystemDateChoose;
  *
  * @author SUSHIL
  */
-public class MainFrameController {
+public final class MainFrameController {
     MainFrameModel MainFrameModel;
     MainFrameView MainFrameView;
     SystemLogInView sysview;
@@ -242,8 +243,9 @@ public class MainFrameController {
         RefreshDate.start();
        
         }
-        catch(Exception e){
-            JOptionPane.showMessageDialog(MainFrameView, e+"from mainFrameContructor"+getClass().getName());
+        catch(SQLException e){
+            JOptionPane.showMessageDialog(MainFrameView, "from mainFrameContructor\n"+e.getMessage()+getClass().getName());
+            System.exit(0);
         }
     }
     //this change the mainframe image for showing status of the day

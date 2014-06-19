@@ -605,7 +605,7 @@ public class Function  {
           //get the companyname
           public static String getCompanyName(){
              DBConnect getAdmin = new DBConnect();
-             String name = new String();
+             String name = null;
              String strQry = "SELECT  company_name from company_info";
              PreparedStatement psadmin;
              ResultSet rs;
@@ -636,7 +636,7 @@ public class Function  {
             rows = rsdate.getInt(1);
         }
        
-        rsdate.beforeFirst();
+//        rsdate.beforeFirst();
        
     }
     catch(SQLException se){
@@ -647,6 +647,74 @@ public class Function  {
     }
      return rows;
 }
+          public static String getSerialCode() throws SQLException{
+        PreparedStatement stmt;
+        ResultSet rs;
+        String code = null;
+        DBConnect db = new DBConnect();
+        String strQry = "SELECT serial_code from company_info";
+//        try{
+            db.initConnection();
+            stmt = db.conn.prepareStatement(strQry);
+            rs = stmt.executeQuery();
+            while(rs.next()){
+            code = rs.getString(1);
+            }
+//            JOptionPane.showMessageDialog(null, "Product Registered Successfully.");
+//        }
+//        catch(SQLException se){
+//            DisplayMessages.displayError(null, se.getMessage()+"fron getserialCode"+getClass().getName(),"Error");
+//        }
+//        finally{
+//            closeConnection();
+//        }
+        return code;
+    }
+          public  static int getCompanyStatus() throws SQLException{
+//         boolean flag= false;
+         /*
+         if status =0  then company is not inserted
+         status = 1 then company is unregister
+         status = 2 then company is register
+         */
+         int status = 0;
+         String companyname = getCompanyName();
+         String DecSerialCode = null;
+         String SerailCode;
+         if(companyname != null){
+             //company is inserted
+                SerailCode = Function.getSerialCode();
+                if(SerailCode != null){
+                    DecSerialCode = CyptoAES.decypt(SerailCode);
+                }
+
+                if(DecSerialCode != null){
+       //             System.out.print("wala");
+                    //chech whether it have 0 at nine index;
+                    //if it has is not registered version else it is register
+                        if(DecSerialCode.toCharArray().length >8){
+                         //it is unregister version 
+                            if(DecSerialCode.substring(8, 9).equalsIgnoreCase("0")){
+                               //unregister veriosn
+                                status =1;
+           //                     return 1; 
+                            }
+                        }
+                        else{
+//                            JOptionPane.showMessageDialog(null, "registered");
+                           //it is register version
+                            status =2;
+           //                 return 2;
+                        }
+                }
+         }
+         else{
+             status = 0;
+         }
+         
+        
+         return status;
+     }
 }
 
        

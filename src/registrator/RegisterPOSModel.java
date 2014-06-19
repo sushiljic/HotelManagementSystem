@@ -10,7 +10,9 @@ import database.DBConnect;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import reusableClass.CyptoAES;
 import reusableClass.DisplayMessages;
+import reusableClass.Function;
 
 /**
  *
@@ -44,12 +46,22 @@ public class RegisterPOSModel extends DBConnect {
         ResultSet rs;
         String code = null;
         String strQry = "UPDATE company_info  SET register_code = ?  ";
+        String strserialQry = "UPDATE company_info SET serial_code = ?";
 //        try{
             initConnection();
+            conn.setAutoCommit(false);
             stmt = conn.prepareStatement(strQry);
             stmt.setString(1, st);
             stmt.executeUpdate();
-            
+            //change the serial_code
+        String ecryserial = Function.getSerialCode();
+        String decytserial = CyptoAES.decypt(ecryserial);
+        decytserial = decytserial.substring(0, 8);//truncate the indicator for serial
+        String secyptmodserial = CyptoAES.encrypt(decytserial);
+        stmt = conn.prepareStatement(strserialQry);
+        stmt.setString(1, secyptmodserial);
+        stmt.executeUpdate();
+        conn.setAutoCommit(true);
 //        }
 //        catch(SQLException se){
 //            DisplayMessages.displayError(null, se.getMessage()+"fron setRegisterCode"+getClass().getName(),"Error");

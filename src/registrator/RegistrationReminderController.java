@@ -26,6 +26,7 @@ public class RegistrationReminderController {
     private String strSerialCode;
     private String strdecSerialCode;
     private  int workingdays= 0;
+    private int status ;
     public RegistrationReminderController(JFrame parent,boolean modal){
 //        registrationReminderView = view;
 //        registerPOSModel = model;
@@ -37,14 +38,16 @@ public class RegistrationReminderController {
         registrationReminderView.addRegisterListener(new Registrationlistener());
         registrationReminderView.addContinueListener(new Registrationlistener());
 //         workingdays = Function.getNumberofSystemDateInserted();
-//                System.out.println(workingdays);
-        
-        //check whether it should be display or not
+//                System.out.println(workingdays)
         try{
-        strSerialCode = registerPOSModel.getSerialCode();
-//        System.err.println(strSerialCode);
-        
-        if(strSerialCode != null){
+        status = Function.getCompanyStatus();
+        if(status == 0){
+            
+        }
+        else if (status == 1){
+            strSerialCode = registerPOSModel.getSerialCode();
+ 
+            if(strSerialCode != null){
             
             strdecSerialCode = CyptoAES.decypt(strSerialCode);
             //check whether it have 0 flag at last or not
@@ -57,30 +60,30 @@ public class RegistrationReminderController {
                 workingdays = Function.getNumberofSystemDateInserted();
 //                System.out.println(workingdays);
                 if(workingdays <= 35){
-                registrationReminderView.setProgressbarValue(35-workingdays);
+                int workingpercent =(int) ((35-workingdays)/35)*100;
+                
+                registrationReminderView.setProgressbarValue(workingpercent);
                 registrationReminderView.setProgressbarString(35 - workingdays+"days remaining");
                 registrationReminderView.setProgressbarStringPainted(true);
                 registrationReminderView.setVisible(true);
                 }
                 else{
-//                 System.out.println(workingdays);    
+//                 System.out.println(workingdays); 
+                DisplayMessages.displayInfo(parent, "Your Demo Period have been expired.\nPlease Contact your Software Provider for License Key","Registration Remminder");
                 registrationReminderView.getBtnRegister().doClick();
                 }
                 }
             }
         }
-        strRegisterCode = registerPOSModel.getRegisterCode();
-        if(strRegisterCode != null){
-            strdecRegisterCode  = CyptoAES.decypt(strRegisterCode);
         }
-        
-       
         
         }
         catch(SQLException se){
-            DisplayMessages.displayError(parent, se.getMessage(), "From RegistrationReminderController ");
-            registrationReminderView.setVisible(false);
+            DisplayMessages.displayError(parent, se.getMessage(), "from RegistrationReminderController ");
+            System.exit(0);
         }
+        
+      
         
         
     }
