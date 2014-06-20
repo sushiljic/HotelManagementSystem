@@ -331,6 +331,7 @@ public class MenuEntryView extends javax.swing.JDialog {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Menu "));
 
+        tblMenuItem.setAutoCreateRowSorter(true);
         tblMenuItem.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         tblMenuItem.setRowHeight(20);
         jScrollPane2.setViewportView(tblMenuItem);
@@ -1222,7 +1223,8 @@ public class MenuEntryView extends javax.swing.JDialog {
         setWholesalePrice(info[6]);
         }*/
         setComboItemCategory(info[7]);
-       //  System.out.println(i++);
+        
+//         System.out.println(info[7]);
        
        
       //  setImagePath(info[10]);

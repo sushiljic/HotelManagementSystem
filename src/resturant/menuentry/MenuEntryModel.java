@@ -585,9 +585,9 @@ public class MenuEntryModel extends DBConnect {
                
                           //  String strQuery = "SELECT menu.menu_id,menu.menu_name,centerstore_stock.item_name,menu.quantity,item_unit.unit_name,menu.retail_price,menu.wholesale_price,item_category.category_name,menu.item_type FROM menu INNER JOIN centerstore_stock ON menu.item_id = centerstore_stock.item_id INNER JOIN item_unit ON  menu.unit_id = item_unit.unit_id INNER JOIN  item_category ON centerstore_stock.category_id = item_category.category_id  WHERE menu.item_type = 1 AND menu.hybrid_type!= 1  ORDER BY date desc";
 //          String strQuery = "SELECT menu.menu_id,menu.menu_name,centerstore_stock.item_name,menu.quantity,item_unit.unit_name,menu.retail_price,menu.wholesale_price,item_category.category_name,menu.item_type FROM menu INNER JOIN centerstore_stock ON menu.item_id = centerstore_stock.item_id INNER JOIN item_unit ON  menu.unit_id = item_unit.unit_id INNER JOIN  item_category ON menu.category_id = item_category.category_id  WHERE menu.item_type = 1 AND menu.hybrid_type!= 1  ORDER BY date desc";
-           String strQuery = "SELECT menu.menu_id,menu.menu_name,centerstore_stock.item_name,menu.quantity,item_unit.unit_name,menu.retail_price,menu.wholesale_price,item_category.category_name,menu.item_type,department_info.department_name FROM menu INNER JOIN department_store_stock ON menu.department_item_id= department_store_stock.department_item_id INNER JOIN centerstore_stock ON department_store_stock.item_id = centerstore_stock.item_id  INNER JOIN item_unit ON  menu.unit_id = item_unit.unit_id INNER JOIN  item_category ON menu.category_id = item_category.category_id INNER JOIN department_info ON menu.department_id = department_info.department_id  WHERE menu.item_type = 1 AND menu.hybrid_type!= 1 AND menu.department_id = ?  ORDER BY date desc";
-            String strQueryUn = "SELECT menu.menu_id,menu.menu_name,menu.quantity,item_unit.unit_name,menu.retail_price,menu.wholesale_price,item_category.category_name,menu.item_type,department_info.department_name FROM menu INNER JOIN item_unit ON  menu.unit_id = item_unit.unit_id INNER JOIN  item_category ON menu.category_id = item_category.category_id INNER JOIN department_info ON menu.department_id = department_info.department_id WHERE menu.item_type = 0 AND menu.department_id = ? ORDER BY date desc  ";    
-           String strQueryHybrid = "SELECT menu.menu_id,menu.menu_name,menu.quantity,item_unit.unit_name,menu.retail_price,menu.wholesale_price,item_category.category_name,menu.item_type,department_info.department_name FROM menu  INNER JOIN item_unit ON  menu.unit_id = item_unit.unit_id INNER JOIN  item_category ON menu.category_id = item_category.category_id INNER JOIN department_info ON menu.department_id = department_info.department_id WHERE menu.item_type = 1 AND menu.hybrid_type = 1 AND menu.department_id = ? ORDER BY date desc  ";    
+           String strQuery = "SELECT menu.menu_id,menu.menu_name,centerstore_stock.item_name,menu.quantity,item_unit.unit_name,menu.retail_price,menu.wholesale_price,item_sub_category.sub_category_name,menu.item_type,department_info.department_name FROM menu INNER JOIN department_store_stock ON menu.department_item_id= department_store_stock.department_item_id INNER JOIN centerstore_stock ON department_store_stock.item_id = centerstore_stock.item_id  INNER JOIN item_unit ON  menu.unit_id = item_unit.unit_id INNER JOIN  item_sub_category ON menu.category_id = item_sub_category.sub_category_id INNER JOIN department_info ON menu.department_id = department_info.department_id  WHERE menu.item_type = 1 AND menu.hybrid_type!= 1 AND menu.department_id = ?  ORDER BY date desc";
+            String strQueryUn = "SELECT menu.menu_id,menu.menu_name,menu.quantity,item_unit.unit_name,menu.retail_price,menu.wholesale_price,item_sub_category.sub_category_name,menu.item_type,department_info.department_name FROM menu INNER JOIN item_unit ON  menu.unit_id = item_unit.unit_id INNER JOIN  item_sub_category ON menu.category_id = item_sub_category.sub_category_id INNER JOIN department_info ON menu.department_id = department_info.department_id WHERE menu.item_type = 0 AND menu.department_id = ? ORDER BY date desc  ";    
+           String strQueryHybrid = "SELECT menu.menu_id,menu.menu_name,menu.quantity,item_unit.unit_name,menu.retail_price,menu.wholesale_price,item_sub_category.sub_category_name,menu.item_type,department_info.department_name FROM menu  INNER JOIN item_unit ON  menu.unit_id = item_unit.unit_id INNER JOIN  item_sub_category ON menu.category_id = item_sub_category.sub_category_id INNER JOIN department_info ON menu.department_id = department_info.department_id WHERE menu.item_type = 1 AND menu.hybrid_type = 1 AND menu.department_id = ? ORDER BY date desc  ";    
      //       String strQuery = "select centerstore_stock.item_name from  centerstore_stock,menu WHERE centerstore_stock.item_id = menu.item_id";
             //   String strQuery = "SELECT menu_id,menu_name FROM menu";
                 String[] columnNames = {"Menu Id","Menu Name","Item Name","Quantity","Item Base Unit","Retail Price","WholeSale Price","Category Name","Trackable","Hybrid Type","Store Name"};
@@ -617,7 +617,7 @@ public class MenuEntryModel extends DBConnect {
                           }
                           */
                          
-                         Object[] row = new Object[]{rsresult.getString("menu_id"),rsresult.getString("menu_name"),rsresult.getString("item_name"),rsresult.getFloat("Quantity"),rsresult.getString("unit_name"),rsresult.getBigDecimal("retail_price").setScale(2, RoundingMode.HALF_UP)==null?BigDecimal.ZERO:rsresult.getBigDecimal("retail_price").setScale(2, RoundingMode.HALF_UP),rsresult.getBigDecimal("wholesale_price")/* == null?BigDecimal.ZERO:rsresult.getBigDecimal("wholesale_price").setScale(2, RoundingMode.HALF_UP).setScale(2, RoundingMode.HALF_UP)*/,rsresult.getString("category_name"),true,false,rsresult.getString("department_name")};
+                         Object[] row = new Object[]{rsresult.getString("menu_id"),rsresult.getString("menu_name"),rsresult.getString("item_name"),rsresult.getFloat("Quantity"),rsresult.getString("unit_name"),rsresult.getBigDecimal("retail_price").setScale(2, RoundingMode.HALF_UP)==null?BigDecimal.ZERO:rsresult.getBigDecimal("retail_price").setScale(2, RoundingMode.HALF_UP),rsresult.getBigDecimal("wholesale_price")/* == null?BigDecimal.ZERO:rsresult.getBigDecimal("wholesale_price").setScale(2, RoundingMode.HALF_UP).setScale(2, RoundingMode.HALF_UP)*/,rsresult.getString("sub_category_name"),true,false,rsresult.getString("department_name")};
 
                      //  System.out.println(ConvertIntToBoolean(rsresult.getInt("item_type")));
                     //   System.out.println(row.toString());
@@ -633,7 +633,7 @@ public class MenuEntryModel extends DBConnect {
                       stmtMenuHybrid.setInt(1, storeid);
                       rsresultHybrid = stmtMenuHybrid.executeQuery();
                       while(rsresultHybrid.next()){
-                      Object[] row = new Object[]{rsresultHybrid.getString("menu_id"),rsresultHybrid.getString("menu_name"),"",rsresultHybrid.getFloat("Quantity"),rsresultHybrid.getString("unit_name"),rsresultHybrid.getBigDecimal("retail_price").setScale(2, RoundingMode.HALF_UP)==null?BigDecimal.ZERO:rsresultHybrid.getBigDecimal("retail_price").setScale(2, RoundingMode.HALF_UP),rsresultHybrid.getBigDecimal("wholesale_price") /*== null?BigDecimal.ZERO:rsresultHybrid.getBigDecimal("wholesale_price").setScale(2, RoundingMode.HALF_UP).setScale(2, RoundingMode.HALF_UP)*/,rsresultHybrid.getString("category_name"),/*ConvertIntToBoolean(rsresult.getInt("item_type"))*/true,true,rsresultHybrid.getString("department_name")};
+                      Object[] row = new Object[]{rsresultHybrid.getString("menu_id"),rsresultHybrid.getString("menu_name"),"",rsresultHybrid.getFloat("Quantity"),rsresultHybrid.getString("unit_name"),rsresultHybrid.getBigDecimal("retail_price").setScale(2, RoundingMode.HALF_UP)==null?BigDecimal.ZERO:rsresultHybrid.getBigDecimal("retail_price").setScale(2, RoundingMode.HALF_UP),rsresultHybrid.getBigDecimal("wholesale_price") /*== null?BigDecimal.ZERO:rsresultHybrid.getBigDecimal("wholesale_price").setScale(2, RoundingMode.HALF_UP).setScale(2, RoundingMode.HALF_UP)*/,rsresultHybrid.getString("sub_category_name"),/*ConvertIntToBoolean(rsresult.getInt("item_type"))*/true,true,rsresultHybrid.getString("department_name")};
 
                      //  System.out.println(ConvertIntToBoolean(rsresultUn.getInt("item_type")));
                        // System.out.println(data);
@@ -647,7 +647,7 @@ public class MenuEntryModel extends DBConnect {
                       stmtMenuUn.setInt(1, storeid);
                       rsresultUn = stmtMenuUn.executeQuery();
                       while(rsresultUn.next()){
-                      Object[] row = new Object[]{rsresultUn.getString("menu_id"),rsresultUn.getString("menu_name"),"",rsresultUn.getFloat("Quantity"),rsresultUn.getString("unit_name"),rsresultUn.getBigDecimal("retail_price"),rsresultUn.getBigDecimal("wholesale_price"),rsresultUn.getString("category_name"),/*ConvertIntToBoolean(rsresult.getInt("item_type"))*/false,false,rsresultUn.getString("department_name")};
+                      Object[] row = new Object[]{rsresultUn.getString("menu_id"),rsresultUn.getString("menu_name"),"",rsresultUn.getFloat("Quantity"),rsresultUn.getString("unit_name"),rsresultUn.getBigDecimal("retail_price"),rsresultUn.getBigDecimal("wholesale_price"),rsresultUn.getString("sub_category_name"),/*ConvertIntToBoolean(rsresult.getInt("item_type"))*/false,false,rsresultUn.getString("department_name")};
 
                      //  System.out.println(ConvertIntToBoolean(rsresultUn.getInt("item_type")));
                        // System.out.println(data);
@@ -788,19 +788,19 @@ public class MenuEntryModel extends DBConnect {
       }
       return data.toArray(new Object[data.size()][]);
   }
-     public Object[][] getCategoryInfo(){
+     public Object[][] getSubCategoryInfo(){
          PreparedStatement stmtcat;
          ResultSet rsQuery;
           ArrayList<Object[]> data = new ArrayList<Object[]>();
          DBConnect getcat = new DBConnect();
          try{
-         String strcat = "SELECT * FROM item_category";
+         String strcat = "SELECT * FROM item_sub_category";
         
          getcat.initConnection();
          stmtcat = getcat.conn.prepareStatement(strcat);
          rsQuery = stmtcat.executeQuery();
          while(rsQuery.next()){
-         Object ct[] =new Object[]{ rsQuery.getObject("category_id"),rsQuery.getObject("category_name")};
+         Object ct[] =new Object[]{ rsQuery.getObject("sub_category_id"),rsQuery.getObject("sub_category_name")};
          data.add(ct);
      }
          
@@ -812,53 +812,7 @@ public class MenuEntryModel extends DBConnect {
          
          
      }
-  public String[] returnItemBaseUnit(Object data[][]){
-       String[] strName = new String[data.length];
-      /*
-       *
-       */
-       //this give a string array of the itemname since itemname lies on 1 postion
-       for(int i =0;i<data.length; i++){
-         // System.out.println(data[i][1]);
-           strName[i] = data[i][1].toString();
-           
-       }
-       /*for(Object[] test:data)
-       {
-           for(Object te:test){
-           System.out.print(te+"\t");
-           }
-           System.out.println("\n");
-       }*/
-       
-       
-       return strName;
-   }
-  public String[] returnCategoryName(Object data[][]){
-       String[] strName = new String[data.length];
-      /*
-       *
-       */
-//       System.out.println(data.length+"wala");
-       //this give a string array of the itemname since itemname lies on 1 postion
-       for(int i =0;i<data.length; i++){
-         // System.out.println(data[i][1]);
-           strName[i] = data[i][1].toString();
-           
-//           System.out.println(strName[i]);
-           
-       }
-       /*for(Object[] test:data)
-       {
-           for(Object te:test){
-           System.out.print(te+"\t");
-           }
-           System.out.println("\n");
-       }*/
-       
-       
-       return strName;
-   }
+  
    /**
      * This is implement by image upload button
      */

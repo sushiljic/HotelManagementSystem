@@ -189,10 +189,16 @@ public final class CompanySetupController {
                 if(!Identifier.isEmpty()){
                 if(scae.getActionCommand().equalsIgnoreCase("Save") && Identifier.equalsIgnoreCase("Register")){
                    try{
-                       if(companyview.getCompanyName().equals("")||companyview.getAddress().equals("")||companyview.getPhone().equals("")||companyview.getPan() ==0){
-                JOptionPane.showMessageDialog(companyview,"Blank Field Not Allowed.Recheck it");
-                return;
-            }   
+                       
+                       if(Function.checkBlankPhoneNumber(companyview.getPhone())){
+                        JOptionPane.showMessageDialog(companyview,"Phone Number Cannot be Empty");
+                        return;
+                        } 
+                       
+                       if(companyview.getCompanyName().equals("")||companyview.getAddress().equals("")||companyview.getPan() ==0){
+                        JOptionPane.showMessageDialog(companyview,"Blank Field Not Allowed.Recheck it");
+                        return;
+                        }   
                       
                     if(DisplayMessages.displayInputYesNo(companyview, "Do You Want To Register the Company?"," Register Window"))
                       {
@@ -262,10 +268,16 @@ public final class CompanySetupController {
                 if(scae.getActionCommand().equalsIgnoreCase("Save") && Identifier.equalsIgnoreCase("Update")){
                    try{
                        //code for update
-                       if(companyview.getCompanyName().equals("")||companyview.getAddress().equals("")||companyview.getPhone().equals("")){
-                JOptionPane.showMessageDialog(companyview,"Blank Field Not Allowed.Recheck it");
-                return;
-            }
+//                       System.err.println(Function.checkPhoneNumberNull(companyview.getPhone()));
+                       
+                      if(Function.checkBlankPhoneNumber(companyview.getPhone())){
+                        JOptionPane.showMessageDialog(companyview,"Phone Number Cannot be Empty");
+                        return;
+                        } 
+                       if(companyview.getCompanyName().equals("")||companyview.getAddress().equals("")){
+                            JOptionPane.showMessageDialog(companyview,"Blank Field Not Allowed.Recheck it");
+                            return;
+                        }
                              /*
                        image 
                       since image is loaded into datbase no nedd to execute this code
@@ -598,7 +610,7 @@ public final class CompanySetupController {
        //city is optional value so
        
         info[2] = companyview.getBillGreet();
-        info[3] = companyview.getPhone();
+        info[3] = String.valueOf(companyview.getPhone());
        
         info[4] = companyview.getFax();
         

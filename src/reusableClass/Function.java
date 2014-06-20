@@ -715,6 +715,18 @@ public class Function  {
         
          return status;
      }
+          
+          public static boolean checkBlankPhoneNumber(String phone){
+              boolean flag = false;
+//              String st = phone;
+              phone = phone.replaceAll(" ","");
+              
+              System.out.println(phone);
+              if(phone.equalsIgnoreCase("()-")){
+                  flag = true;
+              }
+              return flag;
+          }
 }
 
        
