@@ -10,14 +10,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import javax.swing.JButton;
 import javax.swing.JMenu;
 import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
-import reusableClass.CyptoAES;
 import reusableClass.DisplayMessages;
-import reusableClass.Function;
 
 /**
  *
@@ -30,7 +27,7 @@ public class MainFrameModel extends DBConnect {
         ResultSet get;
 //        ArrayList<String> cinfo  = new ArrayList<String>();
         Object[] com = new Object[5];
-        String Query = "SELECT company_name,company_address,phone,company_logo,company_logo_image FROM company_info WHERE  register = 1 ";
+        String Query = "SELECT company_name,company_address,phone,company_logo,company_logo_image FROM company_info  ";
        DBConnect dbget = new DBConnect();
        try{
            dbget.initConnection();
