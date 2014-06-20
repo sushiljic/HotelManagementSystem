@@ -715,6 +715,15 @@ public class Function  {
         
          return status;
      }
+          public static boolean checkPhoneNumberNull(String phone){
+              boolean flag = false;
+              String st = phone;
+              System.out.println(phone);
+              if(st.equalsIgnoreCase("(   )    -")){
+                  flag = true;
+              }
+              return flag;
+          }
 }
 
        

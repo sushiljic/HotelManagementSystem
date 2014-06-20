@@ -11,6 +11,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import javax.swing.JFormattedTextField;
 import javax.swing.text.InternationalFormatter;
+import javax.swing.text.MaskFormatter;
 
 /**
  *
@@ -132,4 +133,23 @@ public class Validator {
         });
       jf.setValue(new Integer(0));
  } 
+ public static  void PhoneNumberMaker(JFormattedTextField jf){
+      jf.setFormatterFactory(new JFormattedTextField.AbstractFormatterFactory() {
+
+            @Override
+            public JFormattedTextField.AbstractFormatter getFormatter(JFormattedTextField tf) {
+                NumberFormat format = NumberFormat.getInstance();
+//                MaskFormatter format = new MaskFormatter("(###) ###-####");
+                InternationalFormatter formatter = new InternationalFormatter(format);
+                formatter.setAllowsInvalid(false);
+                formatter.setCommitsOnValidEdit(true);
+                
+                //formatter.setMinimum(0.0);
+                //formatter.setMaximum(1000.00);
+                return formatter;
+            }
+        });
+      jf.setValue(new Integer(0));
+ } 
+ 
 }
