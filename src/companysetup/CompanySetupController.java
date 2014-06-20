@@ -190,7 +190,7 @@ public final class CompanySetupController {
                 if(scae.getActionCommand().equalsIgnoreCase("Save") && Identifier.equalsIgnoreCase("Register")){
                    try{
                        
-                       if(companyview.getPhone().equalsIgnoreCase("")){
+                       if(Function.checkBlankPhoneNumber(companyview.getPhone())){
                         JOptionPane.showMessageDialog(companyview,"Phone Number Cannot be Empty");
                         return;
                         } 
@@ -270,7 +270,7 @@ public final class CompanySetupController {
                        //code for update
 //                       System.err.println(Function.checkPhoneNumberNull(companyview.getPhone()));
                        
-                       if(Function.checkPhoneNumberNull(companyview.getPhone())){
+                      if(Function.checkBlankPhoneNumber(companyview.getPhone())){
                         JOptionPane.showMessageDialog(companyview,"Phone Number Cannot be Empty");
                         return;
                         } 
