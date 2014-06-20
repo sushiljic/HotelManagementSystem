@@ -21,6 +21,7 @@ import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.text.InternationalFormatter;
+import reusableClass.Function;
 import reusableClass.Validator;
 
 /**
@@ -44,7 +45,7 @@ public class CompanySetupView extends javax.swing.JDialog {
       
        // btnSave.setVisible(false);
        // btnCancel.setVisible(false);
-        panelCompany.setVisible(false);
+//        panelCompany.setVisible(false);
         setButtonForEnter(btnSave);
         setButtonForEnter(btnCancel);
         setButtonForEnter(btnRegister);
@@ -54,17 +55,17 @@ public class CompanySetupView extends javax.swing.JDialog {
         setButtonForEnter(btnChargeEdit);
         setButtonForEnter(btnChargeSave);
         setButtonForEnter(btnChargeSetup);
-        txtAddress.addFocusListener(new  SetFocusListener(txtAddress));
+        txtAddress.addFocusListener(new  Function.SetTextFieldFocusListener(txtAddress));
         
-        txtBillGreet.addFocusListener(new SetFocusListener(txtBillGreet));
-        txtCompanyName.addFocusListener(new SetFocusListener(txtCompanyName));
-        txtEmail.addFocusListener(new SetFocusListener(txtEmail));
-        txtFax.addFocusListener(new SetFocusListener(txtFax));
-        txtPanNo.addFocusListener(new SetFocusListener(txtPanNo));
-        txtPhone.addFocusListener(new SetFocusListener(txtPhone));
-        txtWebsite.addFocusListener(new SetFocusListener(txtWebsite));
-        txtSVC.addFocusListener(new SetFocusListener(txtSVC));
-        txtCompanySlogan.addFocusListener(new SetFocusListener(txtCompanySlogan));
+        txtBillGreet.addFocusListener(new Function.SetTextFieldFocusListener(txtBillGreet));
+        txtCompanyName.addFocusListener(new Function.SetTextFieldFocusListener(txtCompanyName));
+        txtEmail.addFocusListener(new Function.SetTextFieldFocusListener(txtEmail));
+        txtFax.addFocusListener(new Function.SetTextFieldFocusListener(txtFax));
+        txtPanNo.addFocusListener(new Function.SetJFormattedTextFieldFocusListener(txtPanNo));
+        txtPhone.addFocusListener(new Function.SetJFormattedTextFieldFocusListener(txtPhone));
+        txtWebsite.addFocusListener(new Function.SetTextFieldFocusListener(txtWebsite));
+        txtSVC.addFocusListener(new Function.SetTextFieldFocusListener(txtSVC));
+        txtCompanySlogan.addFocusListener(new Function.SetTextFieldFocusListener(txtCompanySlogan));
         Validator.PercentageMaker(txtSVC);
         Validator.PercentageMaker(txtVAT);
          /*
@@ -113,7 +114,6 @@ public class CompanySetupView extends javax.swing.JDialog {
         lblWebsite = new javax.swing.JLabel();
         txtAddress = new javax.swing.JTextField();
         txtCompanyName = new javax.swing.JTextField();
-        txtPhone = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         txtBillGreet = new javax.swing.JTextField();
         btnCancel = new javax.swing.JButton();
@@ -123,6 +123,7 @@ public class CompanySetupView extends javax.swing.JDialog {
         jLabel4 = new javax.swing.JLabel();
         txtCompanySlogan = new javax.swing.JTextField();
         txtPanNo = new javax.swing.JFormattedTextField();
+        txtPhone = new javax.swing.JFormattedTextField();
         ImageLabel = new javax.swing.JLabel();
 
         JDailogChargeSetup.setTitle("Tax Setup");
@@ -307,8 +308,6 @@ public class CompanySetupView extends javax.swing.JDialog {
 
         txtCompanyName.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
-        txtPhone.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setText("Bill Greet:");
 
@@ -344,6 +343,18 @@ public class CompanySetupView extends javax.swing.JDialog {
         txtPanNo.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("######"))));
         txtPanNo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
+        try {
+            txtPhone.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(###) ###-####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        txtPhone.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtPhone.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPhoneActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelCompanyLayout = new javax.swing.GroupLayout(panelCompany);
         panelCompany.setLayout(panelCompanyLayout);
         panelCompanyLayout.setHorizontalGroup(
@@ -367,7 +378,6 @@ public class CompanySetupView extends javax.swing.JDialog {
                     .addComponent(txtBillGreet)
                     .addGroup(panelCompanyLayout.createSequentialGroup()
                         .addGroup(panelCompanyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtPhone)
                             .addComponent(txtFax)
                             .addComponent(txtWebsite)
                             .addComponent(txtEmail)
@@ -379,7 +389,8 @@ public class CompanySetupView extends javax.swing.JDialog {
                                     .addComponent(btnSave, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE))
                                 .addGap(93, 93, 93)
                                 .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(txtPanNo))
+                            .addComponent(txtPanNo)
+                            .addComponent(txtPhone))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -399,7 +410,7 @@ public class CompanySetupView extends javax.swing.JDialog {
                 .addGroup(panelCompanyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblPhone)
                     .addComponent(txtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21)
+                .addGap(22, 22, 22)
                 .addGroup(panelCompanyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblFax)
                     .addComponent(txtFax, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -498,36 +509,40 @@ public class CompanySetupView extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCompanySloganActionPerformed
 
+    private void txtPhoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPhoneActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPhoneActionPerformed
+
     public void setCompanyName(String CompanyName){
        txtCompanyName.setText(CompanyName);
     }
     public String getCompanyName(){
-        return txtCompanyName.getText();
+        return txtCompanyName.getText().trim();
     }
     public void setAddress(String Address){
         txtAddress.setText(Address);
     }
     public String getAddress(){
-        return txtAddress.getText();
+        return txtAddress.getText().trim();
         
     }
     public void SetBillGreet(String City){
         txtBillGreet.setText(City);
     }
     public String getBillGreet(){
-        return txtBillGreet.getText();
+        return txtBillGreet.getText().trim();
     }
      public void SetCompanySlogan(String City){
         txtCompanySlogan.setText(City);
     }
     public String getCompanySlogan(){
-        return txtCompanySlogan.getText();
+        return txtCompanySlogan.getText().trim();
     }
     public void setPhone(String Phone){
         txtPhone.setText(Phone);
     }
     public String getPhone(){
-        return txtPhone.getText();
+        return txtPhone.getText().trim();
     }
     public void setFax(String Fax){
         txtFax.setText(Fax);
@@ -817,6 +832,9 @@ public class CompanySetupView extends javax.swing.JDialog {
     /**
      * @param args the command line arguments
      */
+      public static void main(String[] arg){
+          new CompanySetupView(null, true).setVisible(true);
+      }
    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JLabel ImageLabel;
@@ -855,7 +873,7 @@ public class CompanySetupView extends javax.swing.JDialog {
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtFax;
     private javax.swing.JFormattedTextField txtPanNo;
-    private javax.swing.JTextField txtPhone;
+    private javax.swing.JFormattedTextField txtPhone;
     public javax.swing.JFormattedTextField txtSVC;
     private javax.swing.JFormattedTextField txtVAT;
     private javax.swing.JTextField txtWebsite;

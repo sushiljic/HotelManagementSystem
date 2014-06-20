@@ -40,7 +40,7 @@ public class CompanySetupModel {
     //private ResultSet 
     public boolean registerCompany(String[] CompanyInfo,File image) throws NoSuchAlgorithmException,FileNotFoundException,SQLException {
         boolean status= false;
-        strQuery = "INSERT INTO company_info (company_name,company_address,bill_greet,phone,fax,website,email,pan_no,company_logo,register,company_slogan,company_logo_image,serial_code) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        strQuery = "INSERT INTO company_info (company_name,company_address,bill_greet,phone,fax,website,email,pan_no,company_logo,company_slogan,company_logo_image,serial_code) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
 //         if(image != null){    
 //          strQuery += ",  company_logo = ?,company_logo_image = ? ";
 //                    }
@@ -63,23 +63,23 @@ public class CompanySetupModel {
         stmtEntry.setString(7,CompanyInfo[6]);
         stmtEntry.setLong(8,Long.parseLong(CompanyInfo[7]));
         stmtEntry.setString(9, CompanyInfo[8]);
-        stmtEntry.setShort(10,Short.parseShort("1"));
-        stmtEntry.setString(11, CompanyInfo[9]);
+//        stmtEntry.setShort(10,Short.parseShort("1"));
+        stmtEntry.setString(10, CompanyInfo[9]);
         if(image != null){
         fis= new FileInputStream(image); 
 //        File fs= new File(getClass().getResource("\images\imageorder.png"));
-        stmtEntry.setBinaryStream(12, fis,(int)image.length());
+        stmtEntry.setBinaryStream(11, fis,(int)image.length());
 //        stmtEntry.setBlob(12, fis, (int)image.length());
         }
         else{
-            stmtEntry.setBinaryStream(12, null);
+            stmtEntry.setBinaryStream(11, null);
         }
         //enter serialcode
         //calculate serial code and append the 0 at last before encypting
         Customer customer = new Customer(CompanyInfo[0]);
         String customerSerailNo = customer.GenerateCode();
         String encytSerialNo= CyptoAES.encrypt(customerSerailNo+"0");
-        stmtEntry.setString(13,encytSerialNo);
+        stmtEntry.setString(12,encytSerialNo);
         stmtEntry.executeUpdate();
         entry.conn.commit();
         status = true;
@@ -314,7 +314,7 @@ catch(IOException ioe){
         ResultSet get;
 //        ArrayList<String> cinfo  = new ArrayList<String>();
         Object[] com = new Object[5];
-        String Query = "SELECT company_name,company_address,phone,company_logo,company_logo_image FROM company_info WHERE  register = 1 ";
+        String Query = "SELECT company_name,company_address,phone,company_logo,company_logo_image FROM company_info  ";
        DBConnect dbget = new DBConnect();
        try{
            dbget.initConnection();
