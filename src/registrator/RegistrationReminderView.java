@@ -38,6 +38,7 @@ public class RegistrationReminderView extends javax.swing.JDialog {
         return btnRegister;
     }
     public void setProgressbarValue(int i){
+//        System.err.println(i);
         jProgressBar1.setValue(i);
     }
     public int getProgressbarValue(){

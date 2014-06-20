@@ -52,17 +52,23 @@ public class RegistrationReminderController {
             strdecSerialCode = CyptoAES.decypt(strSerialCode);
             //check whether it have 0 flag at last or not
             if(strdecSerialCode.toCharArray().length >8){
-//                System.out.println(strdecSerialCode.substring(8, 9));
+//                System.out.println(strdecSerialCode.substring(8, adm9));
                 //display the view class
                 if(strdecSerialCode.substring(8, 9).equalsIgnoreCase("0")){
 //                    System.out.println("wala");
                 //set the number of day in progress bar
                 workingdays = Function.getNumberofSystemDateInserted();
-//                System.out.println(workingdays);
+//                System.out.println(();
                 if(workingdays <= 35){
-                int workingpercent =(int) ((35-workingdays)/35)*100;
+                float workingpercent;
+                workingpercent = 35-workingdays;
+//                System.out.println(workingpercent);
+                workingpercent = workingpercent/35;
+//                System.out.println(workingpercent);
+                workingpercent = workingpercent * 100;
+//                System.out.println(workingpercent);
                 
-                registrationReminderView.setProgressbarValue(workingpercent);
+                registrationReminderView.setProgressbarValue((int)workingpercent);
                 registrationReminderView.setProgressbarString(35 - workingdays+"days remaining");
                 registrationReminderView.setProgressbarStringPainted(true);
                 registrationReminderView.setVisible(true);
