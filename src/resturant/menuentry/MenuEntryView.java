@@ -90,6 +90,11 @@ public class MenuEntryView extends javax.swing.JDialog {
        txtRetailPrice.addFocusListener(new Function.SetJFormattedTextFieldFocusListener(txtRetailPrice));
        txtWholesalePrice.addFocusListener(new Function.SetJFormattedTextFieldFocusListener(txtWholesalePrice));
        /*
+       hides the item unit
+       */
+        
+       
+       /*
         * centering
         */
         setLocationRelativeTo(null);
@@ -844,6 +849,10 @@ public class MenuEntryView extends javax.swing.JDialog {
     }
     public void uncheckedWholesalePrice(){
         radioWholesaleClick.setSelected(false);
+    }
+    public void setBaseUnitVisible(boolean bl){
+        comboItemBaseUnit.setVisible(bl);
+       jLabel4.setVisible(bl);
     }
    public void setTrackableUntrackable(Boolean boo){
    if(boo){

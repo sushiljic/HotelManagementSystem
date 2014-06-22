@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.SQLException;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
@@ -57,7 +58,7 @@ public class MenuEntryController  {
          * for all user interface listnener
          */
        // MenuEntryView.addAddListener();
-//        MenuEntryView.addTrackableListener(new TrackableListener());
+        MenuEntryView.addTrackableListener(new TrackableListener());
         //ading trackableitemlistener
         MenuEntryView.addItemTrackableListener(new TrackableItemListener());
         MenuEntryView.addWholesaleListener(new WholesaleListener());
@@ -351,14 +352,14 @@ boolean hasFocus, int row, int col)
                                 JOptionPane.showMessageDialog(MenuEntryView, "Please select the Item from itemname");
                                 return;
                              }
-                           
+                       if(MenuEntryView.getUnitId() == 0){
+                                JOptionPane.showMessageDialog(MenuEntryView, "Please select the Item Base Unit");
+                                return; 
+                            }
                     }
                 }
                 
-                if(MenuEntryView.getUnitId() == 0){
-                    JOptionPane.showMessageDialog(MenuEntryView, "Please select the Item Base Unit");
-                        return; 
-                }
+                
                 
                 if(MenuEntryView.getCategoryId() == 0){
                     JOptionPane.showMessageDialog(MenuEntryView, "Please select the Category");
@@ -416,7 +417,12 @@ boolean hasFocus, int row, int col)
                 }
                 
               // System.out.println("wala2");
+                try{
                 MenuEntryView.refreshJTable(MenuEntryModel.getMenuList(MenuEntryView.getDepartmentId()));
+                }
+                catch(SQLException se){
+                    DisplayMessages.displayError(mainFrameView, se.getMessage(), "From Menu lIstener");
+                }
               // System.out.println(MenuEntryView.getMenuName());
                 
                
@@ -451,12 +457,13 @@ boolean hasFocus, int row, int col)
                         JOptionPane.showMessageDialog(MenuEntryView, "Please select the Item from itemname");
                         return;
                     }
+                    if(MenuEntryView.getUnitId()==0){
+                    JOptionPane.showMessageDialog(MenuEntryView, "Please select the Item Base Unit");
+                    return; 
+                    }
                     }
                 }
-                if(MenuEntryView.getUnitId()==0){
-                    JOptionPane.showMessageDialog(MenuEntryView, "Please select the Item Base Unit");
-                        return; 
-                }
+                
                 if(MenuEntryView.getQuantity()==0.0){
                     JOptionPane.showMessageDialog(MenuEntryView, "Blank values are not Allowed in Quantity");
                     return;
@@ -489,14 +496,20 @@ boolean hasFocus, int row, int col)
                            } 
                  MenuEntryModel.EditMenu(MenuEntryView.getMenuEntry(),MenuEntryView.getHybridData(),DeleteHybridData,Function.returnFileFromBufferedImage(MenuEntryView.getImageFile(), MenuEntryView.getBufferedImage()));
               // MenuEntryView.clearJTable();
-                 MenuEntryView.refreshJTable(MenuEntryModel.getMenuList(MenuEntryView.getDepartmentId()));
+                 try{
+                MenuEntryView.refreshJTable(MenuEntryModel.getMenuList(MenuEntryView.getDepartmentId()));
+                MenuEntryView.ClickCancelBtn();
+                  //unset the edit flag
+                MenuEntryView.setEdit_Flag(false);
+                }
+                catch(SQLException se){
+                    DisplayMessages.displayError(mainFrameView, se.getMessage(), "From Menu lIstener");
+                }
                //  System.out.println("wow");
 //                 MenuEntryView.clearAll();
 //                 MenuEntryView.disableDeleteBtn();
 //                 MenuEntryView.disableEditBtn();
-                  MenuEntryView.ClickCancelBtn();
-                  //unset the edit flag
-                  MenuEntryView.setEdit_Flag(false);
+                 
                 }
                 }
                 catch(HeadlessException ee){
@@ -572,6 +585,7 @@ boolean hasFocus, int row, int col)
         }
         
     }
+    //not in use since its work is done by trackable item listene
      public class TrackableListener implements ActionListener{
 
         @Override
@@ -586,6 +600,8 @@ boolean hasFocus, int row, int col)
                // MenuEntryView.setComboItemBaseUnit(null);
              //  MenuEntryView.clearItemBaseUnit();
              //  MenuEntryView.clearItemCategory();
+                  //show the base unit for the item unit selection for itemname
+                MenuEntryView.setBaseUnitVisible(true);
                 
                 
                
@@ -594,15 +610,15 @@ boolean hasFocus, int row, int col)
                 MenuEntryView.setTrackable(false);
                 MenuEntryView.hideItemName();
                 MenuEntryView.disableHybridBtn();
-              Object[][]  ItemUnitInfo = MenuEntryModel.getUnitInfo(MenuEntryView.getUnitId(),false);
-          
-            /*
-             * this load all the relative unitname that can be used to issue the item
-             */
-           // JOptionPane.showMessageDialog(issueView, ItemUnitInfo);
-            MenuEntryView.setComboItemBaseUnit(Function.returnSecondColumn(ItemUnitInfo));
-            Function.AddSelectInCombo(MenuEntryView.returnComboItemBaseUnit());
-        
+//              Object[][]  ItemUnitInfo = MenuEntryModel.getUnitInfo(MenuEntryView.getUnitId(),false);
+//          
+//            /*
+//             * this load all the relative unitname that can be used to issue the item
+//             */
+//           // JOptionPane.showMessageDialog(issueView, ItemUnitInfo);
+//            MenuEntryView.setComboItemBaseUnit(Function.returnSecondColumn(ItemUnitInfo));
+//            Function.AddSelectInCombo(MenuEntryView.returnComboItemBaseUnit());
+                  MenuEntryView.setBaseUnitVisible(false);
             Object[][] ItemCategory = MenuEntryModel.getSubCategoryInfo();
             MenuEntryView.setComboItemCategory(Function.returnSecondColumn(ItemCategory));
             Function.AddSelectInCombo(MenuEntryView.returnComboItemCategory());
@@ -630,22 +646,26 @@ boolean hasFocus, int row, int col)
                 MenuEntryView.showItemName();
 //                MenuEntryView.showStoreName();
                 MenuEntryView.enableHybridBtn();
+                //show the base unit for the item unit selection for itemname
+                MenuEntryView.setBaseUnitVisible(true);
                  
               
          }
          else{
                MenuEntryView.setTrackable(false);
-                MenuEntryView.hideItemName();
+               MenuEntryView.hideItemName();
 //                MenuEntryView.hideStoreName();
-                MenuEntryView.disableHybridBtn();
-              Object[][]  ItemUnitInfo = MenuEntryModel.getUnitInfo(MenuEntryView.getUnitId(),false);
-          
-            /*
-             * this load all the relative unitname that can be used to issue the item
-             */
-           // JOptionPane.showMessageDialog(issueView, ItemUnitInfo);
-            MenuEntryView.setComboItemBaseUnit(Function.returnSecondColumn(ItemUnitInfo));
-            Function.AddSelectInCombo(MenuEntryView.returnComboItemBaseUnit());
+               MenuEntryView.disableHybridBtn();
+                //not needed since menu doesnot have any unit doesnot have any unit
+//              Object[][]  ItemUnitInfo = MenuEntryModel.getUnitInfo(MenuEntryView.getUnitId(),false);
+//          
+//            /*
+//             * this load all the relative unitname that can be used to issue the item
+//             */
+//           // JOptionPane.showMessageDialog(issueView, ItemUnitInfo);
+//            MenuEntryView.setComboItemBaseUnit(Function.returnSecondColumn(ItemUnitInfo));
+//            Function.AddSelectInCombo(MenuEntryView.returnComboItemBaseUnit());
+               MenuEntryView.setBaseUnitVisible(false);
         
             Object[][] ItemCategory = MenuEntryModel.getSubCategoryInfo();
             MenuEntryView.setComboItemCategory(Function.returnSecondColumn(ItemCategory));
@@ -1001,14 +1021,15 @@ boolean hasFocus, int row, int col)
            */
             if(MenuEntryView.getHybridFlag()){
 //            JOptionPane.showMessageDialog(mainFrameView, "wala");
-            Object[][]  ItemUnitInfo = MenuEntryModel.getUnitInfo(MenuEntryView.getUnitId(),false);
-          
-            /*
-             * this load all the relative unitname that can be used to issue the item
-             */
-           // JOptionPane.showMessageDialog(issueView, ItemUnitInfo);
-            MenuEntryView.setComboItemBaseUnit(Function.returnSecondColumn(ItemUnitInfo));
-            Function.AddSelectInCombo(MenuEntryView.returnComboItemBaseUnit());
+//            Object[][]  ItemUnitInfo = MenuEntryModel.getUnitInfo(MenuEntryView.getUnitId(),false);
+//          
+//            /*
+//             * this load all the relative unitname that can be used to issue the item
+//             */
+//           // JOptionPane.showMessageDialog(issueView, ItemUnitInfo);
+//            MenuEntryView.setComboItemBaseUnit(Function.returnSecondColumn(ItemUnitInfo));
+//            Function.AddSelectInCombo(MenuEntryView.returnComboItemBaseUnit());
+             MenuEntryView.setBaseUnitVisible(false);
         
             Object[][] ItemCategory = MenuEntryModel.getSubCategoryInfo();
             MenuEntryView.setComboItemCategory(Function.returnSecondColumn(ItemCategory));
@@ -1183,16 +1204,18 @@ boolean hasFocus, int row, int col)
                  * hiding itemname and loading unitid and category
                  */
                  MenuEntryView.hideItemName();
+                 MenuEntryView.setBaseUnitVisible(false);
                  //donot refresh the  unit_type and category if it is not edit type
                  if(!MenuEntryView.isEdit_Flag()){
-              Object[][]  ItemUnitInfo = MenuEntryModel.getUnitInfo(MenuEntryView.getUnitId(),false);
-//          JOptionPane.showMessageDialog(mainFrameView, "Wala");
-            /*
-             * this load all the relative unitname that can be used to issue the item
-             */
-           // JOptionPane.showMessageDialog(issueView, ItemUnitInfo);
-            MenuEntryView.setComboItemBaseUnit(Function.returnSecondColumn(ItemUnitInfo));
-            Function.AddSelectInCombo(MenuEntryView.returnComboItemBaseUnit());
+//                     not needed since unit is not need for any item
+//              Object[][]  ItemUnitInfo = MenuEntryModel.getUnitInfo(MenuEntryView.getUnitId(),false);
+////          JOptionPane.showMessageDialog(mainFrameView, "Wala");
+//            /*
+//             * this load all the relative unitname that can be used to issue the item
+//             */
+//           // JOptionPane.showMessageDialog(issueView, ItemUnitInfo);
+//            MenuEntryView.setComboItemBaseUnit(Function.returnSecondColumn(ItemUnitInfo));
+//            Function.AddSelectInCombo(MenuEntryView.returnComboItemBaseUnit());
             Object[][] ItemCategory = MenuEntryModel.getSubCategoryInfo();
             MenuEntryView.setComboItemCategory(Function.returnSecondColumn(ItemCategory));
             Function.AddSelectInCombo(MenuEntryView.returnComboItemCategory());
