@@ -117,19 +117,51 @@ where parent.category_id = $P{parent} and department_info.department_id = $P{dep
 	<queryString>
 		<![CDATA[select * from company_info]]>
 	</queryString>
-	<field name="company_name" class="java.lang.String"/>
-	<field name="company_address" class="java.lang.String"/>
-	<field name="bill_greet" class="java.lang.String"/>
-	<field name="phone" class="java.lang.String"/>
-	<field name="fax" class="java.lang.String"/>
-	<field name="website" class="java.lang.String"/>
-	<field name="email" class="java.lang.String"/>
-	<field name="pan_no" class="java.lang.Integer"/>
-	<field name="register" class="java.lang.Short"/>
-	<field name="company_logo" class="java.lang.String"/>
-	<field name="company_svc" class="java.lang.Double"/>
-	<field name="company_vat" class="java.lang.Double"/>
-	<field name="company_slogan" class="java.lang.String"/>
+	<field name="company_name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="company_address" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="bill_greet" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="phone" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fax" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="website" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="email" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="pan_no" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="company_logo" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="company_svc" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="company_vat" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="company_slogan" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="company_logo_image" class="java.lang.Object">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="register_code" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="serial_code" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
 	<background>
 		<band splitType="Stretch"/>
 	</background>

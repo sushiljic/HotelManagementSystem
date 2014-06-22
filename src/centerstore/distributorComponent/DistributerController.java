@@ -253,8 +253,9 @@ public class DistributerController {
                 distroView.setTable(tModel);
                 distroView.clearTxtField();
             }
-            else{
-            }
+            distroView.clearTxtField();
+            distroView.disableUpdate();
+            distroView.enableAdd();
     }
     public void deleteFunc(){
             int id = distroView.getDistroId();

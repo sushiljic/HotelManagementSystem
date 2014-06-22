@@ -51,8 +51,7 @@
 			<defaultValueExpression><![CDATA[new SimpleDateFormat("yyyy-MM-dd").parse("2013-12-3")]]></defaultValueExpression>
 		</parameter>
 		<queryString>
-			<![CDATA[SELECT purchase_return.purchase_return_id,purchase.purchase_id,centerstore_stock.item_id,centerstore_stock.item_name,purchase_return.quantity,purchase_return.unit_id,item_unit.unit_name,purchase_return.return_reason,purchase_return.return_date,distributor.distributor_name FROM purchase_return INNER JOIN purchase ON purchase_return.purchase_id = purchase.purchase_id  INNER JOIN centerstore_stock ON purchase.item_id = centerstore_stock.item_id INNER JOIN  item_unit ON  purchase.unit_id = item_unit.unit_id INNER JOIN distributor ON purchase_return.distributor_id = distributor.distributor_id  WHERE  purchase_return.return_date >= $P{frm} And purchase_return.return_date <= $P{to} ORDER BY purchase_return.return_date desc
-]]>
+			<![CDATA[SELECT purchase_return.purchase_return_id,purchase.purchase_id,centerstore_stock.item_id,centerstore_stock.item_name,purchase_return.quantity,purchase_return.unit_id,item_unit.unit_name,purchase_return.return_reason,purchase_return.return_date,distributor.distributor_name FROM purchase_return INNER JOIN purchase ON purchase_return.purchase_id = purchase.purchase_id  INNER JOIN centerstore_stock ON purchase.item_id = centerstore_stock.item_id INNER JOIN  item_unit ON  purchase.unit_id = item_unit.unit_id INNER JOIN distributor ON purchase_return.distributor_id = distributor.distributor_id  WHERE  purchase_return.return_date >= $P{frm} And purchase_return.return_date <= $P{to} ORDER BY purchase_return.return_date desc]]>
 		</queryString>
 		<field name="purchase_return_id" class="java.lang.String"/>
 		<field name="purchase_id" class="java.lang.String"/>
@@ -74,19 +73,51 @@
 	<queryString>
 		<![CDATA[select * from company_info]]>
 	</queryString>
-	<field name="company_name" class="java.lang.String"/>
-	<field name="company_address" class="java.lang.String"/>
-	<field name="bill_greet" class="java.lang.String"/>
-	<field name="phone" class="java.lang.String"/>
-	<field name="fax" class="java.lang.String"/>
-	<field name="website" class="java.lang.String"/>
-	<field name="email" class="java.lang.String"/>
-	<field name="pan_no" class="java.lang.Integer"/>
-	<field name="register" class="java.lang.Short"/>
-	<field name="company_logo" class="java.lang.String"/>
-	<field name="company_svc" class="java.lang.Double"/>
-	<field name="company_vat" class="java.lang.Double"/>
-	<field name="company_slogan" class="java.lang.String"/>
+	<field name="company_name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="company_address" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="bill_greet" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="phone" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fax" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="website" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="email" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="pan_no" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="company_logo" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="company_svc" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="company_vat" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="company_slogan" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="company_logo_image" class="java.lang.Object">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="register_code" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="serial_code" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
