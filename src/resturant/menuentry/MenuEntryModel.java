@@ -70,7 +70,7 @@ public class MenuEntryModel extends DBConnect {
            boolean HybridFlag  = false; 
             int MenuId = 0;
             String strmenutrackable = "INSERT INTO menu (menu_name,item_type,department_item_id,quantity,unit_id,retail_price,wholesale_price,date,hybrid_type,category_id,image_path,department_id,menu_image) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?) ";
-            String strmenuuntrackable = "INSERT INTO menu(menu_name,item_type,quantity,unit_id,retail_price,wholesale_price,category_id,date,hybrid_type,image_path,department_id,menu_image) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
+            String strmenuuntrackable = "INSERT INTO menu(menu_name,item_type,retail_price,wholesale_price,category_id,date,hybrid_type,image_path,department_id,menu_image) VALUES(?,?,?,?,?,?,?,?,?,?)";
             String strHybridAdd = "INSERT INTO hybrid_menu(department_item_id,quantity,unit_id,parent_menu_id) VALUES(?,?,?,?)";
             BigDecimal Quantity;
             DBConnect menu = new DBConnect();
@@ -130,24 +130,25 @@ public class MenuEntryModel extends DBConnect {
                              stmtAddMenu.setString(1, menuinfo[4]);
                             stmtAddMenu.setInt(2, 1);
                            // stmtAddMenu.setString(3, menuinfo[1]);
-                            stmtAddMenu.setBigDecimal(3,new BigDecimal(menuinfo[7]).setScale(3, RoundingMode.HALF_UP));
-                            stmtAddMenu.setString(4, menuinfo[5]);
-                            stmtAddMenu.setBigDecimal(5, new BigDecimal(menuinfo[8]).setScale(2, RoundingMode.HALF_UP));
+                            //two item quantity and unit id are removed 
+//                            stmtAddMenu.setBigDecimal(3,new BigDecimal(menuinfo[7]).setScale(3, RoundingMode.HALF_UP));
+//                            stmtAddMenu.setString(4, menuinfo[5]);
+                            stmtAddMenu.setBigDecimal(3, new BigDecimal(menuinfo[8]).setScale(2, RoundingMode.HALF_UP));
                             if(!menuinfo[9].isEmpty()){
-                               stmtAddMenu.setBigDecimal(6, new BigDecimal(menuinfo[9]).setScale(2, RoundingMode.HALF_UP));
+                               stmtAddMenu.setBigDecimal(4, new BigDecimal(menuinfo[9]).setScale(2, RoundingMode.HALF_UP));
                             }
                              else{
-                                stmtAddMenu.setBigDecimal(6, null);
+                                stmtAddMenu.setBigDecimal(4, null);
                             }
-                            stmtAddMenu.setInt(7,Integer.parseInt(menuinfo[10]));
-                            stmtAddMenu.setTimestamp(8, new Timestamp(new Date().getTime()));
+                            stmtAddMenu.setInt(5,Integer.parseInt(menuinfo[10]));
+                            stmtAddMenu.setTimestamp(6, new Timestamp(new Date().getTime()));
                             //setting the hybrid flag for hybrid item
-                            stmtAddMenu.setInt(9, 1);
+                            stmtAddMenu.setInt(7, 1);
                             HybridFlag = true;
-                            stmtAddMenu.setString(10, menuinfo[12]);
-                            stmtAddMenu.setInt(11,Integer.parseInt(menuinfo[13]));
+                            stmtAddMenu.setString(8, menuinfo[12]);
+                            stmtAddMenu.setInt(9,Integer.parseInt(menuinfo[13]));
 //                            if(image!= null){
-                                  stmtAddMenu.setBinaryStream(12, fis);
+                                  stmtAddMenu.setBinaryStream(10, fis);
 //                              }
 //                            else{
 //                              stmtAddMenu.setBinaryStream(12, null);
@@ -169,24 +170,25 @@ public class MenuEntryModel extends DBConnect {
                 stmtAddMenu.setString(1, menuinfo[4]);
                 stmtAddMenu.setInt(2, 0);
                // stmtAddMenu.setString(3, menuinfo[1]);
-                stmtAddMenu.setBigDecimal(3,new BigDecimal(menuinfo[7]).setScale(3, RoundingMode.HALF_UP));
-                stmtAddMenu.setString(4, menuinfo[5]);
-                stmtAddMenu.setBigDecimal(5, new BigDecimal(menuinfo[8]).setScale(2, RoundingMode.HALF_UP));
+                //two item quantity and unit id are removed 
+//                stmtAddMenu.setBigDecimal(3,new BigDecimal(menuinfo[7]).setScale(3, RoundingMode.HALF_UP));
+//                stmtAddMenu.setString(4, menuinfo[5]);
+                stmtAddMenu.setBigDecimal(3, new BigDecimal(menuinfo[8]).setScale(2, RoundingMode.HALF_UP));
                 if(!menuinfo[9].isEmpty()){
-                   stmtAddMenu.setBigDecimal(6, new BigDecimal(menuinfo[9]).setScale(2, RoundingMode.HALF_UP));
+                   stmtAddMenu.setBigDecimal(4, new BigDecimal(menuinfo[9]).setScale(2, RoundingMode.HALF_UP));
                 }
                  else{
-                    stmtAddMenu.setBigDecimal(6, null);
+                    stmtAddMenu.setBigDecimal(4, null);
                 }
-                stmtAddMenu.setInt(7,Integer.parseInt(menuinfo[10]));
-                stmtAddMenu.setTimestamp(8, new Timestamp(new Date().getTime()));
+                stmtAddMenu.setInt(5,Integer.parseInt(menuinfo[10]));
+                stmtAddMenu.setTimestamp(6, new Timestamp(new Date().getTime()));
                //setting the hybrid flag for hybrid item
-                stmtAddMenu.setInt(9, 0);
+                stmtAddMenu.setInt(7, 0);
                 HybridFlag = false;
-                 stmtAddMenu.setString(10, menuinfo[12]);
-                 stmtAddMenu.setInt(11,Integer.parseInt(menuinfo[13]));
+                 stmtAddMenu.setString(8, menuinfo[12]);
+                 stmtAddMenu.setInt(9,Integer.parseInt(menuinfo[13]));
 //                 if(image!= null){
-                    stmtAddMenu.setBinaryStream(12, fis);
+                    stmtAddMenu.setBinaryStream(10, fis);
 //                    }
 //                 else{
 //                              stmtAddMenu.setBinaryStream(12, null);
@@ -275,14 +277,14 @@ public class MenuEntryModel extends DBConnect {
             else{
                 strmenutrackable += ", image_path= ? WHERE menu_id = ?"; 
             }
-            String strmenuuntrackable = "UPDATE  menu  SET menu_name = ?,item_type = ?,quantity = ?,unit_id = ?,retail_price = ?,wholesale_price = ?, category_id = ?,date = ? ";
+            String strmenuuntrackable = "UPDATE  menu  SET menu_name = ?,item_type = ?,retail_price = ?,wholesale_price = ?, category_id = ?,date = ? ";
              if(image != null){
                 strmenuuntrackable += ", image_path= ?,menu_image = ? WHERE menu_id = ? ";
             }
             else{
                 strmenuuntrackable += ", image_path= ? WHERE menu_id = ?"; 
             }
-            String strmenuHybridtrackable = "UPDATE  menu  SET menu_name = ?,quantity = ?,unit_id = ?,retail_price = ?,wholesale_price = ?, category_id = ?,date = ?  ";
+            String strmenuHybridtrackable = "UPDATE  menu  SET menu_name = ?,retail_price = ?,wholesale_price = ?, category_id = ?,date = ?  ";
             if(image != null){
                 strmenuHybridtrackable += ", image_path= ?,menu_image = ? WHERE menu_id = ? ";
             }
@@ -350,28 +352,29 @@ public class MenuEntryModel extends DBConnect {
                  stmtEditMenu.setString(1, menuinfo[4]);
 //                stmtEditMenu.setInt(2, 0);
                // stmtAddMenu.setString(3, menuinfo[1]);
-                stmtEditMenu.setBigDecimal(2,new BigDecimal(menuinfo[7]).setScale(3, RoundingMode.HALF_UP));
-                stmtEditMenu.setString(3, menuinfo[5]);
-                stmtEditMenu.setBigDecimal(4, new BigDecimal(menuinfo[8]).setScale(2, RoundingMode.HALF_UP));
+                 //this is not need for quantiy and baseunit
+//                stmtEditMenu.setBigDecimal(2,new BigDecimal(menuinfo[7]).setScale(3, RoundingMode.HALF_UP));
+//                stmtEditMenu.setString(3, menuinfo[5]);
+                stmtEditMenu.setBigDecimal(2, new BigDecimal(menuinfo[8]).setScale(2, RoundingMode.HALF_UP));
                 if(!menuinfo[9].isEmpty()){
-                   stmtEditMenu.setBigDecimal(5, new BigDecimal(menuinfo[9]).setScale(2, RoundingMode.HALF_UP));
+                   stmtEditMenu.setBigDecimal(3, new BigDecimal(menuinfo[9]).setScale(2, RoundingMode.HALF_UP));
                 }
                  else{
-                    stmtEditMenu.setBigDecimal(5, null);
+                    stmtEditMenu.setBigDecimal(3, null);
                 }
-                stmtEditMenu.setInt(6,Integer.parseInt(menuinfo[10]));
-                stmtEditMenu.setTimestamp(7, new Timestamp(new Date().getTime()));
+                stmtEditMenu.setInt(4,Integer.parseInt(menuinfo[10]));
+                stmtEditMenu.setTimestamp(5, new Timestamp(new Date().getTime()));
 //                 stmtEditMenu.setString(8, menuinfo[12]);
 //                 stmtEditMenu.setString(9, menuinfo[3]);
                  if(image != null){
                   
-              stmtEditMenu.setString(8, menuinfo[12]);
-              stmtEditMenu.setBinaryStream(9, fis);
-              stmtEditMenu.setString(10, menuinfo[3]);    
+              stmtEditMenu.setString(6, menuinfo[12]);
+              stmtEditMenu.setBinaryStream(7, fis);
+              stmtEditMenu.setString(8, menuinfo[3]);    
               }
               else{
-              stmtEditMenu.setString(8, menuinfo[12]);
-              stmtEditMenu.setString(9, menuinfo[3]);
+              stmtEditMenu.setString(6, menuinfo[12]);
+              stmtEditMenu.setString(7, menuinfo[3]);
                   
               }
                  
@@ -407,29 +410,30 @@ public class MenuEntryModel extends DBConnect {
                  stmtEditMenu.setString(1, menuinfo[4]);
                 stmtEditMenu.setInt(2, 0);
                // stmtAddMenu.setString(3, menuinfo[1]);
-                stmtEditMenu.setBigDecimal(3,new BigDecimal(menuinfo[7]).setScale(3, RoundingMode.HALF_UP));
-                stmtEditMenu.setString(4, menuinfo[5]);
-                stmtEditMenu.setBigDecimal(5, new BigDecimal(menuinfo[8]).setScale(2, RoundingMode.HALF_UP));
+                //two field for quantity and unit not needed
+//                stmtEditMenu.setBigDecimal(3,new BigDecimal(menuinfo[7]).setScale(3, RoundingMode.HALF_UP));
+//                stmtEditMenu.setString(4, menuinfo[5]);
+                stmtEditMenu.setBigDecimal(3, new BigDecimal(menuinfo[8]).setScale(2, RoundingMode.HALF_UP));
                 if(!menuinfo[9].isEmpty()){
-                   stmtEditMenu.setBigDecimal(6, new BigDecimal(menuinfo[9]).setScale(2, RoundingMode.HALF_UP));
+                   stmtEditMenu.setBigDecimal(4, new BigDecimal(menuinfo[9]).setScale(2, RoundingMode.HALF_UP));
                 }
                  else{
-                    stmtEditMenu.setBigDecimal(6, null);
+                    stmtEditMenu.setBigDecimal(4, null);
                 }
-                stmtEditMenu.setInt(7,Integer.parseInt(menuinfo[10]));
-                stmtEditMenu.setTimestamp(8, new Timestamp(new Date().getTime()));
+                stmtEditMenu.setInt(5,Integer.parseInt(menuinfo[10]));
+                stmtEditMenu.setTimestamp(6, new Timestamp(new Date().getTime()));
 //                 stmtEditMenu.setString(9, menuinfo[12]);
 //                 stmtEditMenu.setString(10, menuinfo[3]);
                  //if image is not null insert image
                  if(image != null){
                   
-              stmtEditMenu.setString(9, menuinfo[12]);
-              stmtEditMenu.setBinaryStream(10, fis);
-              stmtEditMenu.setString(11, menuinfo[3]);    
+              stmtEditMenu.setString(7, menuinfo[12]);
+              stmtEditMenu.setBinaryStream(8, fis);
+              stmtEditMenu.setString(9, menuinfo[3]);    
               }
               else{
-              stmtEditMenu.setString(9, menuinfo[12]);
-              stmtEditMenu.setString(10, menuinfo[3]);
+              stmtEditMenu.setString(7, menuinfo[12]);
+              stmtEditMenu.setString(8, menuinfo[3]);
                   
               }
                   stmtEditMenu.executeUpdate();

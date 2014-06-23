@@ -569,6 +569,9 @@ boolean hasFocus, int row, int col)
                     //added code
                     MenuEntryView.radioNonTrackable.setEnabled(true);
                     MenuEntryView.radioTrackable.setEnabled(true);
+                    //this is done coz if trackable is selected event will not be fired so to fire the event
+                    //non trackable is enable one
+                    MenuEntryView.radioNonTrackable.setSelected(true);
                     MenuEntryView.radioTrackable.setSelected(true);
 //                    MenuEntryView.radioWholesaleClick.setSelected(true);
                 }
@@ -1065,7 +1068,8 @@ boolean hasFocus, int row, int col)
 //           // JOptionPane.showMessageDialog(issueView, ItemUnitInfo);
 //            MenuEntryView.setComboItemBaseUnit(Function.returnSecondColumn(ItemUnitInfo));
 //            Function.AddSelectInCombo(MenuEntryView.returnComboItemBaseUnit());
-             MenuEntryView.setBaseUnitVisible(false);
+            
+             
         
             Object[][] ItemCategory = MenuEntryModel.getSubCategoryInfo();
             MenuEntryView.setComboItemCategory(Function.returnSecondColumn(ItemCategory));
@@ -1092,6 +1096,8 @@ boolean hasFocus, int row, int col)
                 //if the item type is hybrid
 //                mview.disableEditBtn();
                 mview.hideItemName();
+                mview.setBaseUnitVisible(false);
+                mview.setQuantiyVisible(false);
                 
                 mview.refreshHybridTable(MenuEntryModel.getHybridItemData(mview.getMenuId()));
                 //copying the default table model to object[][]
@@ -1242,6 +1248,7 @@ boolean hasFocus, int row, int col)
                  MenuEntryView.hideItemName();
                  MenuEntryView.setBaseUnitVisible(false);
                  MenuEntryView.setQuantiyVisible(false);
+                 MenuEntryView.disableHybridBtn();
                  //donot refresh the  unit_type and category if it is not edit type
                  if(!MenuEntryView.isEdit_Flag()){
 //                     not needed since unit is not need for any item
