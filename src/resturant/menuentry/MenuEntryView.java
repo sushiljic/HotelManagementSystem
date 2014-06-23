@@ -854,6 +854,10 @@ public class MenuEntryView extends javax.swing.JDialog {
         comboItemBaseUnit.setVisible(bl);
        jLabel4.setVisible(bl);
     }
+    public void setQuantiyVisible(boolean bl){
+        txtQuantity.setVisible(bl);
+        jLabel3.setVisible(bl);
+    }
    public void setTrackableUntrackable(Boolean boo){
    if(boo){
        radioTrackable.setSelected(true);
