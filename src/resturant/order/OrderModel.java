@@ -58,7 +58,7 @@ public class OrderModel  extends DBConnect{
                       stmtadd.setInt(1,orderid);
                       stmtadd.setString(2, item1[0].toString());
                       stmtadd.setBigDecimal(3, new BigDecimal(item1[2].toString()));
-                      total_amount = total_amount.add(new BigDecimal(item1[5].toString()));
+                      total_amount = total_amount.add(new BigDecimal(item1[4].toString()));
                       stmtadd.executeUpdate();
                   }
                 //  System.out.println(deltotal_amount);
@@ -186,7 +186,7 @@ public class OrderModel  extends DBConnect{
               /*
               here it is for adding the data
               */
-                  PreparedStatement stmtadd;
+              PreparedStatement stmtadd;
               PreparedStatement stmtorderadd;
               PreparedStatement stmtSubtractResturantStore;
               PreparedStatement stmtSubtractHybridResturantStore;
@@ -198,7 +198,7 @@ public class OrderModel  extends DBConnect{
               /*
               this is all done for fist delete the data and then againg adding the data in the table
               */
-              String strdeladd = "DELETE FROM order_item_list WHERE order_id IN (?) ";
+              String strdeladd = "DELETE FROM order_item_list WHERE order_id = ? ";
               String strdelSubtractSingleResturantStore = "UPDATE department_store_stock SET total_qty = department_store_stock.total_qty +((select order_item_list.quantity from order_item_list where menu_id = ? and order_id = ?) * (select  menu.quantity*item_unit.unit_relative_quantity from menu INNER JOIN item_unit ON menu.unit_id = item_unit.unit_id WHERE menu.menu_id = ?)) WHERE item_id = (select item_id from menu where menu_id = ?)";
               String strdelSubtractHybridResturantStore = "UPDATE department_store_stock SET total_qty = department_store_stock.total_qty + (select order_item_list.quantity from order_item_list where menu_id = ? and order_id = ?) *? WHERE item_id = ?  ";
 //             String strdelorderadd = "UPDATE order_list  SET total_amount =  0 WHERE order_id = ?";
@@ -206,11 +206,11 @@ public class OrderModel  extends DBConnect{
             /*
              there is query for edit data
              */
-                 String stradd = "INSERT INTO order_item_list (order_id,menu_id,quantity) VALUES(?,?,?)";
+              String stradd = "INSERT INTO order_item_list (order_id,menu_id,quantity) VALUES(?,?,?)";
               String strSubtractSingleResturantStore = "UPDATE department_store_stock SET total_qty = department_store_stock.total_qty -(? * (select  menu.quantity*item_unit.unit_relative_quantity from menu INNER JOIN item_unit ON menu.unit_id = item_unit.unit_id WHERE menu.menu_id = ?)) WHERE item_id = (select item_id from menu where menu_id = ?)";
               String strSubtractHybridResturantStore = "UPDATE department_store_stock SET total_qty = department_store_stock.total_qty  - ?*? WHERE item_id = ?  ";
-             String strorderadd = "UPDATE  order_list SET table_id = ? ,waiter_id = ? ,customer_id = ? ,total_amount = ? ,date = ?,user_id= ? ,department_id = ?, com_date = ? WHERE order_id = ?";
-             String strtablepack = " UPDATE table_info SET table_status = 1 WHERE table_id = ? ";
+              String strorderadd = "UPDATE  order_list SET table_id = ? ,waiter_id = ? ,customer_id = ? ,total_amount = ? ,date = ?,user_id= ? ,department_id = ?, com_date = ? WHERE order_id = ?";
+              String strtablepack = " UPDATE table_info SET table_status = 1 WHERE table_id = ? ";
               String strordertable = "UPDATE  temp_order_table SET table_id = ? WHERE order_id = ?";
              
               int temptableid = returnTableIdByOrderId(orderid);
@@ -351,7 +351,7 @@ public class OrderModel  extends DBConnect{
                         stmtadd.setInt(1,orderid);
                         stmtadd.setString(2, item1[0].toString());
                         stmtadd.setBigDecimal(3, new BigDecimal(item1[2].toString()));
-                        total_amount = total_amount.add(new BigDecimal(item1[5].toString()));
+                        total_amount = total_amount.add(new BigDecimal(item1[4].toString()));
                         stmtadd.executeUpdate();
                     }
 //                  System.out.println(total_amount);
@@ -461,6 +461,7 @@ public class OrderModel  extends DBConnect{
                   
               }
               catch(SQLException e){
+                  e.printStackTrace();
                   JOptionPane.showMessageDialog(null, e+"from edit order");
               }  
             }
@@ -473,7 +474,7 @@ public class OrderModel  extends DBConnect{
               PreparedStatement stmtOrdertable;
               BigDecimal total_amount = BigDecimal.ZERO;
               String MenuId = new String();
-              String stradd = "DELETE  FROM order_item_list WHERE  order_id IN (?) ";
+              String stradd = "DELETE  FROM order_item_list WHERE  order_id =? ";
               String strSubtractSingleResturantStore = "UPDATE department_store_stock SET total_qty = department_store_stock.total_qty +((select order_item_list.quantity from order_item_list where menu_id = ? and order_id = ?) * (select  menu.quantity*item_unit.unit_relative_quantity from menu INNER JOIN item_unit ON menu.unit_id = item_unit.unit_id WHERE menu.menu_id = ?)) WHERE item_id = (select item_id from menu where menu_id = ?)";
               String strSubtractHybridResturantStore = "UPDATE department_store_stock SET total_qty = department_store_stock.total_qty + (select order_item_list.quantity from order_item_list where menu_id = ? and order_id = ?) *? WHERE item_id = ?  ";
              String strorderadd = "DELETE  FROM order_list WHERE order_id = ?";
@@ -606,6 +607,7 @@ public class OrderModel  extends DBConnect{
                   
               }
               catch(SQLException e){
+                  e.printStackTrace();
                   JOptionPane.showMessageDialog(null, e+"from delete order "+getClass().getName());
               }
               
@@ -730,7 +732,7 @@ public class OrderModel  extends DBConnect{
           PreparedStatement stmtget;
           ResultSet rsget;
           ArrayList<Object[]> data = new ArrayList<Object[]>();
-          String strgetMenu = "SELECT menu.menu_id,menu.menu_name,item_unit.unit_name,menu.retail_price FROM menu LEFT JOIN item_unit ON  menu.unit_id = item_unit.unit_id WHERE department_id = ?";
+          String strgetMenu = "SELECT menu.menu_id,menu.menu_name,menu.retail_price FROM menu  WHERE department_id = ?";
           DBConnect getMenu = new DBConnect();
           try{
               getMenu.initConnection();
@@ -738,7 +740,7 @@ public class OrderModel  extends DBConnect{
               stmtget.setInt(1, departmentid);
               rsget = stmtget.executeQuery();
               while(rsget.next()){
-                  Object[] row = new Object[]{rsget.getString("menu_id"),rsget.getString("menu_name"),rsget.getString("unit_name"),rsget.getString("retail_price")};
+                  Object[] row = new Object[]{rsget.getString("menu_id"),rsget.getString("menu_name"),rsget.getString("retail_price")};
                   data.add(row);
               }
               MenuInfo = data.toArray(new Object[data.size()][]);
@@ -1173,7 +1175,7 @@ public class OrderModel  extends DBConnect{
         PreparedStatement stmtget ;
         ResultSet rs;
        // String search = menuid+"%";
-        String strget = "SELECT order_item_list.menu_id,menu.menu_name,order_item_list.quantity,item_unit.unit_name,menu.retail_price,order_item_list.quantity*menu.retail_price as total_amount FROM order_item_list INNER JOIN menu ON order_item_list.menu_id = menu.menu_id INNER JOIN item_unit ON menu.unit_id = item_unit.unit_id  where order_id  IN (?)";
+        String strget = "SELECT order_item_list.menu_id,menu.menu_name,order_item_list.quantity,menu.retail_price,order_item_list.quantity*menu.retail_price as total_amount FROM order_item_list INNER JOIN menu ON order_item_list.menu_id = menu.menu_id   where order_id  IN (?)";
        // String[] columnName = new String[]{"Menu Id","Menu Name"," Retail Rate","Wholesale Rate","Base Unit",};
         ArrayList<Object[]> data = new ArrayList<Object[]>();
         Object[][] finaldata = null;
@@ -1183,7 +1185,7 @@ public class OrderModel  extends DBConnect{
             stmtget.setString(1, orderid);
             rs = stmtget.executeQuery();
             while(rs.next()){
-                Object[] row = new Object[]{rs.getString("menu_id"),rs.getString("menu_name"),new BigDecimal(rs.getString("quantity")).setScale(3, RoundingMode.HALF_UP).toString(),rs.getString("unit_name"),new BigDecimal(rs.getString("retail_price")).setScale(2, RoundingMode.HALF_UP).toString(),new BigDecimal(rs.getString("total_amount")).setScale(2, RoundingMode.HALF_UP).toString()};
+                Object[] row = new Object[]{rs.getString("menu_id"),rs.getString("menu_name"),new BigDecimal(rs.getString("quantity")).setScale(3, RoundingMode.HALF_UP).toString(),new BigDecimal(rs.getString("retail_price")).setScale(2, RoundingMode.HALF_UP).toString(),new BigDecimal(rs.getString("total_amount")).setScale(2, RoundingMode.HALF_UP).toString()};
             data.add(row);
             }
             finaldata = data.toArray(new Object[data.size()][]);
@@ -1271,8 +1273,8 @@ public class OrderModel  extends DBConnect{
         PreparedStatement stmtget ;
         ResultSet rs;
 //        String search = src+"%";
-        String strget = "SELECT menu.menu_id,menu.menu_name,menu.retail_price,menu.wholesale_price,item_unit.unit_name,department_info.department_name FROM menu INNER JOIN item_unit ON menu.unit_id = item_unit.unit_id INNER JOIN department_info ON  menu.department_id = department_info.department_id WHERE menu.department_id = ?";
-        String[] columnName = new String[]{"Menu Id","Menu Name"," Retail Rate","Wholesale Rate","Base Unit","Department Name"};
+        String strget = "SELECT menu.menu_id,menu.menu_name,menu.retail_price,menu.wholesale_price,department_info.department_name FROM menu INNER JOIN department_info ON  menu.department_id = department_info.department_id WHERE menu.department_id = ?";
+        String[] columnName = new String[]{"Menu Id","Menu Name"," Retail Rate","Wholesale Rate","Department Name"};
         ArrayList<Object[]> data = new ArrayList<Object[]>();
         Object[][] finaldata = null;
         try{
@@ -1281,7 +1283,7 @@ public class OrderModel  extends DBConnect{
             stmtget.setInt(1, departmentid);
             rs = stmtget.executeQuery();
             while(rs.next()){
-                Object[] row = new Object[]{rs.getString("menu_id"),rs.getString("menu_name"),rs.getBigDecimal("retail_price"),rs.getBigDecimal("wholesale_price"),rs.getString("unit_name"),rs.getString("department_name")};
+                Object[] row = new Object[]{rs.getString("menu_id"),rs.getString("menu_name"),rs.getBigDecimal("retail_price"),rs.getBigDecimal("wholesale_price"),rs.getString("department_name")};
             data.add(row);
             }
             finaldata = data.toArray(new Object[data.size()][]);
@@ -1329,6 +1331,72 @@ public class OrderModel  extends DBConnect{
             
           //  System.out.println(new SimpleDateFormat("yyyy-MM-dd").format(new Timestamp(new Date().getTime())));
            stmtget.setInt(1, dep);
+            rs = stmtget.executeQuery();
+            while(rs.next()){
+               /* if(rs.getString("table_id").isEmpty()){
+                    data = rs.getString("Customer Name")
+                }*/
+               Double TotalAmount = rs.getDouble("total_amount");
+//                System.out.println(TotalAmount);
+//                VAT = TaxList[0]* TotalAmount/100;
+//                SVC = TaxList[1]* TotalAmount/100;
+//                TotalAmount = TotalAmount + VAT+SVC; 
+                
+                  SVC = TaxList[0]* TotalAmount/100;
+                Double tt = TotalAmount +SVC;
+                 VAT = (TaxList[1]* tt)/100;
+                TotalAmount = tt + VAT; 
+                
+                Object[] row = new Object[]{rs.getInt("order_id"),rs.getString("table_name"),new BigDecimal(TotalAmount).setScale(2, RoundingMode.HALF_UP)};
+            data.add(row);
+            }
+            finaldata = data.toArray(new Object[data.size()][]);
+            
+        }
+        
+        catch(SQLException e){
+            JOptionPane.showMessageDialog(null, e+"from getOrderInfo"+getClass().getName());
+        }
+        finally{
+            gettg.closeConnection();
+        }
+        return new DefaultTableModel(finaldata,columnName){
+                @Override     
+            public boolean isCellEditable(int row, int col){
+               return false;
+           }
+                
+           
+        };
+    }
+     public DefaultTableModel getOrderInfoLike(int dep,String search){
+        DBConnect gettg = new DBConnect();
+        PreparedStatement stmtget ;
+        ResultSet rs;
+        Double[] TaxList = new Double[2];
+        String st = search +"%";
+        
+       // String search = src+"%";
+        String strget = "SELECT order_list.order_id,table_info.table_name,order_list.customer_id,order_list.total_amount FROM order_list LEFT JOIN  table_info ON order_list.table_id = table_info.table_id  WHERE order_list.paid = 0 and department_id = ? and order_list.order_id LIKE ? ORDER BY order_list.date desc ";
+        String[] columnName = new String[]{"Order Id","Table Name","Total Amount "};
+        ArrayList<Object[]> data = new ArrayList<Object[]>();
+      
+        Object[][] finaldata = null;
+        /*
+        retreiving the value for the tax to include into item total
+        */
+        TaxList = getChargeInfo();
+        Double VAT = new Double(0.0);
+        Double SVC = new Double(0.0);
+        try{
+//            System.out.println(dep);
+            gettg.initConnection();
+            stmtget = gettg.conn.prepareStatement(strget);
+           // stmtget.setString(1,new String(new SimpleDateFormat("yyyy-MM-dd").format(new Date())));
+            
+          //  System.out.println(new SimpleDateFormat("yyyy-MM-dd").format(new Timestamp(new Date().getTime())));
+           stmtget.setInt(1, dep);
+           stmtget.setString(2, st);
             rs = stmtget.executeQuery();
             while(rs.next()){
                /* if(rs.getString("table_id").isEmpty()){

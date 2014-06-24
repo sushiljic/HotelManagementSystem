@@ -109,11 +109,11 @@ public class MenuListController {
                 JLabel MenuIcon ;
               
 //                 MenuIcon = new JLabel(new ImageIcon(menuimg));
-                 if(null == data[row][13]){
+                 if(null == data[row][10]){
                         MenuIcon = new JLabel();
                     }
                     else{
-                    MenuIcon = new JLabel(new ImageIcon((byte[])data[row][13]));
+                    MenuIcon = new JLabel(new ImageIcon((byte[])data[row][10]));
                     }
                    MenuIcon.setPreferredSize(new Dimension(100,100));
               
@@ -127,7 +127,7 @@ public class MenuListController {
                 */
                 if(data[row][2].equals(true)){
                     //if it is trackable type
-                    if(data[row][11].equals(true)){
+                    if(data[row][7].equals(true)){
                         ItemType = "Hybrid Trackable Item";
                     }
                     else {
@@ -144,9 +144,9 @@ public class MenuListController {
 //                MenuId.setForeground(new Color(12,34,255));
                 JLabel MenuName = new JLabel(data[row][1].toString());
                
-                String unit = data[row][7].toString()+data[row][6].toString();
-                JLabel Unittype = new JLabel(unit);
-                JLabel Rate = new JLabel("Rs: " +data[row][8].toString());
+//                String unit = data[row][7].toString()+data[row][6].toString();
+                JLabel Unittype = new JLabel("wala");
+                JLabel Rate = new JLabel("Rs: " +data[row][5].toString());
                 JLabel MenuTitle = new JLabel(ItemType);
                 /*
                 custom editing to gui

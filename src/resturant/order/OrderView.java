@@ -25,6 +25,7 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import reusableClass.Function;
@@ -795,12 +796,14 @@ private KeyboardFocusManager kfmanager;
     public String getSearch(){
          return txtSearch.getText().trim();
     }
+    
     public void setSearchMenu(String src){
         txtSearchMenu.setText(src);
     }
     public String getSearchMenu(){
         return txtSearchMenu.getText().trim();
     }
+    
     public void setcomboDepartmentName(Object[] data){
         DefaultComboBoxModel model = new DefaultComboBoxModel(data);
         comboDepartmentName.setModel(model);
@@ -962,6 +965,9 @@ private KeyboardFocusManager kfmanager;
          //adding action for combomenu search box
          comboMenuName.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0), "ComboMenuName");
          comboMenuName.getActionMap().put("ComboMenuName", action);
+     }
+     public void addSearchDocumentListener(DocumentListener Listen){
+         txtSearch.getDocument().addDocumentListener(Listen);
      }
      public void setAddEditableTrue(){
          btnAdd.setEnabled(true);

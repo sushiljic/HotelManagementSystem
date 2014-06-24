@@ -66,6 +66,7 @@ public class CreditPaymentView extends javax.swing.JDialog {
         btnSave = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setTitle("CreditPayment");
         setResizable(false);
 
         ComboBoxDepartmentName.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
