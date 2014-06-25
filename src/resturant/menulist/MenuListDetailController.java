@@ -95,7 +95,9 @@ public final class MenuListDetailController {
        
         
 //        Tpanel.setBackground(Color.GRAY);
-        Tpanel.setBackground(new Color(76,76,187));
+         
+//        Tpanel.setBackground(new Color(76,76,187));
+        Tpanel.setBackground(new Color(18,110,183));
         Tpanel.setOpaque(true);
        
      
@@ -194,7 +196,7 @@ public final class MenuListDetailController {
                          
                     }
                     
-                }
+                }    
                 else{
                     ItemType = "Non Trackable Item";
                 }
@@ -206,7 +208,7 @@ public final class MenuListDetailController {
 //                JLabel Unittype = new JLabel(unit);
                 JLabel Rate = new JLabel("Rs: " +data[row][5].toString());
                //adding other store information
-                JLabel MenuTitle = new JLabel(ItemType+"( "+data[row][4]+")");
+                JLabel MenuTitle = new JLabel(ItemType+"( "+data[row][9]+")");
               
                 
                 /*
