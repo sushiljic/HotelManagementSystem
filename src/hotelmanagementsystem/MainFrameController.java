@@ -41,6 +41,7 @@ import java.util.Map;
 import javax.swing.JInternalFrame;
 import javax.swing.JMenu;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import registrator.ExecuteRegister;
 import report.distributorReport.DistributorReport;
@@ -361,9 +362,15 @@ public final class MainFrameController {
             }
             if(e.getActionCommand().equalsIgnoreCase("ItemReport")){
                 //ExecutePurchaseReport PurchaseReort = new ExecutePurchaseReport(MainFrameView, true);
-                Map m = new HashMap<>();
-                m.put("title", "Item Stock Report");
-                IssueStockReport r = new IssueStockReport(m,"stock.jrxml", "Item Stock Report");
+                
+                SwingUtilities.invokeLater(new Runnable(){
+                    @Override
+                    public void run() { 
+                        Map m = new HashMap<>();
+                        m.put("title", "Item Stock Report");
+                        new IssueStockReport(m,"stock.jrxml", "Item Stock Report");   
+                    }
+                });
               //  E
             }
             if(e.getActionCommand().equalsIgnoreCase("CenterstoreItemwiseIssue/ReturnReport")){

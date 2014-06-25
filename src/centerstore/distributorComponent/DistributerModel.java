@@ -106,7 +106,7 @@ public class DistributerModel extends DBConnect {
             preStmt.setString(4, info[3]);
             preStmt.setInt(5, id);
             preStmt.executeUpdate();
-            
+            DisplayMessages.displayInfo(null, "Distributor Successfully Updated !","Success");
         }
         catch(SQLException sqlEx){
             DisplayMessages.displayError(null, "DistributorModel.updateDistorInfo(): " + sqlEx,"Database Exception");

@@ -102,7 +102,6 @@
 	<field name="website" class="java.lang.String"/>
 	<field name="email" class="java.lang.String"/>
 	<field name="pan_no" class="java.lang.Integer"/>
-	<field name="register" class="java.lang.Short"/>
 	<field name="company_logo" class="java.lang.String"/>
 	<field name="company_svc" class="java.lang.Double"/>
 	<field name="company_vat" class="java.lang.Double"/>
