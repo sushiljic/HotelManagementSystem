@@ -31,15 +31,16 @@ public class MenuListModel extends DBConnect {
         ArrayList<Object[]> data = new ArrayList<Object[]>();
         
 //        String strget = "SELECT menu_id,menu_name,menu.department_item_id,item_type,centerstore_stock.item_name,menu.unit_id,item_unit.unit_name,quantity,retail_price,wholesale_price,image_path,hybrid_type,department_info.department_name FROM menu LEFT JOIN department_store_stock ON menu.department_item_id = department_store_stock.department_item_id LEFT JOIN centerstore_stock ON department_store_stock.item_id = centerstore_stock.item_id  LEFT JOIN item_unit ON menu.unit_id = item_unit.unit_id  LEFT JOIN department_info ON menu.department_id= department_info.department_id   WHERE menu.department_id = ? ORDER BY date desc";
-          String strget = "SELECT menu_id,menu_name,menu.department_item_id,item_type,centerstore_stock.item_name,menu.unit_id,item_unit.unit_name,quantity,retail_price,wholesale_price,image_path,hybrid_type,department_info.department_name,menu_image FROM menu LEFT JOIN department_store_stock ON menu.department_item_id = department_store_stock.department_item_id LEFT JOIN centerstore_stock ON department_store_stock.item_id = centerstore_stock.item_id  LEFT JOIN item_unit ON menu.unit_id = item_unit.unit_id  LEFT JOIN department_info ON menu.department_id= department_info.department_id LEFT JOIN department_user ON menu.department_id = department_user.department_id   WHERE department_user.user_id = ? ORDER BY date desc";
+          String strget = "SELECT menu_id,menu_name,menu.department_item_id,item_type,centerstore_stock.item_name,retail_price,wholesale_price,image_path,hybrid_type,department_info.department_name,menu_image FROM menu LEFT JOIN department_store_stock ON menu.department_item_id = department_store_stock.department_item_id LEFT JOIN centerstore_stock ON department_store_stock.item_id = centerstore_stock.item_id    LEFT JOIN department_info ON menu.department_id= department_info.department_id LEFT JOIN department_user ON menu.department_id = department_user.department_id   WHERE department_user.user_id = ? ORDER BY date desc";
         try{
             dbget.initConnection();
             stmtget = dbget.conn.prepareStatement(strget);
             stmtget.setInt(1, user_id);
             rsget = stmtget.executeQuery();
             while(rsget.next()){
-               Object imagepath = (rsget.getObject("image_path") != null )?rsget.getObject("image_path"):"";
-                Object[] row = new Object[]{rsget.getString("menu_id"),rsget.getString("menu_name"),rsget.getBoolean("item_type"),rsget.getString("department_item_id"),rsget.getString("item_name"),rsget.getString("unit_id"),rsget.getString("unit_name"),rsget.getBigDecimal("quantity"),rsget.getBigDecimal("retail_price"),rsget.getBigDecimal("wholesale_price"),imagepath,rsget.getBoolean("hybrid_type"),rsget.getString("department_name"),rsget.getObject("menu_image")};
+//              Object[] row = new Object[]{rsget.getString("menu_id"),rsget.getString("menu_name"),rsget.getBoolean("item_type"),rsget.getString("department_item_id"),rsget.getString("item_name"),rsget.getString("unit_id"),rsget.getString("unit_name"),rsget.getBigDecimal("quantity"),rsget.getBigDecimal("retail_price"),rsget.getBigDecimal("wholesale_price"),imagepath,rsget.getBoolean("hybrid_type"),rsget.getString("department_name"),rsget.getObject("menu_image")};
+                Object imagepath = (rsget.getObject("image_path") != null )?rsget.getObject("image_path"):"";
+                Object[] row = new Object[]{rsget.getString("menu_id"),rsget.getString("menu_name"),rsget.getBoolean("item_type"),rsget.getString("department_item_id"),rsget.getString("item_name"),rsget.getBigDecimal("retail_price"),rsget.getBigDecimal("wholesale_price"),imagepath,rsget.getBoolean("hybrid_type"),rsget.getString("department_name"),rsget.getObject("menu_image")};
                 data.add(row);
                         
             }
@@ -170,7 +171,7 @@ public class MenuListModel extends DBConnect {
         BigDecimal MenuQuantity = BigDecimal.ZERO;
 //        String ColName[] = new String[]{"ItemName","Stock Available"};
         
-        String strget = "SELECT centerstore_stock.item_name,(department_store_stock.total_qty/(item_unit.unit_relative_quantity)) as total_qty,item_unit.unit_name,hybrid_menu.quantity as hybridquantity,menu.quantity as menuquantity  from hybrid_menu INNER JOIN department_store_stock ON hybrid_menu.department_item_id= department_store_stock.department_item_id INNER JOIN item_unit ON hybrid_menu.unit_id = item_unit.unit_id INNER JOIN centerstore_stock ON department_store_stock.item_id = centerstore_stock.item_id  INNER JOIN menu ON hybrid_menu.parent_menu_id = menu.menu_id where parent_menu_id  in (?)";
+        String strget = "SELECT centerstore_stock.item_name,(department_store_stock.total_qty/(item_unit.unit_relative_quantity)) as total_qty,item_unit.unit_name,hybrid_menu.quantity as hybridquantity  from hybrid_menu INNER JOIN department_store_stock ON hybrid_menu.department_item_id= department_store_stock.department_item_id INNER JOIN item_unit ON hybrid_menu.unit_id = item_unit.unit_id INNER JOIN centerstore_stock ON department_store_stock.item_id = centerstore_stock.item_id  INNER JOIN menu ON hybrid_menu.parent_menu_id = menu.menu_id where parent_menu_id  in (?)";
         try{
             dbget.initConnection();
             stmtget = dbget.conn.prepareStatement(strget);
@@ -180,7 +181,7 @@ public class MenuListModel extends DBConnect {
                 BigDecimal TotalItem = rsget.getBigDecimal("total_qty").divide(rsget.getBigDecimal("hybridquantity"),3,RoundingMode.HALF_UP);
                 ItemStockData.add(TotalItem);
 //               System.out.println(TotalItem);
-                MenuQuantity = rsget.getBigDecimal("menuquantity");
+//                MenuQuantity = rsget.getBigDecimal("menuquantity");
                 Object[] row = new Object[]{rsget.getString("item_name"),rsget.getBigDecimal("total_qty")+rsget.getString("unit_name")};
                 data.add(row);
             }
@@ -194,7 +195,8 @@ public class MenuListModel extends DBConnect {
         }
         Collections.sort(ItemStockData);
 //        System.out.println(ItemStockData.get(0));
-        MenuQuantity = ItemStockData.get(0).divide(MenuQuantity,3,RoundingMode.HALF_UP);
+//        MenuQuantity = ItemStockData.get(0).divide(MenuQuantity,3,RoundingMode.HALF_UP);
+        MenuQuantity = ItemStockData.get(0);
         
        return MenuQuantity ;
         

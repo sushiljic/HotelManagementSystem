@@ -8,6 +8,7 @@ package registrator;
 
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
+import reusableClass.Function;
 
 /**
  *
@@ -17,10 +18,14 @@ public class RegistrationReminderView extends javax.swing.JDialog {
 
     /**
      * Creates new form RegistrationReminderView
+     * @param parent
+     * @param modal
      */
     public RegistrationReminderView(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        Function.setButtonForEnter(btnContinue);
+        Function.setButtonForEnter(btnRegister);
 //        jProgressBar1.setValue(100);
 //        jProgressBar1.setStringPainted(true);
         
@@ -98,8 +103,11 @@ public class RegistrationReminderView extends javax.swing.JDialog {
                 .addContainerGap())
         );
 
+        btnRegister.setMnemonic('R');
         btnRegister.setText("Register");
+        btnRegister.setToolTipText("");
 
+        btnContinue.setMnemonic('C');
         btnContinue.setText("Continue");
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N

@@ -190,10 +190,12 @@ public class SystemLogInController  extends UserCreditialModel{
     //                    System.out.println(posCdate.getTime()+" is before"+compCdate.getTime() );
                         if(posCdate.before(compCdate)){
     //                        System.out.println(posCdate.getTime()+" is before"+compCdate.getTime() );
+                            if(Function.daysBetween(posCdate, compCdate) != 1)
+                            {
                             if(DisplayMessages.displayInputYesNo(inView, "Do You want to Synchronize the Our Software System Date According to Computer Date?\n Please make You Understand the Risks Since It cannot be Undone", "Synchronize Window")){
                                 model.SynchronisePosDate(posCdate, compCdate, Function.returnSystemDateInfo());
                             }
-                        
+                            }
                         }
                         }
                     

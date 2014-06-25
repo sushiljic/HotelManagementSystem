@@ -20,6 +20,8 @@ import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import reusableClass.Function;
+import reusableClass.Validator;
 
 /**
  *
@@ -46,10 +48,11 @@ public class CustomerView extends javax.swing.JDialog {
         setButtonForEnter(btnEdit);
         setButtonForEnter(btnDelete);
         setButtonForEnter(btnCancel);
-        txtCustomerAddress.addFocusListener(new SetFocusListener(txtCustomerAddress));
-        txtCustomerName.addFocusListener(new SetFocusListener(txtCustomerName));
-        txtCustomerPhone.addFocusListener(new SetFocusListener(txtCustomerPhone));
-        txtCustomerType.addFocusListener(new SetFocusListener(txtCustomerType));
+        Validator.PhoneNumberMaker(txtCustomerPhone);
+        txtCustomerAddress.addFocusListener(new Function.SetTextFieldFocusListener(txtCustomerAddress));
+        txtCustomerName.addFocusListener(new Function.SetTextFieldFocusListener(txtCustomerName));
+        txtCustomerPhone.addFocusListener(new Function.SetTextFieldFocusListener(txtCustomerPhone));
+        txtCustomerType.addFocusListener(new Function.SetTextFieldFocusListener(txtCustomerType));
         kfmanager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
          /*
          * centering the frame
@@ -69,13 +72,13 @@ public class CustomerView extends javax.swing.JDialog {
 
         jPanel1 = new javax.swing.JPanel();
         txtCustomerType = new javax.swing.JTextField();
-        txtCustomerPhone = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         txtCustomerName = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         txtCustomerAddress = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        txtCustomerPhone = new javax.swing.JFormattedTextField();
         btnAdd = new javax.swing.JButton();
         btnEdit = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
@@ -100,6 +103,8 @@ public class CustomerView extends javax.swing.JDialog {
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("Customer Name:*");
 
+        txtCustomerPhone.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -113,15 +118,15 @@ public class CustomerView extends javax.swing.JDialog {
                         .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING))
                     .addComponent(jLabel4))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtCustomerType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtCustomerPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtCustomerAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtCustomerName, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtCustomerType)
+                    .addComponent(txtCustomerAddress)
+                    .addComponent(txtCustomerName, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
+                    .addComponent(txtCustomerPhone))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtCustomerAddress, txtCustomerName, txtCustomerPhone, txtCustomerType});
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {txtCustomerAddress, txtCustomerName, txtCustomerType});
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel1, jLabel2, jLabel3, jLabel4});
 
@@ -133,9 +138,11 @@ public class CustomerView extends javax.swing.JDialog {
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtCustomerName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel2)
-                    .addComponent(txtCustomerPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(txtCustomerPhone)
+                        .addGap(3, 3, 3)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -147,7 +154,7 @@ public class CustomerView extends javax.swing.JDialog {
                 .addContainerGap())
         );
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {txtCustomerAddress, txtCustomerName, txtCustomerPhone, txtCustomerType});
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {txtCustomerAddress, txtCustomerName, txtCustomerType});
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel1, jLabel2, jLabel3, jLabel4});
 
@@ -275,6 +282,8 @@ public class CustomerView extends javax.swing.JDialog {
         return txtCustomerAddress.getText().trim();
     }
     public String getCustomerPhone(){
+//        String phone;
+        
         return txtCustomerPhone.getText().trim();
     }
     public void setCustomerPhone(String phone){
@@ -444,7 +453,7 @@ public class CustomerView extends javax.swing.JDialog {
     public javax.swing.JTable tblCustomerInfo;
     private javax.swing.JTextField txtCustomerAddress;
     private javax.swing.JTextField txtCustomerName;
-    private javax.swing.JTextField txtCustomerPhone;
+    private javax.swing.JFormattedTextField txtCustomerPhone;
     private javax.swing.JTextField txtCustomerType;
     // End of variables declaration//GEN-END:variables
 }

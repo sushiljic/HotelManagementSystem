@@ -80,6 +80,7 @@ public final class MenuListDetailController {
         
         }
         catch(Exception e){
+            e.printStackTrace();
             JOptionPane.showMessageDialog(mainview, e+" From menuList");
         }
         tview.addSearchListener(new SearchListener());
@@ -94,7 +95,9 @@ public final class MenuListDetailController {
        
         
 //        Tpanel.setBackground(Color.GRAY);
-        Tpanel.setBackground(new Color(76,76,187));
+         
+//        Tpanel.setBackground(new Color(76,76,187));
+        Tpanel.setBackground(new Color(18,110,183));
         Tpanel.setOpaque(true);
        
      
@@ -134,11 +137,11 @@ public final class MenuListDetailController {
 //                    
 //                }
 //                     MenuIcon = new JLabel(new ImageIcon("resources/images/"+data[row][10]));
-                    if(data[row][13] == null){
+                    if(data[row][10] == null){
                         MenuIcon = new JLabel();
                     }
                     else{
-                    MenuIcon = new JLabel(new ImageIcon((byte[])data[row][13]));
+                    MenuIcon = new JLabel(new ImageIcon((byte[])data[row][10]));
                     }
 //                     MenuIcon = new JLabel();
 //                     System.out.println("wala1"+data[row][3]);
@@ -168,7 +171,7 @@ public final class MenuListDetailController {
                 */
                 if(data[row][2].equals(true)){
                     //if it is trackable type
-                    if(data[row][11].equals(true)){
+                    if(data[row][8].equals(true)){
                         ItemType = "Hybrid Trackable Item";
                         ItemInfo.setModel(tmodel.getHybridTrackableItem(data[row][0].toString()));
                        AvailStock = tmodel.getHybridItemAvailable(data[row][0].toString()).setScale(0, RoundingMode.DOWN);
@@ -186,26 +189,26 @@ public final class MenuListDetailController {
 //                         
 //                          AvailStock = ItemStock.divide(new BigDecimal());
 //                          System.out.println(AvailStock);
-                         strAvailStock = Float.parseFloat(strItemStock)/((Number)(data[row][7])).floatValue();
+                         strAvailStock = Float.parseFloat(strItemStock);/*since quantiy is not need/((Number)(data[row][7])).floatValue();*/
                          AvailStock = new BigDecimal(strAvailStock).setScale(0, RoundingMode.DOWN);
                           
                          
                          
                     }
                     
-                }
+                }    
                 else{
                     ItemType = "Non Trackable Item";
                 }
                
 //                MenuId.setForeground(new Color(12,34,255));
                 JLabel MenuName = new JLabel(data[row][0]+": "+data[row][1].toString());
-               
-                String unit = data[row][7].toString()+data[row][6].toString();
+               //not need unit
+//                String unit = data[row][7].toString()+data[row][6].toString();
 //                JLabel Unittype = new JLabel(unit);
-                JLabel Rate = new JLabel("Rs: " +data[row][8].toString());
+                JLabel Rate = new JLabel("Rs: " +data[row][5].toString());
                //adding other store information
-                JLabel MenuTitle = new JLabel(ItemType+"( "+data[row][12]+")");
+                JLabel MenuTitle = new JLabel(ItemType+"( "+data[row][9]+")");
               
                 
                 /*

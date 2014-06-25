@@ -32,6 +32,8 @@ import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.ListSelectionEvent;
@@ -101,11 +103,12 @@ public class OrderController  extends SystemDateModel{
          */
         orderview.addAdd(new CrudListener());
         orderview.addDelete(new CrudListener());
-         orderview.addSearchMenuListener(new CrudListener());
+        orderview.addSearchMenuListener(new CrudListener());
+        orderview.addSearchDocumentListener(new SearchOrderDocumentListener());
          /*
           * this one os for text when quantiy is enter
           */
-         orderview.addTextAdd(new TextCrudListener());
+        orderview.addTextAdd(new TextCrudListener());
         
         /*
          * adding listselection listener
@@ -164,7 +167,7 @@ public class OrderController  extends SystemDateModel{
         /*
          * adding columnname in table order
          */
-        String[] orderColumnName =  new String[]{"Menu Code","Menu Name","Quantity","Item Base Unit","Rate","Total Amount"};
+        String[] orderColumnName =  new String[]{"Menu Code","Menu Name","Quantity","Rate","Total Amount"};
         DefaultTableModel orderTableModel = new DefaultTableModel(null,orderColumnName){
             @Override
             public boolean isCellEditable(int row,int columns){
@@ -545,14 +548,14 @@ public class OrderController  extends SystemDateModel{
                 orderview.clearOrderData();
                 orderview.setMainOrderId(0);
                 orderview.getTableOrderList().setRowCount(0);
-               int neworderid = ordermodel.returnCurrentItentityId("order_list");
-                 orderview.setOrderId(String.valueOf(neworderid));
-                 orderview.setMainOrderId(neworderid);
-                 orderview.setDeleteEditableFalse();
+                int neworderid = ordermodel.returnCurrentItentityId("order_list");
+                orderview.setOrderId(String.valueOf(neworderid));
+                orderview.setMainOrderId(neworderid);
+                orderview.setDeleteEditableFalse();
                 
                 
-                  orderview.txtOrderQuantity.setEnabled(true);
-                   orderview.refreshOrderedListJTable(ordermodel.getOrderInfo(orderview.getDepartmentId()));
+                orderview.txtOrderQuantity.setEnabled(true);
+                orderview.refreshOrderedListJTable(ordermodel.getOrderInfo(orderview.getDepartmentId()));
                  
                    /*
                     * here is manipulation for refreshing the data in order pay if it is open
@@ -1067,11 +1070,11 @@ public class OrderController  extends SystemDateModel{
                 JComboBox comboMenu = (JComboBox) e.getSource();
 //                System.out.println("wala");
                 if(comboMenu.getSelectedIndex() == 0){
-                      orderview.setMenuId(0);
+                orderview.setMenuId(0);
 //                 System.out.println(orderview.getMenuId());
                  orderview.setRate("0");
 //                 System.out.println(orderview.getRate());
-                 orderview.setItemBaseUnit("");
+//                 orderview.setItemBaseUnit("");
 //                 System.out.println("walafrommenu");
                 }
                 else{
@@ -1090,9 +1093,15 @@ public class OrderController  extends SystemDateModel{
 //                System.out.println(item[0]);
                  orderview.setMenuId(Integer.parseInt(item[0].toString()));
 //                 System.out.println(orderview.getMenuId());
-                 orderview.setRate(item[3].toString());
+                 orderview.setRate(item[2].toString());
 //                 System.out.println(orderview.getRate());
-                 orderview.setItemBaseUnit(item[2].toString());
+//                 if(item[2] == null){
+//                    orderview.setItemBaseUnit("");
+//                 }
+//                 else{
+//                     orderview.setItemBaseUnit(item[2].toString()); 
+//                 }
+                
 //                 System.out.println(orderview.getItemBaseUnit());
                 
 //                orderview.setFocusOntxtOrderQuantity();
@@ -1169,7 +1178,7 @@ public class OrderController  extends SystemDateModel{
                  }
               }
               }
-        catch(Exception ce){
+        catch(NumberFormatException ce){
             JOptionPane.showMessageDialog(orderview, ce+"from comboListener");
         }
       
@@ -1298,8 +1307,38 @@ public class OrderController  extends SystemDateModel{
                    }
                   // return;
                }
-             Object[] row = new Object[]{orderview.getMenuId(),orderview.getComboMenuName().toString(),new BigDecimal(orderview.getQuantity()).setScale(3, RoundingMode.HALF_UP),orderview.getItemBaseUnit(),orderview.getRate(),TotalAmount};
-                orderview.getTableOrderList().addRow(row);
+             Object[] row = new Object[]{orderview.getMenuId(),orderview.getComboMenuName().toString(),new BigDecimal(orderview.getQuantity()).setScale(3, RoundingMode.HALF_UP),orderview.getRate(),TotalAmount};
+             //check whether same menu is in the row if there is add it into the row
+             boolean SameMenuIdentifier = false;
+             for( int i=0;i<orderview.getTableOrderList().getRowCount();i++){
+//                 System.err.println(orderview.getTableOrderList().getRowCount()+"rowcount");
+//                 System.err.println(orderview.getTableOrderList().getValueAt(i, 0)+"menuid"+orderview.getMenuId());
+                 if((Integer.parseInt(orderview.getTableOrderList().getValueAt(i, 0).toString()))==orderview.getMenuId()){
+//                     JOptionPane.showMessageDialog(mainview,orderview.getTableOrderList().getValueAt(i, 2));
+                      BigDecimal quantity = new BigDecimal(orderview.getTableOrderList().getValueAt(i, 2).toString());
+                     
+                     quantity = quantity.add(BigDecimal.valueOf(orderview.getQuantity()));
+                     final BigDecimal qty = quantity;
+                     final BigDecimal amount = orderview.getRate().multiply(quantity).setScale(2, BigDecimal.ROUND_HALF_UP);
+                     final int j = i;
+//                      System.err.print(quantity);
+                     SwingUtilities.invokeLater(new Runnable(){
+
+                         @Override
+                         public void run() {
+                         orderview.getTableOrderList().setValueAt(qty, j, 2);
+                         orderview.getTableOrderList().setValueAt(amount, j, 4);
+                         }
+                         
+                     });
+                     
+                     SameMenuIdentifier = true;
+                     break;
+                 }
+             }
+             if(!SameMenuIdentifier){
+             orderview.getTableOrderList().addRow(row);
+             }
 //                if(ordermodel.returnCurrentItentityId("order_list") == Integer.parseInt(orderview.getOrderId())){
                     if(Integer.parseInt(orderview.getOrderId()) == orderview.getMainOrderId()){
                      orderview.setAddOrderAndPrintEditableTrue();
@@ -1360,6 +1399,7 @@ public class OrderController  extends SystemDateModel{
                
             }
             catch(Exception ce){
+                ce.printStackTrace();
                 JOptionPane.showMessageDialog(orderview, ce+"from CrudListener");
             }
             
@@ -1393,7 +1433,7 @@ public class OrderController  extends SystemDateModel{
                           }
 
 
-                                BigDecimal rate = new BigDecimal(tcl.getTable().getValueAt(row, 4).toString());
+                                BigDecimal rate = new BigDecimal(tcl.getTable().getValueAt(row, 3).toString());
                                     BigDecimal TotalAmount;
                                     BigDecimal Quantity = new BigDecimal(tcl.getTable().getValueAt(row, col).toString());
                                     /*
@@ -1439,7 +1479,7 @@ public class OrderController  extends SystemDateModel{
                                   //  System.out.println(TotalAmount);
                                   //  System.out.println(Quantity);
                                   //  System.out.println(rate);
-                                    tcl.getTable().setValueAt(TotalAmount, row, 5);
+                                    tcl.getTable().setValueAt(TotalAmount, row, 4);
                                    if(Integer.parseInt(orderview.getOrderId())== orderview.getMainOrderId()){
                                    orderview.setFocusOnButtonOrder();
                                    }
@@ -1449,7 +1489,7 @@ public class OrderController  extends SystemDateModel{
                                    
             
         }
-        catch(Exception le){
+        catch(HeadlessException | NumberFormatException le){
             JOptionPane.showMessageDialog(orderview, le+"from listenActionForTableEdit ");
         }
         }
@@ -1705,6 +1745,33 @@ public class OrderController  extends SystemDateModel{
        catch(Exception se){
            DisplayMessages.displayError(orderview, se.getMessage()+" from RefreshOrderedListTimer "+getClass().getName(), "Error");
        }
+        }
+       
+   }
+   public class SearchOrderDocumentListener implements DocumentListener{
+
+        @Override
+        public void insertUpdate(DocumentEvent e) {
+            ReloadTable();
+        }
+
+        @Override
+        public void removeUpdate(DocumentEvent e) {
+            ReloadTable();
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent e) {
+        }
+        public void ReloadTable(){
+            SwingUtilities.invokeLater(new Runnable(){
+
+                @Override
+                public void run() {
+                    orderview.refreshOrderedListJTable(ordermodel.getOrderInfoLike(orderview.getDepartmentId(),orderview.getSearch()));
+                }
+                
+            });
         }
        
    }

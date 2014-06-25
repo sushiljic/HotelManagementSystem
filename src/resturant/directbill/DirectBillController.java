@@ -145,7 +145,8 @@ public class DirectBillController  extends SystemDateModel{
         /*
          * adding columnname in table order
          */
-        String[] orderColumnName =  new String[]{"Menu Code","Menu Name","Quantity","Item Base Unit","Rate","Total Amount"};
+//        String[] orderColumnName =  new String[]{"Menu Code","Menu Name","Quantity","Item Base Unit","Rate","Total Amount"};
+        String[] orderColumnName =  new String[]{"Menu Code","Menu Name","Quantity","Rate","Total Amount"};
         DefaultTableModel orderTableModel = new DefaultTableModel(null,orderColumnName){
             @Override
             public boolean isCellEditable(int row,int columns){
@@ -193,10 +194,10 @@ public class DirectBillController  extends SystemDateModel{
                     return;    
                 }
               
-                if(obview.getQuantity() == 0.0){
-                    JOptionPane.showMessageDialog(obview, "Empty Field detected in Quantity");
-                    return;
-                }
+//                if(obview.getQuantity() == 0.0){
+//                    JOptionPane.showMessageDialog(obview, "Empty Field detected in Quantity");
+//                    return;
+//                }
                  if(obview.getQuantity() == 0.0){
                     JOptionPane.showMessageDialog(obview, "Quantiy cannot be Zero");
                     return;
@@ -255,12 +256,43 @@ public class DirectBillController  extends SystemDateModel{
                    }
                   // return;
                }
-             Object[] row = new Object[]{obview.getMenuId(),obview.getComboMenuName().toString(),new BigDecimal(obview.getQuantity()).setScale(3, RoundingMode.HALF_UP),obview.getItemBaseUnit(),obview.getRate(),TotalAmount};
-                obview.gettblBillInfo().addRow(row);
+             Object[] row = new Object[]{obview.getMenuId(),obview.getComboMenuName().toString(),new BigDecimal(obview.getQuantity()).setScale(3, RoundingMode.HALF_UP),obview.getRate(),TotalAmount};
+//                obview.gettblBillInfo().addRow(row);
+                 //check whether same menu is in the row if there is add it into the row
+             boolean SameMenuIdentifier = false;
+             for( int i=0;i<obview.gettblBillInfo().getRowCount();i++){
+//                 System.err.println(orderview.getTableOrderList().getRowCount()+"rowcount");
+//                 System.err.println(orderview.getTableOrderList().getValueAt(i, 0)+"menuid"+orderview.getMenuId());
+                 if((Integer.parseInt(obview.gettblBillInfo().getValueAt(i, 0).toString()))==obview.getMenuId()){
+//                     JOptionPane.showMessageDialog(mainview,orderview.getTableOrderList().getValueAt(i, 2));
+                      BigDecimal quantity = new BigDecimal(obview.gettblBillInfo().getValueAt(i, 2).toString());
+                     
+                     quantity = quantity.add(BigDecimal.valueOf(obview.getQuantity()));
+                     final BigDecimal qty = quantity;
+                     final BigDecimal amount = obview.getRate().multiply(quantity).setScale(2, BigDecimal.ROUND_HALF_UP);
+                     final int j = i;
+//                      System.err.print(quantity);
+//                     SwingUtilities.invokeLater(new Runnable(){
+//
+//                         @Override
+//                         public void run() {
+                         obview.gettblBillInfo().setValueAt(qty, j, 2);
+                         obview.gettblBillInfo().setValueAt(amount, j, 4);
+//                         }
+//                         
+//                     });
+                     
+                     SameMenuIdentifier = true;
+                     break;
+                 }
+             }
+             if(!SameMenuIdentifier){
+             obview.gettblBillInfo().addRow(row);
+             }
                 
                
                 obview.clearAddData();
-                 obview.setSaveEditableTrue();
+                obview.setSaveEditableTrue();
                  TaxList = obmodel.getChargeInfo();
                  obview.setCheckBoxSVCTrue();
                  obview.setSVC(TaxList[0]);
@@ -268,7 +300,7 @@ public class DirectBillController  extends SystemDateModel{
                  obview.setDiscount(0.0);
                  Double TotalAmountBill =new Double(0.0);
                  for(int i=0; i<obview.gettblBillInfo().getRowCount();i++){
-                     TotalAmountBill += ((Number)obview.gettblBillInfo().getValueAt(i, 5)).doubleValue();
+                     TotalAmountBill += ((Number)obview.gettblBillInfo().getValueAt(i, 4)).doubleValue();
                  }
                  obview.setTotal(TotalAmountBill);
                  //not a permanent solution
@@ -420,9 +452,13 @@ public class DirectBillController  extends SystemDateModel{
 //
 //                     @Override
 //                     public void run() {
+                    try{
                           Bill direct = new Bill(obview.getBillParam(),"directBill.jrxml");
                           direct.printBill(); 
-                         
+                    }
+                    catch(Exception se){
+                        DisplayMessages.displayError(obview, "Printing Error", "From DirectBill");
+                    }
 //                     }
 //                     
 //                 });

@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.SQLException;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
@@ -351,14 +352,18 @@ boolean hasFocus, int row, int col)
                                 JOptionPane.showMessageDialog(MenuEntryView, "Please select the Item from itemname");
                                 return;
                              }
-                           
+                       if(MenuEntryView.getUnitId() == 0){
+                                JOptionPane.showMessageDialog(MenuEntryView, "Please select the Item Base Unit");
+                                return; 
+                            }
+                       if(MenuEntryView.getQuantity() == 0.0){
+                                JOptionPane.showMessageDialog(MenuEntryView, "Blank values are not Allowed in Quantity");
+                            return;
+                        }
                     }
                 }
                 
-                if(MenuEntryView.getUnitId() == 0){
-                    JOptionPane.showMessageDialog(MenuEntryView, "Please select the Item Base Unit");
-                        return; 
-                }
+                
                 
                 if(MenuEntryView.getCategoryId() == 0){
                     JOptionPane.showMessageDialog(MenuEntryView, "Please select the Category");
@@ -366,17 +371,14 @@ boolean hasFocus, int row, int col)
                     
                 }
                 
-                if(MenuEntryView.getQuantity() == 0.0){
-                    JOptionPane.showMessageDialog(MenuEntryView, "Blank values are not Allowed in Quantity");
-                    return;
-                }
+                
                  try{
                 if(MenuEntryView.getRetailPrice() == 0.0){
                     JOptionPane.showMessageDialog(MenuEntryView, "Blank values are not Allowed in Retail price");
                     return;
                 }
                 }
-                catch(Exception se){
+                catch(HeadlessException se){
                     JOptionPane.showMessageDialog(mainFrameView, se);
                 }
                 if(!MenuEntryView.checkWholepriceChecked()){
@@ -416,7 +418,12 @@ boolean hasFocus, int row, int col)
                 }
                 
               // System.out.println("wala2");
+                try{
                 MenuEntryView.refreshJTable(MenuEntryModel.getMenuList(MenuEntryView.getDepartmentId()));
+                }
+                catch(SQLException se){
+                    DisplayMessages.displayError(mainFrameView, se.getMessage(), "From Menu lIstener");
+                }
               // System.out.println(MenuEntryView.getMenuName());
                 
                
@@ -451,16 +458,15 @@ boolean hasFocus, int row, int col)
                         JOptionPane.showMessageDialog(MenuEntryView, "Please select the Item from itemname");
                         return;
                     }
+                    if(MenuEntryView.getUnitId()==0){
+                    JOptionPane.showMessageDialog(MenuEntryView, "Please select the Item Base Unit");
+                    return; 
+                    }
+                    
                     }
                 }
-                if(MenuEntryView.getUnitId()==0){
-                    JOptionPane.showMessageDialog(MenuEntryView, "Please select the Item Base Unit");
-                        return; 
-                }
-                if(MenuEntryView.getQuantity()==0.0){
-                    JOptionPane.showMessageDialog(MenuEntryView, "Blank values are not Allowed in Quantity");
-                    return;
-                }
+                
+                
                 if(MenuEntryView.getRetailPrice() == 0.0){
                     JOptionPane.showMessageDialog(MenuEntryView, "Blank values are not Allowed in Retail price");
                     return;
@@ -489,14 +495,20 @@ boolean hasFocus, int row, int col)
                            } 
                  MenuEntryModel.EditMenu(MenuEntryView.getMenuEntry(),MenuEntryView.getHybridData(),DeleteHybridData,Function.returnFileFromBufferedImage(MenuEntryView.getImageFile(), MenuEntryView.getBufferedImage()));
               // MenuEntryView.clearJTable();
-                 MenuEntryView.refreshJTable(MenuEntryModel.getMenuList(MenuEntryView.getDepartmentId()));
+                 try{
+                MenuEntryView.refreshJTable(MenuEntryModel.getMenuList(MenuEntryView.getDepartmentId()));
+                MenuEntryView.ClickCancelBtn();
+                  //unset the edit flag
+                MenuEntryView.setEdit_Flag(false);
+                }
+                catch(SQLException se){
+                    DisplayMessages.displayError(mainFrameView, se.getMessage(), "From Menu lIstener");
+                }
                //  System.out.println("wow");
 //                 MenuEntryView.clearAll();
 //                 MenuEntryView.disableDeleteBtn();
 //                 MenuEntryView.disableEditBtn();
-                  MenuEntryView.ClickCancelBtn();
-                  //unset the edit flag
-                  MenuEntryView.setEdit_Flag(false);
+                 
                 }
                 }
                 catch(HeadlessException ee){
@@ -557,6 +569,9 @@ boolean hasFocus, int row, int col)
                     //added code
                     MenuEntryView.radioNonTrackable.setEnabled(true);
                     MenuEntryView.radioTrackable.setEnabled(true);
+                    //this is done coz if trackable is selected event will not be fired so to fire the event
+                    //non trackable is enable one
+                    MenuEntryView.radioNonTrackable.setSelected(true);
                     MenuEntryView.radioTrackable.setSelected(true);
 //                    MenuEntryView.radioWholesaleClick.setSelected(true);
                 }
@@ -572,6 +587,7 @@ boolean hasFocus, int row, int col)
         }
         
     }
+    //not in use since its work is done by trackable item listene
      public class TrackableListener implements ActionListener{
 
         @Override
@@ -579,33 +595,80 @@ boolean hasFocus, int row, int col)
             try
             {
             if(e.getActionCommand().equalsIgnoreCase("Trackable")){
-                //JOptionPane.showMessageDialog(MenuEntryView, "");
-                MenuEntryView.setTrackable(true);
-                MenuEntryView.showItemName();
-                MenuEntryView.enableHybridBtn();
-               // MenuEntryView.setComboItemBaseUnit(null);
-             //  MenuEntryView.clearItemBaseUnit();
-             //  MenuEntryView.clearItemCategory();
+                JRadioButton combo = (JRadioButton)e.getSource();
+                if(combo.isSelected()){
+                    JOptionPane.showMessageDialog(MenuEntryView, "");
+
+                  
+                     MenuEntryView.setTrackable(true);
+                     MenuEntryView.showItemName();
+//                MenuEntryView.showStoreName();
+                     MenuEntryView.enableHybridBtn();
+                //show the base unit for the item unit selection for itemname
+                     MenuEntryView.setBaseUnitVisible(true);
+                     MenuEntryView.setQuantiyVisible(true);
                 
+                }
+                else{
+                     MenuEntryView.setTrackable(false);
+                     MenuEntryView.hideItemName();
+//                MenuEntryView.hideStoreName();
+                     MenuEntryView.disableHybridBtn();
+                //not needed since menu doesnot have any unit doesnot have any unit
+//              Object[][]  ItemUnitInfo = MenuEntryModel.getUnitInfo(MenuEntryView.getUnitId(),false);
+//          
+//            /*
+//             * this load all the relative unitname that can be used to issue the item
+//             */
+//           // JOptionPane.showMessageDialog(issueView, ItemUnitInfo);
+//            MenuEntryView.setComboItemBaseUnit(Function.returnSecondColumn(ItemUnitInfo));
+//            Function.AddSelectInCombo(MenuEntryView.returnComboItemBaseUnit());
+                MenuEntryView.setBaseUnitVisible(false);
+                MenuEntryView.setQuantiyVisible(false);
+        
+                Object[][] ItemCategory = MenuEntryModel.getSubCategoryInfo();
+                MenuEntryView.setComboItemCategory(Function.returnSecondColumn(ItemCategory));
+                Function.AddSelectInCombo(MenuEntryView.returnComboItemCategory());
+                }
                 
                
             }
             else if (e.getActionCommand().equalsIgnoreCase("NonTrackable")){
-                MenuEntryView.setTrackable(false);
-                MenuEntryView.hideItemName();
-                MenuEntryView.disableHybridBtn();
-              Object[][]  ItemUnitInfo = MenuEntryModel.getUnitInfo(MenuEntryView.getUnitId(),false);
-          
-            /*
-             * this load all the relative unitname that can be used to issue the item
-             */
-           // JOptionPane.showMessageDialog(issueView, ItemUnitInfo);
-            MenuEntryView.setComboItemBaseUnit(Function.returnSecondColumn(ItemUnitInfo));
-            Function.AddSelectInCombo(MenuEntryView.returnComboItemBaseUnit());
+              JRadioButton combo = (JRadioButton)e.getSource();
+                if(!combo.isSelected()){
+                    JOptionPane.showMessageDialog(MenuEntryView, "");
+
+                  
+                     MenuEntryView.setTrackable(true);
+                     MenuEntryView.showItemName();
+//                MenuEntryView.showStoreName();
+                     MenuEntryView.enableHybridBtn();
+                //show the base unit for the item unit selection for itemname
+                     MenuEntryView.setBaseUnitVisible(true);
+                     MenuEntryView.setQuantiyVisible(true);
+                
+                }
+                else{
+                     MenuEntryView.setTrackable(false);
+                     MenuEntryView.hideItemName();
+//                MenuEntryView.hideStoreName();
+                     MenuEntryView.disableHybridBtn();
+                //not needed since menu doesnot have any unit doesnot have any unit
+//              Object[][]  ItemUnitInfo = MenuEntryModel.getUnitInfo(MenuEntryView.getUnitId(),false);
+//          
+//            /*
+//             * this load all the relative unitname that can be used to issue the item
+//             */
+//           // JOptionPane.showMessageDialog(issueView, ItemUnitInfo);
+//            MenuEntryView.setComboItemBaseUnit(Function.returnSecondColumn(ItemUnitInfo));
+//            Function.AddSelectInCombo(MenuEntryView.returnComboItemBaseUnit());
+                MenuEntryView.setBaseUnitVisible(false);
+                MenuEntryView.setQuantiyVisible(false);
         
-            Object[][] ItemCategory = MenuEntryModel.getSubCategoryInfo();
-            MenuEntryView.setComboItemCategory(Function.returnSecondColumn(ItemCategory));
-            Function.AddSelectInCombo(MenuEntryView.returnComboItemCategory());
+                Object[][] ItemCategory = MenuEntryModel.getSubCategoryInfo();
+                MenuEntryView.setComboItemCategory(Function.returnSecondColumn(ItemCategory));
+                Function.AddSelectInCombo(MenuEntryView.returnComboItemCategory());
+                }
                 
             }
            
@@ -618,45 +681,41 @@ boolean hasFocus, int row, int col)
         }
          
      }
+     //handle the trackableitemlistener
      public class TrackableItemListener implements ItemListener{
-      
 
         @Override
         public void itemStateChanged(ItemEvent e) {
-//            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-           try{
-         if(e.getStateChange() == 1){
-                MenuEntryView.setTrackable(true);
-                MenuEntryView.showItemName();
+            try{
+            if(e.getStateChange() == ItemEvent.SELECTED){
+                 MenuEntryView.setTrackable(true);
+                 MenuEntryView.showItemName();
 //                MenuEntryView.showStoreName();
-                MenuEntryView.enableHybridBtn();
-                 
-              
-         }
-         else{
-               MenuEntryView.setTrackable(false);
-                MenuEntryView.hideItemName();
+                 MenuEntryView.enableHybridBtn();
+           //show the base unit for the item unit selection for itemname
+                MenuEntryView.setBaseUnitVisible(true);
+                MenuEntryView.setQuantiyVisible(true);
+            }
+            else{
+                 MenuEntryView.setTrackable(false);
+                 MenuEntryView.hideItemName();
 //                MenuEntryView.hideStoreName();
-                MenuEntryView.disableHybridBtn();
-              Object[][]  ItemUnitInfo = MenuEntryModel.getUnitInfo(MenuEntryView.getUnitId(),false);
-          
-            /*
-             * this load all the relative unitname that can be used to issue the item
-             */
-           // JOptionPane.showMessageDialog(issueView, ItemUnitInfo);
-            MenuEntryView.setComboItemBaseUnit(Function.returnSecondColumn(ItemUnitInfo));
-            Function.AddSelectInCombo(MenuEntryView.returnComboItemBaseUnit());
+                 MenuEntryView.disableHybridBtn();
+                 MenuEntryView.setBaseUnitVisible(false);
+                 MenuEntryView.setQuantiyVisible(false);
         
-            Object[][] ItemCategory = MenuEntryModel.getSubCategoryInfo();
-            MenuEntryView.setComboItemCategory(Function.returnSecondColumn(ItemCategory));
-            Function.AddSelectInCombo(MenuEntryView.returnComboItemCategory());
-         }
-     }
-         catch(Exception ie){
-         JOptionPane.showMessageDialog(MenuEntryView, ie+"from trackableItemListener");
-     }
+                 Object[][] ItemCategory = MenuEntryModel.getSubCategoryInfo();
+                 MenuEntryView.setComboItemCategory(Function.returnSecondColumn(ItemCategory));
+                 Function.AddSelectInCombo(MenuEntryView.returnComboItemCategory());
+            }
+            }
+            catch(Exception se){
+                DisplayMessages.displayError(mainFrameView, se.getMessage(), "From TrackableItemListener");
+            }
         }
+         
      }
+    
       public class WholesaleItemListener implements ItemListener{
 
         @Override
@@ -1001,14 +1060,16 @@ boolean hasFocus, int row, int col)
            */
             if(MenuEntryView.getHybridFlag()){
 //            JOptionPane.showMessageDialog(mainFrameView, "wala");
-            Object[][]  ItemUnitInfo = MenuEntryModel.getUnitInfo(MenuEntryView.getUnitId(),false);
-          
-            /*
-             * this load all the relative unitname that can be used to issue the item
-             */
-           // JOptionPane.showMessageDialog(issueView, ItemUnitInfo);
-            MenuEntryView.setComboItemBaseUnit(Function.returnSecondColumn(ItemUnitInfo));
-            Function.AddSelectInCombo(MenuEntryView.returnComboItemBaseUnit());
+//            Object[][]  ItemUnitInfo = MenuEntryModel.getUnitInfo(MenuEntryView.getUnitId(),false);
+//          
+//            /*
+//             * this load all the relative unitname that can be used to issue the item
+//             */
+//           // JOptionPane.showMessageDialog(issueView, ItemUnitInfo);
+//            MenuEntryView.setComboItemBaseUnit(Function.returnSecondColumn(ItemUnitInfo));
+//            Function.AddSelectInCombo(MenuEntryView.returnComboItemBaseUnit());
+            
+             
         
             Object[][] ItemCategory = MenuEntryModel.getSubCategoryInfo();
             MenuEntryView.setComboItemCategory(Function.returnSecondColumn(ItemCategory));
@@ -1035,6 +1096,8 @@ boolean hasFocus, int row, int col)
                 //if the item type is hybrid
 //                mview.disableEditBtn();
                 mview.hideItemName();
+                mview.setBaseUnitVisible(false);
+                mview.setQuantiyVisible(false);
                 
                 mview.refreshHybridTable(MenuEntryModel.getHybridItemData(mview.getMenuId()));
                 //copying the default table model to object[][]
@@ -1183,16 +1246,20 @@ boolean hasFocus, int row, int col)
                  * hiding itemname and loading unitid and category
                  */
                  MenuEntryView.hideItemName();
+                 MenuEntryView.setBaseUnitVisible(false);
+                 MenuEntryView.setQuantiyVisible(false);
+                 MenuEntryView.disableHybridBtn();
                  //donot refresh the  unit_type and category if it is not edit type
                  if(!MenuEntryView.isEdit_Flag()){
-              Object[][]  ItemUnitInfo = MenuEntryModel.getUnitInfo(MenuEntryView.getUnitId(),false);
-//          JOptionPane.showMessageDialog(mainFrameView, "Wala");
-            /*
-             * this load all the relative unitname that can be used to issue the item
-             */
-           // JOptionPane.showMessageDialog(issueView, ItemUnitInfo);
-            MenuEntryView.setComboItemBaseUnit(Function.returnSecondColumn(ItemUnitInfo));
-            Function.AddSelectInCombo(MenuEntryView.returnComboItemBaseUnit());
+//                     not needed since unit is not need for any item
+//              Object[][]  ItemUnitInfo = MenuEntryModel.getUnitInfo(MenuEntryView.getUnitId(),false);
+////          JOptionPane.showMessageDialog(mainFrameView, "Wala");
+//            /*
+//             * this load all the relative unitname that can be used to issue the item
+//             */
+//           // JOptionPane.showMessageDialog(issueView, ItemUnitInfo);
+//            MenuEntryView.setComboItemBaseUnit(Function.returnSecondColumn(ItemUnitInfo));
+//            Function.AddSelectInCombo(MenuEntryView.returnComboItemBaseUnit());
             Object[][] ItemCategory = MenuEntryModel.getSubCategoryInfo();
             MenuEntryView.setComboItemCategory(Function.returnSecondColumn(ItemCategory));
             Function.AddSelectInCombo(MenuEntryView.returnComboItemCategory());

@@ -27,6 +27,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -727,6 +728,11 @@ public class Function  {
               }
               return flag;
           }
+          public static long daysBetween(Calendar startDate, Calendar endDate) {
+            long end = endDate.getTimeInMillis();
+            long start = startDate.getTimeInMillis();
+            return TimeUnit.MILLISECONDS.toDays(Math.abs(end - start));
+            }
 }
 
        

@@ -98,11 +98,14 @@
     </Container>
     <Component class="javax.swing.JButton" name="btnRegister">
       <Properties>
+        <Property name="mnemonic" type="int" value="82"/>
         <Property name="text" type="java.lang.String" value="Register"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btnContinue">
       <Properties>
+        <Property name="mnemonic" type="int" value="67"/>
         <Property name="text" type="java.lang.String" value="Continue"/>
       </Properties>
     </Component>

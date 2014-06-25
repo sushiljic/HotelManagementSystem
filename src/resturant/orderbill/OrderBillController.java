@@ -84,6 +84,7 @@ public class OrderBillController extends SystemDateModel {
         
         obview.addSearchListener(new OrderSearchListener());
         obview.addTextSearchListener(new  OrderSearchListener());
+        obview.addSearchDocumentListener(new SearchOrderDocumentListener());
         obview.addRefreshListener(new RefreshOrderTableListener());
         /*
         addd key handler for keyshortcut
@@ -154,7 +155,7 @@ public class OrderBillController extends SystemDateModel {
         /*
          * adding columnname in table order
          */
-        String[] orderColumnName =  new String[]{"Menu Code","Menu Name","Quantity","Item Base Unit","Rate","Total Amount"};
+        String[] orderColumnName =  new String[]{"Menu Code","Menu Name","Quantity","Rate","Total Amount"};
         DefaultTableModel orderTableModel = new DefaultTableModel(null,orderColumnName){
             @Override
             public boolean isCellEditable(int row,int columns){
@@ -886,7 +887,7 @@ public class OrderBillController extends SystemDateModel {
                 }
                 for(int i=0;i<billview.gettblBillInfo().getRowCount();i++){
                    // System.out.println(billview.gettblBillInfo().getValueAt(i, 5));
-                    total_amount += ((Number)billview.gettblBillInfo().getValueAt(i, 5)).doubleValue();
+                    total_amount += ((Number)billview.gettblBillInfo().getValueAt(i, 4)).doubleValue();
                 }
              //   System.out.println(total_amount);
                  
@@ -1591,6 +1592,33 @@ public class OrderBillController extends SystemDateModel {
        catch(Exception se){
            DisplayMessages.displayError(obview, se.getMessage()+" from RefreshOrderedListTimer "+getClass().getName(), "Error");
        }
+        }
+       
+   }
+           public class SearchOrderDocumentListener implements DocumentListener{
+
+        @Override
+        public void insertUpdate(DocumentEvent e) {
+            ReloadTable();
+        }
+
+        @Override
+        public void removeUpdate(DocumentEvent e) {
+            ReloadTable();
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent e) {
+        }
+        public void ReloadTable(){
+            SwingUtilities.invokeLater(new Runnable(){
+
+                @Override
+                public void run() {
+                    obview.refreshJTableOrderedList(obmodel.getOrderInfoLike(obview.getDepartmentId(),obview.getSearch()));
+                }
+                
+            });
         }
        
    }

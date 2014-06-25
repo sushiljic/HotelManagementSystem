@@ -408,7 +408,7 @@ public class OrderBillModel  extends DBConnect{
         PreparedStatement stmtget ;
         ResultSet rs;
        // String search = menuid+"%";
-        String strget = "SELECT order_item_list.menu_id,menu.menu_name,order_item_list.quantity,item_unit.unit_name,menu.retail_price,order_item_list.quantity*menu.retail_price as total_amount FROM order_item_list INNER JOIN menu ON order_item_list.menu_id = menu.menu_id INNER JOIN item_unit ON menu.unit_id = item_unit.unit_id  where order_id  IN (?)";
+        String strget = "SELECT order_item_list.menu_id,menu.menu_name,order_item_list.quantity,menu.retail_price,order_item_list.quantity*menu.retail_price as total_amount FROM order_item_list INNER JOIN menu ON order_item_list.menu_id = menu.menu_id   where order_id  IN (?)";
        // String[] columnName = new String[]{"Menu Id","Menu Name"," Retail Rate","Wholesale Rate","Base Unit",};
         ArrayList<Object[]> data = new ArrayList<Object[]>();
         Object[][] finaldata = null;
@@ -418,14 +418,14 @@ public class OrderBillModel  extends DBConnect{
             stmtget.setInt(1, orderid);
             rs = stmtget.executeQuery();
             while(rs.next()){
-                Object[] row = new Object[]{rs.getObject("menu_id"),rs.getObject("menu_name"),new BigDecimal(rs.getString("quantity")).setScale(3, RoundingMode.HALF_UP),rs.getObject("unit_name"),new BigDecimal(rs.getString("retail_price")).setScale(2, RoundingMode.HALF_UP),new BigDecimal(rs.getString("total_amount")).setScale(2, RoundingMode.HALF_UP)};
+                Object[] row = new Object[]{rs.getObject("menu_id"),rs.getObject("menu_name"),new BigDecimal(rs.getString("quantity")).setScale(3, RoundingMode.HALF_UP),new BigDecimal(rs.getString("retail_price")).setScale(2, RoundingMode.HALF_UP),new BigDecimal(rs.getString("total_amount")).setScale(2, RoundingMode.HALF_UP)};
             data.add(row);
             }
             finaldata = data.toArray(new Object[data.size()][]);
             
         }
         
-        catch(Exception e){
+        catch(SQLException e){
             JOptionPane.showMessageDialog(null, e+"from getItemListByOrderId");
         }
         finally{
@@ -778,5 +778,71 @@ public class OrderBillModel  extends DBConnect{
         }
         return data.toArray(new Object[data.size()][]);
      }
+     public DefaultTableModel getOrderInfoLike(int dep,String search){
+        DBConnect gettg = new DBConnect();
+        PreparedStatement stmtget ;
+        ResultSet rs;
+        Double[] TaxList = new Double[2];
+        String st = search +"%";
+        
+       // String search = src+"%";
+        String strget = "SELECT order_list.order_id,table_info.table_name,order_list.customer_id,order_list.total_amount FROM order_list LEFT JOIN  table_info ON order_list.table_id = table_info.table_id  WHERE order_list.paid = 0 and department_id = ? and order_list.order_id LIKE ? ORDER BY order_list.date desc ";
+        String[] columnName = new String[]{"Order Id","Table Name","Total Amount "};
+        ArrayList<Object[]> data = new ArrayList<Object[]>();
+      
+        Object[][] finaldata = null;
+        /*
+        retreiving the value for the tax to include into item total
+        */
+        TaxList = getChargeInfo();
+        Double VAT = new Double(0.0);
+        Double SVC = new Double(0.0);
+        try{
+//            System.out.println(dep);
+            gettg.initConnection();
+            stmtget = gettg.conn.prepareStatement(strget);
+           // stmtget.setString(1,new String(new SimpleDateFormat("yyyy-MM-dd").format(new Date())));
+            
+          //  System.out.println(new SimpleDateFormat("yyyy-MM-dd").format(new Timestamp(new Date().getTime())));
+           stmtget.setInt(1, dep);
+           stmtget.setString(2, st);
+            rs = stmtget.executeQuery();
+            while(rs.next()){
+               /* if(rs.getString("table_id").isEmpty()){
+                    data = rs.getString("Customer Name")
+                }*/
+               Double TotalAmount = rs.getDouble("total_amount");
+//                System.out.println(TotalAmount);
+//                VAT = TaxList[0]* TotalAmount/100;
+//                SVC = TaxList[1]* TotalAmount/100;
+//                TotalAmount = TotalAmount + VAT+SVC; 
+                
+                  SVC = TaxList[0]* TotalAmount/100;
+                Double tt = TotalAmount +SVC;
+                 VAT = (TaxList[1]* tt)/100;
+                TotalAmount = tt + VAT; 
+                
+                Object[] row = new Object[]{rs.getInt("order_id"),rs.getString("table_name"),new BigDecimal(TotalAmount).setScale(2, RoundingMode.HALF_UP)};
+            data.add(row);
+            }
+            finaldata = data.toArray(new Object[data.size()][]);
+            
+        }
+        
+        catch(SQLException e){
+            JOptionPane.showMessageDialog(null, e+"from getOrderInfo"+getClass().getName());
+        }
+        finally{
+            gettg.closeConnection();
+        }
+        return new DefaultTableModel(finaldata,columnName){
+                @Override     
+            public boolean isCellEditable(int row, int col){
+               return false;
+           }
+                
+           
+        };
+    }
     
 }

@@ -1324,6 +1324,9 @@ public class OrderBillView extends javax.swing.JInternalFrame {
           public void addTenderedAmountActionListener(ActionListener listen){
               txtTenderedAmount.addActionListener(listen);
           }
+          public void addSearchDocumentListener(DocumentListener Listen){
+         txtSearch.getDocument().addDocumentListener(Listen);
+            }
           //returning textfield
           public JFormattedTextField returnSVC(){
               return txtSVCPercent;
