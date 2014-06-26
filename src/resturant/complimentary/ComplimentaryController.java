@@ -82,10 +82,8 @@ public class ComplimentaryController {
 // System.out.println("wala1");
                     cmodel.EditComplimentary(cview.getCustomerInfo());
 //                     System.out.println("wala2");
-                     cview.ClearAll();
-                     cview.refreshJtableCustomerInfo(cmodel.getTableModelComplimentaryInfo());
-                    cview.setEditEditableFalse();
-                    cview.setDeleteEditableFalse();
+                    cview.refreshJtableCustomerInfo(cmodel.getTableModelComplimentaryInfo());
+                    cview.getBtnCancel().doClick();
                     }
         }
             if(e.getActionCommand().equalsIgnoreCase("Delete")){
@@ -96,10 +94,9 @@ public class ComplimentaryController {
                     int choice = JOptionPane.showConfirmDialog(cview, "DO You Want To Delete Complimentary", "Complimentary Add Window", JOptionPane.YES_NO_OPTION);
                     if(choice == JOptionPane.YES_OPTION ){
                         cmodel.DeleteCustomer(cview.getCustomerInfo());
-                        cview.ClearAll();
+                       
                         cview.refreshJtableCustomerInfo(cmodel.getTableModelComplimentaryInfo());
-                          cview.setEditEditableFalse();
-            cview.setDeleteEditableFalse();
+                        cview.getBtnCancel().doClick();
                     }
             }
             else if (e.getActionCommand().equalsIgnoreCase("Cancel")){
@@ -110,6 +107,7 @@ public class ComplimentaryController {
             }
         }
         catch(Exception cce){
+           cce.printStackTrace();
             JOptionPane.showMessageDialog(cview, cce+"From CustomerCrudListener");
         }
         }
@@ -117,7 +115,7 @@ public class ComplimentaryController {
     }
     
     public class CustomerInfoListSelectionListener implements ListSelectionListener{
-        ComplimentaryView theview = new ComplimentaryView(new JFrame(),true);
+        ComplimentaryView theview ;
         JTable table;
             
         public CustomerInfoListSelectionListener(ComplimentaryView view){
@@ -137,19 +135,20 @@ public class ComplimentaryController {
                 
             }
             else{
-          ListSelectionModel      listmodel = cview.tblCustomerInfo.getSelectionModel();
+          ListSelectionModel      listmodel = theview.tblCustomerInfo.getSelectionModel();
                 int lead = listmodel.getLeadSelectionIndex();
-                 cview.setCustomerInfo(displayRowValues(lead));
-                 InitialCustomerName = cview.getComplimentaryReason();
-                 cview.setEditEditableTrue();
-                 cview.setDeleteEditableTrue();
-                 cview.setAddEditableFalse();
+                 theview.setCustomerInfo(displayRowValues(lead));
+                 InitialCustomerName = theview.getComplimentaryReason();
+                 theview.setEditEditableTrue();
+                 theview.setDeleteEditableTrue();
+                 theview.setAddEditableFalse();
                  
                 
             }
         }
         catch(Exception se){
-            JOptionPane.showMessageDialog(cview, se+"from CustomerInfoListSelectionListener");
+            
+            JOptionPane.showMessageDialog(theview, se+"from CustomerInfoListSelectionListener");
         }
         }
            private String[] displayRowValues(int lead){

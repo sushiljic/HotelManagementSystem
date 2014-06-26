@@ -72,6 +72,7 @@ public class ComplimentaryView extends javax.swing.JDialog {
         tblCustomerInfo = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Complimentary Window");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Complimentary Info"));
 
@@ -233,6 +234,23 @@ public class ComplimentaryView extends javax.swing.JDialog {
     public void addCustomerListSelectionListener(ListSelectionListener ListenForSelect){
         selectionModelCustomer.addListSelectionListener(ListenForSelect);
     }
+
+    public JButton getBtnAdd() {
+        return btnAdd;
+    }
+
+    public JButton getBtnCancel() {
+        return btnCancel;
+    }
+
+    public JButton getBtnDelete() {
+        return btnDelete;
+    }
+
+    public JButton getBtnEdit() {
+        return btnEdit;
+    }
+    
     
     public String[] getCustomerInfo(){
         String[] info = new String[5];
@@ -244,7 +262,7 @@ public class ComplimentaryView extends javax.swing.JDialog {
     }
     public void setCustomerInfo(String[] data){
         setComplimentaryId(Integer.parseInt(data[0]));
-//        System.out.println(getComplimentaryId());
+        System.out.println(getComplimentaryId());
         setComplimentaryReason(data[1]);
      
     }

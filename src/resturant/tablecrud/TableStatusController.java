@@ -289,32 +289,29 @@ public final class TableStatusController {
                 if(mainview.getCountForOrder() == 0){
               
               
-                mainview.incrementCountForOrder();
-                 ExecuteOrder order = new ExecuteOrder(mainview);
-                mainview.desktop.add(order.OrderView);
-                order.OrderView.setComboTableName(data1[1].toString());
-             
-                order.OrderView.setSelected(true);
+               
+                ExecuteOrder order = new ExecuteOrder(mainview);
+                if(order.OrderView != null){
+                    mainview.desktop.add(order.OrderView);
+                    order.OrderView.setComboTableName(data1[1].toString());
+                    order.OrderView.setSelected(true);
+                    mainview.incrementCountForOrder();
+                    
+                }
                 break;
+               
                 
                 }
                 else{
                       JInternalFrame[] frames=  mainview.desktop.getAllFrames();
                     for (JInternalFrame frame : frames) {
                         if (frame.getTitle().equalsIgnoreCase("Order Window")) {
-//                     
-               
-             OrderView view = (OrderView) frame;
-            view.setSelected(true);
-              view.setComboTableName(data1[1].toString());
-              
-              
-                break;
-                            
-                            
+                                OrderView view = (OrderView) frame;
+                                view.setSelected(true);
+                                view.setComboTableName(data1[1].toString());
+                                break;
                         }
                     }
-                    
                 }
                 }
                 else{
@@ -443,11 +440,10 @@ public final class TableStatusController {
                 }
             }
         }
-        catch(HeadlessException | PropertyVetoException be){
-            JOptionPane.showMessageDialog(null, be+"from ButtonActionListener");
-        }
-        catch(Exception se){
-             JOptionPane.showMessageDialog(null, se+"from ButtonActionListener");
+       
+        catch(HeadlessException | PropertyVetoException | NumberFormatException | NullPointerException se){
+             se.printStackTrace();
+             JOptionPane.showMessageDialog(null, se.getMessage()+"from ButtonActionListener");
         }
         }
         

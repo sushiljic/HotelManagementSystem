@@ -66,7 +66,7 @@ public class ComplimentaryModel extends DBConnect{
            conn.setAutoCommit(false);
             stmtAdd = conn.prepareStatement(strQuery);
             stmtAdd.setString(1, data[1]);
-            stmtAdd.setInt(2, Integer.parseInt(data[2]));
+            stmtAdd.setInt(2, Integer.parseInt(data[0]));
           
             stmtAdd.executeUpdate();
             

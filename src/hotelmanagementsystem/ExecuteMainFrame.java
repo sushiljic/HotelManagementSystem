@@ -6,6 +6,7 @@ package hotelmanagementsystem;
 
 //import com.alee.laf.WebLookAndFeel;
 import SystemInitTool.ExecuteSystemInitToolController;
+import com.alee.laf.WebLookAndFeel;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -92,7 +93,7 @@ public class ExecuteMainFrame {
 //                WebLookAndFeel.install();
               //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
            try{
-                Thread.sleep(2500);//2.5 sec
+                Thread.sleep(2000);//2.5 sec
                ExecuteMainFrame executeMainFrame = new ExecuteMainFrame();
            }
            catch(InterruptedException e){

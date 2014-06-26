@@ -751,6 +751,31 @@ public class TableCrudView extends javax.swing.JDialog {
     public void addGroupTableListSelectionListener(ListSelectionListener ListenForSelect){
         selectionModelTableGroup.addListSelectionListener(ListenForSelect);
     }
+
+    public JButton getBtnTableAdd() {
+        return btnTableAdd;
+    }
+
+    public JButton getBtnTableCancel() {
+        return btnTableCancel;
+    }
+
+    public JButton getBtnTableEdit() {
+        return btnTableEdit;
+    }
+
+    public JButton getBtnTableGroupCancel() {
+        return btnTableGroupCancel;
+    }
+
+    public JButton getBtnTableGroupDelete() {
+        return btnTableGroupDelete;
+    }
+
+    public JButton getBtnTableGroupEdit() {
+        return btnTableGroupEdit;
+    }
+    
     
     public final class SetFocusListener implements FocusListener{
       JTextField jf;

@@ -199,8 +199,7 @@ public class TableCrudController {
                 if(choice == JOptionPane.YES_OPTION){
                 tablemodel.TableGroupEdit(tableview.getTableGroup());
                 tableview.refreshGroupTableJTable(tablemodel.getTableGroupInfo());
-                tableview.clearGroupTable();
-                tableview.disableTableEdit();
+                tableview.getBtnTableGroupCancel().doClick();
                 //refresh the indivuduall table
                 tableview.refreshTableJTable(tablemodel.getTableInfo());
                 }
@@ -215,8 +214,7 @@ public class TableCrudController {
                 {
                 tablemodel.TableGroupDelete(tableview.getTableGroup());
                 tableview.refreshGroupTableJTable(tablemodel.getTableGroupInfo());
-                tableview.clearGroupTable();
-                tableview.disableTableGroupDelete();
+                tableview.getBtnTableGroupCancel().doClick();
                 //refresh the table from the individuall
                 tableview.refreshTableJTable(tablemodel.getTableInfo());
                 }
@@ -318,10 +316,7 @@ public class TableCrudController {
                 if(choice == JOptionPane.YES_OPTION){
                 tablemodel.TableEdit(tableview.getTable());
                 tableview.refreshTableJTable(tablemodel.getTableInfo());
-                tableview.clearTable();
-                tableview.disableTableEdit();
-                 tableview.disableTableDelete();
-                tableview.checkedTableAvailability();
+                tableview.getBtnTableCancel().doClick();
                   /*
                for refrehing the the vie of table
                */
@@ -349,10 +344,7 @@ public class TableCrudController {
                 if(choice == JOptionPane.YES_OPTION){
                tablemodel.TableDelete(tableview.getTable());
                tableview.refreshTableJTable(tablemodel.getTableInfo());
-                tableview.clearTable();
-                tableview.disableTableDelete();
-                tableview.disableTableEdit();
-                tableview.checkedTableAvailability();
+               tableview.getBtnTableCancel().doClick();
                   /*
                for refrehing the the vie of table
                */

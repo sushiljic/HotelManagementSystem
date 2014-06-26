@@ -203,13 +203,14 @@ public class IssueStockReportController {
                BigDecimal Relative = new BigDecimal(item[2].toString());
 //               System.out.println(TotalQuantity +"\n"+ Relative);
 //               System.out.println(TotalQuantity.divide(Relative));
-               BigDecimal rt = TotalQuantity.divide(Relative).setScale(3, RoundingMode.HALF_UP);
+               BigDecimal rt = TotalQuantity.divide(Relative, RoundingMode.HALF_UP);
 //               System.out.println(TotalQuantity+"\n"+Relative+"\n"+rt);
                IRView.setRelativeStockQuantity(rt.toString());
             }
             
         }
         catch(Exception ce){
+                ce.printStackTrace();
             JOptionPane.showMessageDialog(IRView, ce+"ComboUnitNameListener");
         }
         }

@@ -317,7 +317,7 @@ int width = gd.getDisplayMode().getWidth();
         DialogIssueItemLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {ComboRelativeUnitName, txtItemName, txtRelativeStockQuantity, txtTotalStockQuantity});
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Sales Report");
+        setTitle(" Item Stock Report");
         setModalityType(java.awt.Dialog.ModalityType.DOCUMENT_MODAL);
 
         jPanel4.setBackground(new java.awt.Color(251, 250, 250));

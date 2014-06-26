@@ -373,7 +373,7 @@ public class TableCrudModel extends DBConnect {
          info[2] = String.valueOf(getTableGroupId());
          info[3] = getComboTableGroup();
          */
-        String strdel = "DELETE table_info WHERE table_id = ?";
+        String strdel = "DELETE FROM table_info WHERE table_id = ?";
         DBConnect del = new DBConnect();
         try{
             del.initConnection();

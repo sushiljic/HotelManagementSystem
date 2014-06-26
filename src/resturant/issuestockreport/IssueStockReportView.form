@@ -125,7 +125,7 @@
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="2"/>
-    <Property name="title" type="java.lang.String" value="Sales Report"/>
+    <Property name="title" type="java.lang.String" value=" Item Stock Report"/>
     <Property name="modalityType" type="java.awt.Dialog$ModalityType" editor="org.netbeans.modules.form.editors.EnumEditor">
       <Value id="DOCUMENT_MODAL"/>
     </Property>
