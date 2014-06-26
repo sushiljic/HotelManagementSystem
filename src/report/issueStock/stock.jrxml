@@ -301,7 +301,7 @@ INNER JOIN item_unit ON store.unit_id = item_unit.unit_id]]>
 								<textElement>
 									<paragraph leftIndent="5"/>
 								</textElement>
-								<textFieldExpression><![CDATA[$F{unit_relative_quantity}+" "+$F{unit_name}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{rqty}+" "+$F{unit_name}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
