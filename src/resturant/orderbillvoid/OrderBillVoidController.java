@@ -83,13 +83,15 @@ public class OrderBillVoidController {
                 JOptionPane.showMessageDialog( VoidView.DialogOrderBillVoid, "Bill Cannot be Void.\n Bill Date ("+BillDate+") is not equal to  current System Date ("+SystemDate+")");
                 return;
             }
+            if(DisplayMessages.displayInputYesNo(VoidView.DialogOrderBillVoid, "Do You Want to void the Bill No."+VoidView.getBillId()+"?\nSince This cannot be undone.So Make sure You understand the risk.", "Void Bill")){
             VoidModel.voidOrderBill(VoidModel.convertDefaultTableModelToObject(VoidView.gettblBillInfo()), VoidModel.convertDefaultTableModelToObject(VoidView.gettblOrderList()),Integer.parseInt(VoidView.getBillId()));
-              VoidView.setSearchBillId(0);
+            VoidView.setSearchBillId(0);
             VoidView.clearBillAmount();
             VoidView.gettblBillInfo().setRowCount(0);
             VoidView.DialogOrderBillVoid.setVisible(false);
             
             VoidView.setVisible(true);
+            }
         }
         if(e.getActionCommand().equalsIgnoreCase("Cancel")){
             VoidView.setSearchBillId(0);

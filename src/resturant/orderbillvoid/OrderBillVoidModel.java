@@ -229,8 +229,8 @@ public class OrderBillVoidModel  extends DBConnect{
               String MenuId = new String();
               String strvoidbill = "UPDATE  bill SET void = 1 WHERE bill_id =?";
               String stradd = "DELETE FROM order_item_list WHERE order_id IN (?) ";
-              String strSubtractSingleResturantStore = "UPDATE department_store_stock SET total_qty = department_store_stock.total_qty +(? * (select  menu.quantity*item_unit.unit_relative_quantity from menu INNER JOIN item_unit ON menu.unit_id = item_unit.unit_id WHERE menu.menu_id = ?)) WHERE item_id = (select item_id from menu where menu_id = ?)";
-              String strSubtractHybridResturantStore = "UPDATE department_store_stock SET total_qty = department_store_stock.total_qty + (? *?) WHERE item_id = ?  ";
+              String strSubtractSingleResturantStore = "UPDATE department_store_stock SET total_qty = department_store_stock.total_qty +(? * (select  menu.quantity*item_unit.unit_relative_quantity from menu INNER JOIN item_unit ON menu.unit_id = item_unit.unit_id WHERE menu.menu_id = ?)) WHERE department_item_id = (select department_item_id from menu where menu_id = ?)";
+              String strSubtractHybridResturantStore = "UPDATE department_store_stock SET total_qty = department_store_stock.total_qty + (? *?) WHERE department_item_id = ?  ";
              String strorderadd = "DELETE  FROM order_list WHERE order_id = ?";
               DBConnect addorder = new DBConnect();
               try{
@@ -294,8 +294,8 @@ public class OrderBillVoidModel  extends DBConnect{
                for (String[] strHybridTrackableItem1 : strHybridTrackableItem) {
                    String[][] data = getItemIdForHybrid(strHybridTrackableItem1[0]);
                       for (String[] data1 : data) {
-                          String[] row = new String[]{data1[0], data1[1], strHybridTrackableItem1[1], strHybridTrackableItem1[0]};
-                          //row0 = item_id row1 = total quantity defined as menu row2  = order quantity row3 = menu id
+                          String[] row = new String[]{data1[0], data1[1], strHybridTrackableItem1[1]};
+                          //row0 = item_id row1 = total quantity defined as menu row2  = order quantity 
                           HybridItem.add(row);
                       }
                }

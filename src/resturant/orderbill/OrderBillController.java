@@ -231,8 +231,14 @@ public class OrderBillController extends SystemDateModel {
 
                         @Override
                         public void run() {
+                            try{
                         BillPrint bill = new BillPrint(print);
                     bill.printBill();
+                            }
+                            catch(Exception e){
+                                e.printStackTrace();
+                                DisplayMessages.displayError(obview, "Priting Error", "Bill Pay");
+                            }
                         }
                         
                     });
@@ -634,6 +640,11 @@ public class OrderBillController extends SystemDateModel {
                              //loading the repective item according to department  
 //                              JOptionPane.showMessageDialog(null, "wala");
                             obview.refreshJTableOrderedList(obmodel.getOrderInfo(obview.getDepartmentId()));
+                            obview.gettblBillInfo().setRowCount(0);
+                            obview.setSaveEditableFalse();
+                            obview.setAddOrderEditableFalse();
+                            obview.clearOrderBill();
+                            obview.setBillId(String.valueOf(obview.getMainBillId()));
                            
                             
                              break;

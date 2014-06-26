@@ -1171,6 +1171,14 @@ public class OrderController  extends SystemDateModel{
                              orderview.setComboMenuName(ordermodel.returnMenuName(ordermodel.getMenuInfo(orderview.getDepartmentId())));
                              orderview.AddSelectInCombo(orderview.returnMenuComboBox());
                              orderview.refreshOrderedListJTable(ordermodel.getOrderInfo(orderview.getDepartmentId()));
+                              orderview.getTableOrderList().setRowCount(0);
+                              //cancel
+                              orderview.setEditOrderEditableFalse();
+                              orderview.setDeleteOrderEditableFalse();
+                              orderview.setAddEditableTrue();
+                              orderview.txtOrderQuantity.setEnabled(true);
+                              orderview.clearOrderData();
+                   orderview.setOrderId(String.valueOf(orderview.getMainOrderId()));
                              break;
                              
                          }

@@ -40,7 +40,7 @@ public class OrderModel  extends DBConnect{
               String MenuId = new String();
               String stradd = "INSERT INTO order_item_list (order_id,menu_id,quantity) VALUES(?,?,?)";
 //              String strSubtractSingleResturantStore = "UPDATE department_store_stock SET total_qty = department_store_stock.total_qty -(? * (select  menu.quantity*item_unit.unit_relative_quantity from menu INNER JOIN item_unit ON menu.unit_id = item_unit.unit_id WHERE menu.menu_id = ?)) WHERE item_id = (select item_id from menu where menu_id = ?)";
-               String strSubtractSingleResturantStore = "UPDATE department_store_stock SET total_qty = department_store_stock.total_qty -(? * (select  menu.quantity*item_unit.unit_relative_quantity from menu INNER JOIN item_unit ON menu.unit_id = item_unit.unit_id WHERE menu.menu_id = ?)) WHERE department_item_id = (select department_item_id from menu where menu_id = ?)";
+              String strSubtractSingleResturantStore = "UPDATE department_store_stock SET total_qty = department_store_stock.total_qty -(? * (select  menu.quantity*item_unit.unit_relative_quantity from menu INNER JOIN item_unit ON menu.unit_id = item_unit.unit_id WHERE menu.menu_id = ?)) WHERE department_item_id = (select department_item_id from menu where menu_id = ?)";
               String strSubtractHybridResturantStore = "UPDATE department_store_stock SET total_qty = department_store_stock.total_qty  - ?*? WHERE department_item_id = ?  ";
              String strorderadd = "INSERT INTO order_list(order_id,table_id,waiter_id,customer_id,total_amount,date,user_id,department_id,com_date) VALUES(?,?,?,?,?,?,?,?,?)";
              String strtablepack = " UPDATE table_info SET table_status = 1 WHERE table_id = ? ";
@@ -109,6 +109,7 @@ public class OrderModel  extends DBConnect{
                   for (String[] strHybridTrackableItem1 : strHybridTrackableItem) {
                       String[][] data = getItemIdForHybrid(Integer.parseInt(strHybridTrackableItem1[0]));
                       for (String[] data1 : data) {
+                          //department_item_id,//basic amount in ml,quantity
                           String[] row = new String[]{data1[0], data1[1], strHybridTrackableItem1[1]};
                           HybridItem.add(row);
                       }
@@ -120,8 +121,8 @@ public class OrderModel  extends DBConnect{
                   stmtSubtractHybridResturantStore = addorder.conn.prepareStatement(strSubtractHybridResturantStore);
                   for (String[] strHybridItem1 : strHybridItem) {
                       //  stmtdelSubtractHybridResturantStore.setString(1, straddHybridItem[i][0]);
-                      stmtSubtractHybridResturantStore.setBigDecimal(1, new BigDecimal(strHybridItem1[2]));
-                      stmtSubtractHybridResturantStore.setBigDecimal(2, new BigDecimal(strHybridItem1[1]));
+                      stmtSubtractHybridResturantStore.setBigDecimal(1, new BigDecimal(strHybridItem1[2]));//quantity
+                      stmtSubtractHybridResturantStore.setBigDecimal(2, new BigDecimal(strHybridItem1[1]));//basic amount in ml
                       stmtSubtractHybridResturantStore.setString(3, strHybridItem1[0]);
                       stmtSubtractHybridResturantStore.executeUpdate();
                   }
@@ -199,16 +200,21 @@ public class OrderModel  extends DBConnect{
               this is all done for fist delete the data and then againg adding the data in the table
               */
               String strdeladd = "DELETE FROM order_item_list WHERE order_id = ? ";
-              String strdelSubtractSingleResturantStore = "UPDATE department_store_stock SET total_qty = department_store_stock.total_qty +((select order_item_list.quantity from order_item_list where menu_id = ? and order_id = ?) * (select  menu.quantity*item_unit.unit_relative_quantity from menu INNER JOIN item_unit ON menu.unit_id = item_unit.unit_id WHERE menu.menu_id = ?)) WHERE item_id = (select item_id from menu where menu_id = ?)";
-              String strdelSubtractHybridResturantStore = "UPDATE department_store_stock SET total_qty = department_store_stock.total_qty + (select order_item_list.quantity from order_item_list where menu_id = ? and order_id = ?) *? WHERE item_id = ?  ";
+//              String strdelSubtractSingleResturantStore = "UPDATE department_store_stock SET total_qty = department_store_stock.total_qty +((select order_item_list.quantity from order_item_list where menu_id = ? and order_id = ?) * (select  menu.quantity*item_unit.unit_relative_quantity from menu INNER JOIN item_unit ON menu.unit_id = item_unit.unit_id WHERE menu.menu_id = ?)) WHERE item_id = (select item_id from menu where menu_id = ?)";
+//              String strdelSubtractHybridResturantStore = "UPDATE department_store_stock SET total_qty = department_store_stock.total_qty + (select order_item_list.quantity from order_item_list where menu_id = ? and order_id = ?) *? WHERE item_id = ?  ";
+               String strdelSubtractSingleResturantStore = "UPDATE department_store_stock SET total_qty = department_store_stock.total_qty +((select order_item_list.quantity from order_item_list where menu_id = ? and order_id = ?) * (select  menu.quantity*item_unit.unit_relative_quantity from menu INNER JOIN item_unit ON menu.unit_id = item_unit.unit_id WHERE menu.menu_id = ?)) WHERE department_item_id = (select department_item_id from menu where menu_id = ?)";
+//              String strdelSubtractHybridResturantStore = "UPDATE department_store_stock SET total_qty = department_store_stock.total_qty + (select order_item_list.quantity from order_item_list where menu_id = ? and order_id = ?) *? WHERE item_id = ?  ";
+               String strdelSubtractHybridResturantStore = "UPDATE department_store_stock SET total_qty = department_store_stock.total_qty  + ?*? WHERE department_item_id = ?  ";
 //             String strdelorderadd = "UPDATE order_list  SET total_amount =  0 WHERE order_id = ?";
              String strtableunpack = "UPDATE table_info SET table_status = 0 WHERE table_id = ?";
             /*
              there is query for edit data
              */
               String stradd = "INSERT INTO order_item_list (order_id,menu_id,quantity) VALUES(?,?,?)";
-              String strSubtractSingleResturantStore = "UPDATE department_store_stock SET total_qty = department_store_stock.total_qty -(? * (select  menu.quantity*item_unit.unit_relative_quantity from menu INNER JOIN item_unit ON menu.unit_id = item_unit.unit_id WHERE menu.menu_id = ?)) WHERE item_id = (select item_id from menu where menu_id = ?)";
-              String strSubtractHybridResturantStore = "UPDATE department_store_stock SET total_qty = department_store_stock.total_qty  - ?*? WHERE item_id = ?  ";
+//              String strSubtractSingleResturantStore = "UPDATE department_store_stock SET total_qty = department_store_stock.total_qty -(? * (select  menu.quantity*item_unit.unit_relative_quantity from menu INNER JOIN item_unit ON menu.unit_id = item_unit.unit_id WHERE menu.menu_id = ?)) WHERE item_id = (select item_id from menu where menu_id = ?)";
+//              String strSubtractHybridResturantStore = "UPDATE department_store_stock SET total_qty = department_store_stock.total_qty  - ?*? WHERE item_id = ?  ";
+              String strSubtractSingleResturantStore = "UPDATE department_store_stock SET total_qty = department_store_stock.total_qty -(? * (select  menu.quantity*item_unit.unit_relative_quantity from menu INNER JOIN item_unit ON menu.unit_id = item_unit.unit_id WHERE menu.menu_id = ?)) WHERE department_item_id = (select department_item_id from menu where menu_id = ?)";
+              String strSubtractHybridResturantStore = "UPDATE department_store_stock SET total_qty = department_store_stock.total_qty  - ?*? WHERE department_item_id = ?  ";
               String strorderadd = "UPDATE  order_list SET table_id = ? ,waiter_id = ? ,customer_id = ? ,total_amount = ? ,date = ?,user_id= ? ,department_id = ?, com_date = ? WHERE order_id = ?";
               String strtablepack = " UPDATE table_info SET table_status = 1 WHERE table_id = ? ";
               String strordertable = "UPDATE  temp_order_table SET table_id = ? WHERE order_id = ?";
@@ -274,8 +280,8 @@ public class OrderModel  extends DBConnect{
                   for (String[] strHybridTrackableItem1 : strHybridTrackableItem) {
                       String[][] data = getItemIdForHybrid(Integer.parseInt(strHybridTrackableItem1[0]));
                       for (String[] data1 : data) {
-                          String[] row = new String[]{data1[0], data1[1], strHybridTrackableItem1[1], strHybridTrackableItem1[0]};
-                          //row0 = item_id row1 = total quantity defined as menu row2  = order quantity row3 = menu id
+                          String[] row = new String[]{data1[0], data1[1], strHybridTrackableItem1[1]};
+                          //row0 = dpeartment_item_id row1 = total quantity defined as menu in ml row2  = order quantity 
                           HybridItem.add(row);
                       }
                   }
@@ -285,10 +291,11 @@ public class OrderModel  extends DBConnect{
                    */
                   stmtdelSubtractHybridResturantStore = addorder.conn.prepareStatement(strdelSubtractHybridResturantStore);
                   for (String[] strHybridItem1 : strHybridItem) {
-                      stmtdelSubtractHybridResturantStore.setString(1, strHybridItem1[3]); //menu_id
-                      stmtdelSubtractHybridResturantStore.setInt(2, orderid);//order_id
-                      stmtdelSubtractHybridResturantStore.setBigDecimal(3, new BigDecimal(strHybridItem1[1])); //total quantity
-                      stmtdelSubtractHybridResturantStore.setString(4, strHybridItem1[0]); //Item_id
+//                      stmtdelSubtractHybridResturantStore.setString(1, strHybridItem1[3]); //menu_id
+//                      stmtdelSubtractHybridResturantStore.setInt(2, orderid);//order_id
+                      stmtdelSubtractHybridResturantStore.setBigDecimal(1, new BigDecimal(strHybridItem1[2])); //total quantity
+                       stmtdelSubtractHybridResturantStore.setBigDecimal(2, new BigDecimal(strHybridItem1[1]));//basic amount in my
+                      stmtdelSubtractHybridResturantStore.setString(3, strHybridItem1[0]); //Item_id
                       stmtdelSubtractHybridResturantStore.executeUpdate();
                   }
                   /*
@@ -413,9 +420,9 @@ public class OrderModel  extends DBConnect{
                   stmtSubtractHybridResturantStore = addorder.conn.prepareStatement(strSubtractHybridResturantStore);
                   for (String[] strHybridItem1 : straddHybridItem) {
                       //  stmtdelSubtractHybridResturantStore.setString(1, straddHybridItem[i][0]);
-                      stmtSubtractHybridResturantStore.setBigDecimal(1, new BigDecimal(strHybridItem1[2]));
-                      stmtSubtractHybridResturantStore.setBigDecimal(2, new BigDecimal(strHybridItem1[1]));
-                      stmtSubtractHybridResturantStore.setString(3, strHybridItem1[0]);
+                      stmtSubtractHybridResturantStore.setBigDecimal(1, new BigDecimal(strHybridItem1[2]));//quantity
+                      stmtSubtractHybridResturantStore.setBigDecimal(2, new BigDecimal(strHybridItem1[1]));//basic amount in ml
+                      stmtSubtractHybridResturantStore.setString(3, strHybridItem1[0]);//department_item_id
                       stmtSubtractHybridResturantStore.executeUpdate();
                   }
                   
@@ -475,8 +482,8 @@ public class OrderModel  extends DBConnect{
               BigDecimal total_amount = BigDecimal.ZERO;
               String MenuId = new String();
               String stradd = "DELETE  FROM order_item_list WHERE  order_id =? ";
-              String strSubtractSingleResturantStore = "UPDATE department_store_stock SET total_qty = department_store_stock.total_qty +((select order_item_list.quantity from order_item_list where menu_id = ? and order_id = ?) * (select  menu.quantity*item_unit.unit_relative_quantity from menu INNER JOIN item_unit ON menu.unit_id = item_unit.unit_id WHERE menu.menu_id = ?)) WHERE item_id = (select item_id from menu where menu_id = ?)";
-              String strSubtractHybridResturantStore = "UPDATE department_store_stock SET total_qty = department_store_stock.total_qty + (select order_item_list.quantity from order_item_list where menu_id = ? and order_id = ?) *? WHERE item_id = ?  ";
+              String strSubtractSingleResturantStore = "UPDATE department_store_stock SET total_qty = department_store_stock.total_qty +((select order_item_list.quantity from order_item_list where menu_id = ? and order_id = ?) * (select  menu.quantity*item_unit.unit_relative_quantity from menu INNER JOIN item_unit ON menu.unit_id = item_unit.unit_id WHERE menu.menu_id = ?)) WHERE department_item_id = (select department_item_id from menu where menu_id = ?)";
+              String strSubtractHybridResturantStore = "UPDATE department_store_stock SET total_qty = department_store_stock.total_qty  + ?*? WHERE department_item_id = ?   ";
              String strorderadd = "DELETE  FROM order_list WHERE order_id = ?";
               String strtablepack = " UPDATE table_info SET table_status = 0 WHERE table_id = ? ";
                String strordertable = "DELETE FROM temp_order_table WHERE order_id = ?";
@@ -538,8 +545,8 @@ public class OrderModel  extends DBConnect{
                   for (String[] strHybridTrackableItem1 : strHybridTrackableItem) {
                       String[][] data = getItemIdForHybrid(Integer.parseInt(strHybridTrackableItem1[0]));
                       for (String[] data1 : data) {
-                          String[] row = new String[]{data1[0], data1[1], strHybridTrackableItem1[1], strHybridTrackableItem1[0]};
-                          //row0 = item_id row1 = total quantity defined as menu row2  = order quantity row3 = menu id
+                          String[] row = new String[]{data1[0], data1[1], strHybridTrackableItem1[1]};
+                          //row0 = item_id row1 = total quantity defined as menu row2  = order quantity 
                           HybridItem.add(row);
                       }
                   }
@@ -549,10 +556,10 @@ public class OrderModel  extends DBConnect{
                    */
                   stmtSubtractHybridResturantStore = addorder.conn.prepareStatement(strSubtractHybridResturantStore);
                   for (String[] strHybridItem1 : strHybridItem) {
-                      stmtSubtractHybridResturantStore.setString(1, strHybridItem1[3]); //menu_id
-                      stmtSubtractHybridResturantStore.setInt(2,orderid);//order_id
-                      stmtSubtractHybridResturantStore.setBigDecimal(3, new BigDecimal(strHybridItem1[1])); //total quantity
-                      stmtSubtractHybridResturantStore.setString(4, strHybridItem1[0]); //Item_id
+                      
+                      stmtSubtractHybridResturantStore.setBigDecimal(1, new BigDecimal(strHybridItem1[2])); //total quantity
+                      stmtSubtractHybridResturantStore.setBigDecimal(2, new BigDecimal(strHybridItem1[1]));
+                      stmtSubtractHybridResturantStore.setString(3, strHybridItem1[0]); //Item_id
                       stmtSubtractHybridResturantStore.executeUpdate();
                   }
                   /*
