@@ -248,6 +248,10 @@ public final class MainFrameController {
             JOptionPane.showMessageDialog(MainFrameView, "from mainFrameContructor\n"+e.getMessage()+getClass().getName());
             System.exit(0);
         }
+        catch(Exception se){
+             DisplayMessages.displayError(MainFrameView, "Cannot obtain Menu\n Make Sure Right Database is Attached. \tSystem Will Close. ","Menu Bar ReEdit Error");
+            System.exit(0);
+        }
     }
     //this change the mainframe image for showing status of the day
      private void ManageDayStatus(){
@@ -267,18 +271,18 @@ public final class MainFrameController {
                     }
         }
     
-    public void ChangeMenuBarName(ArrayList MenuBar,String[] title){
-        try{
+    public void ChangeMenuBarName(ArrayList MenuBar,String[] title) throws Exception{
+//        try{
 //            System.out.println(title.length+"menubar"+MenuBar.size());
             for(int i=0;i<MenuBar.size();i++){
               JMenu menu = (JMenu)MenuBar.get(i);
 //              menu.getText();
               menu.setText(title[i]);
             }
-        }
-        catch(Exception e){
-            JOptionPane.showMessageDialog(MainFrameView, e+"from ChangeMenuBarName"+getClass().getName());
-        }
+//        }
+//        catch(Exception e){
+//            JOptionPane.showMessageDialog(MainFrameView, e+"from ChangeMenuBarName"+getClass().getName());
+//        }
     }
    
     public class  MenuItemListener implements ActionListener{

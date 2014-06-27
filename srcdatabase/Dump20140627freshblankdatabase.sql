@@ -123,7 +123,6 @@ CREATE TABLE `center_store_info` (
 
 LOCK TABLES `center_store_info` WRITE;
 /*!40000 ALTER TABLE `center_store_info` DISABLE KEYS */;
-INSERT INTO `center_store_info` VALUES (1,'centerstore');
 /*!40000 ALTER TABLE `center_store_info` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -148,7 +147,7 @@ CREATE TABLE `centerstore_stock` (
   PRIMARY KEY (`item_id`),
   KEY `fk_unit_id_idx` (`unit_id`),
   CONSTRAINT `fk_unit_id` FOREIGN KEY (`unit_id`) REFERENCES `item_unit` (`unit_id`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -218,7 +217,6 @@ CREATE TABLE `company_info` (
 
 LOCK TABLES `company_info` WRITE;
 /*!40000 ALTER TABLE `company_info` DISABLE KEYS */;
-INSERT INTO `company_info` VALUES ('JGoogle','chipledungha','','(989) 789-7987','','','',80980,'',0,0,'',NULL,NULL,'xE9ujH+gXl+jExw5OTxkhw==');
 /*!40000 ALTER TABLE `company_info` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -262,7 +260,7 @@ CREATE TABLE `customer_info` (
   `sales_discount` decimal(19,4) DEFAULT NULL,
   `grand_total` decimal(19,4) DEFAULT NULL,
   PRIMARY KEY (`customer_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -287,7 +285,7 @@ CREATE TABLE `department_info` (
   `default_printer` varchar(100) DEFAULT NULL,
   `order_printer` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`department_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -315,7 +313,7 @@ CREATE TABLE `department_store_stock` (
   `item_expiry_date` date DEFAULT NULL,
   `department_id` int(11) NOT NULL,
   PRIMARY KEY (`department_item_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -339,7 +337,7 @@ CREATE TABLE `department_user` (
   `department_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`department_user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -364,7 +362,7 @@ CREATE TABLE `designation_info` (
   `designation_description` text,
   `waiter_flag` bit(1) DEFAULT NULL,
   PRIMARY KEY (`designation_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -390,7 +388,7 @@ CREATE TABLE `distributor` (
   `distributor_phone` varchar(30) DEFAULT NULL,
   `distributor_email` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`distributor_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -413,7 +411,7 @@ CREATE TABLE `generate_billid` (
   `autoinc_billid` int(11) NOT NULL AUTO_INCREMENT,
   `bill_status` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`autoinc_billid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -436,7 +434,7 @@ CREATE TABLE `generate_orderid` (
   `autoinc_orderid` int(11) NOT NULL AUTO_INCREMENT,
   `order_status` tinyint(1) NOT NULL,
   PRIMARY KEY (`autoinc_orderid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -488,7 +486,7 @@ CREATE TABLE `issue` (
   `issue_to` varchar(50) DEFAULT NULL,
   `issue_date` date NOT NULL,
   PRIMARY KEY (`issue_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -539,7 +537,7 @@ CREATE TABLE `item_category` (
   `category_name` varchar(100) NOT NULL,
   `parent` varchar(100) NOT NULL,
   PRIMARY KEY (`category_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -628,7 +626,7 @@ CREATE TABLE `item_sub_category` (
   PRIMARY KEY (`sub_category_id`),
   KEY `fk_category_id_idx` (`category_id`),
   CONSTRAINT `fk_category_id` FOREIGN KEY (`category_id`) REFERENCES `item_category` (`category_id`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -655,7 +653,7 @@ CREATE TABLE `item_unit` (
   PRIMARY KEY (`unit_id`),
   UNIQUE KEY `IX_item_unit` (`unit_id`),
   UNIQUE KEY `IX_unit_name` (`unit_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -679,8 +677,8 @@ CREATE TABLE `menu` (
   `menu_name` varchar(100) NOT NULL,
   `item_type` tinyint(1) NOT NULL,
   `department_item_id` int(11) DEFAULT NULL,
-  `unit_id` int(11) NOT NULL,
-  `quantity` decimal(19,4) NOT NULL,
+  `unit_id` int(11) DEFAULT NULL,
+  `quantity` decimal(19,4) DEFAULT NULL,
   `category_id` int(11) DEFAULT NULL,
   `retail_price` decimal(19,4) NOT NULL,
   `wholesale_price` decimal(19,4) DEFAULT NULL,
@@ -690,7 +688,7 @@ CREATE TABLE `menu` (
   `department_id` int(11) NOT NULL,
   `menu_image` mediumblob,
   PRIMARY KEY (`menu_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -770,7 +768,7 @@ CREATE TABLE `order_list` (
   `department_id` int(11) NOT NULL,
   `com_date` date DEFAULT NULL,
   PRIMARY KEY (`autoinc_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -824,7 +822,7 @@ CREATE TABLE `purchase` (
   `purchase_date` datetime NOT NULL,
   `distributor_id` int(11) NOT NULL,
   PRIMARY KEY (`purchase_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -916,7 +914,7 @@ CREATE TABLE `sys_menubar_setup` (
 
 LOCK TABLES `sys_menubar_setup` WRITE;
 /*!40000 ALTER TABLE `sys_menubar_setup` DISABLE KEYS */;
-INSERT INTO `sys_menubar_setup` VALUES (1,1,1,1,1,1,1,1,1,1),(4,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,0),(5,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,0),(6,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,0),(3,0,0,0,1,1,0,0,0,0),(10,1,0,0,1,1,0,1,1,0),(11,0,0,0,0,0,0,0,0,0),(14,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,0),(8,1,1,1,1,1,1,1,1,1),(15,1,1,1,0,1,1,1,0,0),(16,0,1,1,0,0,1,0,0,0),(17,0,1,1,0,0,1,0,0,0),(2,1,1,1,1,1,1,1,1,0);
+INSERT INTO `sys_menubar_setup` VALUES (1,1,1,1,1,1,1,1,1,1);
 /*!40000 ALTER TABLE `sys_menubar_setup` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -960,7 +958,7 @@ CREATE TABLE `sys_user_info` (
   `super_admin` tinyint(1) NOT NULL DEFAULT '0',
   `user_info` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`userid`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -969,7 +967,7 @@ CREATE TABLE `sys_user_info` (
 
 LOCK TABLES `sys_user_info` WRITE;
 /*!40000 ALTER TABLE `sys_user_info` DISABLE KEYS */;
-INSERT INTO `sys_user_info` VALUES ('admin','28Xm3ZNKtzDPhelgAxL+iA==',1,1,0,NULL);
+INSERT INTO `sys_user_info` VALUES ('admin','Rcd2Wg1jBHGMQp5Lxgj5fQ==',2,1,0,NULL);
 /*!40000 ALTER TABLE `sys_user_info` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -986,7 +984,7 @@ CREATE TABLE `system_date` (
   `open_status` bit(1) NOT NULL DEFAULT b'0',
   `close_status` bit(1) DEFAULT b'0',
   PRIMARY KEY (`system_date_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1014,7 +1012,7 @@ CREATE TABLE `table_info` (
   PRIMARY KEY (`table_id`),
   KEY `fk_tablegroup_id_idx` (`parent_tablegroup_id`),
   CONSTRAINT `fk_tablegroup_id` FOREIGN KEY (`parent_tablegroup_id`) REFERENCES `tablegroup` (`tablegroup_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1038,7 +1036,7 @@ CREATE TABLE `tablegroup` (
   `tablegroup_name` varchar(100) NOT NULL,
   `tablegroup_rate` decimal(19,4) DEFAULT NULL,
   PRIMARY KEY (`tablegroup_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1120,7 +1118,7 @@ CREATE TABLE `wastage` (
   `menu_type_flag` tinyint(4) NOT NULL,
   `unit_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`wastage_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1141,4 +1139,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-06-20 14:31:46
+-- Dump completed on 2014-06-27 15:23:10
