@@ -350,6 +350,15 @@ public class IssueReportCategoryView extends javax.swing.JDialog {
          return param;
      }
      
+     public Map getReturnDepAllCategory(){
+         Map param = new HashMap<>();
+         param.put("title", "Issue Return Report of All Categroy for " +getComboStoreName());
+         param.put("frmDate", getStartDate());
+         param.put("toDate", getEndDate());
+         param.put("department", getStoreId());
+         return param;
+     }
+     
      public Map getReturnAllDepCategory(){
          Map param = new HashMap<>();
          param.put("title", "Issue Return Report of " + getComboCategoryName());

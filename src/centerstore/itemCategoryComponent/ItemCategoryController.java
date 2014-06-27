@@ -320,6 +320,7 @@ public class ItemCategoryController {
             updateComboTree();
             //itemView.clearErrorTextField();
         }
+        itemView.disableBtns();
     }
     
     public void deleteFunc(){
@@ -358,6 +359,7 @@ public class ItemCategoryController {
            }
        else{
        }
+       itemView.disableBtns();
     }
     
     private boolean checkCategoryName(String name){

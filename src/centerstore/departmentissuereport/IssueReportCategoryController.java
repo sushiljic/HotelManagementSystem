@@ -264,7 +264,7 @@ public class IssueReportCategoryController {
                         else{
                             String report = "returnStoreAllItem.jrxml";
                       String title = "Issue Return Report";
-                            ReturnReport ret = new ReturnReport(IRView.getReturnDepAll(),report,title);
+                            ReturnReport ret = new ReturnReport(IRView.getReturnDepAllCategory(),report,title);
 //                             IRView.setlblReportTitle(ReturnTitle);
 //                            IRView.refreshTableReport(IRModel.getIssueReturnList(null, date, true));
                         }
