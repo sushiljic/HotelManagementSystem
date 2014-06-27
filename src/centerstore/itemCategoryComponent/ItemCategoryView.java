@@ -55,7 +55,7 @@ public class ItemCategoryView extends javax.swing.JDialog {
         setButtonForEnter(btnUpdate);
         setButtonForEnter(btnDelete);
         setButtonForEnter(btnCancel);
-        
+        disableBtns();
         setLocationRelativeTo(null);
     }
     
@@ -359,6 +359,21 @@ public class ItemCategoryView extends javax.swing.JDialog {
         btnCancel.addKeyListener(key);
     }
     
+    /**
+     * enables and disable buttons
+     * add enable then update and delete disable
+     * and vice-versa
+     */
+    public void enableBtns(){
+        btnAdd.setEnabled(false);
+        btnUpdate.setEnabled(true);
+        btnDelete.setEnabled(true);
+    }
+    public void disableBtns(){
+        btnAdd.setEnabled(true);
+        btnUpdate.setEnabled(false);
+        btnDelete.setEnabled(false);
+    }
     /*public Hashtable categoryTree(Hashtable category){
         return category;
     }

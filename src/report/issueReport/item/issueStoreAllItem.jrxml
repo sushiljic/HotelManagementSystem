@@ -68,7 +68,7 @@
 			<defaultValueExpression><![CDATA[new Date("2013/1/11")]]></defaultValueExpression>
 		</parameter>
 		<parameter name="to" class="java.util.Date">
-			<defaultValueExpression><![CDATA[new Date("2014/01/30")]]></defaultValueExpression>
+			<defaultValueExpression><![CDATA[new Date("2014/06/30")]]></defaultValueExpression>
 		</parameter>
 		<parameter name="category" class="java.lang.Integer">
 			<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
@@ -77,7 +77,7 @@
 			<defaultValueExpression><![CDATA[2]]></defaultValueExpression>
 		</parameter>
 		<parameter name="department" class="java.lang.Integer">
-			<defaultValueExpression><![CDATA[2]]></defaultValueExpression>
+			<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
 		</parameter>
 		<queryString>
 			<![CDATA[SELECT centerstore_stock.item_name,issue.quantity,item_unit.unit_name,

@@ -178,7 +178,6 @@ public class ItemEnteryController {
             //System.out.println("list Listener");
             if(!lEvt.getValueIsAdjusting()){
                try{ itemEView.disableAdd();
-                itemEView.enableUpdate();
                 itemEView.disableField();
                // System.out.println("list Listener");
                listItemModel = itemEView.getListModel();
@@ -469,7 +468,6 @@ public class ItemEnteryController {
             loadItemList();
             
             itemEView.enableAdd();
-            itemEView.disableUpdate();
             itemEView.enableField();
             itemEView.clearComboList();
     }
@@ -488,7 +486,6 @@ public class ItemEnteryController {
                 itemEView.clearAllField();
                 
                 itemEView.enableAdd();
-                itemEView.disableUpdate();
                 itemEView.enableField();
             }
             else{
@@ -524,7 +521,6 @@ public class ItemEnteryController {
     public void cancleFunc(){
          itemEView.clearAllField();
             itemEView.enableAdd();
-            itemEView.disableUpdate();
             itemEView.enableField();
             itemEView.clearComboList();
     }

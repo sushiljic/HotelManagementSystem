@@ -29,6 +29,7 @@ public class DistributerView extends javax.swing.JDialog {
         setFont(new Font("Tahoma", Font.PLAIN, 14));
         initComponents();
         disableUpdate();
+        disableDelete();
         
         //set enter and space key actions
         setButtonForEnter(btnAdd);
@@ -46,11 +47,17 @@ public class DistributerView extends javax.swing.JDialog {
     public void disableAdd(){
         btnAdd.setEnabled(false);
     }
+    public void disableDelete(){
+        btnDelete.setEnabled(false);
+    }
     public void enableAdd(){
         btnAdd.setEnabled(true);
     }
     public void enableUpdate(){
         btnUpdate.setEnabled(true);
+    }
+    public void enableDelete(){
+        btnDelete.setEnabled(true);
     }
     /**
      * This method is called from within the constructor to initialize the form.

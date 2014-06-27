@@ -266,7 +266,7 @@ public class IssueReportView extends javax.swing.JDialog {
       
       public Map getIssueItemAllParams(){
          Map param = new HashMap<>();
-         param.put("title", "Issue Report of All Item");
+         param.put("title", "Issue Report of All Item for All Department");
          param.put("frmDate", getStartDate());
          param.put("toDate", getEndDate());
          return param;

@@ -45,7 +45,7 @@ public class ItemEnteryView extends javax.swing.JDialog {
         //doesn't allow user to select past date for expiry date of a product.
         txtExDate.setMinSelectableDate(new Date());
         
-        disableUpdate();
+        enableAdd();
        
         setLocationRelativeTo(null);
         //disableField();
@@ -639,18 +639,16 @@ public class ItemEnteryView extends javax.swing.JDialog {
     public String getItemId(){
         return itemId;
     }
-    
-     public void disableUpdate(){
-        btnUpdate.setEnabled(false);
-    }
+
     public void disableAdd(){
         btnAdd.setEnabled(false);
+        btnUpdate.setEnabled(true);
+        btnDelete.setEnabled(true);
     }
     public void enableAdd(){
         btnAdd.setEnabled(true);
-    }
-    public void enableUpdate(){
-        btnUpdate.setEnabled(true);
+        btnUpdate.setEnabled(false);
+        btnDelete.setEnabled(false);
     }
     
     /**
