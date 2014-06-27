@@ -276,11 +276,6 @@ public class WastageController {
                       if(data[1].equals(jb.getSelectedItem())){
                           
                           wastageView.setUnitID(Integer.parseInt(data[0].toString()));
-//                          System.out.println(wastageView.getUnitID());
-//                          JOptionPane.showMessageDialog(wastageView, jb.getSelectedItem()+"unit"+wastageView.getUnitID());
-                          //update  the item stock
-                          
-                          
                           wastageView.setlblItemStock(wastageModel.getItemStockAvailable(wastageView.getItemID(), wastageView.getUnitID()).toString());
                           break;
                       }

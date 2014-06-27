@@ -286,7 +286,7 @@ public class WastageModel  extends DBConnect{
     }
         //retreiving the itemname in the respective department
        public Object[][] getItemInfoForMenu(int storeid){
-       String strQuery = "SELECT department_store_stock.department_item_id,centerstore_stock.item_name,department_store_stock.unit_id,item_unit.unit_name,item_unit.unit_relative_quantity,item_unit.unit_type,centerstore_stock.category_id,item_category.category_name FROM department_store_stock,centerstore_stock,item_unit,item_category WHERE department_store_stock.unit_id = item_unit.unit_id AND department_store_stock.item_id = centerstore_stock.item_id AND centerstore_stock.category_id = item_category.category_id and department_store_stock.department_id = ?";
+       String strQuery = "SELECT department_store_stock.department_item_id,centerstore_stock.item_name,department_store_stock.unit_id,item_unit.unit_name,item_unit.unit_relative_quantity,item_unit.unit_type,centerstore_stock.category_id,item_sub_category.sub_category_name FROM department_store_stock INNER JOIN centerstore_stock ON department_store_stock.item_id = centerstore_stock.item_id INNER JOIN item_unit ON department_store_stock.unit_id = item_unit.unit_id LEFT JOIN item_sub_category ON centerstore_stock.category_id = item_sub_category.sub_category_id WHERE      department_store_stock.department_id = ?";
       PreparedStatement stmtItemInfo;
       ResultSet rsResult;
       Object[][] Itemdata = null;
@@ -432,12 +432,12 @@ public class WastageModel  extends DBConnect{
         ResultSet rsget ;
         DBConnect dbget  = new DBConnect();
         BigDecimal Avaiable = BigDecimal.ZERO;
-        ArrayList<Object[]> data = new ArrayList<Object[]>();
+//        ArrayList<Object[]> data = new ArrayList<Object[]>();
         ArrayList<BigDecimal> ItemStockData = new ArrayList<>();
         BigDecimal MenuQuantity = BigDecimal.ZERO;
 //        String ColName[] = new String[]{"ItemName","Stock Available"};
         
-        String strget = "SELECT centerstore_stock.item_name,(department_store_stock.total_qty/(item_unit.unit_relative_quantity)) as total_qty,item_unit.unit_name,hybrid_menu.quantity as hybridquantity,menu.quantity as menuquantity  from hybrid_menu INNER JOIN department_store_stock ON hybrid_menu.department_item_id= department_store_stock.department_item_id INNER JOIN item_unit ON hybrid_menu.unit_id = item_unit.unit_id INNER JOIN centerstore_stock ON department_store_stock.item_id = centerstore_stock.item_id  INNER JOIN menu ON hybrid_menu.parent_menu_id = menu.menu_id where parent_menu_id  in (?)";
+        String strget = "SELECT centerstore_stock.item_name,(department_store_stock.total_qty/item_unit.unit_relative_quantity) as total_qty,item_unit.unit_name,hybrid_menu.quantity as hybridquantity from hybrid_menu INNER JOIN department_store_stock ON hybrid_menu.department_item_id= department_store_stock.department_item_id INNER JOIN item_unit ON hybrid_menu.unit_id = item_unit.unit_id INNER JOIN centerstore_stock ON department_store_stock.item_id = centerstore_stock.item_id  INNER JOIN menu ON hybrid_menu.parent_menu_id = menu.menu_id where parent_menu_id  in (?)";
         try{
             dbget.initConnection();
             stmtget = dbget.conn.prepareStatement(strget);
@@ -447,9 +447,9 @@ public class WastageModel  extends DBConnect{
                 BigDecimal TotalItem = rsget.getBigDecimal("total_qty").divide(rsget.getBigDecimal("hybridquantity"),3,RoundingMode.HALF_UP);
                 ItemStockData.add(TotalItem);
 //               System.out.println(TotalItem);
-                MenuQuantity = rsget.getBigDecimal("menuquantity");
-                Object[] row = new Object[]{rsget.getString("item_name"),rsget.getBigDecimal("total_qty")+rsget.getString("unit_name")};
-                data.add(row);
+//                MenuQuantity = rsget.getBigDecimal("menuquantity");
+//                Object[] row = new Object[]{rsget.getString("item_name"),rsget.getBigDecimal("total_qty")+rsget.getString("unit_name")};
+//                data.add(row);
             }
 //            MenuInfo = data.toArray(new Object[data.size()][]);
         }
@@ -459,9 +459,10 @@ public class WastageModel  extends DBConnect{
         finally{
             dbget.closeConnection();
         }
+        //sorting in ascending order
         Collections.sort(ItemStockData);
 //        System.out.println(ItemStockData.get(0));
-        MenuQuantity = ItemStockData.get(0).divide(MenuQuantity,3,RoundingMode.HALF_UP);
+        MenuQuantity = ItemStockData.get(0);
         
        return MenuQuantity ;
         
@@ -494,7 +495,7 @@ public class WastageModel  extends DBConnect{
            PreparedStatement stmt;
            ResultSet rs;
            BigDecimal bg = null ;
-           String str = "SELECT (a.total_qty/u.unit_relative_quantity)  FROM  department_store_stock a,item_unit u   WHERE a.item_id = ? AND u.unit_id = ? ";
+           String str = "SELECT (a.total_qty/u.unit_relative_quantity)  FROM  department_store_stock a,item_unit u   WHERE a.department_item_id = ? AND u.unit_id = ? ";
            try{
                initConnection();
                stmt = conn.prepareStatement(str);
