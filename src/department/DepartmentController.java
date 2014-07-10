@@ -6,6 +6,7 @@
 
 package department;
 
+import java.awt.HeadlessException;
 import java.awt.KeyEventDispatcher;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -98,8 +99,8 @@ public class DepartmentController {
                     return;    
                    }
                }
-               int choice = JOptionPane.showConfirmDialog(departmentView, "Do You want to Edit Department?","Edit Department Window",JOptionPane.YES_NO_CANCEL_OPTION);
-               if(choice == JOptionPane.YES_OPTION){
+               if(DisplayMessages.displayInputYesNo(departmentView, "Do You want to Edit Department?","Edit Department Window"))
+               {
                departmentModel.editDepartment(departmentView.getDepartmentInfo());
                departmentView.refreshDepartmentTable(departmentModel.getDepartmentTableModel());
                departmentView.clearDeparmentInfo();
@@ -112,8 +113,8 @@ public class DepartmentController {
                    JOptionPane.showMessageDialog(departmentView, "Select the List from Table to Delete Department");
                     return;   
                }
-                     int choice = JOptionPane.showConfirmDialog(departmentView, "Do You want to Delete Department?\n This will Result on Deleting all the transaction related to the Department.","Delete Department Window",JOptionPane.YES_NO_CANCEL_OPTION);
-               if(choice == JOptionPane.YES_OPTION){
+               if(DisplayMessages.displayInputYesNo(departmentView, "Do You want to Delete Department?\n This will Result on Deleting all the transaction related to the Department.","Delete Department Window"))
+               {
                departmentModel.deleteDepartment(departmentView.getDepartmentInfo());
                departmentView.refreshDepartmentTable(departmentModel.getDepartmentTableModel());
                departmentView.clearDeparmentInfo();
@@ -133,7 +134,7 @@ public class DepartmentController {
             
             
         }
-        catch(Exception se){
+        catch(HeadlessException se){
             JOptionPane.showMessageDialog(departmentView, se+"from DepartmentCrudListener "+getClass().getName());
         }
         }

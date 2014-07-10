@@ -408,7 +408,7 @@
                       <Component id="jLabel2" min="-2" pref="81" max="-2" attributes="0"/>
                       <Component id="jLabel3" min="-2" pref="81" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="65" max="32767" attributes="0"/>
+                  <EmptySpace pref="121" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="EndDateChooser" max="32767" attributes="0"/>
                       <Component id="StartDateChooser" linkSize="1" pref="143" max="32767" attributes="0"/>

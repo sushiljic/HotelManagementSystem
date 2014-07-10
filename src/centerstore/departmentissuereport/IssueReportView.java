@@ -34,6 +34,8 @@ public class IssueReportView extends javax.swing.JDialog {
 
     /**
      * Creates new form IssueReportView
+     * @param parent
+     * @param modal
      */
     public IssueReportView(java.awt.Frame parent, boolean modal) {
         super(parent, modal);

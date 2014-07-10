@@ -68,7 +68,9 @@ public class PurchaseReturnModel {
         
         strQuery = "INSERT INTO purchase_return(purchase_id,quantity,unit_id,return_reason,distributor_id,return_date,amount) VALUES(?,?,?,?,?,?,?)";
         strItemCenterStore = "UPDATE centerstore_stock SET total_qty = ? WHERE item_id = ?";
+        /*not needed
         strPurchase = "UPDATE PURCHASE SET  total_amount=? , quantity = ? WHERE purchase_id =?";
+        */
         try{
             //for calculating new value of qunatity in stock
           //  Date date = new Date();
@@ -115,9 +117,10 @@ public class PurchaseReturnModel {
            stmtItemQuery.setString(2,returnData[0]);
            stmtItemQuery.executeUpdate();
            /*
+                not needed
             *  for updating the purchase table
             * 
-            */
+           
            BigDecimal netPurchaseQuantity = new BigDecimal(returnData[9]).setScale(3, RoundingMode.HALF_UP).subtract(new BigDecimal(returnData[3]).setScale(3, RoundingMode.HALF_UP));
            stmtPurchase = eReturn.conn.prepareStatement(strPurchase);
            eReturn.conn.setAutoCommit(false);
@@ -125,6 +128,7 @@ public class PurchaseReturnModel {
            stmtPurchase.setBigDecimal(2, netPurchaseQuantity);
            stmtPurchase.setString(3, returnData[8]);
            stmtPurchase.executeUpdate();
+            */
            /*
             * if all goes well commit
             * */

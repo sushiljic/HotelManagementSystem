@@ -24,6 +24,7 @@ import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import reusableClass.Function;
 
 /**
  *
@@ -38,12 +39,15 @@ public class DepartmentView extends javax.swing.JDialog {
 
     /**
      * Creates new form DepartmentView
+     * @param parent
+     * @param modal
      */
     public DepartmentView(JFrame parent,boolean modal) {
         super(parent,modal);
         initComponents();
         DepartmentListModel = tblDepartment.getSelectionModel();
         DepartmentListModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        txtDepartmentName.addFocusListener( new Function.SetTextFieldFocusListener(txtDepartmentName));
         setButtonForEnter(btnAdd);
         setButtonForEnter(btnCancel);
         setButtonForEnter(btnEdit);
@@ -75,6 +79,7 @@ public class DepartmentView extends javax.swing.JDialog {
         tblDepartment = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Department Setup");
         setResizable(false);
 
         btnEdit.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N

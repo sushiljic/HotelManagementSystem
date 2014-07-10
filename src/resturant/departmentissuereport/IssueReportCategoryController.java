@@ -69,6 +69,7 @@ public class IssueReportCategoryController {
        else{
            if(IRView.returnComboStoreName().getModel().getSize() == 1){
            IRView.returnComboStoreName().setSelectedIndex(0);
+           IRView.setCheckIncludeAllDepartmentVisible(false);
            }
        }
         }

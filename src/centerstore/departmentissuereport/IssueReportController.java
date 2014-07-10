@@ -66,7 +66,7 @@ public class IssueReportController {
          * fetching the  storedata into the combo box
          */
         try{
-//       
+//        System.out.println(this.mainview.getUserId());
         IRView.setComboStoreName(IRModel.returnItemName(IRModel.getRespectiveDepartment(this.mainview.getUserId())));
        if(IRView.returnComboStoreName().getModel().getSize() >1){
            IRView.AddSelectInCombo(IRView.returnComboStoreName()); 
@@ -75,6 +75,7 @@ public class IssueReportController {
        else{
            if(IRView.returnComboStoreName().getModel().getSize() ==1){
            IRView.returnComboStoreName().setSelectedIndex(0);
+           IRView.setCheckIncludeAllDepartmentVisible(false);
            }
        }
        //loading menu 

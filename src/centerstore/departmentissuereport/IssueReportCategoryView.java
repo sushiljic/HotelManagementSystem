@@ -108,6 +108,7 @@ public class IssueReportCategoryView extends javax.swing.JDialog {
     }
       public void setCheckIncludeAllDepartmentVisible(boolean bl){
         checkboxIncludeAllDepartment.setVisible(bl);
+        
     }
 //     public Date getStartDateString(){
 //        return StartDateChooser.getDate();

@@ -603,6 +603,25 @@ public class Function  {
              }
              return adminflag;
          }
+          public static Integer[] getAllAdminandSuperAdminUser() throws SQLException{
+              ArrayList<Integer> user = new ArrayList<>();
+
+              
+                DBConnect getAdmin = new DBConnect();
+                String strQry = "SELECT userid FROM sys_user_info WHERE admin =1 OR super_admin = 1 ";
+                PreparedStatement psadmin;
+                ResultSet rs;
+               
+                    getAdmin.initConnection();
+                    psadmin = getAdmin.conn.prepareStatement(strQry);
+                    
+                    rs = psadmin.executeQuery();
+                    while(rs.next()){
+                        int userid = rs.getInt(1);
+                        user.add(userid);
+                    }
+                 return user.toArray(new Integer[user.size()]);
+          }
           //get the companyname
           public static String getCompanyName(){
              DBConnect getAdmin = new DBConnect();

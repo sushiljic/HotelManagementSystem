@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import reusableClass.Function;
 
 /**
  *
@@ -23,6 +24,7 @@ public class DepartmentModel extends DBConnect {
         PreparedStatement stmtadd;
         ResultSet rs;
         int department_id = 0;
+        Integer[] Alluser ;
         String strQuery = "INSERT INTO department_info(department_name,default_printer,order_printer) VALUES(?,?,?)";
         String str = "SELECT last_insert_id()";
         String stri = "INSERT INTO department_user (department_id,user_id) VALUES(?,?)";
@@ -38,10 +40,14 @@ public class DepartmentModel extends DBConnect {
           rs = stmtadd.executeQuery();
           rs.next();
           department_id = rs.getInt(1);
+          Alluser = Function.getAllAdminandSuperAdminUser();
+          for(int userid:Alluser){
           stmtadd = conn.prepareStatement(stri);
           stmtadd.setInt(1, department_id);
-          stmtadd.setInt(2, 1);
-          stmtadd.executeUpdate();
+          stmtadd.setInt(2, userid);
+          stmtadd.executeUpdate();    
+          }
+         
           conn.commit();
           
           JOptionPane.showMessageDialog(null, "Department Added Successfully");
@@ -86,7 +92,7 @@ public class DepartmentModel extends DBConnect {
      public void deleteDepartment(String[] info){
         PreparedStatement stmtadd;
         ResultSet rs;
-        String strQuery = "DELETE * FROM  department_info  WHERE department_id = ?";
+        String strQuery = "DELETE FROM  department_info  WHERE department_id = ?";
         try{
              initConnection();
           stmtadd = conn.prepareStatement(strQuery);

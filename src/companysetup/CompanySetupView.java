@@ -344,7 +344,7 @@ public class CompanySetupView extends javax.swing.JDialog {
         txtPanNo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         try {
-            txtPhone.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(###) ###-####")));
+            txtPhone.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(###) ###-###")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }

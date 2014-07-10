@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
@@ -67,6 +68,11 @@ public class PurchaseReportView extends javax.swing.JDialog {
     public String getComboItemName(){
         return comboItemName.getSelectedItem().toString();
     }
+
+    public JComboBox returnComboItemName() {
+        return comboItemName;
+    }
+    
      public void setComboBaseUnitName(String[] itemName){
         DefaultComboBoxModel itemmodel = new DefaultComboBoxModel(itemName);
         comboBaseUnitName.setModel(itemmodel);

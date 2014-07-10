@@ -12,6 +12,7 @@ import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import report.purchaseReport.PurchaseReport;
 import report.purchaseReturnReport.PurchaseReturnReport;
+import reusableClass.Function;
 //import report.purchaseReport.*;
 /*
 import report.purchaseReport.PurchaseReportAll;
@@ -33,6 +34,7 @@ public class PurchaseReportController {
          * fetching the data into the combo box
          */
         IRView.setComboItemName(IRModel.returnItemName(IRModel.getItemInfoForIssue()));
+        Function.AddSelectInCombo(IRView.returnComboItemName());
         
      //   IRView.check
         IRView.addOkListener(new PurchaseReportListener());
@@ -252,16 +254,18 @@ public class PurchaseReportController {
             
             JComboBox cb = (JComboBox)e.getSource();
             if(cb == IRView.comboItemName)
-            {
-            //System.out.println(cb.getSelectedItem());
-            for(int i=0;i<IRModel.Itemdata.length;i++){
-                if(IRModel.Itemdata[i][1].equals(cb.getSelectedItem())){
-              
-                    item = IRModel.Itemdata[i];
-                    break;
+                if(cb.getSelectedIndex() == 0){
+                    IRView.setItemId("");
+                    return;
                 }
-               // Systeim.out.println(issueModel.Itemdata[i][1]);
-            }
+            {
+                for (Object[] Itemdata : IRModel.Itemdata) {
+                    if (Itemdata[1].equals(cb.getSelectedItem())) {
+                        item = Itemdata;
+                        break;
+                    }
+                    // Systeim.out.println(issueModel.Itemdata[i][1]);
+                }
             IRView.setOnComboItemNameSelect(item);
            // System.out.println(IRView.getUnitId());
          ItemUnitInfo = IRModel.getUnitInfo(IRView.getUnitId());
@@ -278,13 +282,12 @@ public class PurchaseReportController {
             }
             if(cb == IRView.comboBaseUnitName){
                   ItemUnitInfo = IRModel.getUnitInfo(IRView.getUnitId());
-                
-               for(int i=0;i<ItemUnitInfo.length;i++){
-                   if(ItemUnitInfo[i][1].equals(cb.getSelectedItem())){
-                     Unit= ItemUnitInfo[i];
-                     break;
-                   }
-               }
+                for (Object[] ItemUnitInfo1 : ItemUnitInfo) {
+                    if (ItemUnitInfo1[1].equals(cb.getSelectedItem())) {
+                        Unit = ItemUnitInfo1;
+                        break;
+                    }
+                }
                IRView.setUnitId(Unit[0].toString());
               // System.out.println(Unit[0]+"\n"+IRView.getUnitId());
             }
