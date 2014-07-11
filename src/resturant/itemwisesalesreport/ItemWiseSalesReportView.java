@@ -776,9 +776,13 @@ int width = gd.getDisplayMode().getWidth();
 
         jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {ComboPeriodType, StartDateChooser});
 
+        btnOk.setMnemonic('O');
         btnOk.setText("Ok");
+        btnOk.setToolTipText("CILT + O");
 
+        btnCancel.setMnemonic('C');
         btnCancel.setText("Cancel");
+        btnCancel.setToolTipText("CILT + C");
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("Menu Name");

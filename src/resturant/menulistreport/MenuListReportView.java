@@ -633,9 +633,13 @@ public class MenuListReportView extends javax.swing.JDialog {
                 .addContainerGap(17, Short.MAX_VALUE))
         );
 
+        btnOk.setMnemonic('O');
         btnOk.setText("Ok");
+        btnOk.setToolTipText("CILT + O");
 
+        btnCancel.setMnemonic('C');
         btnCancel.setText("Cancel");
+        btnCancel.setToolTipText("CILT + C");
 
         SubCategoryPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 

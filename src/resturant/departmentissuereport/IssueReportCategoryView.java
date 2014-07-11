@@ -34,6 +34,8 @@ public class IssueReportCategoryView extends javax.swing.JDialog {
 
     /**
      * Creates new form IssueReportView
+     * @param parent
+     * @param modal
      */
     public IssueReportCategoryView(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -625,9 +627,13 @@ public class IssueReportCategoryView extends javax.swing.JDialog {
                 .addContainerGap())
         );
 
+        btnOk.setMnemonic('o');
         btnOk.setText("Ok");
+        btnOk.setToolTipText("CLT+O");
 
+        btnCancel.setMnemonic('C');
         btnCancel.setText("Cancel");
+        btnCancel.setToolTipText("ALT+C");
 
         comboStoreName.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         comboStoreName.setActionCommand("ComboItemName");

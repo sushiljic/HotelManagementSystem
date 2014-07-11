@@ -611,9 +611,13 @@ public class IssueReportView extends javax.swing.JDialog {
                 .addContainerGap())
         );
 
+        btnOk.setMnemonic('o');
         btnOk.setText("Ok");
+        btnOk.setToolTipText("CLT + O");
 
+        btnCancel.setMnemonic('c');
         btnCancel.setText("Cancel");
+        btnCancel.setToolTipText("CLT + C");
 
         comboStoreName.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         comboStoreName.setActionCommand("ComboItemName");

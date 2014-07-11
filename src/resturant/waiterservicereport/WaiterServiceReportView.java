@@ -516,9 +516,13 @@ public class WaiterServiceReportView extends javax.swing.JDialog {
                 .addContainerGap())
         );
 
+        btnOk.setMnemonic('O');
         btnOk.setText("Ok");
+        btnOk.setToolTipText("ALT+O");
 
+        btnCancel.setMnemonic('C');
         btnCancel.setText("Cancel");
+        btnCancel.setToolTipText("ALT+C");
 
         checkboxIncludeAll.setText("Include All");
 

@@ -676,9 +676,13 @@ int width = gd.getDisplayMode().getWidth();
 
         jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jLabel1, jLabel8});
 
+        btnOk.setMnemonic('O');
         btnOk.setText("Ok");
+        btnOk.setToolTipText("CLT + O");
 
+        btnCancel.setMnemonic('C');
         btnCancel.setText("Cancel");
+        btnCancel.setToolTipText("CLT + C");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

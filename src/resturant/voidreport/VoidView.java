@@ -461,7 +461,9 @@ public class VoidView extends javax.swing.JDialog {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Void Report"));
 
+        btnOk.setMnemonic('O');
         btnOk.setText("Ok");
+        btnOk.setToolTipText("ALT+O");
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Report Period"));
 
@@ -504,7 +506,9 @@ public class VoidView extends javax.swing.JDialog {
                 .addContainerGap())
         );
 
+        btnCancel.setMnemonic('C');
         btnCancel.setText("Cancel");
+        btnCancel.setToolTipText("ALT+C");
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("Department Name:");

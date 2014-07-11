@@ -470,12 +470,16 @@
     </Container>
     <Component class="javax.swing.JButton" name="btnOk">
       <Properties>
+        <Property name="mnemonic" type="int" value="111"/>
         <Property name="text" type="java.lang.String" value="Ok"/>
+        <Property name="toolTipText" type="java.lang.String" value="CLT + O"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btnCancel">
       <Properties>
+        <Property name="mnemonic" type="int" value="99"/>
         <Property name="text" type="java.lang.String" value="Cancel"/>
+        <Property name="toolTipText" type="java.lang.String" value="CLT + C"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JComboBox" name="comboStoreName">

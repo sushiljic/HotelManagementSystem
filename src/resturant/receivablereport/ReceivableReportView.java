@@ -521,9 +521,13 @@ public class ReceivableReportView extends javax.swing.JDialog {
                 .addContainerGap())
         );
 
+        btnOk.setMnemonic('O');
         btnOk.setText("Ok");
+        btnOk.setToolTipText("CILT + O");
 
+        btnCancel.setMnemonic('C');
         btnCancel.setText("Cancel");
+        btnCancel.setToolTipText("CILT + C");
 
         checkboxIncludeAll.setText("Include All");
 

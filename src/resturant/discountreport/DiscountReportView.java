@@ -459,7 +459,9 @@ public class DiscountReportView extends javax.swing.JDialog {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Discount Report"));
 
+        btnOk.setMnemonic('O');
         btnOk.setText("Ok");
+        btnOk.setToolTipText("CILT + O");
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Report Period"));
 
@@ -502,7 +504,9 @@ public class DiscountReportView extends javax.swing.JDialog {
                 .addContainerGap())
         );
 
+        btnCancel.setMnemonic('C');
         btnCancel.setText("Cancel");
+        btnCancel.setToolTipText("CILT + C");
 
         ComboDepartmentName.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
