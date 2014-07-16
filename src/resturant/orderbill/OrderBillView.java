@@ -1466,8 +1466,10 @@ public class OrderBillView extends javax.swing.JInternalFrame {
           setCheckBoxComplimentaryFalse();
           setCheckBoxDiscountFalse();
           setComplimentaryId(0);
+          if(comboboxComplimentaryName.getModel().getSize() != 0){
+              comboboxComplimentaryName.setSelectedIndex(0);
+          }
           
-          comboboxComplimentaryName.setSelectedIndex(0);
 //          setCheckBoxDiscountFalse();
           
           
@@ -1483,7 +1485,9 @@ public class OrderBillView extends javax.swing.JInternalFrame {
            return comboBoxCustomerName;
        }
        public void initComboCustomerName(){
-           comboBoxCustomerName.setSelectedIndex(0);
+           if(comboBoxCustomerName.getModel().getSize() != 0){
+            comboBoxCustomerName.setSelectedIndex(0);
+           }
        }
       public void requestFocusOnTenderedAmount(){
          txtTenderedAmount.requestFocus();

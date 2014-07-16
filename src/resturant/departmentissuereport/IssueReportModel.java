@@ -96,7 +96,7 @@ public class IssueReportModel extends DBConnect {
        public Object[][] getCategoryInfoForIssue(){
           PreparedStatement stmtItemInfo;
           ResultSet rsResult;
-       String strQuery = "SELECT centerstore_stock.category_id,item_sub_category.sub_category_name FROM centerstore_stock,item_sub_category WHERE centerstore_stock.category_id = item_sub_category.sub_category_id";
+       String strQuery = "SELECT DISTINCT centerstore_stock.category_id,item_sub_category.sub_category_name FROM centerstore_stock,item_sub_category WHERE centerstore_stock.category_id = item_sub_category.sub_category_id";
       
        DBConnect getitem = new DBConnect();
        try{

@@ -210,6 +210,7 @@ public class OrderController  extends SystemDateModel{
       
         }
         catch(Exception e){
+            e.printStackTrace();
             JOptionPane.showMessageDialog(mainframeview, e+"From Constructor "+getClass().getName());
         }
     }

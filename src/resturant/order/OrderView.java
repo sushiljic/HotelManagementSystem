@@ -1071,12 +1071,18 @@ private KeyboardFocusManager kfmanager;
        // System.out.println(data[2]);
     }
     public  void clearOrderData(){
-          comboCustomerName.setSelectedIndex(0);
-       comboWaiterName.setSelectedIndex(0);
-       if(comboMenuName.getModel().getSize() != 0){
-     comboMenuName.setSelectedIndex(0);
+        if(comboCustomerName.getModel().getSize() != 0){
+          comboCustomerName.setSelectedIndex(0);  
+        }
+        if(comboWaiterName.getModel().getSize() != 0){
+            comboWaiterName.setSelectedIndex(0);
+        }
+        if(comboMenuName.getModel().getSize() != 0){
+            comboMenuName.setSelectedIndex(0);
        }
-     comboTableName.setSelectedIndex(0);
+        if(comboTableName.getModel().getSize() != 0){
+            comboTableName.setSelectedIndex(0);
+       }
         setOrderId("");
 //        setMainOrderId(0);
         setMenuId(0);

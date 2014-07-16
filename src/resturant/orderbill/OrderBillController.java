@@ -182,6 +182,7 @@ public class OrderBillController extends SystemDateModel {
         refreshOrderedList.start();
         }
          catch(Exception se){
+             se.printStackTrace();
             JOptionPane.showMessageDialog(mainview, se+"from constructor "+ getClass().getName());
         }
     }
