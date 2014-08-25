@@ -234,7 +234,7 @@ public class OrderBillController extends SystemDateModel {
                         public void run() {
                             try{
                         BillPrint bill = new BillPrint(print);
-                    bill.printBill();
+                        bill.printBill();
                             }
                             catch(Exception e){
                                 e.printStackTrace();

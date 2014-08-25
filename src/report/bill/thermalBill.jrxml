@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="BillPrint" printOrder="Horizontal" pageWidth="216" pageHeight="720" columnWidth="188" leftMargin="14" rightMargin="14" topMargin="14" bottomMargin="14" isIgnorePagination="true" uuid="b27276a8-137a-4296-b627-a71a66a61d12">
-	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.zoom" value="2.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<style name="table">
@@ -187,7 +187,7 @@ WHERE
 			<textField>
 				<reportElement x="-1" y="1" width="189" height="13" uuid="2b551436-05c0-48b6-b6c3-c74869307afd"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="8"/>
+					<font size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{company_name}]]></textFieldExpression>
 			</textField>
@@ -264,10 +264,10 @@ WHERE
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="55" uuid="08f55baa-2942-4c39-8236-d6cfccf53b32">
+					<jr:column width="68" uuid="08f55baa-2942-4c39-8236-d6cfccf53b32">
 						<jr:columnHeader style="table 1_CH" height="13" rowSpan="1">
 							<staticText>
-								<reportElement style="table_CH" mode="Opaque" x="0" y="0" width="55" height="13" backcolor="#FFFFFF" uuid="1622cd4d-80e7-4560-ad38-42ddcf1631be"/>
+								<reportElement style="table_CH" mode="Opaque" x="0" y="0" width="68" height="13" backcolor="#FFFFFF" uuid="1622cd4d-80e7-4560-ad38-42ddcf1631be"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="6" isBold="true"/>
 								</textElement>
@@ -276,7 +276,7 @@ WHERE
 						</jr:columnHeader>
 						<jr:detailCell height="13" rowSpan="1">
 							<textField isStretchWithOverflow="true">
-								<reportElement mode="Transparent" x="0" y="0" width="55" height="13" uuid="ead598ef-d70a-4f16-b447-b402af714a75"/>
+								<reportElement mode="Transparent" x="0" y="0" width="68" height="13" uuid="ead598ef-d70a-4f16-b447-b402af714a75"/>
 								<textElement verticalAlignment="Middle">
 									<font size="6" isBold="true"/>
 									<paragraph leftIndent="5"/>
@@ -306,31 +306,10 @@ WHERE
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="20" uuid="1711cca5-e4fc-4365-8bd3-275c6b5aaea0">
+					<jr:column width="36" uuid="06415fec-250b-4618-b4d0-fe877b80400d">
 						<jr:columnHeader style="table 1_CH" height="13" rowSpan="1">
 							<staticText>
-								<reportElement style="table_CH" mode="Opaque" x="0" y="0" width="20" height="13" backcolor="#FFFFFF" uuid="9de21bbf-e670-499b-84c8-abd6c3301b4d"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font size="6" isBold="true"/>
-								</textElement>
-								<text><![CDATA[UNIT]]></text>
-							</staticText>
-						</jr:columnHeader>
-						<jr:detailCell height="13" rowSpan="1">
-							<textField isStretchWithOverflow="true">
-								<reportElement mode="Transparent" x="0" y="0" width="20" height="13" uuid="2ded5a6d-d812-4b19-82a6-22d7f302d850"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font size="6" isBold="true"/>
-									<paragraph leftIndent="5"/>
-								</textElement>
-								<textFieldExpression><![CDATA[$F{unit_name}.toUpperCase()]]></textFieldExpression>
-							</textField>
-						</jr:detailCell>
-					</jr:column>
-					<jr:column width="30" uuid="06415fec-250b-4618-b4d0-fe877b80400d">
-						<jr:columnHeader style="table 1_CH" height="13" rowSpan="1">
-							<staticText>
-								<reportElement style="table_CH" mode="Opaque" x="0" y="0" width="30" height="13" backcolor="#FFFFFF" uuid="00955ee6-960b-49ae-9c9a-03d9e6196b03"/>
+								<reportElement style="table_CH" mode="Opaque" x="0" y="0" width="36" height="13" backcolor="#FFFFFF" uuid="00955ee6-960b-49ae-9c9a-03d9e6196b03"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="6" isBold="true"/>
 								</textElement>
@@ -339,7 +318,7 @@ WHERE
 						</jr:columnHeader>
 						<jr:detailCell height="13" rowSpan="1">
 							<textField isStretchWithOverflow="true">
-								<reportElement mode="Transparent" x="0" y="0" width="30" height="13" uuid="338644b2-d3ae-401d-963d-ecaa544ad8ae"/>
+								<reportElement mode="Transparent" x="0" y="0" width="36" height="13" uuid="338644b2-d3ae-401d-963d-ecaa544ad8ae"/>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
 									<font size="6" isBold="true"/>
 									<paragraph firstLineIndent="5" rightIndent="3"/>
@@ -348,10 +327,10 @@ WHERE
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="40" uuid="dcc4c8b2-3737-4262-9eb3-a32105f36d67">
+					<jr:column width="52" uuid="dcc4c8b2-3737-4262-9eb3-a32105f36d67">
 						<jr:columnHeader style="table 1_CH" height="13" rowSpan="1">
 							<staticText>
-								<reportElement style="table_CH" mode="Opaque" x="0" y="0" width="40" height="13" backcolor="#FFFFFF" uuid="df338bce-8a6c-44e1-93c8-1969e4195de8"/>
+								<reportElement style="table_CH" mode="Opaque" x="0" y="0" width="52" height="13" backcolor="#FFFFFF" uuid="df338bce-8a6c-44e1-93c8-1969e4195de8"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="6" isBold="true"/>
 								</textElement>
@@ -360,7 +339,7 @@ WHERE
 						</jr:columnHeader>
 						<jr:detailCell height="13" rowSpan="1">
 							<textField isStretchWithOverflow="true">
-								<reportElement mode="Transparent" x="0" y="0" width="40" height="13" uuid="c0d2d0b8-a351-4a81-b30a-abf69f78b144"/>
+								<reportElement mode="Transparent" x="0" y="0" width="51" height="13" uuid="c0d2d0b8-a351-4a81-b30a-abf69f78b144"/>
 								<textElement textAlignment="Right" verticalAlignment="Middle">
 									<font size="6" isBold="true"/>
 									<paragraph firstLineIndent="5" rightIndent="4"/>

@@ -22,7 +22,7 @@
         </Menu>
         <Menu class="javax.swing.JMenu" name="combo">
           <Properties>
-            <Property name="text" type="java.lang.String" value="CenterStore Setup"/>
+            <Property name="text" type="java.lang.String" value="Basic Setup "/>
             <Property name="actionCommand" type="java.lang.String" value="CenterStoreSetup"/>
           </Properties>
           <SubComponents>

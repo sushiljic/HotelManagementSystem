@@ -98,6 +98,17 @@
                 <Property name="actionCommand" type="java.lang.String" value="SoftwareRegistration"/>
               </Properties>
             </MenuItem>
+            <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator50">
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="MenuItemBackUp">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Backup Data"/>
+                <Property name="actionCommand" type="java.lang.String" value="BackupData"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MenuItemBackUpActionPerformed"/>
+              </Events>
+            </MenuItem>
           </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenu3">
@@ -649,9 +660,9 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jToolBar1" pref="0" max="32767" attributes="0"/>
-                          <Component id="jPanel2" pref="56" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jPanel2" min="-2" pref="56" max="-2" attributes="0"/>
+                          <Component id="jToolBar1" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jScrollPane1" pref="404" max="32767" attributes="0"/>
@@ -823,6 +834,20 @@
                 </Component>
                 <Component class="javax.swing.JToolBar$Separator" name="jSeparator25">
                 </Component>
+                <Component class="javax.swing.JButton" name="btnBackUp">
+                  <Properties>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/images/backupdata.png"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Backup"/>
+                    <Property name="actionCommand" type="java.lang.String" value="BackupData"/>
+                    <Property name="focusable" type="boolean" value="false"/>
+                    <Property name="horizontalTextPosition" type="int" value="0"/>
+                    <Property name="verticalTextPosition" type="int" value="3"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JToolBar$Separator" name="jSeparator51">
+                </Component>
                 <Component class="javax.swing.JButton" name="btnAboutUs">
                   <Properties>
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
@@ -863,7 +888,7 @@
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace pref="978" max="32767" attributes="0"/>
+                              <EmptySpace pref="1005" max="32767" attributes="0"/>
                               <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>

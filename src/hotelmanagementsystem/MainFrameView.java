@@ -125,6 +125,8 @@ public class MainFrameView extends javax.swing.JFrame {
         jSeparator33 = new javax.swing.JToolBar.Separator();
         btnReport = new javax.swing.JButton();
         jSeparator25 = new javax.swing.JToolBar.Separator();
+        btnBackUp = new javax.swing.JButton();
+        jSeparator51 = new javax.swing.JToolBar.Separator();
         btnAboutUs = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         desktop = new javax.swing.JDesktopPane();
@@ -155,6 +157,8 @@ public class MainFrameView extends javax.swing.JFrame {
         MenuItemWaiterSetup = new javax.swing.JMenuItem();
         jSeparator49 = new javax.swing.JPopupMenu.Separator();
         MenuItemRegistration = new javax.swing.JMenuItem();
+        jSeparator50 = new javax.swing.JPopupMenu.Separator();
+        MenuItemBackUp = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         MenuItemUnitSetup = new javax.swing.JMenuItem();
         jSeparator7 = new javax.swing.JPopupMenu.Separator();
@@ -362,6 +366,15 @@ public class MainFrameView extends javax.swing.JFrame {
         btnReport.setVerticalTextPosition(SwingConstants.BOTTOM);
         jToolBar1.add(jSeparator25);
 
+        btnBackUp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/backupdata.png"))); // NOI18N
+        btnBackUp.setText("Backup");
+        btnBackUp.setActionCommand("BackupData");
+        btnBackUp.setFocusable(false);
+        btnBackUp.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnBackUp.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jToolBar1.add(btnBackUp);
+        jToolBar1.add(jSeparator51);
+
         btnAboutUs.setBackground(new java.awt.Color(255, 255, 255));
         btnAboutUs.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/aboutus1.png"))); // NOI18N
         btnAboutUs.setText("About Us");
@@ -387,7 +400,7 @@ public class MainFrameView extends javax.swing.JFrame {
         desktopLayout.setHorizontalGroup(
             desktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, desktopLayout.createSequentialGroup()
-                .addContainerGap(978, Short.MAX_VALUE)
+                .addContainerGap(1005, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addContainerGap())
         );
@@ -541,9 +554,9 @@ public class MainFrameView extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, 0)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 56, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
                 .addGap(1, 1, 1)
@@ -605,6 +618,16 @@ public class MainFrameView extends javax.swing.JFrame {
         MenuItemRegistration.setText("Software Registration");
         MenuItemRegistration.setActionCommand("SoftwareRegistration");
         jMenu1.add(MenuItemRegistration);
+        jMenu1.add(jSeparator50);
+
+        MenuItemBackUp.setText("Backup Data");
+        MenuItemBackUp.setActionCommand("BackupData");
+        MenuItemBackUp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MenuItemBackUpActionPerformed(evt);
+            }
+        });
+        jMenu1.add(MenuItemBackUp);
 
         jMenuBar2.add(jMenu1);
 
@@ -1002,11 +1025,15 @@ public class MainFrameView extends javax.swing.JFrame {
     private void MenuItemCenterstoreItemWiseIssueReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuItemCenterstoreItemWiseIssueReportActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_MenuItemCenterstoreItemWiseIssueReportActionPerformed
+
+    private void MenuItemBackUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuItemBackUpActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_MenuItemBackUpActionPerformed
    public void setCompanyTitle(String name){
        lblCompanyName.setText(name);
    }
    public String getCompanyTitle(){
-       return lblCompanyName.getText().toString();
+       return lblCompanyName.getText();
    }
    public void setCompanyAddress(String add){
        lblAddress.setText(add);
@@ -1015,10 +1042,10 @@ public class MainFrameView extends javax.swing.JFrame {
        lblPhoneNumber.setText(phone);
    }
    public String getCompanyAddress(){
-       return lblCompanyName.getText().toString();
+       return lblCompanyName.getText();
    }
    public String getCompanyPhone(){
-       return lblPhoneNumber.getText().toString();
+       return lblPhoneNumber.getText();
    }
    public void setUserId(int userid){
        UserId = userid;
@@ -1075,6 +1102,11 @@ public class MainFrameView extends javax.swing.JFrame {
     public void addSoftwareRegistration(ActionListener Listen){
         MenuItemRegistration.addActionListener(Listen);
     }
+    public void addBackupData(ActionListener Listen){
+        MenuItemBackUp.addActionListener(Listen);
+        btnBackUp.addActionListener(Listen);
+    }
+    //Basic setup
     public void addUnitSetupListener(ActionListener Listen){
         MenuItemUnitSetup.addActionListener(Listen);
     }
@@ -1391,6 +1423,7 @@ public class MainFrameView extends javax.swing.JFrame {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel ImageLabel;
+    private javax.swing.JMenuItem MenuItemBackUp;
     private javax.swing.JMenuItem MenuItemCenterstoreCategoryIssueReport;
     private javax.swing.JMenuItem MenuItemCenterstoreItemWiseIssueReport;
     private javax.swing.JMenuItem MenuItemCompanySetup;
@@ -1444,6 +1477,7 @@ public class MainFrameView extends javax.swing.JFrame {
     private javax.swing.JMenuItem TerminalMenuCategoryIssueReport;
     private javax.swing.JMenuItem TerminalMenuItemIssueReport;
     private javax.swing.JButton btnAboutUs;
+    private javax.swing.JButton btnBackUp;
     private javax.swing.JButton btnChangePassword;
     private javax.swing.JButton btnDreamsys;
     private javax.swing.JButton btnLogOut;
@@ -1519,6 +1553,8 @@ public class MainFrameView extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator48;
     private javax.swing.JPopupMenu.Separator jSeparator49;
     private javax.swing.JPopupMenu.Separator jSeparator5;
+    private javax.swing.JPopupMenu.Separator jSeparator50;
+    private javax.swing.JToolBar.Separator jSeparator51;
     private javax.swing.JPopupMenu.Separator jSeparator6;
     private javax.swing.JPopupMenu.Separator jSeparator7;
     private javax.swing.JPopupMenu.Separator jSeparator8;

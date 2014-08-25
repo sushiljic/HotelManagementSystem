@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -752,6 +753,12 @@ public class Function  {
             long start = startDate.getTimeInMillis();
             return TimeUnit.MILLISECONDS.toDays(Math.abs(end - start));
             }
+          public static boolean isValidFilename(String text)
+{
+            Pattern pattern = Pattern.compile("[^/./\\:*?\"<>|]");
+            System.out.println(text);
+            return !pattern.matcher(text).find();
+}
 }
 
        

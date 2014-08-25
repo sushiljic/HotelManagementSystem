@@ -781,6 +781,7 @@ public class OrderBillView extends javax.swing.JInternalFrame {
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Ordered  Table List"));
 
+        tblOrderedList.setAutoCreateRowSorter(true);
         tblOrderedList.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         tblOrderedList.getTableHeader().setReorderingAllowed(false);
         tblOrderedList.setToolTipText("HOME");

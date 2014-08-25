@@ -237,7 +237,7 @@ public class UserCreditialView extends javax.swing.JDialog {
 
         jMenuBar2.add(jMenu1);
 
-        combo.setText("CenterStore Setup");
+        combo.setText("Basic Setup ");
         combo.setActionCommand("CenterStoreSetup");
 
         checkCenterStoreSetup.setText("Allow");

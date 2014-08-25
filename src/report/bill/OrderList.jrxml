@@ -89,7 +89,6 @@
 	<field name="website" class="java.lang.String"/>
 	<field name="email" class="java.lang.String"/>
 	<field name="pan_no" class="java.lang.Integer"/>
-	<field name="register" class="java.lang.Short"/>
 	<field name="company_logo" class="java.lang.String"/>
 	<field name="company_svc" class="java.lang.Double"/>
 	<field name="company_vat" class="java.lang.Double"/>
@@ -168,27 +167,6 @@
 									<paragraph leftIndent="5"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{quantity}.setScale(0,RoundingMode.HALF_UP)]]></textFieldExpression>
-							</textField>
-						</jr:detailCell>
-					</jr:column>
-					<jr:column width="45" uuid="1711cca5-e4fc-4365-8bd3-275c6b5aaea0">
-						<jr:columnHeader style="table 1_CH" height="13" rowSpan="1">
-							<staticText>
-								<reportElement style="table_TH" mode="Opaque" x="0" y="0" width="45" height="13" backcolor="#FFFFFF" uuid="9de21bbf-e670-499b-84c8-abd6c3301b4d"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font size="7" isBold="true"/>
-								</textElement>
-								<text><![CDATA[UNIT]]></text>
-							</staticText>
-						</jr:columnHeader>
-						<jr:detailCell height="13" rowSpan="1">
-							<textField>
-								<reportElement style="table_TD" x="0" y="0" width="45" height="13" uuid="2ded5a6d-d812-4b19-82a6-22d7f302d850"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font size="7" isBold="true"/>
-									<paragraph leftIndent="5"/>
-								</textElement>
-								<textFieldExpression><![CDATA[$F{unit_name}.toUpperCase()]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
