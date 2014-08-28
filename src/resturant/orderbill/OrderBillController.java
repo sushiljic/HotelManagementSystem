@@ -17,6 +17,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyVetoException;
+import java.util.Iterator;
 import java.util.Map;
 import javax.swing.AbstractAction;
 import javax.swing.JCheckBox;
@@ -486,29 +487,24 @@ public class OrderBillController extends SystemDateModel {
             JCheckBox jb = (JCheckBox)e.getSource();
       
        if(jb.isSelected()){
-                            comp = obview.ComplimentaryList.toArray(new String[obview.ComplimentaryList.size()][]);
-//                            System.out.println(comp.length);
-//                            for(String[] st:comp){
-//                                for(String s:st){
-//                                    System.out.println(s);
-//                                }
-//                            }
-                           /*
-                            * getting new deafult tabel because it hamper the source
-                            */
-                            int size=obview.tblBillInfo.getColumnCount();
-                            String[] Header = new String[size] ;
+            comp = obview.ComplimentaryList.toArray(new String[obview.ComplimentaryList.size()][]);
 
-                            for(int i=0;i<size;i++){
-                                Header[i] = obview.tblBillInfo.getColumnName(i);
-                            }
+           /*
+            * getting new deafult tabel because it hamper the source
+            */
+            int size=obview.tblBillInfo.getColumnCount();
+            String[] Header = new String[size] ;
 
-                            DefaultTableModel BillModel =new DefaultTableModel((obmodel.convertDefaultTableModelToObject(obview.gettblBillInfo())),Header){
-                                 @Override
-                                 public boolean isCellEditable(int row, int col){
-                                return false;
-                            }
-                            };
+            for(int i=0;i<size;i++){
+                Header[i] = obview.tblBillInfo.getColumnName(i);
+            }
+
+            DefaultTableModel BillModel =new DefaultTableModel((obmodel.convertDefaultTableModelToObject(obview.gettblBillInfo())),Header){
+                 @Override
+                 public boolean isCellEditable(int row, int col){
+                return false;
+            }
+            };
            obview.refreshJTableComplimentarySelect(obmodel.getComplimentaryTable(BillModel, comp));
            obview.JDialogComplimentary.requestFocus();
            obview.JDialogComplimentary.setModal(true);
@@ -700,21 +696,46 @@ public class OrderBillController extends SystemDateModel {
          @Override
          public void mouseClicked(MouseEvent me){
              if(me.getClickCount() == 2){
-        JTable table = (JTable)me.getSource();
-        if(table == obview.tblAddOrder){
-         ListSelectionModel listmodel = table.getSelectionModel();
-               int Lead = listmodel.getLeadSelectionIndex();
-                  Double total_amount = new Double(0.0);
+                JTable table = (JTable)me.getSource();
+             if(table == obview.tblAddOrder){
+                ListSelectionModel listmodel = table.getSelectionModel();
+                int Lead = listmodel.getLeadSelectionIndex();
+                Double total_amount = new Double(0.0);
                // System.out.println(billview.getOrderId());
-                    obview.setOrderId(Integer.parseInt(table.getValueAt(Lead, 0).toString()));
+                obview.setOrderId(Integer.parseInt(table.getValueAt(Lead, 0).toString()));
                 obview.OrderArray.add(table.getValueAt(Lead, 0).toString());
-               Object[][] itemrow = obmodel.getItemListByOrderId(obview.getOrderId());
+                 //load the order array in lblorderlist
+                String Order = "";
+                Iterator IteOrder = obview.OrderArray.iterator();
+                while(IteOrder.hasNext()){
+                    Order += IteOrder.next().toString();
+                    if(IteOrder.hasNext()){
+                        Order+= " ,";
+                    }
+                }
+                obview.setlblOrderId(Order);
+                //add it into order list
+                if(table.getValueAt(Lead, 1) != null){
+                    obview.TableNoArray.add(table.getValueAt(Lead, 1).toString());
+                }
+                //change the label for table also
+                String Table = "";
+                Iterator IteTable = obview.TableNoArray.iterator();
+                while(IteTable.hasNext()){
+                    Table += IteTable.next();
+//                    System.out.println(Table);
+                    if(IteTable.hasNext()){
+                        Table += " ,";
+                    }
+                }
+                obview.setlblTableNo(Table);
+                Object[][] itemrow = obmodel.getItemListByOrderId(obview.getOrderId());
             for (Object[] itemrow1 : itemrow) {
                 obview.gettblBillInfo().addRow(itemrow1);
             }
                 for(int i=0;i<obview.gettblBillInfo().getRowCount();i++){
                    // System.out.println(billview.gettblBillInfo().getValueAt(i, 5));
-                    total_amount += ((Number)obview.gettblBillInfo().getValueAt(i, 5)).doubleValue();
+                    total_amount += ((Number)obview.gettblBillInfo().getValueAt(i, 4)).doubleValue();
                 }
              //   System.out.println(total_amount);
                 
@@ -730,8 +751,8 @@ public class OrderBillController extends SystemDateModel {
              ListSelectionModel listmodel = table.getSelectionModel();
                int Lead = listmodel.getLeadSelectionIndex();
              //  System.out.println("wala");
-               String[] row = new String[]{table.getValueAt(Lead,0).toString(),table.getValueAt(Lead, 5).toString()};
-               Double ComplimentaryDiscount = new Double(Double.parseDouble(table.getValueAt(Lead, 5).toString()));
+               String[] row = new String[]{table.getValueAt(Lead,0).toString(),table.getValueAt(Lead, 4).toString()};
+               Double ComplimentaryDiscount = new Double(Double.parseDouble(table.getValueAt(Lead, 4).toString()));
               Object cmenuid = table.getValueAt(Lead, 0);
                
               //   String[][] comp = obview.ComplimentaryList.toArray(new String[obview.ComplimentaryList.size()][]);
@@ -773,22 +794,43 @@ public class OrderBillController extends SystemDateModel {
         @Override
         public void actionPerformed(ActionEvent e) {
          //   throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-          JTable table = (JTable)e.getSource();
+                 JTable table = (JTable)e.getSource();
              //int row = table.getSelectedRow();
              if(table == obview.tblAddOrder){
-              ListSelectionModel listmodel = table.getSelectionModel();
-               int Lead = listmodel.getLeadSelectionIndex();
+                 ListSelectionModel listmodel = table.getSelectionModel();
+                 int Lead = listmodel.getLeadSelectionIndex();
                  Double total_amount = new Double(0.0);
                // System.out.println(billview.getOrderId());
-                    obview.setOrderId(Integer.parseInt(table.getValueAt(Lead, 0).toString()));
+                obview.setOrderId(Integer.parseInt(table.getValueAt(Lead, 0).toString()));
                 obview.OrderArray.add(table.getValueAt(Lead, 0).toString());
+                //load the order array in lblorderlist
+                String Order = "";
+                Iterator IteOrder = obview.OrderArray.listIterator();
+                while(IteOrder.hasNext()){
+                    Order += IteOrder.next().toString();
+                    if(IteOrder.hasNext()){
+                        Order+= " ,";
+                    }
+                }
+                obview.setlblOrderId(Order);
+                //change the label for table also
+                String Table = "";
+                Iterator IteTable = obview.TableNoArray.iterator();
+                while(IteTable.hasNext()){
+                    Table += IteTable.next();
+                    if(IteTable.hasNext()){
+                        Table += " ,";
+                    }
+                }
+                obview.setlblTableNo(Table);
+                //load the item into table
                Object[][] itemrow = obmodel.getItemListByOrderId(obview.getOrderId());
               for (Object[] itemrow1 : itemrow) {
                   obview.gettblBillInfo().addRow(itemrow1);
               }
                 for(int i=0;i<obview.gettblBillInfo().getRowCount();i++){
                    // System.out.println(billview.gettblBillInfo().getValueAt(i, 5));
-                    total_amount += ((Number)obview.gettblBillInfo().getValueAt(i, 5)).doubleValue();
+                    total_amount += ((Number)obview.gettblBillInfo().getValueAt(i, 4)).doubleValue();
                 }
              //   System.out.println(total_amount);
                 
@@ -803,8 +845,8 @@ public class OrderBillController extends SystemDateModel {
                    ListSelectionModel listmodel = table.getSelectionModel();
                int Lead = listmodel.getLeadSelectionIndex();
              //  System.out.println("wala");
-               String[] row = new String[]{table.getValueAt(Lead,0).toString(),table.getValueAt(Lead, 5).toString()};
-               Double ComplimentaryDiscount = new Double(Double.parseDouble(table.getValueAt(Lead, 5).toString()));
+               String[] row = new String[]{table.getValueAt(Lead,0).toString(),table.getValueAt(Lead, 4).toString()};
+               Double ComplimentaryDiscount = new Double(Double.parseDouble(table.getValueAt(Lead, 4).toString()));
                
                 Object cmenuid = table.getValueAt(Lead, 0);
                
@@ -867,10 +909,15 @@ public class OrderBillController extends SystemDateModel {
             else{
                 ListSelectionModel listmodel = table.getSelectionModel();
                 int Lead = listmodel.getLeadSelectionIndex();
-                  billview.OrderArray.clear();
+                billview.OrderArray.clear();
 //                  System.out.println(table.getValueAt(Lead, 0));
-                billview.setOrderId(Integer.parseInt(table.getValueAt(Lead, 0).toString()));
-              billview.OrderArray.add(table.getValueAt(Lead, 0).toString());
+                String OrderId = table.getValueAt(Lead, 0).toString();  
+                billview.setOrderId(Integer.parseInt(OrderId));
+                
+                //display the order id also
+                billview.OrderArray.add(table.getValueAt(Lead, 0).toString());
+                
+                billview.setlblOrderId(OrderId);
                 //System.out.println(billview.getOrderId());
                 //resetting the value of order list 
                /*
@@ -890,7 +937,7 @@ public class OrderBillController extends SystemDateModel {
                  */
                 Double total_amount = new Double(0.0);
                // System.out.println(billview.getOrderId());
-               Object[][] itemrow = obmodel.getItemListByOrderId(billview.getOrderId());
+                Object[][] itemrow = obmodel.getItemListByOrderId(billview.getOrderId());
 //               System.out.println(billview.getOrderId());
                
                 billview.gettblBillInfo().setRowCount(0);
@@ -909,11 +956,19 @@ public class OrderBillController extends SystemDateModel {
                 /*
                 adding table id
                 */
-                if(billview.gettblOrderList().getValueAt(Lead, 1) != null){
-                    
+                //first clearing the ArrayList
+                billview.TableNoArray.clear();
+                if(billview.gettblOrderList().getValueAt(Lead, 1) == null){
+                billview.setlblTableNo("not selected");
+                }
+                else{
+                String tableid = billview.gettblOrderList().getValueAt(Lead, 1).toString();
+                billview.setTableId(obmodel.getTableIdInfoTableName(tableid));
+                billview.TableNoArray.add(tableid);
+//                System.out.println(billview.TableNoArray.toString());
+                billview.setlblTableNo(tableid);
+                }
                 
-                billview.setTableId(obmodel.getTableIdInfoTableName(billview.gettblOrderList().getValueAt(Lead, 1).toString()));
-               }
                  //setting the dicount not higesht than total
 //               Validator.DecimalMaker(billview.returnDiscount(),total_amount);
                 obview.setSVCCheck(true);

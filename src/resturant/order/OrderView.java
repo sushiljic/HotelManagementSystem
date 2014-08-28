@@ -17,17 +17,21 @@ import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.AbstractAction;
+import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import reusableClass.Function;
 import reusableClass.Validator;
 
@@ -53,6 +57,8 @@ private final ListSelectionModel selectionModelOrderTable;
 private final ListSelectionModel selectionModelOrderedTable;
 //this for listening the  keyboard key throug out the frame
 private KeyboardFocusManager kfmanager;
+private JComboBox comboColumnTableName = new JComboBox();
+
     /**
      * Creates new formOrderView
      */
@@ -75,8 +81,10 @@ private KeyboardFocusManager kfmanager;
         setButtonForEnter(btnRefresh);
         setButtonForEnter(btnCancelOrder);
         setButtonForEnter(btnAddCustomer);
-         setButtonForEnter(btnAddTable);
-         setButtonForEnter(btnAddWaiter);
+        setButtonForEnter(btnAddTable);
+        setButtonForEnter(btnAddWaiter);
+        //for having combotype cell in orderedtable
+        
          /*
           * setiing the quantity with jformatted text field
           */
@@ -462,17 +470,6 @@ private KeyboardFocusManager kfmanager;
 
         tblOrderedList.setAutoCreateRowSorter(true);
         tblOrderedList.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        tblOrderedList.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
         tblOrderedList.getTableHeader().setReorderingAllowed(false);
         tblOrderedList.setRowHeight(20);
         jScrollPane2.setViewportView(tblOrderedList);
@@ -526,17 +523,6 @@ private KeyboardFocusManager kfmanager;
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Order List"));
 
         tblOrderList.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        tblOrderList.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
         tblOrderList.setRowHeight(20);
         tblOrderList.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tblOrderList);
@@ -783,6 +769,17 @@ private KeyboardFocusManager kfmanager;
     }
     public String getComboCustomerName(){
         return comboCustomerName.getSelectedItem().toString();
+    }
+    //for combocolumnTableName
+    public void setComboColumnTableName(String[] tablename){
+        DefaultComboBoxModel model = new DefaultComboBoxModel(tablename);
+        comboColumnTableName.setModel(model);
+    }
+    public void setComboColumnTableName(String name){
+        comboColumnTableName.setSelectedItem(name);
+    }
+    public String getComboColumnTableName(){
+        return comboColumnTableName.getSelectedItem().toString();
     }
     public void setQuantity(Double st){
         txtOrderQuantity.setValue(st);
@@ -1193,6 +1190,21 @@ private KeyboardFocusManager kfmanager;
         }
          
      }
+     
+      //for setting the table type to accept the combo types
+     public void setUpTableColumnForOrderedTable(JTable table,TableColumn column){
+         JComboBox columnTableNo = new JComboBox();
+         columnTableNo.addItem("table1");
+         columnTableNo.addItem("table2");
+         column.setCellEditor(new DefaultCellEditor(columnTableNo));
+          //Set up tool tips for the sport cells.
+        DefaultTableCellRenderer renderer =
+                new DefaultTableCellRenderer();
+        renderer.setToolTipText("Click for combo box");
+        column.setCellRenderer(renderer);
+     }
+     
+    
      
     /**
      * @param args the command line arguments

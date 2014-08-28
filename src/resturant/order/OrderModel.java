@@ -739,7 +739,7 @@ public class OrderModel  extends DBConnect{
           PreparedStatement stmtget;
           ResultSet rsget;
           ArrayList<Object[]> data = new ArrayList<Object[]>();
-          String strgetMenu = "SELECT menu.menu_id,menu.menu_name,menu.retail_price FROM menu  WHERE department_id = ?";
+          String strgetMenu = "SELECT menu.menu_id,menu.menu_name,menu.retail_price FROM menu  WHERE department_id = ? order by menu_name asc";
           DBConnect getMenu = new DBConnect();
           try{
               getMenu.initConnection();
@@ -1241,9 +1241,9 @@ public class OrderModel  extends DBConnect{
         DBConnect gettg = new DBConnect();
         PreparedStatement stmtget ;
         ResultSet rs;
-        String search = "%"+src+"%";
-        String strget = "SELECT menu.menu_id,menu.menu_name,menu.retail_price,menu.wholesale_price,item_unit.unit_name FROM menu INNER JOIN item_unit ON menu.unit_id = item_unit.unit_id WHERE menu_name LIKE ? AND department_id = ?";
-        String[] columnName = new String[]{"Menu Id","Menu Name"," Retail Rate","Wholesale Rate","Base Unit",};
+        String search = src+"%";
+        String strget = "SELECT menu.menu_id,menu.menu_name,menu.retail_price,menu.wholesale_price FROM menu  WHERE menu_name LIKE ? AND department_id = ?";
+        String[] columnName = new String[]{"Menu Id","Menu Name"," Retail Rate","Wholesale Rate"};
         ArrayList<Object[]> data = new ArrayList<Object[]>();
         Object[][] finaldata = null;
         try{
@@ -1253,7 +1253,7 @@ public class OrderModel  extends DBConnect{
             stmtget.setInt(2, departmentid);
             rs = stmtget.executeQuery();
             while(rs.next()){
-                Object[] row = new Object[]{rs.getString("menu_id"),rs.getString("menu_name"),rs.getBigDecimal("retail_price"),rs.getBigDecimal("wholesale_price"),rs.getString("unit_name")};
+                Object[] row = new Object[]{rs.getString("menu_id"),rs.getString("menu_name"),rs.getBigDecimal("retail_price"),rs.getBigDecimal("wholesale_price")};
             data.add(row);
             }
             finaldata = data.toArray(new Object[data.size()][]);
@@ -1280,7 +1280,7 @@ public class OrderModel  extends DBConnect{
         PreparedStatement stmtget ;
         ResultSet rs;
 //        String search = src+"%";
-        String strget = "SELECT menu.menu_id,menu.menu_name,menu.retail_price,menu.wholesale_price,department_info.department_name FROM menu INNER JOIN department_info ON  menu.department_id = department_info.department_id WHERE menu.department_id = ?";
+        String strget = "SELECT menu.menu_id,menu.menu_name,menu.retail_price,menu.wholesale_price,department_info.department_name FROM menu INNER JOIN department_info ON  menu.department_id = department_info.department_id WHERE menu.department_id = ? ORDER BY menu.menu_name asc";
         String[] columnName = new String[]{"Menu Id","Menu Name"," Retail Rate","Wholesale Rate","Department Name"};
         ArrayList<Object[]> data = new ArrayList<Object[]>();
         Object[][] finaldata = null;
@@ -1372,6 +1372,7 @@ public class OrderModel  extends DBConnect{
             public boolean isCellEditable(int row, int col){
                return false;
            }
+            
                 
            
         };
@@ -1438,6 +1439,7 @@ public class OrderModel  extends DBConnect{
             public boolean isCellEditable(int row, int col){
                return false;
            }
+            
                 
            
         };

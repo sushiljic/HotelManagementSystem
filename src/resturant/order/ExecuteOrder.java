@@ -45,6 +45,7 @@ public class ExecuteOrder extends SystemDateModel {
        
       }
       catch(Exception e){
+          e.printStackTrace();
           JOptionPane.showMessageDialog(OrderView, e+"from constructor "+getClass().getName());
       }
     }

@@ -115,6 +115,8 @@ public class OrderController  extends SystemDateModel{
          */
        orderview.addOrderTableListSelection(new returnOrderTableListSelectionListener(orderview));
        orderview.addOrderedTableListSelection(new returnOrderedTableListSelectionListener(orderview));
+       //just for looking to to change the table 
+//       orderview.addOrderedTableListSelection(new returnOrderedTableListSelectionListenerTest(orderview));
        /*
         * this is all for search table listener when mouse oe key is pressed
         */
@@ -197,8 +199,8 @@ public class OrderController  extends SystemDateModel{
          */
         orderview.setComboTableName(ordermodel.returnTableName(ordermodel.getTableInfoObject()));
         orderview.AddSelectInCombo(orderview.returnTableComboBox());
-      orderview.setComboCustomerName(ordermodel.returnCustomerName(ordermodel.getCustomerInfoObject()));
-      orderview.AddSelectInCombo(orderview.returnCustomerComboBox());
+        orderview.setComboCustomerName(ordermodel.returnCustomerName(ordermodel.getCustomerInfoObject()));
+        orderview.AddSelectInCombo(orderview.returnCustomerComboBox());
         orderview.setComboWaiterName(ordermodel.returnWaiterName(ordermodel.getWaiterInfoObject()));
         orderview.AddSelectInCombo(orderview.returnWaiterComboBox());
         //for refreshing the order list every 10 sec
@@ -1172,7 +1174,9 @@ public class OrderController  extends SystemDateModel{
                              orderview.setComboMenuName(ordermodel.returnMenuName(ordermodel.getMenuInfo(orderview.getDepartmentId())));
                              orderview.AddSelectInCombo(orderview.returnMenuComboBox());
                              orderview.refreshOrderedListJTable(ordermodel.getOrderInfo(orderview.getDepartmentId()));
-                              orderview.getTableOrderList().setRowCount(0);
+//                             //add the columncombotype
+//                             orderview.setUpTableColumnForOrderedTable(orderview.tblOrderedList, orderview.tblOrderedList.getColumnModel().getColumn(1));
+                             orderview.getTableOrderList().setRowCount(0);
                               //cancel
                               orderview.setEditOrderEditableFalse();
                               orderview.setDeleteOrderEditableFalse();
@@ -1625,6 +1629,36 @@ public class OrderController  extends SystemDateModel{
         }
         
     }
+    //testing for adjusting the combo box into the table
+    public class returnOrderedTableListSelectionListenerTest implements ListSelectionListener{
+        OrderView returnview = new OrderView();
+        JTable table = new JTable();
+        public returnOrderedTableListSelectionListenerTest(OrderView view){
+            returnview = view;
+            table = returnview.tblOrderedList;
+        }
+        @Override
+        public void valueChanged(ListSelectionEvent e) {
+             try{
+            if(e.getValueIsAdjusting()) return;
+            ListSelectionModel lsm = (ListSelectionModel) e.getSource();
+            if(lsm.isSelectionEmpty()){
+                //doesnot nothing
+            }
+            else{
+                ListSelectionModel listmodel = table.getSelectionModel();
+                int Lead = listmodel.getLeadSelectionIndex();
+                
+                
+            }
+             }
+            catch(Exception se){
+              se.printStackTrace();
+              DisplayMessages.displayError(null, "Error on tablw", se.getMessage());
+              }
+        }
+        
+    }
    public class TextCrudListener implements ActionListener{
 
         @Override
@@ -1750,6 +1784,8 @@ public class OrderController  extends SystemDateModel{
        try{
 //           orderview.btnRefresh.doClick();
             orderview.refreshOrderedListJTable(ordermodel.getOrderInfo(orderview.getDepartmentId()));
+             //add the columncombotype
+//            orderview.setUpTableColumnForOrderedTable(orderview.tblOrderedList, orderview.tblOrderedList.getColumnModel().getColumn(1));
        }
        catch(Exception se){
            DisplayMessages.displayError(orderview, se.getMessage()+" from RefreshOrderedListTimer "+getClass().getName(), "Error");
@@ -1784,4 +1820,5 @@ public class OrderController  extends SystemDateModel{
         }
        
    }
+   
 }

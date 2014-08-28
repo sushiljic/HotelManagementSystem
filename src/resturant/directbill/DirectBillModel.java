@@ -990,7 +990,7 @@ public class DirectBillModel extends DBConnect {
           PreparedStatement stmtget;
           ResultSet rsget;
           ArrayList<Object[]> data = new ArrayList<Object[]>();
-          String strgetMenu = "SELECT menu.menu_id,menu.menu_name,item_unit.unit_name,menu.retail_price FROM menu INNER JOIN item_unit ON  menu.unit_id = item_unit.unit_id WHERE department_id = ?";
+          String strgetMenu = "SELECT menu.menu_id,menu.menu_name,menu.retail_price FROM menu  WHERE department_id = ? order by menu_name asc";
           DBConnect getMenu = new DBConnect();
           try{
               getMenu.initConnection();
