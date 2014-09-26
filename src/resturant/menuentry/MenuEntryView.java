@@ -740,7 +740,7 @@ public class MenuEntryView extends javax.swing.JDialog {
 //    public String getQuantity(){
 //        return txtQuantity.getText();
 //    }
-    public void setQuantity(Double qty){
+    public void setQuantity(double qty){
         txtQuantity.setValue(new Double(qty));
     }
     public Double getQuantity(){

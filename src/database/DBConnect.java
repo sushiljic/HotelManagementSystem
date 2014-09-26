@@ -132,4 +132,14 @@ public class DBConnect  extends readDatabase {
         }
         return finaldata;
     }
+    public String getDatabaseName(){
+        return Databasename;
+    }
+    public String getUserName(){
+        return Username;
+    }
+    public String getPassword(){
+        return Password;
+    }
+    
 }

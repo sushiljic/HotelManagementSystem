@@ -28,6 +28,7 @@ public class OrderModel  extends DBConnect{
             public Object CustomerInfo[][];
             public Object WaiterInfo[][];
             
+            
             public void AddOrder(Object[][] item,int orderid,int tableid,int waiterid,int customerid,int userid,int departmentid){
                 // ordermodel.AddOrder(ordermodel.convertDefaultTableModelToObject(orderview.getTableOrderList()),orderview.getOrderId(),orderview.getTableId(),orderview.getWaiterId(),orderview.getCustomerId());
               PreparedStatement stmtadd;
@@ -49,6 +50,7 @@ public class OrderModel  extends DBConnect{
               try{
                   addorder.initConnection();
                   /*
+                  
                    * for inserting into order_item_list
                    */
                    addorder.conn.setAutoCommit(false);
@@ -58,7 +60,9 @@ public class OrderModel  extends DBConnect{
                       stmtadd.setInt(1,orderid);
                       stmtadd.setString(2, item1[0].toString());
                       stmtadd.setBigDecimal(3, new BigDecimal(item1[2].toString()));
-                      total_amount = total_amount.add(new BigDecimal(item1[4].toString()));
+//                      stmtadd.setBigDecimal(4, new BigDecimal(item1[3].toString()));
+//                      stmtadd.setBigDecimal(5, new BigDecimal(item1[4].toString()));
+//                      total_amount = total_amount.add(new BigDecimal(item1[4].toString()));
                       stmtadd.executeUpdate();
                   }
                 //  System.out.println(deltotal_amount);
@@ -1499,78 +1503,7 @@ public class OrderModel  extends DBConnect{
         }
         return cinfo;
     }
-//        public Object[] returnSystemDateInfo(){
-//    PreparedStatement stmtset;
-//    ResultSet rs;
-//    Date date = null;
-//    boolean open = false;
-//    boolean close = false;
-//    int id = 0;
-//    Object[] info = new Object[4];
-//    String strget = "select system_date_id,date,open_status,close_status from system_date where  system_date_id = (select max(system_date_id) from system_date)";
-////    String stropen = "UPDATE system_date SET open_status = 1 where system_date_id = ?";
-//    try{
-//        initConnection();
-////        conn.setAutoCommit(false);
-//        stmtset = conn.prepareStatement(strget);
-//        rs = stmtset.executeQuery();
-//        while(rs.next()){
-//        
-//           info[0] = rs.getObject("system_date_id");
-//           info[1]=rs.getObject("date");
-//           info[2] = rs.getObject("open_status");
-//           info[3]  =rs.getObject("close_status");
-////           System.out.println(id);
-//           
-//        }
-//    
-//      
-//    }
-//    catch(SQLException se){
-//        JOptionPane.showMessageDialog(null, se+"from openSystemData"+getClass().getName());
 //       
-//    }
-//    finally{
-//        closeConnection();
-//    }
-//    return info;
-//    
-//}
-       /*checking if is retreive by fucntion class in reusable class 
-        public Date returnSystemDate(){
-             PreparedStatement stmtset;
-    ResultSet rs;
-    Date date = null;
-    boolean open = false;
-    boolean close = false;
-    int id = 0;
-   
-    String strget = "select system_date_id,date from system_date where  system_date_id = (select max(system_date_id) from system_date)";
-//    String stropen = "UPDATE system_date SET open_status = 1 where system_date_id = ?";
-    try{
-        initConnection();
-//        conn.setAutoCommit(false);
-        stmtset = conn.prepareStatement(strget);
-        rs = stmtset.executeQuery();
-        while(rs.next()){
-        
-         date = rs.getDate("date");
-//           System.out.println(id);
-           
-        }
-    
-      
-    }
-    catch(SQLException se){
-        JOptionPane.showMessageDialog(null, se+"from returnSystemDate"+getClass().getName());
-       
-    }
-    finally{
-        closeConnection();
-    }
-    return date;
-        }
-        */ 
         public Object[][] getRespectiveDepartment(int userid){
     PreparedStatement stmt = null;
       ResultSet rs;
@@ -1688,5 +1621,5 @@ public class OrderModel  extends DBConnect{
           }          
         
         //for adding select in alla combo
-   
+  
 }

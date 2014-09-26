@@ -11,6 +11,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -18,6 +19,7 @@ import java.nio.file.Paths;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -165,14 +167,10 @@ public class MenuEntryModel extends DBConnect {
                                 }
                         }
                 else if(menuinfo[0].equalsIgnoreCase("false")){
-                      menu.conn.setAutoCommit(false);
+                menu.conn.setAutoCommit(false);
                 stmtAddMenu = menu.conn.prepareStatement(strmenuuntrackable);
                 stmtAddMenu.setString(1, menuinfo[4]);
                 stmtAddMenu.setInt(2, 0);
-               // stmtAddMenu.setString(3, menuinfo[1]);
-                //two item quantity and unit id are removed 
-//                stmtAddMenu.setBigDecimal(3,new BigDecimal(menuinfo[7]).setScale(3, RoundingMode.HALF_UP));
-//                stmtAddMenu.setString(4, menuinfo[5]);
                 stmtAddMenu.setBigDecimal(3, new BigDecimal(menuinfo[8]).setScale(2, RoundingMode.HALF_UP));
                 if(!menuinfo[9].isEmpty()){
                    stmtAddMenu.setBigDecimal(4, new BigDecimal(menuinfo[9]).setScale(2, RoundingMode.HALF_UP));
@@ -185,10 +183,10 @@ public class MenuEntryModel extends DBConnect {
                //setting the hybrid flag for hybrid item
                 stmtAddMenu.setInt(7, 0);
                 HybridFlag = false;
-                 stmtAddMenu.setString(8, menuinfo[12]);
-                 stmtAddMenu.setInt(9,Integer.parseInt(menuinfo[13]));
+                stmtAddMenu.setString(8, menuinfo[12]);
+                stmtAddMenu.setInt(9,Integer.parseInt(menuinfo[13]));
 //                 if(image!= null){
-                    stmtAddMenu.setBinaryStream(10, fis);
+                stmtAddMenu.setBinaryStream(10, fis);
 //                    }
 //                 else{
 //                              stmtAddMenu.setBinaryStream(12, null);
@@ -244,6 +242,45 @@ public class MenuEntryModel extends DBConnect {
                 }
             }
             
+            
+        }
+        //same as above but only used when nontrackable item is added making the custom menu status flag on
+        public static int AddCustomMenu(String menuname,Double rate,int department_id)throws SQLException {
+          
+          
+            int MenuId = 0;
+//            String strmenutrackable = "INSERT INTO menu (menu_name,item_type,department_item_id,quantity,unit_id,retail_price,wholesale_price,date,hybrid_type,category_id,image_path,department_id,menu_image) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?) ";
+            String strmenuuntrackable = "INSERT INTO menu(menu_name,item_type,retail_price,wholesale_price,category_id,date,hybrid_type,image_path,department_id,custom_menu_flag) VALUES(?,?,?,?,?,?,?,?,?,?)";
+//            String strHybridAdd = "INSERT INTO hybrid_menu(department_item_id,quantity,unit_id,parent_menu_id) VALUES(?,?,?,?)";
+            DBConnect menu = new DBConnect();
+            PreparedStatement stmtAddMenu;
+            
+           
+                menu.initConnection();
+                menu.conn.setAutoCommit(false);
+                stmtAddMenu = menu.conn.prepareStatement(strmenuuntrackable,Statement.RETURN_GENERATED_KEYS);
+                stmtAddMenu.setString(1,menuname);
+                stmtAddMenu.setInt(2, 0);
+                stmtAddMenu.setDouble(3,rate);
+                stmtAddMenu.setBigDecimal(4, null);
+                stmtAddMenu.setInt(5,0);//set 0 for category for first time
+                stmtAddMenu.setTimestamp(6, new Timestamp(new Date().getTime()));
+               //setting the hybrid flag for hybrid item
+                stmtAddMenu.setInt(7, 0);
+                stmtAddMenu.setString(8,"null");
+                stmtAddMenu.setInt(9,department_id);
+                stmtAddMenu.setInt(10, 1);
+                
+                stmtAddMenu.executeUpdate();
+                ResultSet rsautoid = stmtAddMenu.getGeneratedKeys();
+                while(rsautoid.next()){
+//                rsautoid.next();
+                MenuId = rsautoid.getInt(1);
+                }
+//                System.out.println(MenuId);
+                menu.conn.commit();
+//                JOptionPane.showMessageDialog(null, "Item Successfully Added to Menu");
+                return MenuId;
             
         }
         public void EditMenu(String[] menuinfo,Object[][] HybridData,Object[][] DeleteHybridData,File image){
@@ -496,7 +533,7 @@ public class MenuEntryModel extends DBConnect {
          /*
     * this return true if menu name/id already exist and return false is not exist
     */
-   public boolean checkExistingName(String menuname){
+   public static boolean checkExistingName(String menuname){
      Boolean ExistingStatus = null; 
     String strCheck = "SELECT menu_name FROM menu WHERE menu_name = ? ";
     DBConnect check = new DBConnect();

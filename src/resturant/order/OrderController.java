@@ -17,6 +17,7 @@ import java.awt.event.WindowEvent;
 import java.beans.PropertyVetoException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.AbstractAction;
@@ -38,11 +39,15 @@ import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import report.bill.PrintOrder;
 import resturant.customer.CustomerController;
 import resturant.customer.CustomerModel;
 import resturant.customer.CustomerView;
+import resturant.menuentry.MenuEntryModel;
 import resturant.orderbill.ExecuteOrderBill;
 import resturant.orderbill.OrderBillView;
 import resturant.tablecrud.ExecuteTableStatusView;
@@ -63,18 +68,23 @@ import systemdate.SystemDateModel;
 public class OrderController  extends SystemDateModel{
     OrderView orderview;
     OrderModel ordermodel;
+//    MenuEntryModel menuentrymodel;
      public MainFrameView mainview;
      private  Object[][] DeleteData = null;
     BigDecimal TotalAmount;
     private  int LeadRow = 0;
     private Double[] TaxList = new Double[2];
     private int InitialTableId =0;
+    //this is used  by mytablemodel
+    private boolean DEBUG = false;
+    
    
     
     public OrderController(OrderModel model,OrderView view,MainFrameView  mainframeview){
         ordermodel = model;
         orderview = view;
         mainview = mainframeview;
+//        menuentrymodel  = new MenuEntryModel();
      
       
      
@@ -105,6 +115,11 @@ public class OrderController  extends SystemDateModel{
         orderview.addDelete(new CrudListener());
         orderview.addSearchMenuListener(new CrudListener());
         orderview.addSearchDocumentListener(new SearchOrderDocumentListener());
+        orderview.addCustomMenuAddListenerListener(new CrudListener());
+        orderview.addCustomMenuRealAddListener(new CrudListener());
+        orderview.addCustomMenuRealCancelListener(new CrudListener());
+        //add documentlistener for quantiyt
+        orderview.addCustomQuantityDocumentListener(new CustomQuantityDocumentListener());
          /*
           * this one os for text when quantiy is enter
           */
@@ -135,8 +150,8 @@ public class OrderController  extends SystemDateModel{
       orderview.addEditOrder(new ItemCrudListener());
       orderview.addDeleteOrder(new ItemCrudListener());
       orderview.addCancelOrder(new ItemCrudListener());
-       orderview.addRefreshOrderedListListener(new ItemCrudListener());
-       orderview.addSearchListener(new ItemCrudListener());
+      orderview.addRefreshOrderedListListener(new ItemCrudListener());
+      orderview.addSearchListener(new ItemCrudListener());
        /*
        listening for the shortcut
        */
@@ -154,6 +169,7 @@ public class OrderController  extends SystemDateModel{
       adding listener for the table edit when double click is on the ordertable which implemets tablecell listener class
       */
         TableCellListener tcl = new TableCellListener(orderview.tblOrderList, new listenActionForTableEdit());
+       
         /*
         applying try and catch and all the relative dat
         */
@@ -176,12 +192,20 @@ public class OrderController  extends SystemDateModel{
                 switch(columns){
                     case 2:
                         return true;
+                    
                    
                 }
                 return false;
             }
+            @Override
+            public Class getColumnClass(int c){
+                return getValueAt(0, c).getClass();
+            }
         };
+         
         orderview.refreshOrderListJTable(orderTableModel);
+//        change listener not implemented
+//        orderview.addTblOrderListTableModelListener(new OrderListTableModelListener());
 //        orderview.refreshOrderedListJTable(ordermodel.getOrderInfo());
             orderview.setcomboDepartmentName(ordermodel.returnMenuName(Function.getRespectiveDepartment(mainview.getUserId())));
             //if it has only one element select it order wise add select into it
@@ -1353,22 +1377,16 @@ public class OrderController  extends SystemDateModel{
              orderview.getTableOrderList().addRow(row);
              }
 //                if(ordermodel.returnCurrentItentityId("order_list") == Integer.parseInt(orderview.getOrderId())){
-                    if(Integer.parseInt(orderview.getOrderId()) == orderview.getMainOrderId()){
-                     orderview.setAddOrderAndPrintEditableTrue();
-                     orderview.setAddOrderEditableTrue(); 
-                     //checking 
-//                      orderview.setFocusOnButtonOrder();
-                     orderview.addcomboMenuNameFocus();//add focus of cobomenu
-                        }
-                    else{
-                        
-//                        orderview.setFocusOnButtonEdit();
-                         orderview.addcomboMenuNameFocus();//add focus of cobomenu
-                    }
-                   orderview.setDeleteEditableTrue();
-//               
-//                }
-                   orderview.clearAddData();
+            if(Integer.parseInt(orderview.getOrderId()) == orderview.getMainOrderId()){
+             orderview.setAddOrderAndPrintEditableTrue();
+             orderview.setAddOrderEditableTrue();
+             orderview.addcomboMenuNameFocus();//add focus of cobomenu
+                }
+            else{
+                orderview.addcomboMenuNameFocus();//add focus of cobomenu
+            }
+            orderview.setDeleteEditableTrue();                  
+            orderview.clearAddData();
      
                 }
                 else  if(e.getActionCommand().equalsIgnoreCase("Delete")){
@@ -1395,23 +1413,54 @@ public class OrderController  extends SystemDateModel{
                       return;
                   }
                   orderview.SearchDailog.setVisible(true);
-                  
-           /*  orderview.tblSearch.addMouseListener(new MouseAdapter() {
-                  public void mouseClicked(MouseEvent me){
-                      if(me.getClickCount() == 2){
-                         // System.out.println("wala");
-                          
-                      }
-                  }  
-                  });*/
-               
-           
-                  
+                }
+                else if(e.getActionCommand().equalsIgnoreCase("CustomMenuAdd")){                    
+                    int MenuId = 0;
+                    orderview.clearCustomData();
+                    orderview.dialogCustomMenuAdd.pack();
+                    orderview.dialogCustomMenuAdd.setModal(true);
+                    orderview.dialogCustomMenuAdd.setLocationRelativeTo(null);
+                    orderview.dialogCustomMenuAdd.setVisible(true);
+                }
+                else if (e.getActionCommand().equalsIgnoreCase("CustomAdd")){
+                    if(orderview.getCustomMenuName().isEmpty()){
+                        DisplayMessages.displayInfo(orderview.dialogCustomMenuAdd, "Please Enter Menu Name.\nMenu Name Cannot be Blank ","Validation Error");
+                        return;
+                    }
+                    if(MenuEntryModel.checkExistingName(orderview.getCustomMenuName())){
+                       DisplayMessages.displayInfo(orderview.dialogCustomMenuAdd, "Please Enter Another Menu Name.\nMenu Name Cannot be Same","Validation Error");
+                        return; 
+                    }
+                    try{
+                  orderview.setCustomMenuId(MenuEntryModel.AddCustomMenu(orderview.getCustomMenuName(), orderview.getCustomRate(), orderview.getDepartmentId()));
+                    }
+                    catch(SQLException se){
+                        se.printStackTrace();
+                        DisplayMessages.displayError(orderview.dialogCustomMenuAdd, "Could not Add the Menu", " Custom Menu Add Error");
+                    }
+                    orderview.dialogCustomMenuAdd.setVisible(false);
+                    //add the data to the row
+                    Object[] row = new Object[]{orderview.getCustomMenuId(),orderview.getCustomMenuName(),new BigDecimal(orderview.getCustomQuantity()).setScale(2, RoundingMode.HALF_UP),new BigDecimal(orderview.getCustomRate()).setScale(2, RoundingMode.HALF_UP),new BigDecimal(orderview.getCustomTotalAmount()).setScale(2, RoundingMode.HALF_UP)};
+                   orderview.getTableOrderList().addRow(row);
+                   
+                   if(Integer.parseInt(orderview.getOrderId()) == orderview.getMainOrderId()){
+                    orderview.setAddOrderAndPrintEditableTrue();
+                    orderview.setAddOrderEditableTrue();
+                    orderview.addcomboMenuNameFocus();//add focus of cobomenu
+                       }
+                   else{
+                       orderview.addcomboMenuNameFocus();//add focus of cobomenu
+                   }
+                   orderview.setDeleteEditableTrue(); 
+                   
+                }
+                else if(e.getActionCommand().equalsIgnoreCase("CustomCancel")){
+                    orderview.clearCustomData();
                 }
                 
                
             }
-            catch(Exception ce){
+            catch(HeadlessException | NumberFormatException ce){
                 ce.printStackTrace();
                 JOptionPane.showMessageDialog(orderview, ce+"from CrudListener");
             }
@@ -1427,28 +1476,50 @@ public class OrderController  extends SystemDateModel{
 //            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         try{
               TableCellListener tcl = (TableCellListener)e.getSource();
-                         /*   System.out.println("Row   : " + tcl.getRow());
-                            System.out.println("Column: " + tcl.getColumn());
-                            System.out.println("Old   : " + tcl.getOldValue());
-                            System.out.println("New   : " + tcl.getNewValue());
-                            * */
-                            int row = tcl.getRow();
-                            int col = tcl.getColumn();
-                            Object oQuantity = tcl.getTable().getValueAt(row, col);
+                        
+                int row = tcl.getRow();
+                int col = tcl.getColumn();
+                //menuname
+                if(col == 1){
+                String prevMenuName = new String();
+                String newMenuName = new String();
+                prevMenuName = tcl.getOldValue().toString();
+                newMenuName = tcl.getNewValue().toString();
+                
+                
+                if(tcl.getTable().getValueAt(row, col).toString().isEmpty()){
+                    DisplayMessages.displayError(orderview, "Menu Name Cannot be Empty", "Blank Menu Name");
+                    tcl.getTable().setValueAt(prevMenuName, row, col);
+                    return;
+                }
+//                JOptionPane.showMessageDialog(mainview,"oldvalue:"+prevMenuName+"\nnewvalue:"+newMenuName+"\n");
+                if(!prevMenuName.equalsIgnoreCase(newMenuName)){
+                  if(MenuEntryModel.checkExistingName(newMenuName)){
+                      DisplayMessages.displayInfo(orderview, "Same Name Found.\n Please Enter another Name", NAME);
+                      tcl.getTable().setValueAt(prevMenuName, row, col);
+                      
+                  }
+                }
+                
+                
+                }
+                //it will check for quantity only
+                else if(col == 2){
+                Object oQuantity = tcl.getTable().getValueAt(row, col);
 
-                          try{
-                              Float.parseFloat(oQuantity.toString());
-                          }
-                          catch(NumberFormatException se){
-                                JOptionPane.showMessageDialog(orderview, "Please Enter Numbers only");
-                                tcl.getTable().setValueAt(tcl.getOldValue(),row,col);
-                                return;
-                          }
+                try{
+                    Float.parseFloat(oQuantity.toString());
+                }
+                catch(NumberFormatException se){
+                      JOptionPane.showMessageDialog(orderview, "Please Enter Numbers only");
+                      tcl.getTable().setValueAt(tcl.getOldValue(),row,col);
+                      return;
+                }
 
 
-                                BigDecimal rate = new BigDecimal(tcl.getTable().getValueAt(row, 3).toString());
-                                    BigDecimal TotalAmount;
-                                    BigDecimal Quantity = new BigDecimal(tcl.getTable().getValueAt(row, col).toString());
+                BigDecimal rate = new BigDecimal(tcl.getTable().getValueAt(row, 3).toString());
+                BigDecimal TotalAmount;
+                BigDecimal Quantity = new BigDecimal(tcl.getTable().getValueAt(row, col).toString());
                                     /*
                 * checking it availability
                 */
@@ -1488,7 +1559,7 @@ public class OrderController  extends SystemDateModel{
                   // return;
                }
                                     
-                                    TotalAmount = Quantity.multiply(rate);
+                                    TotalAmount = Quantity.multiply(rate).setScale(2, RoundingMode.HALF_UP);
                                   //  System.out.println(TotalAmount);
                                   //  System.out.println(Quantity);
                                   //  System.out.println(rate);
@@ -1499,12 +1570,55 @@ public class OrderController  extends SystemDateModel{
                                    else{
                                     orderview.setFocusOnButtonEdit(); 
                                    }
+                }
+                else if(col == 3){
+                BigDecimal prevRate = new BigDecimal(tcl.getOldValue().toString());
+                BigDecimal quantity = new BigDecimal(tcl.getTable().getValueAt(row, 2).toString());
+                BigDecimal newRate = new BigDecimal(tcl.getNewValue().toString());
+                BigDecimal TotalAmount;
+                TotalAmount = quantity.multiply(newRate).setScale(2, RoundingMode.HALF_UP);
+                tcl.getTable().setValueAt(TotalAmount, row, 4);
+                if(Integer.parseInt(orderview.getOrderId())== orderview.getMainOrderId()){
+                orderview.setFocusOnButtonOrder();
+                }
+                else{
+                 orderview.setFocusOnButtonEdit(); 
+                }
+                
+                
+                }
+                else if(col == 4 ){
+                    
+                }
                                    
             
         }
         catch(HeadlessException | NumberFormatException le){
             JOptionPane.showMessageDialog(orderview, le+"from listenActionForTableEdit ");
         }
+        }
+        
+    }
+    //not implements
+    public class OrderListTableModelListener implements TableModelListener{
+
+        @Override
+        public void tableChanged(TableModelEvent e) {
+            try{
+                int row = e.getFirstRow();
+                int column = e.getColumn();
+                TableModel model = (TableModel)e.getSource();
+                String columnName = model.getColumnName(column);
+                Object data = model.getValueAt(row, column);
+                //perform what to do 
+//                System.out.println(data);
+//                model.
+                
+//                JOptionPane.showMessageDialog(mainview, data);
+            }
+            catch(Exception se){
+                se.printStackTrace();
+            }
         }
         
     }
@@ -1820,5 +1934,34 @@ public class OrderController  extends SystemDateModel{
         }
        
    }
+   public class CustomQuantityDocumentListener implements DocumentListener{
+
+        @Override
+        public void insertUpdate(DocumentEvent e) {
+        changeTotalAmount();
+        }
+
+        @Override
+        public void removeUpdate(DocumentEvent e) {
+        changeTotalAmount();
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent e) {
+        changeTotalAmount();
+        }
+        public void changeTotalAmount(){
+            SwingUtilities.invokeLater(new Runnable(){
+
+                @Override
+                public void run() {
+                orderview.setCustomTotalAmount(orderview.getCustomRate()*orderview.getCustomQuantity());
+                }
+                
+            });
+        }
+       
+   }
+   
    
 }
