@@ -20,7 +20,7 @@ public class ComplimentaryModel extends DBConnect{
     PreparedStatement stmtAdd;
     String strQuery;
             
-        public void AddComplimentary(String[] data){
+        public void AddComplimentary(String data){
         /*
         info[0] = getCustomerId();
         info[1] = getCustomerName();
@@ -34,7 +34,7 @@ public class ComplimentaryModel extends DBConnect{
             waiterAdd.initConnection();
             waiterAdd.conn.setAutoCommit(false);
             stmtAdd = waiterAdd.conn.prepareStatement(strQuery);
-            stmtAdd.setString(1, data[1]);
+            stmtAdd.setString(1, data);
           
             stmtAdd.executeUpdate();
             
@@ -190,5 +190,59 @@ public class ComplimentaryModel extends DBConnect{
     return ExistingStatus;
     
 }
+    //this will be used by another class
+     public  Object[][] getComplimentaryInfo(){
+         PreparedStatement stmtget;
+        ResultSet rsget ;
+        DBConnect dbget  = new DBConnect();
+        ArrayList<Object[]> data = new ArrayList<>();
+        
+        String strget = "SELECT complimentary_id,complimentary_reason FROM complimentary_info ";
+        try{
+            dbget.initConnection();
+            stmtget = dbget.conn.prepareStatement(strget);
+            rsget = stmtget.executeQuery();
+            while(rsget.next()){
+                Object[] row = new Object[]{rsget.getInt("complimentary_id"),rsget.getString("complimentary_reason")};
+                data.add(row);
+            }
+           
+        }
+        catch(SQLException se){
+            JOptionPane.showMessageDialog(null, se+"from getComplimentaryInfo");
+        }
+        finally{
+            dbget.closeConnection();
+        }
+        return data.toArray(new Object[data.size()][]);
+     }
+      public  int getComplimentaryIdbyName(String name){
+         PreparedStatement stmtget;
+         ResultSet rsget;
+         DBConnect dbget = new DBConnect();
+         int complimentaryId = 0;
+         String qry = "SELECT complimentary_id from complimentary_info WHERE complimentary_reason =?";
+         try{
+             dbget.initConnection();
+             stmtget = dbget.conn.prepareStatement(qry);
+             stmtget.setString(1, name);
+             rsget = stmtget.executeQuery();
+             
+             while(rsget.next()){
+             complimentaryId = rsget.getInt(1);
+             }
+                     
+                     
+         }
+         catch(SQLException se){
+              JOptionPane.showMessageDialog(null, se+"from getComplimentaryIdbyName");
+         }
+         
+         return complimentaryId;
+         
+         
+     }
+    
+    
     
 }

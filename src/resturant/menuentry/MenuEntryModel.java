@@ -11,7 +11,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -245,7 +244,7 @@ public class MenuEntryModel extends DBConnect {
             
         }
         //same as above but only used when nontrackable item is added making the custom menu status flag on
-        public static int AddCustomMenu(String menuname,Double rate,int department_id)throws SQLException {
+        public  int AddCustomMenu(String menuname,Double rate,int department_id,int category_id)throws SQLException {
           
           
             int MenuId = 0;
@@ -263,13 +262,14 @@ public class MenuEntryModel extends DBConnect {
                 stmtAddMenu.setInt(2, 0);
                 stmtAddMenu.setDouble(3,rate);
                 stmtAddMenu.setBigDecimal(4, null);
-                stmtAddMenu.setInt(5,0);//set 0 for category for first time
+                stmtAddMenu.setInt(5,category_id);//set 0 for category for first time
                 stmtAddMenu.setTimestamp(6, new Timestamp(new Date().getTime()));
                //setting the hybrid flag for hybrid item
                 stmtAddMenu.setInt(7, 0);
                 stmtAddMenu.setString(8,"null");
                 stmtAddMenu.setInt(9,department_id);
                 stmtAddMenu.setInt(10, 1);
+                
                 
                 stmtAddMenu.executeUpdate();
                 ResultSet rsautoid = stmtAddMenu.getGeneratedKeys();
@@ -1007,6 +1007,57 @@ catch(IOException ioe){
         }
         return new DefaultTableModel(hybriditemdata.toArray(new Object[hybriditemdata.size()][]),ColumnNames);
     }
-   
+    public int getCategoryIdbyName(String name){
+         PreparedStatement stmtget;
+         ResultSet rsget;
+         DBConnect dbget = new DBConnect();
+         int complimentaryId = 0;
+         String qry = "SELECT sub_category_id from item_sub_category WHERE sub_category_name =?";
+         try{
+             dbget.initConnection();
+             stmtget = dbget.conn.prepareStatement(qry);
+             stmtget.setString(1, name);
+             rsget = stmtget.executeQuery();
+             
+             while(rsget.next()){
+             complimentaryId = rsget.getInt(1);
+             }
+                     
+                     
+         }
+         catch(SQLException se){
+              JOptionPane.showMessageDialog(null, se+"from getCategoryIdbyName");
+         }
+         
+         return complimentaryId;
+         
+         
+     }
+    public BigDecimal getPricebyMenuId(int menuid){
+         PreparedStatement stmtget;
+         ResultSet rsget;
+         DBConnect dbget = new DBConnect();
+         BigDecimal price = BigDecimal.ZERO;
+         String qry = "SELECT retail_price from menu WHERE menu_id =?";
+         try{
+             dbget.initConnection();
+             stmtget = dbget.conn.prepareStatement(qry);
+             stmtget.setInt(1, menuid);
+             rsget = stmtget.executeQuery();
+             
+             while(rsget.next()){
+             price = rsget.getBigDecimal(1);
+             }
+                     
+                     
+         }
+         catch(SQLException se){
+              JOptionPane.showMessageDialog(null, se+"from getCategoryIdbyName");
+         }
+         
+         return price;
+         
+         
+     }
     
 }

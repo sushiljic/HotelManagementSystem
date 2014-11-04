@@ -21,6 +21,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -37,6 +38,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -46,6 +48,10 @@ public class Function  {
     public static final String SUN_JAVA_COMMAND = "sun.java.command";
       public static void AddSelectInCombo(JComboBox jc){
       jc.insertItemAt("SELECT", 0);
+      jc.setSelectedIndex(0);
+    }
+      public static void AddInsertInCombo(JComboBox jc,String NametoDisplay){
+      jc.insertItemAt("INSERT "+NametoDisplay, 0);
       jc.setSelectedIndex(0);
     }
      public static String[] returnSecondColumn(Object data[][]){
@@ -759,6 +765,37 @@ public class Function  {
             System.out.println(text);
             return !pattern.matcher(text).find();
 }
+           public static Object[][] convertDefaultTableModelToObject(DefaultTableModel model){
+            int rows = model.getRowCount();
+           int cols = model.getColumnCount();
+            Object[][] data = new Object[rows][cols]; 
+            for(int i = 0;i<model.getRowCount();i++){
+                for(int j =0;j<model.getColumnCount();j++){
+                    data[i][j] = model.getValueAt(i, j);
+                }
+            }
+            return data;
+        }
+           //this function will be used by the order,orderbill,direct bill for calculating the complimentary amount
+            public static  BigDecimal[] manageAmount(Object[][] tabledata){
+       BigDecimal[]  amounts = new BigDecimal[3];
+       BigDecimal totalamt = BigDecimal.ZERO;
+       BigDecimal compamt = BigDecimal.ZERO;
+       BigDecimal netamt = BigDecimal.ZERO;
+       for(Object[] row:tabledata){
+          totalamt = totalamt.add((BigDecimal)row[4]);
+          if(row[5].equals(Boolean.TRUE)){
+              compamt = compamt.add((BigDecimal)row[4]);
+          }
+       }
+//       orderview.setTotalAmount(totalamt);
+//       orderview.setComplimentaryAmount(compamt);
+//       orderview.setNetAmount(totalamt.subtract(compamt));
+       amounts[0]=totalamt;
+       amounts[1] = compamt;
+       amounts[2]= netamt;
+       return amounts;
+   }
 }
 
        

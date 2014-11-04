@@ -37,4 +37,7 @@ public class DisplayMessages {
          int choice = JOptionPane.showConfirmDialog(cmp, msg, title, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         return choice == JOptionPane.YES_OPTION;
     }
+    public static String displayInput(Component cmp,String msg,String title){
+        return JOptionPane.showInputDialog(cmp, msg);
+    }
 }

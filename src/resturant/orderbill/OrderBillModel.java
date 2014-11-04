@@ -26,6 +26,7 @@ public class OrderBillModel  extends DBConnect{
     ResultSet rsordernill;
     String rsQuery = new String();
     Object[][] CustomerInfo;
+    
             
     
     public void AddBill(Object[][] menudata,Double[] ratedata,String[] otherdata,String[] orderdata,String[][] complimentary,int userid,int departmentid){
@@ -78,6 +79,10 @@ public class OrderBillModel  extends DBConnect{
         String strcomplimentarybill = "INSERT INTO bill_complimentary(bill_id,complimentary_id) VALUES(?,?)";
         Double ComplimentaryAmount = 0.0;
         /*
+        calculating complimentaryAmount
+        */
+        ComplimentaryAmount = Function.manageAmount(menudata)[1].doubleValue();
+        /*
         maipulating and getting array of the table_id for updating the table unpack
         */
         ArrayList<Integer> tablelist = new ArrayList<>();
@@ -105,6 +110,7 @@ public class OrderBillModel  extends DBConnect{
                  * checking for the complimentary item
                  */
                 //  System.out.println(complimentary.length);
+                /*not needed
                 if (complimentary.length != 0) {
                     for (String[] complimentary1 : complimentary) {
                         if (complimentary1[0].equalsIgnoreCase(menudata1[0].toString())) {
@@ -121,6 +127,15 @@ public class OrderBillModel  extends DBConnect{
                     //  System.out.println("outside loops"+menudata[i][0]);
                     stmtbillitemlist.setInt(4, 0);
                 }
+                */
+                if(ComplimentaryAmount == 0.0 || ComplimentaryAmount == 0){
+                    stmtbillitemlist.setInt(4, 0);
+                }
+                else{
+                    stmtbillitemlist.setInt(4,1);
+                }
+                
+                
                 stmtbillitemlist.executeUpdate();
 //                System.out.println(ComplimentaryAmount);
             }
@@ -130,21 +145,7 @@ public class OrderBillModel  extends DBConnect{
             stmtbill = dbconn.conn.prepareStatement(strBill);
             dbconn.conn.setAutoCommit(false);
             stmtbill.setBigDecimal(1,new BigDecimal(ratedata[0]));
-          
-//            //checking for svc is percent or notif svc is in percentage convert in into number
-//            if(otherdata[1].equalsIgnoreCase("false")){
-//                
-//           // stmtbill.setBigDecimal(2,new BigDecimal(ratedata[1]));
-//             stmtbill.setDouble(2, ratedata[1]);
-//            }
-//            else{
-//                 
-//                //calcute svc value to stored in database
-//              //  System.out.println(new BigDecimal(ratedata[1]).multiply(new BigDecimal(ratedata[0])));
-//          //  stmtbill.setBigDecimal(2,new BigDecimal(ratedata[1]).multiply(new BigDecimal(ratedata[0])));
-//               stmtbill.setDouble(2, ratedata[1]*ratedata[0]);
-//                 
-//            }
+
             //for svc
             stmtbill.setDouble(2, ratedata[1]);
             
@@ -153,19 +154,7 @@ public class OrderBillModel  extends DBConnect{
           //for vat
             stmtbill.setDouble(3,ratedata[2]);
             
-            
-            //checking where discount is in percentage and calculating resultaant
-//            if(otherdata[2].equalsIgnoreCase("false")){
-//                 // stmtbill.setBigDecimal(4, new BigDecimal(ratedata[4]));
-//                 stmtbill.setDouble(4, ratedata[4]);
-//                 //  System.out.println(ratedata[4]);
-//            }
-//            else{
-//              //  System.out.println(new BigDecimal(ratedata[4]).multiply(new BigDecimal(ratedata[3])));
-//               
-//              //  stmtbill.setBigDecimal(4, new BigDecimal(ratedata[4]).multiply(new BigDecimal(ratedata[3])));
-//                stmtbill.setDouble(4, ratedata[4]*ratedata[3]);
-//            }
+ 
           //for discount
            stmtbill.setDouble(4, ratedata[4]-ComplimentaryAmount);
            // stmtbill.setBigDecimal(5, new BigDecimal(ratedata[5]));
@@ -266,7 +255,7 @@ public class OrderBillModel  extends DBConnect{
         
     }
     
-      public Object[][] convertDefaultTableModelToObject(DefaultTableModel model){
+    public Object[][] convertDefaultTableModelToObject(DefaultTableModel model){
             int rows = model.getRowCount();
            int cols = model.getColumnCount();
             Object[][] data = new Object[rows][cols]; 
@@ -278,267 +267,39 @@ public class OrderBillModel  extends DBConnect{
             return data;
         }
       
-       public Object[][] getCustomerInfoObject(){
-        PreparedStatement stmtget;
-        ResultSet rsget ;
-        DBConnect dbget  = new DBConnect();
-        ArrayList<Object[]> data = new ArrayList<Object[]>();
-        
-        String strget = "SELECT customer_id,customer_name FROM customer_info ";
-        try{
-            dbget.initConnection();
-            stmtget = dbget.conn.prepareStatement(strget);
-            rsget = stmtget.executeQuery();
-            while(rsget.next()){
-                Object[] row = new Object[]{rsget.getString("customer_id"),rsget.getString("customer_name")};
-                data.add(row);
-            }
-            CustomerInfo = data.toArray(new Object[data.size()][]);
-        }
-        catch(SQLException se){
-            JOptionPane.showMessageDialog(null, se+"from getCustomerInfoObject");
-        }
-        finally{
-            dbget.closeConnection();
-        }
-        return CustomerInfo;
-    }
-       public String[] returnMenuName(Object[][] obj){
-        String[] Name = new String[obj.length];
-        for(int i=0;i<obj.length;i++){
-            Name[i] = obj[i][1].toString();
-        }
-        return Name;
-    }   
+    public Object[][] getCustomerInfoObject(){
+     PreparedStatement stmtget;
+     ResultSet rsget ;
+     DBConnect dbget  = new DBConnect();
+     ArrayList<Object[]> data = new ArrayList<Object[]>();
 
-       //is copied to funtion class because it is resuable component
-//      public int returnCurrentItentityBillId(String tablename){
-//     //Boolean ExistingStatus = null; 
-//        int id = 0;
-//        int em =0;
-//        String TableName = tablename;
-//        String strempty = "SELECT  autoinc_billid as id FROM generate_billid WHERE bill_status = 0  LIMIT 1  ";
-//    String strCheck = "INSERT INTO  generate_billid (bill_status)   VALUES(1) ";
-////    String strGetId = " SELECT @@IDENTITY as id";
-//    String strGetId = " SELECT last_insert_id()";
-//    DBConnect check = new DBConnect();
-//    PreparedStatement stmtcheck ;
-//    try{
-//        check.initConnection();
-//       check.conn.setAutoCommit(false);
-//        stmtcheck = check.conn.prepareStatement(strempty);
-//        ResultSet rse = stmtcheck.executeQuery();
-//       while(rse.next()){
-//           em = rse.getInt("id");
-////           System.out.println(em);
-////           break;
-//       }
-//       if(em != 0 ){
-//           id = em;
-////           System.out.println("wala");
-//            check.conn.setAutoCommit(false);
-//           stmtcheck = check.conn.prepareStatement("UPDATE generate_billid SET bill_status = 1 WHERE autoinc_billid = ?");
-//           stmtcheck.setInt(1, id);
-//          stmtcheck.executeUpdate();
-////          System.out.println(id);
-//       }
-//       else{
-//            check.conn.setAutoCommit(false);
-//        stmtcheck = check.conn.prepareStatement(strCheck);
-//        stmtcheck.executeUpdate();
-//         check.conn.setAutoCommit(false);
-//        stmtcheck = check.conn.prepareStatement(strGetId);
-////     stmtcheck.setString(1, oid);
-//        ResultSet rs = stmtcheck.executeQuery();
-//        while(rs.next()){
-//        id = rs.getInt(1);
-////        System.out.println("wala"+id);
-//        }
-//       }
-//       check.conn.commit();
-//        
-//       
-//        
-//        
-//    }
-//    catch(SQLException se){
-//        JOptionPane.showMessageDialog(null, se+"from returncurrentIdentityid");
-//    }
-//   
-//    finally{
-//        check.closeConnection();
-//    }
-//    return id;
-//    
-//}
-//       public void MakeCurrentItentityIdFalse(int orderid){
-//     //Boolean ExistingStatus = null; 
-//        
-//        int oid = orderid;
-//        String strempty = "UPDATE  generate_billid SET  bill_status = 0 WHERE autoinc_billid = ?   ";
-//   
-//    DBConnect check = new DBConnect();
-//    PreparedStatement stmtcheck ;
-//    try{
-//        check.initConnection();
-//      
-//        stmtcheck = check.conn.prepareStatement(strempty);
-//        stmtcheck.setInt(1, oid);
-//       stmtcheck.executeUpdate();
-//      
-//     
-//     
-//        
-//       
-//        
-//        
-//    }
-//    catch(SQLException se){
-//        JOptionPane.showMessageDialog(null, se+"from MakecurrentIdentityidFalse");
-//    }
-//    finally{
-//        check.closeConnection();
-//    }
-//   
-//    
-//}
-    
-     public Object[][] getItemListByOrderId(int orderid){
-        DBConnect gettg = new DBConnect();
-        PreparedStatement stmtget ;
-        ResultSet rs;
-       // String search = menuid+"%";
-        String strget = "SELECT order_item_list.menu_id,menu.menu_name,order_item_list.quantity,menu.retail_price,order_item_list.quantity*menu.retail_price as total_amount FROM order_item_list INNER JOIN menu ON order_item_list.menu_id = menu.menu_id   where order_id  IN (?)";
-       // String[] columnName = new String[]{"Menu Id","Menu Name"," Retail Rate","Wholesale Rate","Base Unit",};
-        ArrayList<Object[]> data = new ArrayList<Object[]>();
-        Object[][] finaldata = null;
-        try{
-            gettg.initConnection();
-            stmtget = gettg.conn.prepareStatement(strget);
-            stmtget.setInt(1, orderid);
-            rs = stmtget.executeQuery();
-            while(rs.next()){
-                Object[] row = new Object[]{rs.getObject("menu_id"),rs.getObject("menu_name"),new BigDecimal(rs.getString("quantity")).setScale(3, RoundingMode.HALF_UP),new BigDecimal(rs.getString("retail_price")).setScale(2, RoundingMode.HALF_UP),new BigDecimal(rs.getString("total_amount")).setScale(2, RoundingMode.HALF_UP)};
-            data.add(row);
-            }
-            finaldata = data.toArray(new Object[data.size()][]);
-            
-        }
-        
-        catch(SQLException e){
-            JOptionPane.showMessageDialog(null, e+"from getItemListByOrderId");
-        }
-        finally{
-            gettg.closeConnection();
-        }
-        return finaldata;
-    }
-            
-//      public DefaultTableModel getOrderInfo(){
-//        DBConnect gettg = new DBConnect();
-//        PreparedStatement stmtget ;
-//        ResultSet rs;
-//       // String search = src+"%";
-//        String strget = "SELECT order_list.order_id,table_info.table_name,order_list.customer_id,order_list.total_amount FROM order_list LEFT JOIN  table_info ON order_list.table_id = table_info.table_id  WHERE order_list.paid = 0 ORDER BY order_list.date desc ";
-//        String[] columnName = new String[]{"Order Id","Table Name","Total Amount "};
-//        ArrayList<Object[]> data = new ArrayList<Object[]>();
-//        
-//        Object[][] finaldata = null;
-//        try{
-//            gettg.initConnection();
-//            stmtget = gettg.conn.prepareStatement(strget);
-//           // stmtget.setString(1,new String(new SimpleDateFormat("yyyy-MM-dd").format(new Date())));
-//            
-//          //  System.out.println(new SimpleDateFormat("yyyy-MM-dd").format(new Timestamp(new Date().getTime())));
-//            rs = stmtget.executeQuery();
-//            while(rs.next()){
-//               /* if(rs.getString("table_id").isEmpty()){
-//                    data = rs.getString("Customer Name")
-//                }*/
-//                Object[] row = new Object[]{rs.getInt("order_id"),rs.getString("table_name"),rs.getBigDecimal("total_amount").setScale(2, RoundingMode.HALF_UP)};
-//            data.add(row);
-//            }
-//            finaldata = data.toArray(new Object[data.size()][]);
-//            
-//        }
-//        
-//        catch(Exception e){
-//            JOptionPane.showMessageDialog(null, e+"from getOrderInfo");
-//        }
-//        finally{
-//            gettg.closeConnection();
-//        }
-//        return new DefaultTableModel(finaldata,columnName){
-//                @Override     
-//            public boolean isCellEditable(int row, int col){
-//               return false;
-//           }
-//                
-//           
-//        };
-//    }
-      public DefaultTableModel getOrderInfo(int dep){
-        DBConnect gettg = new DBConnect();
-        PreparedStatement stmtget ;
-        ResultSet rs;
-        Double[] TaxList = new Double[2];
-        
-       // String search = src+"%";
-        String strget = "SELECT order_list.order_id,table_info.table_name,order_list.customer_id,order_list.total_amount FROM order_list LEFT JOIN  table_info ON order_list.table_id = table_info.table_id  WHERE order_list.paid = 0 and department_id = ? ORDER BY order_list.date desc ";
-        String[] columnName = new String[]{"Order Id","Table Name","Total Amount "};
-        ArrayList<Object[]> data = new ArrayList<Object[]>();
-      
-        Object[][] finaldata = null;
-        /*
-        retreiving the value for the tax to include into item total
-        */
-        TaxList = getChargeInfo();
-        Double VAT = new Double(0.0);
-        Double SVC = new Double(0.0);
-        try{
-//            System.out.println(dep);
-            gettg.initConnection();
-            stmtget = gettg.conn.prepareStatement(strget);
-           // stmtget.setString(1,new String(new SimpleDateFormat("yyyy-MM-dd").format(new Date())));
-            
-          //  System.out.println(new SimpleDateFormat("yyyy-MM-dd").format(new Timestamp(new Date().getTime())));
-           stmtget.setInt(1, dep);
-            rs = stmtget.executeQuery();
-            while(rs.next()){
-               /* if(rs.getString("table_id").isEmpty()){
-                    data = rs.getString("Customer Name")
-                }*/
-               Double TotalAmount = rs.getDouble("total_amount");
-//                System.out.println(TotalAmount);
-               
-                SVC = TaxList[0]* TotalAmount/100;
-                Double tt = TotalAmount +SVC;
-                 VAT = (TaxList[1]* tt)/100;
-                TotalAmount = tt + VAT; 
-                
-                Object[] row = new Object[]{rs.getInt("order_id"),rs.getString("table_name"),new BigDecimal(TotalAmount).setScale(2, RoundingMode.HALF_UP)};
-            data.add(row);
-            }
-            finaldata = data.toArray(new Object[data.size()][]);
-            
-        }
-        
-        catch(SQLException e){
-            JOptionPane.showMessageDialog(null, e+"from getOrderInfo"+getClass().getName());
-        }
-        finally{
-            gettg.closeConnection();
-        }
-        return new DefaultTableModel(finaldata,columnName){
-                @Override     
-            public boolean isCellEditable(int row, int col){
-               return false;
-           }
-                
-           
-        };
-    }
-       public DefaultTableModel getOrderInfoForAddOrder(ArrayList<String> st,int did){
+     String strget = "SELECT customer_id,customer_name FROM customer_info ";
+     try{
+         dbget.initConnection();
+         stmtget = dbget.conn.prepareStatement(strget);
+         rsget = stmtget.executeQuery();
+         while(rsget.next()){
+             Object[] row = new Object[]{rsget.getString("customer_id"),rsget.getString("customer_name")};
+             data.add(row);
+         }
+         CustomerInfo = data.toArray(new Object[data.size()][]);
+     }
+     catch(SQLException se){
+         JOptionPane.showMessageDialog(null, se+"from getCustomerInfoObject");
+     }
+     finally{
+         dbget.closeConnection();
+     }
+     return CustomerInfo;
+ }
+    public String[] returnMenuName(Object[][] obj){
+     String[] Name = new String[obj.length];
+     for(int i=0;i<obj.length;i++){
+         Name[i] = obj[i][1].toString();
+     }
+     return Name;
+ }
+    public DefaultTableModel getOrderInfoForAddOrder(ArrayList<String> st,int did){
         DBConnect gettg = new DBConnect();
         PreparedStatement stmtget ;
         ResultSet rs;
@@ -592,19 +353,19 @@ public class OrderBillModel  extends DBConnect{
            
         };
     }
-       public DefaultTableModel getComplimentaryTable(DefaultTableModel dtm,String[][] menuid){
-           DefaultTableModel model = dtm;
-           
-           for(int i=0;i<model.getRowCount();i++){
-               for (String[] menuid1 : menuid) {
-                   if (menuid1[0].equalsIgnoreCase(model.getValueAt(i, 0).toString()) && menuid1[1].equalsIgnoreCase(model.getValueAt(i, 5).toString())) {
-                       model.removeRow(i);
-                   }   
-               }
-           }
-       return model;
-       }
-         public Double[] getChargeInfo(){
+    public DefaultTableModel getComplimentaryTable(DefaultTableModel dtm,String[][] menuid){
+        DefaultTableModel model = dtm;
+
+        for(int i=0;i<model.getRowCount();i++){
+            for (String[] menuid1 : menuid) {
+                if (menuid1[0].equalsIgnoreCase(model.getValueAt(i, 0).toString()) && menuid1[1].equalsIgnoreCase(model.getValueAt(i, 5).toString())) {
+                    model.removeRow(i);
+                }   
+            }
+        }
+    return model;
+    }
+    public Double[] getChargeInfo(){
              String strQuery = new String();
              PreparedStatement stmtget ;
              ResultSet rsget;
@@ -631,105 +392,67 @@ public class OrderBillModel  extends DBConnect{
         }
         return cinfo;
     }
-           public int getTableIdInfoTableName(String tablename){
-             int tableid = 0;
-             String strQuery = new String();
-             PreparedStatement stmtget ;
-             ResultSet rsget;
-        strQuery = "SELECT table_id FROM table_info WHERE table_name = ? ";
-        DBConnect getC = new DBConnect();
-        
+    public int getTableIdInfoTableName(String tablename){
+      int tableid = 0;
+      String strQuery = new String();
+      PreparedStatement stmtget ;
+      ResultSet rsget;
+ strQuery = "SELECT table_id FROM table_info WHERE table_name = ? ";
+ DBConnect getC = new DBConnect();
+
 //       Double cinfo[] = new Double[2];
-        try{
-            getC.initConnection();
-            stmtget = getC.conn.prepareStatement(strQuery);
-            stmtget.setString(1, tablename);
-            rsget = stmtget.executeQuery();
+ try{
+     getC.initConnection();
+     stmtget = getC.conn.prepareStatement(strQuery);
+     stmtget.setString(1, tablename);
+     rsget = stmtget.executeQuery();
 //          getC.conn.commit();
-          while(rsget.next()){
-             
-             tableid  = rsget.getInt("table_id");
-            
-             
-          }
-          
-        }
-       
-        catch(SQLException se){
-            JOptionPane.showMessageDialog(null, se+"getTableIdInfoTableName");
-        }
-        finally{
-            getC.closeConnection();
-        }
-        return tableid;
-    }
-            public int returnTableIdByOrderId(int  orderid){
-     //Boolean ExistingStatus = null; 
-        int id = 0;
-        int oid = orderid;
-    String strCheck = "SELECT table_id FROM order_list WHERE order_id = ?";
-    DBConnect check = new DBConnect();
-    PreparedStatement stmtcheck ;
-    try{
-        check.initConnection();
-        stmtcheck = check.conn.prepareStatement(strCheck);
-     stmtcheck.setInt(1, oid);
-        ResultSet rs = stmtcheck.executeQuery();
-        while(rs.next()){
-        id = rs.getInt("table_id");
-        }
-       
-        
-        
-    }
-    catch(SQLException se){
-        JOptionPane.showMessageDialog(null, se+"from returntableidBYorderid");
-    }
-    finally{
-        check.closeConnection();
-    }
-    return id;
-    
+   while(rsget.next()){
+
+      tableid  = rsget.getInt("table_id");
+
+
+   }
+
+ }
+
+ catch(SQLException se){
+     JOptionPane.showMessageDialog(null, se+"getTableIdInfoTableName");
+ }
+ finally{
+     getC.closeConnection();
+ }
+ return tableid;
 }
-//            public Object[] returnSystemDateInfo(){
-//    PreparedStatement stmtset;
-//    ResultSet rs;
-//    Date date = null;
-//    boolean open = false;
-//    boolean close = false;
-//    int id = 0;
-//    Object[] info = new Object[4];
-//    String strget = "select system_date_id,date,open_status,close_status from system_date where  system_date_id = (select max(system_date_id) from system_date)";
-////    String stropen = "UPDATE system_date SET open_status = 1 where system_date_id = ?";
-//    try{
-//        initConnection();
-////        conn.setAutoCommit(false);
-//        stmtset = conn.prepareStatement(strget);
-//        rs = stmtset.executeQuery();
-//        while(rs.next()){
-//        
-//           info[0] = rs.getObject("system_date_id");
-//           info[1]=rs.getObject("date");
-//           info[2] = rs.getObject("open_status");
-//           info[3]  =rs.getObject("close_status");
-////           System.out.println(id);
-//           
-//        }
-//    
-//      
-//    }
-//    catch(SQLException se){
-//        JOptionPane.showMessageDialog(null, se+"from openSystemData"+getClass().getName());
-//       
-//    }
-//    finally{
-//        closeConnection();
-//    }
-//    return info;
-//    
-//}
-            
-     public Object[][] getRespectiveDepartment(int userid){
+    public int returnTableIdByOrderId(int  orderid){
+//Boolean ExistingStatus = null; 
+ int id = 0;
+ int oid = orderid;
+String strCheck = "SELECT table_id FROM order_list WHERE order_id = ?";
+DBConnect check = new DBConnect();
+PreparedStatement stmtcheck ;
+try{
+ check.initConnection();
+ stmtcheck = check.conn.prepareStatement(strCheck);
+stmtcheck.setInt(1, oid);
+ ResultSet rs = stmtcheck.executeQuery();
+ while(rs.next()){
+ id = rs.getInt("table_id");
+ }
+
+
+
+}
+catch(SQLException se){
+ JOptionPane.showMessageDialog(null, se+"from returntableidBYorderid");
+}
+finally{
+ check.closeConnection();
+}
+return id;
+
+}
+    public Object[][] getRespectiveDepartment(int userid){
     PreparedStatement stmt = null;
       ResultSet rs;
       ArrayList<Object[]> data = new ArrayList<>();
@@ -753,32 +476,8 @@ public class OrderBillModel  extends DBConnect{
       }
       return data.toArray(new Object[data.size()][]);
   }
-     public  Object[][] getComplimentaryInfo(){
-         PreparedStatement stmtget;
-        ResultSet rsget ;
-        DBConnect dbget  = new DBConnect();
-        ArrayList<Object[]> data = new ArrayList<Object[]>();
-        
-        String strget = "SELECT complimentary_id,complimentary_reason FROM complimentary_info ";
-        try{
-            dbget.initConnection();
-            stmtget = dbget.conn.prepareStatement(strget);
-            rsget = stmtget.executeQuery();
-            while(rsget.next()){
-                Object[] row = new Object[]{rsget.getInt("complimentary_id"),rsget.getString("complimentary_reason")};
-                data.add(row);
-            }
-           
-        }
-        catch(SQLException se){
-            JOptionPane.showMessageDialog(null, se+"from getComplimentaryInfo");
-        }
-        finally{
-            dbget.closeConnection();
-        }
-        return data.toArray(new Object[data.size()][]);
-     }
-     public DefaultTableModel getOrderInfoLike(int dep,String search){
+    
+    public DefaultTableModel getOrderInfoLike(int dep,String search){
         DBConnect gettg = new DBConnect();
         PreparedStatement stmtget ;
         ResultSet rs;

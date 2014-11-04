@@ -39,11 +39,10 @@ import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
+import javax.swing.table.TableColumn;
 import report.bill.PrintOrder;
+import resturant.complimentary.ComplimentaryModel;
 import resturant.customer.CustomerController;
 import resturant.customer.CustomerModel;
 import resturant.customer.CustomerView;
@@ -68,15 +67,20 @@ import systemdate.SystemDateModel;
 public class OrderController  extends SystemDateModel{
     OrderView orderview;
     OrderModel ordermodel;
+    MenuEntryModel menuEntryModel;
+    ComplimentaryModel complimentaryModel;
 //    MenuEntryModel menuentrymodel;
      public MainFrameView mainview;
      private  Object[][] DeleteData = null;
-    BigDecimal TotalAmount;
+    BigDecimal individualTotalAmount;
     private  int LeadRow = 0;
     private Double[] TaxList = new Double[2];
     private int InitialTableId =0;
-    //this is used  by mytablemodel
-    private boolean DEBUG = false;
+//    private JComboBox comboComplimentary = new JComboBox();
+//    DefaultComboBoxModel comboComplimentaryModel;
+//    private JButton insertNewComplimentary = new JButton("Set new Complimentary");
+//    JPanel panel = new JPanel();
+                        
     
    
     
@@ -84,7 +88,8 @@ public class OrderController  extends SystemDateModel{
         ordermodel = model;
         orderview = view;
         mainview = mainframeview;
-//        menuentrymodel  = new MenuEntryModel();
+        menuEntryModel  = new MenuEntryModel();
+        complimentaryModel = new ComplimentaryModel();
      
       
      
@@ -104,6 +109,8 @@ public class OrderController  extends SystemDateModel{
         orderview.addComboCustomerNameListener(new ComboListener());
         orderview.addComboWaiterNameListener(new ComboListener());
         orderview.addComboDepartmentListener(new ComboListener());
+        orderview.addComboCategory(new ComboListener());
+        orderview.addComboComplimentary(new ComboListener());
         /*
         adding  item listnener for combomenu name
         */
@@ -165,6 +172,18 @@ public class OrderController  extends SystemDateModel{
       //adding keyeventdispatcher for listening the shortcut of keyboard throug out the frame
       //adding abstractenter listener for the txtfield 
       orderview.addAbstractActionListener(new AsbtractActionListener());
+      //add new insert complimentary 
+      orderview.addNewComplimentary(new NewComplimentary());
+      orderview.addComplimentarySave(new NewComplimentary());
+      orderview.dialogComplimentary.addWindowListener(new WindowAdapter(){
+          @Override
+          public void windowClosing(WindowEvent we){
+              if(orderview.returnComboComplimentary().getSelectedIndex() != 0){
+                  orderview.dialogComplimentary.dispose();
+              }
+              
+          }
+      });
       /*
       adding listener for the table edit when double click is on the ordertable which implemets tablecell listener class
       */
@@ -185,13 +204,16 @@ public class OrderController  extends SystemDateModel{
         /*
          * adding columnname in table order
          */
-        String[] orderColumnName =  new String[]{"Menu Code","Menu Name","Quantity","Rate","Total Amount"};
+        String[] orderColumnName =  new String[]{"ID","Menu Name","Quantity","Rate","Total Amount","Complimentary"};
         DefaultTableModel orderTableModel = new DefaultTableModel(null,orderColumnName){
             @Override
             public boolean isCellEditable(int row,int columns){
                 switch(columns){
                     case 2:
                         return true;
+                    case 5:
+                        return true;
+                        
                     
                    
                 }
@@ -202,8 +224,26 @@ public class OrderController  extends SystemDateModel{
                 return getValueAt(0, c).getClass();
             }
         };
+//        TableColumn menuCodeColumn = orderview.tblOrderList.getColumnModel().getColumn(1);
+//        menuCodeColumn.setPreferredWidth(50);
+//       
          
         orderview.refreshOrderListJTable(orderTableModel);
+        TableColumn menuCodeColumn = orderview.tblOrderList.getColumnModel().getColumn(0);
+        menuCodeColumn.setPreferredWidth(10);
+        
+        
+////          autosize columns
+//         ColumnsAutoSizer.sizeColumnsToFit(orderview.tblOrderList);
+//         orderview.tblOrderList.getModel().addTableModelListener(new TableModelListener() {
+//
+//           @Override
+//           public void tableChanged(TableModelEvent e) {
+//               System.out.println("tablechanged");
+//               ColumnsAutoSizer.sizeColumnsToFit(orderview.tblOrderList);
+//             
+//           }
+//       });
 //        change listener not implemented
 //        orderview.addTblOrderListTableModelListener(new OrderListTableModelListener());
 //        orderview.refreshOrderedListJTable(ordermodel.getOrderInfo());
@@ -211,7 +251,7 @@ public class OrderController  extends SystemDateModel{
             //if it has only one element select it order wise add select into it
             int combosize = orderview.returnComboDepartmentName().getModel().getSize();
             if(combosize >1){
-                orderview.AddSelectInCombo(orderview.returnComboDepartmentName());
+                Function.AddSelectInCombo(orderview.returnComboDepartmentName());
             }
             else{
                 if(combosize == 1){
@@ -222,11 +262,19 @@ public class OrderController  extends SystemDateModel{
          * retriving the value for combo box
          */
         orderview.setComboTableName(ordermodel.returnTableName(ordermodel.getTableInfoObject()));
-        orderview.AddSelectInCombo(orderview.returnTableComboBox());
+        Function.AddSelectInCombo(orderview.returnTableComboBox());
         orderview.setComboCustomerName(ordermodel.returnCustomerName(ordermodel.getCustomerInfoObject()));
-        orderview.AddSelectInCombo(orderview.returnCustomerComboBox());
+        Function.AddSelectInCombo(orderview.returnCustomerComboBox());
         orderview.setComboWaiterName(ordermodel.returnWaiterName(ordermodel.getWaiterInfoObject()));
-        orderview.AddSelectInCombo(orderview.returnWaiterComboBox());
+        Function.AddSelectInCombo(orderview.returnWaiterComboBox());
+        orderview.setComboCategoryName(Function.returnSecondColumn(menuEntryModel.getSubCategoryInfo()));
+        Function.AddSelectInCombo(orderview.returnComboCategory());
+         //loading complimentary reason for combo
+        orderview.setComboComplimentary(Function.returnSecondColumn(complimentaryModel.getComplimentaryInfo()));
+        Function.AddSelectInCombo(orderview.returnComboComplimentary());
+       
+        
+                        
         //for refreshing the order list every 10 sec
         Timer refreshOrderedList = new Timer(10000,new RefreshOrderedListTimer());
         refreshOrderedList.start();
@@ -519,11 +567,7 @@ public class OrderController  extends SystemDateModel{
          //   throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         try{
             if(e.getActionCommand().equalsIgnoreCase("Order")){
-              //  String[] info = new String[]{orderview.getOrderId(),orderview.getTableId(),orderview.getWaiterId(),orderview.getCustomerId()};
-              //fetch default and order printer for particlar department
-//               final String dPrinter = ordermodel.getDefaultPrinter(orderview.getDepartmentId());
-//               final String oPrinter = ordermodel.getOrderPrinter(orderview.getDepartmentId());
-                //System.out.print(orderview.getDepartmentId());
+             
                 
 //checking whether  the date has been closed by the admin
                 
@@ -565,7 +609,7 @@ public class OrderController  extends SystemDateModel{
                if(DisplayMessages.displayInputYesNo(orderview, "Do you Want to Order ","Order  Window"))
                 {
 //                    System.out.println(orderview.getOrderId());
-                ordermodel.AddOrder(ordermodel.convertDefaultTableModelToObject(orderview.getTableOrderList()),Integer.parseInt(orderview.getOrderId()),orderview.getTableId(),orderview.getWaiterId(),orderview.getCustomerId(),mainview.getUserId(),orderview.getDepartmentId());
+                ordermodel.AddOrder(Function.convertDefaultTableModelToObject(orderview.getTableOrderList()),Integer.parseInt(orderview.getOrderId()),orderview.getTableId(),orderview.getWaiterId(),orderview.getCustomerId(),mainview.getUserId(),orderview.getDepartmentId(),complimentaryModel.getComplimentaryIdbyName(orderview.getComboComplimentary()),orderview.getComplimentaryAmount(),orderview.getTotalAmount());
                 //set order to printer not needed
 //                Map para = new HashMap<>();
 //                para.put("orderId",Integer.parseInt(orderview.getOrderId()));
@@ -669,7 +713,7 @@ public class OrderController  extends SystemDateModel{
                if(DisplayMessages.displayInputYesNo(orderview, "Do you Want to Order and Print the Bill ","Order and Print Window"))
                 {
 //                    System.out.println(orderview.getOrderId());
-                ordermodel.AddOrder(ordermodel.convertDefaultTableModelToObject(orderview.getTableOrderList()),Integer.parseInt(orderview.getOrderId()),orderview.getTableId(),orderview.getWaiterId(),orderview.getCustomerId(),mainview.getUserId(),orderview.getDepartmentId());
+                ordermodel.AddOrder(Function.convertDefaultTableModelToObject(orderview.getTableOrderList()),Integer.parseInt(orderview.getOrderId()),orderview.getTableId(),orderview.getWaiterId(),orderview.getCustomerId(),mainview.getUserId(),orderview.getDepartmentId(),complimentaryModel.getComplimentaryIdbyName(orderview.getComboComplimentary()),orderview.getComplimentaryAmount(),orderview.getTotalAmount());
                 final int orderid = Integer.parseInt(orderview.getOrderId());
                 //set order to printer
                 //do this in a thread so that it doesnot affect another system
@@ -789,7 +833,7 @@ public class OrderController  extends SystemDateModel{
                 if(DisplayMessages.displayInputYesNo(orderview, "Do you Want to Edit This Order.","Order Edit Window"))
                 {
 //                    ordermodel.EditOrder(ordermodel.convertDefaultTableModelToObject(orderview.getTableOrderList()),orderview.getOrderId(),orderview.getTableId(),orderview.getWaiterId(),orderview.getCustomerId());
-                     ordermodel.EditOrder(DeleteData,ordermodel.convertDefaultTableModelToObject(orderview.getTableOrderList()),Integer.parseInt(orderview.getOrderId()),orderview.getTableId(),orderview.getWaiterId(),orderview.getCustomerId(),mainview.getUserId(),orderview.getDepartmentId());
+                     ordermodel.EditOrder(DeleteData,Function.convertDefaultTableModelToObject(orderview.getTableOrderList()),Integer.parseInt(orderview.getOrderId()),orderview.getTableId(),orderview.getWaiterId(),orderview.getCustomerId(),mainview.getUserId(),orderview.getDepartmentId(),orderview.getComplimentaryAmount(),orderview.getTotalAmount());
                     orderview.clearOrderData();
 //                    orderview.setOrderId(String.valueOf(ordermodel.returnCurrentItentityId("order_list")));
                     orderview.setOrderId(String.valueOf(orderview.getMainOrderId()));
@@ -850,7 +894,7 @@ public class OrderController  extends SystemDateModel{
                    }
                 if(DisplayMessages.displayInputYesNo(orderview, "Do you Want to Delete This Order.","Order Delete Window"))
                 {
-                     ordermodel.DeleteOrder(ordermodel.convertDefaultTableModelToObject(orderview.getTableOrderList()),Integer.parseInt(orderview.getOrderId()),orderview.getTableId(),orderview.getWaiterId(),orderview.getCustomerId());
+                     ordermodel.DeleteOrder(Function.convertDefaultTableModelToObject(orderview.getTableOrderList()),Integer.parseInt(orderview.getOrderId()),orderview.getTableId(),orderview.getWaiterId(),orderview.getCustomerId());
                     orderview.clearOrderData();
 //                     orderview.setOrderId(String.valueOf(ordermodel.returnCurrentItentityId("order_list")));
                   orderview.setOrderId(String.valueOf(orderview.getMainOrderId()));  
@@ -962,7 +1006,7 @@ public class OrderController  extends SystemDateModel{
                     @Override
                     public void windowClosing(WindowEvent e){
                         orderview.setComboTableName(ordermodel.returnTableName(ordermodel.getTableInfoObject()));
-                         orderview.AddSelectInCombo(orderview.returnTableComboBox());
+                         Function.AddSelectInCombo(orderview.returnTableComboBox());
      
                         
                        // System.out.println("wala");
@@ -1000,7 +1044,7 @@ public class OrderController  extends SystemDateModel{
                                public void windowClosing(WindowEvent e){
                                  // JOptionPane.showMessageDialog(null, "Jagad Guru Kripalu maharaj ki jaya ho");
                                orderview.setComboCustomerName(ordermodel.returnCustomerName(ordermodel.getCustomerInfoObject()));
-                               orderview.AddSelectInCombo(orderview.returnCustomerComboBox());
+                               Function.AddSelectInCombo(orderview.returnCustomerComboBox());
                            //   System.out.println("wala");
                                 }
                            });
@@ -1038,7 +1082,7 @@ public class OrderController  extends SystemDateModel{
                                     WaiterView.addWindowListener(new WindowAdapter(){
                                         public void windowClosing(WindowEvent e){
                                             orderview.setComboWaiterName(ordermodel.returnWaiterName(ordermodel.getWaiterInfoObject()));
-                                            orderview.AddSelectInCombo(orderview.returnWaiterComboBox());
+                                            Function.AddSelectInCombo(orderview.returnWaiterComboBox());
                                        //       System.out.println("wala");
                                         }
                                     });
@@ -1196,7 +1240,7 @@ public class OrderController  extends SystemDateModel{
                              orderview.setDepartmentId(Integer.parseInt(dat[0].toString()));
                              //loading the repective item according to department  
                              orderview.setComboMenuName(ordermodel.returnMenuName(ordermodel.getMenuInfo(orderview.getDepartmentId())));
-                             orderview.AddSelectInCombo(orderview.returnMenuComboBox());
+                             Function.AddSelectInCombo(orderview.returnMenuComboBox());
                              orderview.refreshOrderedListJTable(ordermodel.getOrderInfo(orderview.getDepartmentId()));
 //                             //add the columncombotype
 //                             orderview.setUpTableColumnForOrderedTable(orderview.tblOrderedList, orderview.tblOrderedList.getColumnModel().getColumn(1));
@@ -1214,7 +1258,18 @@ public class OrderController  extends SystemDateModel{
                      }
                  }
               }
+             
+              if(e.getActionCommand().equalsIgnoreCase("comboComplimentary")){
+               
+                JComboBox combotable = (JComboBox) e.getSource();
+                if(combotable.getSelectedIndex() != 0){
+//                    System.out.println("wala");
+                    orderview.dialogComplimentary.setVisible(false);
+                }
+               
               }
+        }
+              
         catch(NumberFormatException ce){
             JOptionPane.showMessageDialog(orderview, ce+"from comboListener");
         }
@@ -1222,53 +1277,7 @@ public class OrderController  extends SystemDateModel{
         
         }
     }
-//    public class ComboItemListener implements ItemListener{
-//
-//        @Override
-//        public void itemStateChanged(ItemEvent e) {
-////            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//        try{
-//               Object[] item = null;
-//                Object[][] MenuInfo = ordermodel.getMenuInfo();
-//                JComboBox comboMenu = (JComboBox) e.getSource();
-//               
-//                if(comboMenu.getSelectedIndex() == 0){
-//                      orderview.setMenuId(0);
-////                 System.out.println(orderview.getMenuId());
-//                 orderview.setRate("0");
-////                 System.out.println(orderview.getRate());
-//                 orderview.setItemBaseUnit("");
-////                 System.out.println("walafrommenu");
-//                }
-//                else{
-//                    
-//               
-//                for (Object[] MenuInfo1 : MenuInfo) {
-//                    if (comboMenu.getSelectedItem().equals(MenuInfo1[1])) {
-//                        item = MenuInfo1;
-//                        break;
-//                    }
-//                }
-//                /*
-//                 * perfom some operation
-//                 */
-////                System.out.println(item[0]);
-//                 orderview.setMenuId(Integer.parseInt(item[0].toString()));
-////                 System.out.println(orderview.getMenuId());
-//                 orderview.setRate(item[3].toString());
-////                 System.out.println(orderview.getRate());
-//                 orderview.setItemBaseUnit(item[2].toString());
-////                 System.out.println(orderview.getItemBaseUnit());
-//                
-//                orderview.setFocusOntxtOrderQuantity();
-//                 } 
-//        }
-//        catch(Exception se){
-//            JOptionPane.showMessageDialog(mainview, se+"from ComboItemListener " +getClass().getName());
-//        }
-//        }
-//        
-//    }
+   
     public class CrudListener implements ActionListener{
 
         @Override
@@ -1302,7 +1311,7 @@ public class OrderController  extends SystemDateModel{
 //                    return;
 //                }
                
-               TotalAmount = new BigDecimal(orderview.getQuantity()).setScale(3, RoundingMode.HALF_UP).multiply(orderview.getRate()).setScale(2, RoundingMode.HALF_UP);
+               individualTotalAmount = new BigDecimal(orderview.getQuantity()).setScale(3, RoundingMode.HALF_UP).multiply(orderview.getRate()).setScale(2, RoundingMode.HALF_UP);
                  
               
                /*
@@ -1344,31 +1353,21 @@ public class OrderController  extends SystemDateModel{
                    }
                   // return;
                }
-             Object[] row = new Object[]{orderview.getMenuId(),orderview.getComboMenuName().toString(),new BigDecimal(orderview.getQuantity()).setScale(3, RoundingMode.HALF_UP),orderview.getRate(),TotalAmount};
+             Object[] row = new Object[]{orderview.getMenuId(),orderview.getComboMenuName(),new BigDecimal(orderview.getQuantity()).setScale(3, RoundingMode.HALF_UP),orderview.getRate(),individualTotalAmount, false};
              //check whether same menu is in the row if there is add it into the row
              boolean SameMenuIdentifier = false;
              for( int i=0;i<orderview.getTableOrderList().getRowCount();i++){
-//                 System.err.println(orderview.getTableOrderList().getRowCount()+"rowcount");
-//                 System.err.println(orderview.getTableOrderList().getValueAt(i, 0)+"menuid"+orderview.getMenuId());
+//                
                  if((Integer.parseInt(orderview.getTableOrderList().getValueAt(i, 0).toString()))==orderview.getMenuId()){
 //                     JOptionPane.showMessageDialog(mainview,orderview.getTableOrderList().getValueAt(i, 2));
                       BigDecimal quantity = new BigDecimal(orderview.getTableOrderList().getValueAt(i, 2).toString());
                      
                      quantity = quantity.add(BigDecimal.valueOf(orderview.getQuantity()));
                      final BigDecimal qty = quantity;
-                     final BigDecimal amount = orderview.getRate().multiply(quantity).setScale(2, BigDecimal.ROUND_HALF_UP);
+                     individualTotalAmount = orderview.getRate().multiply(quantity).setScale(2, BigDecimal.ROUND_HALF_UP);
                      final int j = i;
-//                      System.err.print(quantity);
-                     SwingUtilities.invokeLater(new Runnable(){
-
-                         @Override
-                         public void run() {
-                         orderview.getTableOrderList().setValueAt(qty, j, 2);
-                         orderview.getTableOrderList().setValueAt(amount, j, 4);
-                         }
-                         
-                     });
-                     
+                     orderview.getTableOrderList().setValueAt(qty, j, 2);
+                     orderview.getTableOrderList().setValueAt(individualTotalAmount, j, 4);
                      SameMenuIdentifier = true;
                      break;
                  }
@@ -1376,7 +1375,12 @@ public class OrderController  extends SystemDateModel{
              if(!SameMenuIdentifier){
              orderview.getTableOrderList().addRow(row);
              }
-//                if(ordermodel.returnCurrentItentityId("order_list") == Integer.parseInt(orderview.getOrderId())){
+//display the updated label for total and complimentary amount
+             BigDecimal[] amount = Function.manageAmount(Function.convertDefaultTableModelToObject(orderview.getTableOrderList()));
+             orderview.setTotalAmount(amount[0]);
+             orderview.setComplimentaryAmount(amount[1]);
+             orderview.setNetAmount(amount[2]);
+             
             if(Integer.parseInt(orderview.getOrderId()) == orderview.getMainOrderId()){
              orderview.setAddOrderAndPrintEditableTrue();
              orderview.setAddOrderEditableTrue();
@@ -1395,6 +1399,10 @@ public class OrderController  extends SystemDateModel{
                         return;
                     }
                     orderview.getTableOrderList().removeRow(LeadRow);
+                     BigDecimal[] amount = Function.manageAmount(Function.convertDefaultTableModelToObject(orderview.getTableOrderList()));
+                    orderview.setTotalAmount(amount[0]);
+                    orderview.setComplimentaryAmount(amount[1]);
+                    orderview.setNetAmount(amount[2]);
                     orderview.setDeleteEditableFalse();
                 }
                 else if (e.getActionCommand().equalsIgnoreCase("SearchMenu")){
@@ -1417,30 +1425,35 @@ public class OrderController  extends SystemDateModel{
                 else if(e.getActionCommand().equalsIgnoreCase("CustomMenuAdd")){                    
                     int MenuId = 0;
                     orderview.clearCustomData();
-                    orderview.dialogCustomMenuAdd.pack();
-                    orderview.dialogCustomMenuAdd.setModal(true);
-                    orderview.dialogCustomMenuAdd.setLocationRelativeTo(null);
-                    orderview.dialogCustomMenuAdd.setVisible(true);
+                    orderview.CustomMenuAddDialog.pack();
+                    orderview.returnComboCategory().setSelectedIndex(0);
+                    orderview.CustomMenuAddDialog.setModal(true);
+                    orderview.CustomMenuAddDialog.setLocationRelativeTo(null);
+                    orderview.CustomMenuAddDialog.setVisible(true);
                 }
                 else if (e.getActionCommand().equalsIgnoreCase("CustomAdd")){
                     if(orderview.getCustomMenuName().isEmpty()){
-                        DisplayMessages.displayInfo(orderview.dialogCustomMenuAdd, "Please Enter Menu Name.\nMenu Name Cannot be Blank ","Validation Error");
+                        DisplayMessages.displayInfo(orderview.CustomMenuAddDialog, "Please Enter Menu Name.\nMenu Name Cannot be Blank ","Validation Error");
                         return;
                     }
                     if(MenuEntryModel.checkExistingName(orderview.getCustomMenuName())){
-                       DisplayMessages.displayInfo(orderview.dialogCustomMenuAdd, "Please Enter Another Menu Name.\nMenu Name Cannot be Same","Validation Error");
+                       DisplayMessages.displayInfo(orderview.CustomMenuAddDialog, "Please Enter Another Menu Name.\nMenu Name Cannot be Same","Validation Error");
                         return; 
                     }
+                    if(orderview.returnComboCategory().getSelectedIndex() == 0){
+                       DisplayMessages.displayInfo(orderview.CustomMenuAddDialog, "Please Select the Category name.","Validation Error");
+                        return;  
+                    }
                     try{
-                  orderview.setCustomMenuId(MenuEntryModel.AddCustomMenu(orderview.getCustomMenuName(), orderview.getCustomRate(), orderview.getDepartmentId()));
+                  orderview.setCustomMenuId(menuEntryModel.AddCustomMenu(orderview.getCustomMenuName(), orderview.getCustomRate(), orderview.getDepartmentId(),menuEntryModel.getCategoryIdbyName(orderview.getComboCategoryName())));
                     }
                     catch(SQLException se){
                         se.printStackTrace();
-                        DisplayMessages.displayError(orderview.dialogCustomMenuAdd, "Could not Add the Menu", " Custom Menu Add Error");
+                        DisplayMessages.displayError(orderview.CustomMenuAddDialog, "Could not Add the Menu", " Custom Menu Add Error");
                     }
-                    orderview.dialogCustomMenuAdd.setVisible(false);
+                    orderview.CustomMenuAddDialog.setVisible(false);
                     //add the data to the row
-                    Object[] row = new Object[]{orderview.getCustomMenuId(),orderview.getCustomMenuName(),new BigDecimal(orderview.getCustomQuantity()).setScale(2, RoundingMode.HALF_UP),new BigDecimal(orderview.getCustomRate()).setScale(2, RoundingMode.HALF_UP),new BigDecimal(orderview.getCustomTotalAmount()).setScale(2, RoundingMode.HALF_UP)};
+                    Object[] row = new Object[]{orderview.getCustomMenuId(),orderview.getCustomMenuName(),new BigDecimal(orderview.getCustomQuantity()).setScale(2, RoundingMode.HALF_UP),new BigDecimal(orderview.getCustomRate()).setScale(2, RoundingMode.HALF_UP),new BigDecimal(orderview.getCustomTotalAmount()).setScale(2, RoundingMode.HALF_UP), Boolean.valueOf("false")};
                    orderview.getTableOrderList().addRow(row);
                    
                    if(Integer.parseInt(orderview.getOrderId()) == orderview.getMainOrderId()){
@@ -1451,7 +1464,11 @@ public class OrderController  extends SystemDateModel{
                    else{
                        orderview.addcomboMenuNameFocus();//add focus of cobomenu
                    }
-                   orderview.setDeleteEditableTrue(); 
+                   orderview.setDeleteEditableTrue();
+                    BigDecimal[] amount = Function.manageAmount(Function.convertDefaultTableModelToObject(orderview.getTableOrderList()));
+                    orderview.setTotalAmount(amount[0]);
+                    orderview.setComplimentaryAmount(amount[1]);
+                    orderview.setNetAmount(amount[2]);
                    
                 }
                 else if(e.getActionCommand().equalsIgnoreCase("CustomCancel")){
@@ -1480,6 +1497,7 @@ public class OrderController  extends SystemDateModel{
                 int row = tcl.getRow();
                 int col = tcl.getColumn();
                 //menuname
+                /* not needed since menu is not editable
                 if(col == 1){
                 String prevMenuName = new String();
                 String newMenuName = new String();
@@ -1504,7 +1522,7 @@ public class OrderController  extends SystemDateModel{
                 
                 }
                 //it will check for quantity only
-                else if(col == 2){
+                else*/ if(col == 2){
                 Object oQuantity = tcl.getTable().getValueAt(row, col);
 
                 try{
@@ -1560,7 +1578,7 @@ public class OrderController  extends SystemDateModel{
                }
                                     
                                     TotalAmount = Quantity.multiply(rate).setScale(2, RoundingMode.HALF_UP);
-                                  //  System.out.println(TotalAmount);
+                                  //  System.out.println(individualTotalAmount);
                                   //  System.out.println(Quantity);
                                   //  System.out.println(rate);
                                     tcl.getTable().setValueAt(TotalAmount, row, 4);
@@ -1570,14 +1588,19 @@ public class OrderController  extends SystemDateModel{
                                    else{
                                     orderview.setFocusOnButtonEdit(); 
                                    }
+                BigDecimal[] amount = Function.manageAmount(Function.convertDefaultTableModelToObject(orderview.getTableOrderList()));
+                orderview.setTotalAmount(amount[0]);
+                orderview.setComplimentaryAmount(amount[1]);
+                orderview.setNetAmount(amount[2]);
                 }
+                /*
                 else if(col == 3){
                 BigDecimal prevRate = new BigDecimal(tcl.getOldValue().toString());
                 BigDecimal quantity = new BigDecimal(tcl.getTable().getValueAt(row, 2).toString());
                 BigDecimal newRate = new BigDecimal(tcl.getNewValue().toString());
-                BigDecimal TotalAmount;
-                TotalAmount = quantity.multiply(newRate).setScale(2, RoundingMode.HALF_UP);
-                tcl.getTable().setValueAt(TotalAmount, row, 4);
+                BigDecimal individualTotalAmount;
+                individualTotalAmount = quantity.multiply(newRate).setScale(2, RoundingMode.HALF_UP);
+                tcl.getTable().setValueAt(individualTotalAmount, row, 4);
                 if(Integer.parseInt(orderview.getOrderId())== orderview.getMainOrderId()){
                 orderview.setFocusOnButtonOrder();
                 }
@@ -1589,6 +1612,38 @@ public class OrderController  extends SystemDateModel{
                 }
                 else if(col == 4 ){
                     
+                }*/
+                //if complimentary is clicked
+                else if(col == 5){
+                    //not need
+                   /* Object complimentaryFlag = tcl.getTable().getValueAt(row, col);
+                    if(complimentaryFlag == Boolean.TRUE){
+//                        JOptionPane.showMessageDialog(mainview, "true");
+                        
+                        tcl.getTable().setValueAt(0.00, row, 4);
+                        //show the dialog for complimentary
+                        
+                        
+                        
+                        
+                       
+                        orderview.dialogComplimentary.pack();
+                        orderview.dialogComplimentary.setModal(true);
+                        orderview.dialogComplimentary.setVisible(true);
+                        
+                        
+                    }
+                    else{
+                     int menuid = Integer.valueOf(tcl.getTable().getValueAt(row, 0).toString());
+                     BigDecimal rate = menuEntryModel.getPricebyMenuId(menuid);
+                     BigDecimal qty = new BigDecimal(tcl.getTable().getValueAt(row, 2).toString());
+                     tcl.getTable().setValueAt(rate.multiply(qty).setScale(2, RoundingMode.HALF_EVEN), row, col-1);
+                    }
+                    */
+                     BigDecimal[] amount = Function.manageAmount(Function.convertDefaultTableModelToObject(orderview.getTableOrderList()));
+                    orderview.setTotalAmount(amount[0]);
+                    orderview.setComplimentaryAmount(amount[1]);
+                    orderview.setNetAmount(amount[2]);
                 }
                                    
             
@@ -1599,29 +1654,7 @@ public class OrderController  extends SystemDateModel{
         }
         
     }
-    //not implements
-    public class OrderListTableModelListener implements TableModelListener{
-
-        @Override
-        public void tableChanged(TableModelEvent e) {
-            try{
-                int row = e.getFirstRow();
-                int column = e.getColumn();
-                TableModel model = (TableModel)e.getSource();
-                String columnName = model.getColumnName(column);
-                Object data = model.getValueAt(row, column);
-                //perform what to do 
-//                System.out.println(data);
-//                model.
-                
-//                JOptionPane.showMessageDialog(mainview, data);
-            }
-            catch(Exception se){
-                se.printStackTrace();
-            }
-        }
-        
-    }
+    
     public class returnOrderTableListSelectionListener implements ListSelectionListener{
         OrderView returnview = new OrderView();
         JTable table = new JTable()/*{
@@ -1649,14 +1682,8 @@ public class OrderController  extends SystemDateModel{
                 ListSelectionModel listmodel = table.getSelectionModel();
                int Lead = listmodel.getLeadSelectionIndex();
                 LeadRow = Lead;
-//               
-//                 if(ordermodel.returnCurrentItentityId("order_list") == Integer.parseInt(returnview.getOrderId())){
-//              returnview.setDeleteEditableTrue();
-//                 }
-//                 else{
-                     returnview.setDeleteEditableTrue();
-//                 }
-               
+                returnview.setDeleteEditableTrue();
+                
             }
         
         }
@@ -1711,6 +1738,10 @@ public class OrderController  extends SystemDateModel{
                orderview.setAddOrderEditableFalse();
                orderview.setAddOrderAndPrintEditableFalse();
 //                orderview.setDeleteEditableFalse();
+                BigDecimal[] amount = Function.manageAmount(Function.convertDefaultTableModelToObject(orderview.getTableOrderList()));
+                orderview.setTotalAmount(amount[0]);
+                orderview.setComplimentaryAmount(amount[1]);
+                orderview.setNetAmount(amount[2]);
             }
         
         }
@@ -1743,36 +1774,7 @@ public class OrderController  extends SystemDateModel{
         }
         
     }
-    //testing for adjusting the combo box into the table
-    public class returnOrderedTableListSelectionListenerTest implements ListSelectionListener{
-        OrderView returnview = new OrderView();
-        JTable table = new JTable();
-        public returnOrderedTableListSelectionListenerTest(OrderView view){
-            returnview = view;
-            table = returnview.tblOrderedList;
-        }
-        @Override
-        public void valueChanged(ListSelectionEvent e) {
-             try{
-            if(e.getValueIsAdjusting()) return;
-            ListSelectionModel lsm = (ListSelectionModel) e.getSource();
-            if(lsm.isSelectionEmpty()){
-                //doesnot nothing
-            }
-            else{
-                ListSelectionModel listmodel = table.getSelectionModel();
-                int Lead = listmodel.getLeadSelectionIndex();
-                
-                
-            }
-             }
-            catch(Exception se){
-              se.printStackTrace();
-              DisplayMessages.displayError(null, "Error on tablw", se.getMessage());
-              }
-        }
-        
-    }
+  
    public class TextCrudListener implements ActionListener{
 
         @Override
@@ -1962,6 +1964,38 @@ public class OrderController  extends SystemDateModel{
         }
        
    }
+   public class NewComplimentary implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            
+            try{
+//                 if(e.getActionCommand().equalsIgnoreCase("Save")){
+//                    
+//                }
+                 if(e.getActionCommand().equalsIgnoreCase("NewComplimentary")){
+                    String complimentary =  DisplayMessages.displayInput(mainview, "Enter the Complimentary Reason", "wala");
+                    if(complimentary.trim().isEmpty()){
+                        DisplayMessages.displayError(mainview, "Enter Complimentary Reason", "Complimentary Reason");
+                        complimentary =  DisplayMessages.displayInput(mainview, "Enter the Complimentary Reason", "wala");
+                    }
+                    
+                    complimentaryModel.AddComplimentary(complimentary);
+                    orderview.setComboComplimentary(Function.returnSecondColumn(complimentaryModel.getComplimentaryInfo()));
+                    orderview.setComboComplimentary(complimentary);
+                    orderview.dialogComplimentary.setVisible(false);
+                    
+                    }
+                    
+                 
+            }
+            catch(Exception se){
+                DisplayMessages.displayError(mainview, se.getMessage(), "from NewComplimentary");
+            }
+        }
+       
+   }
+  
    
    
 }

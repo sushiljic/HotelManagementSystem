@@ -59,7 +59,7 @@ public class ComplimentaryController {
                     return;
                 }
                
-               cmodel.AddComplimentary(cview.getCustomerInfo());
+               cmodel.AddComplimentary(cview.getCustomerInfo()[1]);
                cview.ClearAll();
                
                cview.refreshJtableCustomerInfo(cmodel.getTableModelComplimentaryInfo());

@@ -29,7 +29,6 @@ import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -50,17 +49,21 @@ private int WaiterId;
 private int CustomerId;
 private int UnitId ;
 private int DepartmentId=0;
+private int ComplimentaryId = 0;
 private String ItemBaseUnit = new String();
-private Double DoubleSVC = new Double(0.0);
-private Double DoubleVAT = new Double(0.0);
+private Double DoubleSVC = 0.0;
+private Double DoubleVAT = 0.0;
+
 
 private BigDecimal rate;
 private BigDecimal TotalAmount;
+private BigDecimal NetAmount;
+private BigDecimal ComplimentaryAmount;
 private final ListSelectionModel selectionModelOrderTable;
 private final ListSelectionModel selectionModelOrderedTable;
 //this for listening the  keyboard key throug out the frame
-private KeyboardFocusManager kfmanager;
-private JComboBox comboColumnTableName = new JComboBox();
+private final KeyboardFocusManager kfmanager;
+private final JComboBox comboColumnTableName = new JComboBox();
 
     /**
      * Creates new formOrderView
@@ -110,7 +113,13 @@ private JComboBox comboColumnTableName = new JComboBox();
          txtSearchMenu.addFocusListener(new Function.SetTextFieldFocusListener(txtSearchMenu));
          //getting the key acion
          kfmanager= KeyboardFocusManager.getCurrentKeyboardFocusManager();
-         
+         TotalAmount = BigDecimal.ZERO;
+         TotalAmount.setScale(2, RoundingMode.HALF_EVEN);
+         ComplimentaryAmount = BigDecimal.ZERO;
+         ComplimentaryAmount.setScale(2,RoundingMode.HALF_EVEN);
+         NetAmount = BigDecimal.ZERO;
+         NetAmount.setScale(2, RoundingMode.HALF_EVEN);
+        
          
 //          setLocationRelativeTo(null);
        /*  DialogBox.addWindowListener(new WindowAdapter(){
@@ -134,8 +143,13 @@ private JComboBox comboColumnTableName = new JComboBox();
         jPanel5 = new javax.swing.JPanel();
         scroll = new javax.swing.JScrollPane();
         tblSearch = new javax.swing.JTable();
-        DialogBox = new javax.swing.JDialog();
-        dialogCustomMenuAdd = new javax.swing.JDialog();
+        dialogComplimentary = new javax.swing.JDialog();
+        comboComplimentary = new javax.swing.JComboBox();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        btnInsertNewComplimentary = new javax.swing.JButton();
+        btnComplimentarySave = new javax.swing.JButton();
+        CustomMenuAddDialog = new javax.swing.JDialog();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
@@ -147,6 +161,8 @@ private JComboBox comboColumnTableName = new JComboBox();
         txtCustomRate = new javax.swing.JFormattedTextField();
         txtCustomQuantity = new javax.swing.JFormattedTextField();
         txtCustomTotalAmount = new javax.swing.JFormattedTextField();
+        jLabel9 = new javax.swing.JLabel();
+        comboCategoryName = new javax.swing.JComboBox();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         lblOrderId = new javax.swing.JLabel();
@@ -184,6 +200,12 @@ private JComboBox comboColumnTableName = new JComboBox();
         txtSearchMenu = new javax.swing.JTextField();
         btnSearchMenu = new javax.swing.JButton();
         btnCustomMenuAdd = new javax.swing.JButton();
+        jLabel17 = new javax.swing.JLabel();
+        lblTotalAmount = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        lblComplimentaryAmount = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
+        lblNetAmount = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         comboDepartmentName = new javax.swing.JComboBox();
 
@@ -245,22 +267,70 @@ private JComboBox comboColumnTableName = new JComboBox();
                 .addContainerGap())
         );
 
-        DialogBox.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        dialogComplimentary.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        dialogComplimentary.setTitle("Complimentary Reason");
 
-        javax.swing.GroupLayout DialogBoxLayout = new javax.swing.GroupLayout(DialogBox.getContentPane());
-        DialogBox.getContentPane().setLayout(DialogBoxLayout);
-        DialogBoxLayout.setHorizontalGroup(
-            DialogBoxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+        comboComplimentary.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        comboComplimentary.setActionCommand("comboComplimentary");
+
+        jLabel15.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel15.setText("Select ComplimentaryReason:");
+
+        jLabel16.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel16.setText("or Set new Complimentary Reason:");
+
+        btnInsertNewComplimentary.setText("New Complimentary");
+        btnInsertNewComplimentary.setActionCommand("NewComplimentary");
+
+        btnComplimentarySave.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnComplimentarySave.setText("Save");
+        btnComplimentarySave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnComplimentarySaveActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout dialogComplimentaryLayout = new javax.swing.GroupLayout(dialogComplimentary.getContentPane());
+        dialogComplimentary.getContentPane().setLayout(dialogComplimentaryLayout);
+        dialogComplimentaryLayout.setHorizontalGroup(
+            dialogComplimentaryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dialogComplimentaryLayout.createSequentialGroup()
+                .addGroup(dialogComplimentaryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dialogComplimentaryLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(comboComplimentary, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(dialogComplimentaryLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnInsertNewComplimentary, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addGroup(dialogComplimentaryLayout.createSequentialGroup()
+                .addGap(148, 148, 148)
+                .addComponent(btnComplimentarySave)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        DialogBoxLayout.setVerticalGroup(
-            DialogBoxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+        dialogComplimentaryLayout.setVerticalGroup(
+            dialogComplimentaryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dialogComplimentaryLayout.createSequentialGroup()
+                .addGap(34, 34, 34)
+                .addGroup(dialogComplimentaryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(comboComplimentary, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel15))
+                .addGap(18, 18, 18)
+                .addGroup(dialogComplimentaryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel16)
+                    .addComponent(btnInsertNewComplimentary))
+                .addGap(18, 18, 18)
+                .addComponent(btnComplimentarySave)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        dialogCustomMenuAdd.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        dialogCustomMenuAdd.setTitle("Custom Menu Add");
-        dialogCustomMenuAdd.setResizable(false);
+        CustomMenuAddDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        CustomMenuAddDialog.setTitle("Custom Menu Add");
+        CustomMenuAddDialog.setResizable(false);
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel10.setText("Menu Name:");
@@ -291,58 +361,67 @@ private JComboBox comboColumnTableName = new JComboBox();
             }
         });
 
-        javax.swing.GroupLayout dialogCustomMenuAddLayout = new javax.swing.GroupLayout(dialogCustomMenuAdd.getContentPane());
-        dialogCustomMenuAdd.getContentPane().setLayout(dialogCustomMenuAddLayout);
-        dialogCustomMenuAddLayout.setHorizontalGroup(
-            dialogCustomMenuAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(dialogCustomMenuAddLayout.createSequentialGroup()
+        jLabel9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel9.setText("Category:");
+
+        javax.swing.GroupLayout CustomMenuAddDialogLayout = new javax.swing.GroupLayout(CustomMenuAddDialog.getContentPane());
+        CustomMenuAddDialog.getContentPane().setLayout(CustomMenuAddDialogLayout);
+        CustomMenuAddDialogLayout.setHorizontalGroup(
+            CustomMenuAddDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(CustomMenuAddDialogLayout.createSequentialGroup()
                 .addGap(43, 43, 43)
                 .addComponent(btnCustomMenuRealAdd)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
                 .addComponent(btnCustomMenuRealCancel)
                 .addGap(100, 100, 100))
-            .addGroup(dialogCustomMenuAddLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(dialogCustomMenuAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(dialogCustomMenuAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtCustomMenuName, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
-                    .addComponent(txtCustomRate)
-                    .addComponent(txtCustomQuantity)
-                    .addComponent(txtCustomTotalAmount))
-                .addContainerGap(49, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dialogCustomMenuAddLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, CustomMenuAddDialogLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(CustomMenuAddDialogLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(CustomMenuAddDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(CustomMenuAddDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtCustomMenuName, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
+                    .addComponent(txtCustomRate)
+                    .addComponent(txtCustomQuantity)
+                    .addComponent(txtCustomTotalAmount)
+                    .addComponent(comboCategoryName, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        dialogCustomMenuAddLayout.setVerticalGroup(
-            dialogCustomMenuAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(dialogCustomMenuAddLayout.createSequentialGroup()
+        CustomMenuAddDialogLayout.setVerticalGroup(
+            CustomMenuAddDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(CustomMenuAddDialogLayout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addComponent(jLabel14)
                 .addGap(20, 20, 20)
-                .addGroup(dialogCustomMenuAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(CustomMenuAddDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
                     .addComponent(txtCustomMenuName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(dialogCustomMenuAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(CustomMenuAddDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(comboCategoryName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20)
+                .addGroup(CustomMenuAddDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
                     .addComponent(txtCustomRate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(dialogCustomMenuAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(CustomMenuAddDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel12)
                     .addComponent(txtCustomQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(dialogCustomMenuAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(CustomMenuAddDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13)
                     .addComponent(txtCustomTotalAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
-                .addGroup(dialogCustomMenuAddLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(CustomMenuAddDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCustomMenuRealAdd)
                     .addComponent(btnCustomMenuRealCancel))
                 .addGap(24, 24, 24))
@@ -614,6 +693,18 @@ private JComboBox comboColumnTableName = new JComboBox();
         btnCustomMenuAdd.setText("Custom Menu Add");
         btnCustomMenuAdd.setActionCommand("CustomMenuAdd");
 
+        jLabel17.setText("Total Amount:");
+
+        lblTotalAmount.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+
+        jLabel18.setText("Comp* Amount:");
+
+        lblComplimentaryAmount.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+
+        jLabel20.setText("Net Amount:");
+
+        lblNetAmount.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -635,18 +726,27 @@ private JComboBox comboColumnTableName = new JComboBox();
                                 .addComponent(jLabel5)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(txtOrderQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnCustomMenuAdd, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(btnSearchMenu)
-                                .addGap(0, 0, Short.MAX_VALUE))))
-                    .addComponent(jScrollPane1)
+                            .addComponent(btnSearchMenu)
+                            .addComponent(txtOrderQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnCustomMenuAdd))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 604, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel17)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblTotalAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblComplimentaryAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel20)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblNetAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -656,19 +756,26 @@ private JComboBox comboColumnTableName = new JComboBox();
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtSearchMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSearchMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7))
+                    .addComponent(jLabel7)
+                    .addComponent(btnCustomMenuAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(comboMenuName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtOrderQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCustomMenuAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel17)
+                    .addComponent(lblTotalAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel18)
+                    .addComponent(lblComplimentaryAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel20)
+                    .addComponent(lblNetAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(53, 53, 53))
         );
 
@@ -781,6 +888,10 @@ private JComboBox comboColumnTableName = new JComboBox();
     private void txtCustomTotalAmountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCustomTotalAmountActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCustomTotalAmountActionPerformed
+
+    private void btnComplimentarySaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComplimentarySaveActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnComplimentarySaveActionPerformed
     public String getOrderId(){
         return lblOrderId.getText().trim();
     }
@@ -802,9 +913,29 @@ private JComboBox comboColumnTableName = new JComboBox();
     public  BigDecimal getTotalAmount(){
         return TotalAmount;
     }
-    public void setTotalAmount(String  amount){
-       TotalAmount = new BigDecimal(amount).setScale(2, RoundingMode.HALF_UP);
+    public void setTotalAmount(BigDecimal  amount){
+       lblTotalAmount.setText(amount.toString());
+       TotalAmount = amount;
     }
+
+    public BigDecimal getNetAmount() {
+        return NetAmount;
+    }
+
+    public void setNetAmount(BigDecimal NetAmount) {
+        lblNetAmount.setText(NetAmount.toString());
+        this.NetAmount = NetAmount;
+    }
+
+    public BigDecimal getComplimentaryAmount() {
+        return ComplimentaryAmount;
+    }
+
+    public void setComplimentaryAmount(BigDecimal ComplimentaryAmount) {
+        lblComplimentaryAmount.setText(ComplimentaryAmount.toString());
+        this.ComplimentaryAmount = ComplimentaryAmount;
+    }
+    
     public void setTableId(int id){
         TableId = id;
     }
@@ -847,26 +978,35 @@ private JComboBox comboColumnTableName = new JComboBox();
     public int getWaiterId(){
         return WaiterId;
     }
+
+    public int getComplimentaryId() {
+        return ComplimentaryId;
+    }
+
+    public void setComplimentaryId(int ComplimentaryId) {
+        this.ComplimentaryId = ComplimentaryId;
+    }
+    
     public void setCustomMenuname(String menuname){
         txtCustomMenuName.setText(menuname);
     }
     public String getCustomMenuName(){
-        return txtCustomMenuName.getText().toString().trim();
+        return txtCustomMenuName.getText().trim();
     }
     public void setCustomRate(double rate){
-        txtCustomRate.setValue(new Double(rate));
+        txtCustomRate.setValue(rate);
     }
     public Double getCustomRate(){
         return ((Number)txtCustomRate.getValue()).doubleValue();
     }
     public void setCustomTotalAmount(double amount){
-        txtCustomTotalAmount.setValue(new Double(amount));
+        txtCustomTotalAmount.setValue(amount);
     }
     public Double getCustomTotalAmount(){
         return ((Number)txtCustomTotalAmount.getValue()).doubleValue();
     }
     public void setCustomQuantity(double qty){
-        txtCustomQuantity.setValue(new Double(qty));
+        txtCustomQuantity.setValue(qty);
     }
     public Double getCustomQuantity(){
         return ((Number)txtCustomQuantity.getValue()).doubleValue();
@@ -941,6 +1081,17 @@ private JComboBox comboColumnTableName = new JComboBox();
     public String getComboColumnTableName(){
         return comboColumnTableName.getSelectedItem().toString();
     }
+    //for complimentary combo box
+    public void  setComboComplimentary(String name){
+        comboComplimentary.setSelectedItem(name);
+    }
+    public void setComboComplimentary(String[] name){
+        DefaultComboBoxModel TableNameModel = new DefaultComboBoxModel(name);
+        comboComplimentary.setModel(TableNameModel);
+    }
+    public String getComboComplimentary(){
+        return comboComplimentary.getSelectedItem().toString();
+    }
     public void setQuantity(Double st){
         txtOrderQuantity.setValue(st);
     }
@@ -974,6 +1125,16 @@ private JComboBox comboColumnTableName = new JComboBox();
     public JComboBox returnComboDepartmentName(){
         return comboDepartmentName;
     }
+     public void setComboCategoryName(String[] name){
+        DefaultComboBoxModel MenuNameModel = new DefaultComboBoxModel(name);
+        comboCategoryName.setModel(MenuNameModel);
+    }
+    public void setComboCategoryName(String name){
+        comboCategoryName.setSelectedItem(name);
+    }
+    public String getComboCategoryName(){
+         return comboCategoryName.getSelectedItem().toString();
+    }
      public final void setButtonForEnter(JButton jb){
          jb.registerKeyboardAction(jb.getActionForKeyStroke(
                                       KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0, false)),
@@ -986,6 +1147,7 @@ private JComboBox comboColumnTableName = new JComboBox();
                                       JComponent.WHEN_FOCUSED);
         
     }
+     
      
      public void refreshOrderListJTable(DefaultTableModel model){
          tblOrderList.setModel(model);
@@ -1011,7 +1173,14 @@ private JComboBox comboColumnTableName = new JComboBox();
     public JTextField getTxtSearchMenu() {
         return txtSearchMenu;
     }
-
+//return combocomplimentary
+    public JComboBox returnComboComplimentary(){
+        return comboComplimentary;
+    }
+    public JComboBox returnComboCategory(){
+        return comboCategoryName;
+    }
+    
    
     
     
@@ -1086,6 +1255,12 @@ private JComboBox comboColumnTableName = new JComboBox();
       public void addComboDepartmentListener(ActionListener Listen){
           comboDepartmentName.addActionListener(Listen);
       }
+     public void addComboComplimentary(ActionListener action){
+         comboComplimentary.addActionListener(action);
+     }
+     public void addComboCategory(ActionListener action){
+         comboCategoryName.addActionListener(action);
+     }
      public void addOrderTableListSelection(ListSelectionListener ListenForList){
          selectionModelOrderTable.addListSelectionListener(ListenForList);
      }
@@ -1112,12 +1287,21 @@ private JComboBox comboColumnTableName = new JComboBox();
      public void addCustomQuantityDocumentListener(DocumentListener Listen){
          txtCustomQuantity.getDocument().addDocumentListener(Listen);
      }
+     /*
+     for new complimentary
+     */
+     public void addNewComplimentary(ActionListener action){
+         btnInsertNewComplimentary.addActionListener(action);
+     }
+     public void addComplimentarySave(ActionListener action){
+         btnComplimentarySave.addActionListener(action);
+     }
     
      /*
       * window listenr for close action in add waiter and customenr 
       */
      public void addCloseButtonListener(WindowListener ListenForClose){
-         DialogBox.addWindowListener(ListenForClose);
+         dialogComplimentary.addWindowListener(ListenForClose);
      }
      /*
      adding enter listener in text field
@@ -1193,10 +1377,7 @@ private JComboBox comboColumnTableName = new JComboBox();
     public DefaultTableModel getSearchTable(){
         return (DefaultTableModel) tblSearch.getModel();
     }
-    public void AddSelectInCombo(JComboBox jc){
-      jc.insertItemAt("SELECT", 0);
-      jc.setSelectedIndex(0);
-    }
+   
     public JComboBox returnCustomerComboBox(){
         return comboCustomerName;
     }
@@ -1270,10 +1451,14 @@ private JComboBox comboColumnTableName = new JComboBox();
        // setRate("0");
         setTableId(0);
         setCustomerId(0);
-       setWaiterId(0);
+        setWaiterId(0);
         setItemBaseUnit("");
         setSearchMenu("");
         setSearch("");
+        //clear netamount
+        setTotalAmount(BigDecimal.ZERO);
+        setComplimentaryAmount(BigDecimal.ZERO);
+        setNetAmount(BigDecimal.ZERO);
        
     }
     public void initComboBox(){
@@ -1424,17 +1609,19 @@ private JComboBox comboColumnTableName = new JComboBox();
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JDialog DialogBox;
+    public javax.swing.JDialog CustomMenuAddDialog;
     public javax.swing.JDialog SearchDailog;
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnAddCustomer;
     private javax.swing.JButton btnAddTable;
     private javax.swing.JButton btnAddWaiter;
     private javax.swing.JButton btnCancelOrder;
+    private javax.swing.JButton btnComplimentarySave;
     private javax.swing.JButton btnCustomMenuAdd;
     private javax.swing.JButton btnCustomMenuRealAdd;
     private javax.swing.JButton btnCustomMenuRealCancel;
     private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnInsertNewComplimentary;
     private javax.swing.JButton btnOrder;
     private javax.swing.JButton btnOrderAndPrint;
     private javax.swing.JButton btnOrderDelete;
@@ -1442,25 +1629,33 @@ private JComboBox comboColumnTableName = new JComboBox();
     public javax.swing.JButton btnRefresh;
     private javax.swing.JButton btnSearchMenu;
     private javax.swing.JButton btnSearchOrder;
+    private javax.swing.JComboBox comboCategoryName;
+    private javax.swing.JComboBox comboComplimentary;
     private javax.swing.JComboBox comboCustomerName;
     private javax.swing.JComboBox comboDepartmentName;
     private javax.swing.JComboBox comboMenuName;
     private javax.swing.JComboBox comboTableName;
     private javax.swing.JComboBox comboWaiterName;
-    public javax.swing.JDialog dialogCustomMenuAdd;
+    public javax.swing.JDialog dialogComplimentary;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -1468,7 +1663,10 @@ private JComboBox comboColumnTableName = new JComboBox();
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblComplimentaryAmount;
+    private javax.swing.JLabel lblNetAmount;
     private javax.swing.JLabel lblOrderId;
+    private javax.swing.JLabel lblTotalAmount;
     public javax.swing.JScrollPane scroll;
     public javax.swing.JTable tblOrderList;
     public javax.swing.JTable tblOrderedList;
