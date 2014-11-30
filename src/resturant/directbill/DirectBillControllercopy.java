@@ -5,6 +5,7 @@
 package resturant.directbill;
 
 import hotelmanagementsystem.MainFrameView;
+import java.awt.HeadlessException;
 import java.awt.KeyEventDispatcher;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -37,9 +38,12 @@ import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.table.DefaultTableModel;
 import report.bill.Bill;
+import resturant.complimentary.ComplimentaryModel;
 import resturant.customer.CustomerController;
 import resturant.customer.CustomerModel;
 import resturant.customer.CustomerView;
+import resturant.order.OrderModel;
+import resturant.orderbill.OrderBillModel;
 import reusableClass.DisplayMessages;
 import reusableClass.Function;
 import reusableClass.Validator;
@@ -49,20 +53,24 @@ import systemdate.SystemDateModel;
  *
  * @author SUSHIL
  */
-public class DirectBillController  extends SystemDateModel{
+public class DirectBillControllercopy  extends SystemDateModel{
     DirectBillView obview;
-    DirectBillModel obmodel;
+    OrderBillModel obmodel;
+    OrderModel orderModel;
     public MainFrameView mainview;
+    public ComplimentaryModel complimentaryModel;
      String[][] comp;
      BigDecimal TotalAmount;
      
      Double[] TaxList = new Double[2];
     
-   public  DirectBillController(DirectBillModel model,DirectBillView view,MainFrameView mainview){
+   public  DirectBillControllercopy(OrderBillModel model,DirectBillView view,MainFrameView mainview){
         
        obmodel = model;
        obview = view;
        this.mainview = mainview;
+       orderModel = new OrderModel();
+       complimentaryModel = new ComplimentaryModel();
   
 //       obview.addComboCustomerNameForOrderListener(new ComboListener());
 //       obview.addComboCustomerNameForBillListener(new BillComboCustomerListener());
@@ -82,12 +90,11 @@ public class DirectBillController  extends SystemDateModel{
        obview.addComboClickCustomerNameActionListener(new ComboCustomerNameListener());
         /*
          * adding the save and cancel for bill 
-         */
+         not need since it is reduced fro main form of direct bill layour
        obview.addBillSaveListener(new BillInsertListener());
        obview.addBillCancelListener(new BillInsertListener());
        obview.addBillSaveAndPrintListener(new BillInsertListener());
-        
-//   
+       */
         /*
          * listening for the checkbox for complimentary
          */
@@ -100,17 +107,17 @@ public class DirectBillController  extends SystemDateModel{
         /*
          * adding windows adapter for clos action 
          */
-//        obview.addWindowListener(new WindowCloseListener());
+//      obview.addWindowListener(new WindowCloseListener());
         obview.addInternalFrameListener(new InternalFrameCloseListener());
         ///adding the document listener for tracking teh rate
         obview.addSVCDocumentListener(new SVCDocumentListener());
         obview.addDiscountDocumentListener(new DiscountDocumentListener());
         obview.addTenderedAmountDocumentListener(new TenderedDocumentListener());
-//        obview.addGrandTotalDocumentListener(new GrandTotalDocumentListener());//checking and it might not be needed.
+//      obview.addGrandTotalDocumentListener(new GrandTotalDocumentListener());//checking and it might not be needed.
         obview.addCheckSVCListener(new SVCCheckListener() );
         obview.addCheckDiscountListener(new DiscountCheckListener());
         //adding check listener
-         obview.addCheckSVCListener(new SVCCheckListener() );
+        obview.addCheckSVCListener(new SVCCheckListener() );
         obview.addCheckDiscountListener(new DiscountCheckListener());
         //adding enterlisten for tender amount
         obview.addTenderedAmountActionListener(new addEnterFocusListener());
@@ -120,7 +127,7 @@ public class DirectBillController  extends SystemDateModel{
         obview.addShortcutForDirectBill(new ShortcutForDirectBill());
         obview.addAbstractActionListener(new AsbtractActionListener());
         try{
-                 obview.setcomboDepartmentName(obmodel.returnMenuName(obmodel.getRespectiveDepartment(mainview.getUserId())));
+                 obview.setcomboDepartmentName(Function.returnSecondColumn(obmodel.getRespectiveDepartment(mainview.getUserId())));
             //if it has only one element select it order wise add select into it
             int combosize = obview.returnComboDepartmentName().getModel().getSize();
             if(combosize >1){
@@ -134,7 +141,7 @@ public class DirectBillController  extends SystemDateModel{
                  /*
         * getting the bill number
         */
-       int billid = obmodel.returnCurrentItentityId("bill");
+       int billid = Function.returnCurrentItentityBillId("bill");
        obview.setBillId(String.valueOf(billid));
        obview.setMainBillId(billid);
        /*
@@ -144,13 +151,15 @@ public class DirectBillController  extends SystemDateModel{
         /*
          * adding columnname in table order
          */
-//        String[] orderColumnName =  new String[]{"Menu Code","Menu Name","Quantity","Item Base Unit","Rate","Total Amount"};
-        String[] orderColumnName =  new String[]{"Menu Code","Menu Name","Quantity","Rate","Total Amount"};
+        String[] orderColumnName =  new String[]{"ID","Menu Name","Quantity","Rate","Total Amount","Complimentary"};
         DefaultTableModel orderTableModel = new DefaultTableModel(null,orderColumnName){
             @Override
             public boolean isCellEditable(int row,int columns){
-              
                 return false;
+            }
+            @Override
+            public Class getColumnClass(int c){
+               return getValueAt(0, c).getClass();
             }
         };
         obview.refreshJTableBillInfo(orderTableModel);
@@ -161,10 +170,10 @@ public class DirectBillController  extends SystemDateModel{
 //         obview.setComboMenuName(obmodel.returnMenuName(obmodel.getMenuInfo(obview.getDepartmentId())));
 //         obview.AddSelectInCombo(obview.returnComboMenuName());
 //       obview.setComboCustomerName(obmodel.returnMenuName(obmodel.getCustomerInfoObject()));
-       obview.setComboCustomerNameForBill(obmodel.returnMenuName(obmodel.getCustomerInfoObject()));
+       obview.setComboCustomerNameForBill(Function.returnSecondColumn(obmodel.getCustomerInfoObject()));
        obview.AddSelectInCombo(obview.returnComboCustomerNameForBill());
        //loading the  complimentary list in the combobox
-       obview.setComboComplimentaryName(obmodel.returnMenuName(obmodel.getComplimentaryInfo()));
+       obview.setComboComplimentaryName(Function.returnSecondColumn(complimentaryModel.getComplimentaryInfo()));
        obview.AddSelectInCombo(obview.returnComboComplimentaryName());
         }
         catch(Exception se){
@@ -219,13 +228,13 @@ public class DirectBillController  extends SystemDateModel{
                /*
                 * checking it availability
                 */
-               if(obmodel.checkTrackable(obview.getMenuId())){
-                   if(obmodel.checkHybrid(obview.getMenuId())){
+               if(orderModel.checkTrackable(obview.getMenuId())){
+                   if(orderModel.checkHybrid(obview.getMenuId())){
                        String status = new String();
 //                        System.out.println(orderview.getQuantity());
                        boolean flag = false;
                        //if it hybrid type
-                       String[][] hybriditem = obmodel.checkHybridTrackableItem(obview.getMenuId(), obview.getQuantity());
+                       String[][] hybriditem = orderModel.checkHybridTrackableItem(obview.getMenuId(), obview.getQuantity());
                        for (String[] hybriditem1 : hybriditem) {
                            int x = new BigDecimal(hybriditem1[1]).signum();
                            if (x<0) {
@@ -237,25 +246,25 @@ public class DirectBillController  extends SystemDateModel{
                            JOptionPane.showMessageDialog(obview, status);
                            return;
                        }
-                       obmodel.checkHybridTrackableItemthreshold(obview.getMenuId());
+                       orderModel.checkHybridTrackableItemthreshold(obview.getMenuId());
 //                        System.out.println("wala");
                    }
                    else{
                         
                      
-                       BigDecimal net = obmodel.checkSingleTrackableItem(obview.getMenuId(), obview.getQuantity());
+                       BigDecimal net = orderModel.checkSingleTrackableItem(obview.getMenuId(), obview.getQuantity());
                    
                        int i = net.signum();
                        if(i < 0){
                            JOptionPane.showMessageDialog(obview, "Item is Insufficient to Add for order.First Issue the item");
                            return;
                        }
-                       obmodel.checkSingleTrackableItemThreshold(obview.getMenuId());
+                       orderModel.checkSingleTrackableItemThreshold(obview.getMenuId());
 //                       System.out.println(orderview.getQuantity());
                    }
                   // return;
                }
-             Object[] row = new Object[]{obview.getMenuId(),obview.getComboMenuName().toString(),new BigDecimal(obview.getQuantity()).setScale(3, RoundingMode.HALF_UP),obview.getRate(),TotalAmount};
+             Object[] row = new Object[]{obview.getMenuId(),obview.getComboMenuName(),new BigDecimal(obview.getQuantity()).setScale(3, RoundingMode.HALF_UP),obview.getRate(),TotalAmount,false};
 //                obview.gettblBillInfo().addRow(row);
                  //check whether same menu is in the row if there is add it into the row
              boolean SameMenuIdentifier = false;
@@ -292,26 +301,26 @@ public class DirectBillController  extends SystemDateModel{
                
                 obview.clearAddData();
                 obview.setSaveEditableTrue();
-                 TaxList = obmodel.getChargeInfo();
-                 obview.setCheckBoxSVCTrue();
-                 obview.setSVC(TaxList[0]);
-                 obview.setVAT(TaxList[1]);
-                 obview.setDiscount(0.0);
-                 Double TotalAmountBill =new Double(0.0);
-                 for(int i=0; i<obview.gettblBillInfo().getRowCount();i++){
-                     TotalAmountBill += ((Number)obview.gettblBillInfo().getValueAt(i, 4)).doubleValue();
-                 }
-                 obview.setTotal(TotalAmountBill);
-                 //not a permanent solution
-                   obview.setSVCCheck(true);
-                obview.setDiscountCheck(true);
-                obview.setDiscountCheck(false);
-                  obview.requestFocusOnTenderedAmount();
+                TaxList = obmodel.getChargeInfo();
+                obview.setCheckBoxSVCTrue();
+                obview.setSVC(TaxList[0]);
+                obview.setVAT(TaxList[1]);
+                obview.setDiscount(0.0);
+                Double TotalAmountBill =0.0;
+                for(int i=0; i<obview.gettblBillInfo().getRowCount();i++){
+                    TotalAmountBill += ((Number)obview.gettblBillInfo().getValueAt(i, 4)).doubleValue();
+                }
+               obview.setTotal(TotalAmountBill);
+                //not a permanent solution
+               obview.setSVCCheck(true);
+               obview.setDiscountCheck(true);
+               obview.setDiscountCheck(false);
+//             obview.requestFocusOnTenderedAmount();
                  
             }   
         }
-        catch(Exception me){
-            JOptionPane.showMessageDialog(mainview, me+"from MenuCrudListener");
+        catch(HeadlessException | NumberFormatException me){
+            JOptionPane.showMessageDialog(mainview, me.getMessage()+"from MenuCrudListener");
         }
         }
             
@@ -341,14 +350,14 @@ public class DirectBillController  extends SystemDateModel{
               if(e.getActionCommand().equalsIgnoreCase("ComboMenuName")){
                //  System.out.println("wala");
                 Object[] item = null;
-                Object[][] MenuInfo = obmodel.getMenuInfo(obview.getDepartmentId());
+                Object[][] MenuInfo = orderModel.getMenuInfo(obview.getDepartmentId());
                 JComboBox comboMenu = (JComboBox) e.getSource();
                 if(comboMenu.getSelectedIndex() == 0){
                      obview.setMenuId(0);
 //                 System.out.println(orderview.getMenuId());
                  obview.setRate("0");
 //                 System.out.println(orderview.getRate());
-                 obview.setItemBaseUnit("");
+//                 obview.setItemBaseUnit("");
                     
                 }
                 else
@@ -363,8 +372,8 @@ public class DirectBillController  extends SystemDateModel{
                  * perfom some operation
                  */
                  obview.setMenuId(Integer.parseInt(item[0].toString()));
-                 obview.setRate(item[3].toString());
-                 obview.setItemBaseUnit(item[2].toString());
+                 obview.setRate(item[2].toString());
+//                 obview.setItemBaseUnit(item[2].toString());
                 }
             }
               if(e.getActionCommand().equalsIgnoreCase("ComboCustomerName")){
@@ -398,7 +407,7 @@ public class DirectBillController  extends SystemDateModel{
                          if(dat[1].equals(dep.getSelectedItem())){
                              obview.setDepartmentId(Integer.parseInt(dat[0].toString()));
                              //loading the repective item according to department  
-                             obview.setComboMenuName(obmodel.returnMenuName(obmodel.getMenuInfo(obview.getDepartmentId())));
+                             obview.setComboMenuName(Function.returnSecondColumn(orderModel.getMenuInfo(obview.getDepartmentId())));
                              obview.AddSelectInCombo(obview.returnComboMenuName());
                             
                              break;
@@ -409,6 +418,7 @@ public class DirectBillController  extends SystemDateModel{
               }
         }
         catch(Exception ce){
+            ce.printStackTrace();
             JOptionPane.showMessageDialog(obview, ce+"from comboListener");
         }
         }
@@ -433,10 +443,7 @@ public class DirectBillController  extends SystemDateModel{
                 String[][] complilist = obview.ComplimentaryList.toArray(new String[obview.ComplimentaryList.size()][]);
 //               System.out.println(comp.length);
 //                JOptionPane.showMessageDialog(mainview, mainview.getUserId());
-                obmodel.AddBill(obmodel.convertDefaultTableModelToObject(obview.gettblBillInfo()),obview.getBillRate(), obview.getBillOtherInfo(),complilist,obview.getOrderCustomerId(),mainview.getUserId(),obview.getDepartmentId());
-//                obview.refreshJTableOrderedList(obmodel.getOrderInfo());
-//               
-                
+                obmodel.AddDirectBill(Function.convertDefaultTableModelToObject(obview.gettblBillInfo()),obview.getBillRate(), obview.getBillOtherInfo(),obview.getOrderCustomerId(),mainview.getUserId(),obview.getDepartmentId());
                 obview.JDialogBillPayment.setVisible(false);
                  if(DisplayMessages.displayInputYesNo(obview, "Do you Want To Print The Bill", "Direct Bill Print"))
                 {
@@ -458,7 +465,7 @@ public class DirectBillController  extends SystemDateModel{
                 }
                   obview.clearOrderBill();
                     obview.gettblBillInfo().setRowCount(0);
-                         /*
+                    /*
                     * here is manipulation for refreshing the data in order window if it is open
                     */
 //                 JInternalFrame[] iframes =   mainview.desktop.getAllFrames();
@@ -482,7 +489,7 @@ public class DirectBillController  extends SystemDateModel{
                     
                     
                    
-                    int newbillid = obmodel.returnCurrentItentityId("bill");
+                    int newbillid = Function.returnCurrentItentityBillId("bill");
                     obview.setBillId(String.valueOf(newbillid));
                     obview.setMainBillId(newbillid);
                      
@@ -531,7 +538,7 @@ public class DirectBillController  extends SystemDateModel{
         try{
             if(e.getActionCommand().equalsIgnoreCase("Save")){
               //checking whether  the date has been closed by the admin
-                                Object[] dateinfo = Function.returnSystemDateInfo();
+                Object[] dateinfo = Function.returnSystemDateInfo();
                    if(dateinfo[2] == Boolean.TRUE && dateinfo[3] == Boolean.FALSE){
                        
                    }
@@ -556,17 +563,53 @@ public class DirectBillController  extends SystemDateModel{
                obview.radioCash.setEnabled(true);
                
            }
+           /* not needed in first save
             obview.JDialogBillPayment.setTitle("Bill Window For Bill No:"+obview.getBillId());
-           obview.JDialogBillPayment.pack();
+            obview.JDialogBillPayment.pack();
             obview.requestFocusOnButtonBillSave();
-             obview.JDialogBillPayment.setVisible(true);
-             obview.setCheckBoxComplimentaryFalse();
+            obview.JDialogBillPayment.setVisible(true);
+            obview.setCheckBoxComplimentaryFalse();
+            */
+             if(!obview.getPaymentType()){
+                    if(obview.getCustomerId() == 0){
+                        JOptionPane.showMessageDialog(obview.JDialogBillPayment, "For Credit Transaction, Customer must be Choosed.");
+                        return;
+                    }
+                }
+                
+                
+                String[] orderarray = obview.OrderArray.toArray(new String[obview.OrderArray.size()]);
+                String[][] complilist = obview.ComplimentaryList.toArray(new String[obview.ComplimentaryList.size()][]);
+//               System.out.println(comp.length);
+//                JOptionPane.showMessageDialog(mainview, mainview.getUserId());
+                obmodel.AddDirectBill(Function.convertDefaultTableModelToObject(obview.gettblBillInfo()),obview.getBillRate(), obview.getBillOtherInfo(),obview.getOrderCustomerId(),mainview.getUserId(),obview.getDepartmentId());
+                obview.JDialogBillPayment.setVisible(false);
+                 if(DisplayMessages.displayInputYesNo(obview, "Do you Want To Print The Bill", "Direct Bill Print"))
+                {
+//                 SwingUtilities.invokeLater(new Runnable(){
+//
+//                     @Override
+//                     public void run() {
+                    try{
+                          Bill direct = new Bill(obview.getBillParam(),"directBill.jrxml");
+                          direct.printBill(); 
+                    }
+                    catch(Exception se){
+                        DisplayMessages.displayError(obview, "Printing Error", "From DirectBill");
+                    }
+//                     }
+//                     
+//                 });
+                  
+                }
+                  obview.clearOrderBill();
+                  obview.gettblBillInfo().setRowCount(0);
+                  obview.setSaveEditableFalse();
+                  int newbillid = Function.returnCurrentItentityBillId("bill");
+                  obview.setBillId(String.valueOf(newbillid));
+                  obview.setMainBillId(newbillid);
+                     //print the bill
              
-             //direct order bill print
-             //DirectBill dBill = new DirectBill(obview.getBillParam());
-             //dBill.printBill();
-               // obview.btnBillSave.requestFocus();
-             // setting check box
               
             }
             else if (e.getActionCommand().equalsIgnoreCase("Cancel")){
@@ -576,12 +619,12 @@ public class DirectBillController  extends SystemDateModel{
                     obview.gettblBillInfo().setRowCount(0);
                     obview.setSaveEditableFalse();
 //                    obview.setAddOrderEditableFalse();
-                    obview.setBillId(String.valueOf(obview.getMainBillId()));
-                    
+                    obview.setBillId(String.valueOf(obview.getMainBillId()));    
                 }
+                
             }
         }
-        catch(Exception se){
+        catch(HeadlessException se){
             JOptionPane.showMessageDialog(obview, se+"for SimpleSaveCancelListener");
         }
         }
@@ -651,7 +694,7 @@ public class DirectBillController  extends SystemDateModel{
                                 Header[i] = obview.tblBillInfo.getColumnName(i);
                             }
 
-                            DefaultTableModel BillModel =new DefaultTableModel((obmodel.convertDefaultTableModelToObject(obview.gettblBillInfo())),Header){
+                            DefaultTableModel BillModel =new DefaultTableModel((Function.convertDefaultTableModelToObject(obview.gettblBillInfo())),Header){
                                  @Override
                                  public boolean isCellEditable(int row, int col){
                                 return false;
@@ -910,7 +953,7 @@ public class DirectBillController  extends SystemDateModel{
                                 @Override
                                public void windowClosing(WindowEvent e){
                                  // JOptionPane.showMessageDialog(null, "Jagad Guru Kripalu maharaj ki jaya ho");
-                              obview.setComboCustomerNameForBill(obmodel.returnMenuName(obmodel.getCustomerInfoObject()));
+                              obview.setComboCustomerNameForBill(Function.returnSecondColumn(obmodel.getCustomerInfoObject()));
                                obview.AddSelectInCombo(obview.returnComboCustomerNameForBill());
                            //   System.out.println("wala");
                                 }
@@ -966,7 +1009,7 @@ public class DirectBillController  extends SystemDateModel{
           {
               mainview.setCountForDirectPay(0);
               billwindow.dispose();
-                obmodel.MakeCurrentItentityIdFalse(obview.getMainBillId());
+                Function.MakeCurrentItentityIdFalse(obview.getMainBillId());
           }
                
            }
@@ -974,7 +1017,7 @@ public class DirectBillController  extends SystemDateModel{
            else{
                 mainview.setCountForDirectPay(0);
               billwindow.dispose();
-                obmodel.MakeCurrentItentityIdFalse(obview.getMainBillId());
+                Function.MakeCurrentItentityIdFalse(obview.getMainBillId());
            }
                    
                }

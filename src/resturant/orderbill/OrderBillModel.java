@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import resturant.order.OrderModel;
 import reusableClass.Function;
 
 /**
@@ -25,11 +26,9 @@ public class OrderBillModel  extends DBConnect{
     PreparedStatement stmtorderbill;
     ResultSet rsordernill;
     String rsQuery = new String();
-    Object[][] CustomerInfo;
-    
-            
-    
-    public void AddBill(Object[][] menudata,Double[] ratedata,String[] otherdata,String[] orderdata,String[][] complimentary,int userid,int departmentid){
+    public Object[][] CustomerInfo;
+    private OrderModel orderModel = new OrderModel();
+    public void AddBill(Object[][] menudata,Double[] ratedata,String[] otherdata,String[] orderdata,int userid,int departmentid){
         /*
          *     
          * this id for ratedata
@@ -78,10 +77,13 @@ public class OrderBillModel  extends DBConnect{
         String strordertable = "DELETE FROM temp_order_table WHERE order_id = ?";
         String strcomplimentarybill = "INSERT INTO bill_complimentary(bill_id,complimentary_id) VALUES(?,?)";
         Double ComplimentaryAmount = 0.0;
+        Double SubTotalAmount = 0.0;
         /*
         calculating complimentaryAmount
         */
         ComplimentaryAmount = Function.manageAmount(menudata)[1].doubleValue();
+        SubTotalAmount = Function.manageAmount(menudata)[0].doubleValue();
+        
         /*
         maipulating and getting array of the table_id for updating the table unpack
         */
@@ -106,36 +108,7 @@ public class OrderBillModel  extends DBConnect{
                 stmtbillitemlist.setInt(1,Integer.parseInt(otherdata[0]));
                 stmtbillitemlist.setString(2, menudata1[0].toString());
                 stmtbillitemlist.setBigDecimal(3, new BigDecimal(menudata1[2].toString()));
-                /*
-                 * checking for the complimentary item
-                 */
-                //  System.out.println(complimentary.length);
-                /*not needed
-                if (complimentary.length != 0) {
-                    for (String[] complimentary1 : complimentary) {
-                        if (complimentary1[0].equalsIgnoreCase(menudata1[0].toString())) {
-                            // System.out.println("inside complimentary"+menudata[i][0]+"\n");
-                            stmtbillitemlist.setInt(4, 1);
-                            ComplimentaryAmount += Double.parseDouble(menudata1[5].toString()); 
-                            break;
-                        } else {
-                            stmtbillitemlist.setInt(4, 0);
-                            //  System.out.println("outside complimentary"+menudata[i][0]);
-                        }
-                    }
-                } else {
-                    //  System.out.println("outside loops"+menudata[i][0]);
-                    stmtbillitemlist.setInt(4, 0);
-                }
-                */
-                if(ComplimentaryAmount == 0.0 || ComplimentaryAmount == 0){
-                    stmtbillitemlist.setInt(4, 0);
-                }
-                else{
-                    stmtbillitemlist.setInt(4,1);
-                }
-                
-                
+                stmtbillitemlist.setBoolean(4,(Boolean)menudata1[5]);
                 stmtbillitemlist.executeUpdate();
 //                System.out.println(ComplimentaryAmount);
             }
@@ -144,22 +117,16 @@ public class OrderBillModel  extends DBConnect{
             */
             stmtbill = dbconn.conn.prepareStatement(strBill);
             dbconn.conn.setAutoCommit(false);
-            stmtbill.setBigDecimal(1,new BigDecimal(ratedata[0]));
+            stmtbill.setDouble(1,SubTotalAmount);
 
             //for svc
             stmtbill.setDouble(2, ratedata[1]);
-            
-          
-//            stmtbill.setDouble(3, ratedata[2]*ratedata[0]);
           //for vat
             stmtbill.setDouble(3,ratedata[2]);
-            
- 
           //for discount
-           stmtbill.setDouble(4, ratedata[4]-ComplimentaryAmount);
+           stmtbill.setDouble(4, ratedata[4]);
            // stmtbill.setBigDecimal(5, new BigDecimal(ratedata[5]));
             stmtbill.setDouble(5, ratedata[5]);
-            
             if(ratedata[6]>ratedata[5]){
             //  stmtbill.setBigDecimal(6, new BigDecimal(ratedata[5])); 
               stmtbill.setDouble(6, ratedata[5]);
@@ -171,8 +138,6 @@ public class OrderBillModel  extends DBConnect{
            //  System.out.println("wala");
             }
             stmtbill.setInt(7, Integer.parseInt(otherdata[3]));
-            
-            
           if(otherdata[4].equalsIgnoreCase("true")){
               stmtbill.setInt(8, 1);
           }
@@ -187,7 +152,6 @@ public class OrderBillModel  extends DBConnect{
           stmtbill.setInt(11,userid);
           stmtbill.setInt(12, departmentid);
            if(otherdata[5].equalsIgnoreCase("true")){
-           
                stmtbill.setInt(13, 1);
            }
            else{
@@ -196,7 +160,7 @@ public class OrderBillModel  extends DBConnect{
          stmtbill.setDouble(14, ComplimentaryAmount);
          //this get the date of the computer system
          stmtbill.setTimestamp(15, new Timestamp(new Date().getTime()));
-          stmtbill.executeUpdate();
+         stmtbill.executeUpdate();
            
       
           /*
@@ -254,19 +218,294 @@ public class OrderBillModel  extends DBConnect{
         }
         
     }
-    
-    public Object[][] convertDefaultTableModelToObject(DefaultTableModel model){
-            int rows = model.getRowCount();
-           int cols = model.getColumnCount();
-            Object[][] data = new Object[rows][cols]; 
-            for(int i = 0;i<model.getRowCount();i++){
-                for(int j =0;j<model.getColumnCount();j++){
-                    data[i][j] = model.getValueAt(i, j);
-                }
+    public void AddDirectBill(Object[][] menudata,Double[] ratedata,String[] otherdata,int customerid,int userid,int departmentid){
+         /*
+         *     
+         * this id for ratedata
+        data[0] = getTotal();
+          if(getBooleanSVCPercentage()){
+            System.out.println(getSVCAmount());
+          data[1] = getSVCAmount();
+          }
+          else{
+          data[1] = getSVC();
+          }
+          
+          data[2] = getVATAmount();
+          data[3 ]= getSubTotal();
+          if(getBooleanDiscountPercentage()){
+          data[4] = getDiscountAmount();
+          System.out.println(getDiscountAmount());
+          }
+          else{
+           data[4] = getDiscount();
+          }
+        
+          data[5] = getGrandTotal1();
+         // data[6] = getOrderId();
+          data[6] = getTenderedAmount();
+          data[7] = getChangeAmount();
+          * this is for bill otherdata
+          *   data[0] = getBillId();
+          data[1] = String.valueOf(getBooleanSVCPercentage());
+          data[2] = String.valueOf(getBooleanDiscountPercentage());
+          data[3] = getCustomerId();
+          data[4] = String.valueOf(getPaymentType());
+          data[5] = String.valueOf(getBooleanComplimentaryType());
+          data[6] = getComplimentaryID();
+         *
+        /*
+        preparestatement for adding order in orderdata
+        */
+          PreparedStatement stmtadd;
+        PreparedStatement stmtorderadd;
+        PreparedStatement stmtSubtractResturantStore;
+        PreparedStatement stmtSubtractHybridResturantStore;
+        PreparedStatement stmtTableInfo;
+        BigDecimal total_amount = BigDecimal.ZERO;
+//        Retrreiving the last value inserted into the database
+        int orderid = Function.returnCurrentOrderItentityId("generate_orderid");
+//        System.out.println("wala"+orderid);
+        /*
+        for addbill
+        */
+        PreparedStatement stmtbill;
+        PreparedStatement stmtorder;
+        PreparedStatement stmtbillitemlist;
+        PreparedStatement stmttablereset;
+        /*
+        query for order
+        */
+        String MenuId = new String();
+        Double ComplimentaryAmount = 0.0;
+        String stradd = "INSERT INTO order_item_list (order_id,menu_id,quantity,complimentary) VALUES(?,?,?,?)";
+//              String strSubtractSingleResturantStore = "UPDATE resturant_store SET total_qty = resturant_store.total_qty -(? * (select  menu.quantity*item_unit.unit_relative_quantity from menu INNER JOIN item_unit ON menu.unit_id = item_unit.unit_id WHERE menu.menu_id = ?)) WHERE item_id = (select item_id from menu where menu_id = ?)";
+//              String strSubtractHybridResturantStore = "UPDATE resturant_store SET total_qty = resturant_store.total_qty  - ?*? WHERE item_id = ?  ";
+        String strSubtractSingleResturantStore = "UPDATE department_store_stock SET total_qty = department_store_stock.total_qty -(? * (select  menu.quantity*item_unit.unit_relative_quantity from menu INNER JOIN item_unit ON menu.unit_id = item_unit.unit_id WHERE menu.menu_id = ?)) WHERE department_item_id = (select department_item_id from menu where menu_id = ?)";
+        String strSubtractHybridResturantStore = "UPDATE department_store_stock SET total_qty = department_store_stock.total_qty  - ?*? WHERE department_item_id = ?  ";
+        String strorderadd = "INSERT INTO order_list(customer_id,total_amount,date,order_id,bill_id,paid,user_id,department_id,com_date,complimentary_amount) VALUES(?,?,?,?,?,?,?,?,?,?)";
+            
+             /*
+             qeury for addbil
+             */
+//        String strBill = "INSERT INTO bill (item_total_amount,service_charge,vat,bill_discount,bill_total,total_received,customer_id,payment_type,bill_datetime,bill_id) VALUES(?,?,?,?,?,?,?,?,?,?)";
+        String strBill = "INSERT INTO bill (item_total_amount,service_charge,vat,bill_discount,bill_total,total_received,customer_id,payment_type,bill_datetime,bill_id,user_id,department_id,complimentary_flag,complimentary_amount,com_bill_datetime) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        String strBillItemInfo = "INSERT INTO bill_item_info (bill_id,menu_id,quantity,complimentary_type) VALUES(?,?,?,?) ";
+        String strUpdateOrder = "UPDATE order_list SET paid = ?,bill_id = ? WHERE order_id = ?";
+//        String strtablereset = " UPDATE  table_info set table_status = 0 WHERE table_id = ?";
+        
+        Double SubTotalAmount = 0.0;
+        /*
+        calculating complimentaryAmount
+        */
+        ComplimentaryAmount = Function.manageAmount(menudata)[1].doubleValue();
+        SubTotalAmount = Function.manageAmount(menudata)[0].doubleValue();
+        DBConnect dbconn = new DBConnect();
+       
+        
+        try{
+            dbconn.initConnection();
+               /*
+                   * for order_list table
+                   */
+             dbconn.conn.setAutoCommit(false);
+                  stmtorderadd = dbconn.conn.prepareStatement(strorderadd);
+                 
+                    stmtorderadd.setInt(1,customerid);
+                    
+                      stmtorderadd.setDouble(2,SubTotalAmount);
+//                     inserting systemdate into datbaase
+                      stmtorderadd.setTimestamp(3, new Timestamp(Function.returnSystemDate().getTime()));
+                      stmtorderadd.setInt(4, orderid);
+                      stmtorderadd.setInt(5, Integer.parseInt(otherdata[0]));
+                      stmtorderadd.setInt(6, 1);
+                      stmtorderadd.setInt(7, userid);
+                      stmtorderadd.setInt(8, departmentid);
+                      //this retrieve the system time of cimputer
+                      stmtorderadd.setTimestamp(9, new Timestamp(new Date().getTime()));
+                      stmtorderadd.setDouble(10, ComplimentaryAmount);
+                      stmtorderadd.executeUpdate();
+               /*
+                   * for inserting into order_item_list
+                   */
+                      //
+                    
+//                      System.out.println(orderid);
+                  stmtadd = dbconn.conn.prepareStatement(stradd);
+                  dbconn.conn.setAutoCommit(false);
+              for (Object[] item1 : menudata) {
+                  stmtadd.setInt(1,orderid);
+                  stmtadd.setString(2, item1[0].toString());
+                  stmtadd.setBigDecimal(3, new BigDecimal(item1[2].toString()));
+                  stmtadd.setBoolean(4, (Boolean)item1[5]);
+                  stmtadd.executeUpdate();
+              }
+                //  System.out.println(deltotal_amount);
+                  /*
+                   * for reducing resturant
+                   */
+                  //when tracable item
+                //  if(checkTrackable(strdeladd))
+                  /*
+                   * separating the menu_id to thier type as singletracable and hybrid type
+                   */
+                  ArrayList<String[]> SingleTrackableItem = new ArrayList<>();
+                  ArrayList<String[]> HybridTrackableItem = new ArrayList<>();
+                  String[][] strSingleTrackableItem = null;
+                  String[][] strHybridTrackableItem = null;
+                  for (Object[] item1 : menudata) {
+                      MenuId = item1[0].toString();
+                      if (orderModel.checkTrackable(Integer.parseInt(MenuId))) {
+                          if (orderModel.checkHybrid(Integer.parseInt(MenuId))) {
+                              String[] row = new String[]{MenuId, item1[2].toString()};
+                              HybridTrackableItem.add(row);
+                          } else {
+                              String[] row = new String[]{MenuId, item1[2].toString()};
+                              SingleTrackableItem.add(row);
+                          }
+                      }
+                  }
+                  strSingleTrackableItem = SingleTrackableItem.toArray(new String[SingleTrackableItem.size()][]);
+                  strHybridTrackableItem = HybridTrackableItem.toArray(new String[HybridTrackableItem.size()][]);
+                  /*
+                   * if only single trackable
+                   */
+                  stmtSubtractResturantStore = dbconn.conn.prepareStatement(strSubtractSingleResturantStore);
+                  dbconn.conn.setAutoCommit(false);
+                  for (String[] strSingleTrackableItem1 : strSingleTrackableItem) {
+                      //  stmtdelSubtractResturantStore.setString(1, straddSingleTrackableItem[i][0]);
+                      stmtSubtractResturantStore.setBigDecimal(1, new BigDecimal(strSingleTrackableItem1[1]));
+                      stmtSubtractResturantStore.setString(2, strSingleTrackableItem1[0]);
+                      stmtSubtractResturantStore.setString(3, strSingleTrackableItem1[0]);
+                      stmtSubtractResturantStore.executeUpdate();
+                  }
+                  /*
+                   * if only hybrid trackable
+                   */
+                  //return the item-unit in row
+                  ArrayList<String[]> HybridItem = new ArrayList<>();
+                  String[][] strHybridItem = null;
+                  for (String[] strHybridTrackableItem1 : strHybridTrackableItem) {
+                      String[][] data = orderModel.getItemIdForHybrid(Integer.parseInt(strHybridTrackableItem1[0]));
+                      for (String[] data1 : data) {
+                          String[] row = new String[]{data1[0], data1[1], strHybridTrackableItem1[1]};
+                          HybridItem.add(row);
+                      }
+                  }
+                  strHybridItem = HybridItem.toArray(new String[HybridItem.size()][]);
+                  /*
+                   * start a query for hybrid
+                   */
+                  stmtSubtractHybridResturantStore = dbconn.conn.prepareStatement(strSubtractHybridResturantStore);
+                  for (String[] strHybridItem1 : strHybridItem) {
+                      //  stmtdelSubtractHybridResturantStore.setString(1, straddHybridItem[i][0]);
+                      stmtSubtractHybridResturantStore.setBigDecimal(1, new BigDecimal(strHybridItem1[2]));
+                      stmtSubtractHybridResturantStore.setBigDecimal(2, new BigDecimal(strHybridItem1[1]));
+                      stmtSubtractHybridResturantStore.setString(3, strHybridItem1[0]);
+                      stmtSubtractHybridResturantStore.executeUpdate();
+                  }
+                  
+                 /*
+                * inserting data into bill_item_info
+                */
+          stmtbillitemlist = dbconn.conn.prepareStatement(strBillItemInfo);
+            for (Object[] menudata1 : menudata) {
+                stmtbillitemlist.setInt(1,Integer.parseInt(otherdata[0]));
+                stmtbillitemlist.setString(2, menudata1[0].toString());
+                stmtbillitemlist.setBigDecimal(3, new BigDecimal(menudata1[2].toString()));
+                stmtbillitemlist.setBoolean(4, (Boolean)menudata1[5]);
+                stmtbillitemlist.executeUpdate();
             }
-            return data;
+            /*
+             * inserting in bill table
+             */
+            stmtbill = dbconn.conn.prepareStatement(strBill);
+            dbconn.conn.setAutoCommit(false);
+            stmtbill.setBigDecimal(1,new BigDecimal(ratedata[0]));
+            //for svc
+            stmtbill.setDouble(2, ratedata[1]);
+          //for vat
+            stmtbill.setDouble(3,ratedata[2]);
+          //for discount
+           stmtbill.setDouble(4, ratedata[4]-ComplimentaryAmount);
+           // stmtbill.setBigDecimal(5, new BigDecimal(ratedata[5]));
+            stmtbill.setDouble(5, ratedata[5]);
+            
+            if(ratedata[6]>ratedata[5]){
+            //  stmtbill.setBigDecimal(6, new BigDecimal(ratedata[5])); 
+              stmtbill.setDouble(6, ratedata[5]);
+              // System.out.println("wala");
+            }
+            else{
+          //  stmtbill.setBigDecimal(6, new BigDecimal(ratedata[6]));
+            stmtbill.setDouble(6, ratedata[6]);
+           //  System.out.println("wala");
+            }
+            stmtbill.setInt(7, Integer.parseInt(otherdata[3]));
+            
+            
+          if(otherdata[4].equalsIgnoreCase("true")){
+              stmtbill.setInt(8, 1);
+          }
+          else{
+              stmtbill.setInt(8, 0);
+          }
+          
+//          stmtbill.setTimestamp(9, new Timestamp(new Date().getTime()));
+         //inserting the system date into datbaase
+          stmtbill.setTimestamp(9, new Timestamp(Function.returnSystemDate().getTime()));
+          stmtbill.setInt(10, Integer.parseInt(otherdata[0]));
+          
+          stmtbill.setInt(11,userid);
+          stmtbill.setInt(12, departmentid);
+           if(otherdata[5].equalsIgnoreCase("true")){
+           
+               stmtbill.setInt(13, 1);
+           }
+           else{
+              stmtbill.setInt(13, 0);  
+           }
+         stmtbill.setDouble(14, ComplimentaryAmount);
+         //this retieve the system date of computer system
+         stmtbill.setTimestamp(15, new Timestamp(new Date().getTime()));
+          stmtbill.executeUpdate();
+           
+     
+          /*
+           * updating the data into order table
+           */
+//          stmtorder = dbconn.conn.prepareStatement(strUpdateOrder);
+////            for (String orderdata1 : orderdata) {
+//                //System.out.println(orderdata[i]);
+//                stmtorder.setInt(1, 1);
+//                stmtorder.setInt(2,Integer.parseInt(otherdata[0]));
+//                stmtorder.setInt(3, Integer.parseInt(orderdata1));
+//                stmtorder.executeUpdate();
+//            }
+            /*
+            updating the table statuse in table_info
+             */
+//            stmttablereset = dbconn.conn.prepareStatement(strtablereset);
+//            stmttablereset.setInt(1, tableid);
+//            stmttablereset.executeUpdate();
+            
+          /*
+           * if al goes well commit the database
+           */
+          dbconn.conn.commit();
+          JOptionPane.showMessageDialog(null, "Bill Recorded Succesfully");
+            
         }
-      
+        catch(SQLException se){
+            se.printStackTrace();
+            JOptionPane.showMessageDialog(null, se+"from AddBill"+getClass().getName());
+          //  se.printStackTrace();
+        }
+        finally{
+            dbconn.closeConnection();
+        }
+        
+    }
     public Object[][] getCustomerInfoObject(){
      PreparedStatement stmtget;
      ResultSet rsget ;
@@ -292,13 +531,7 @@ public class OrderBillModel  extends DBConnect{
      }
      return CustomerInfo;
  }
-    public String[] returnMenuName(Object[][] obj){
-     String[] Name = new String[obj.length];
-     for(int i=0;i<obj.length;i++){
-         Name[i] = obj[i][1].toString();
-     }
-     return Name;
- }
+    
     public DefaultTableModel getOrderInfoForAddOrder(ArrayList<String> st,int did){
         DBConnect gettg = new DBConnect();
         PreparedStatement stmtget ;
@@ -476,7 +709,6 @@ return id;
       }
       return data.toArray(new Object[data.size()][]);
   }
-    
     public DefaultTableModel getOrderInfoLike(int dep,String search){
         DBConnect gettg = new DBConnect();
         PreparedStatement stmtget ;

@@ -91,9 +91,9 @@ public class DirectBillModel extends DBConnect {
               String stradd = "INSERT INTO order_item_list (order_id,menu_id,quantity) VALUES(?,?,?)";
 //              String strSubtractSingleResturantStore = "UPDATE resturant_store SET total_qty = resturant_store.total_qty -(? * (select  menu.quantity*item_unit.unit_relative_quantity from menu INNER JOIN item_unit ON menu.unit_id = item_unit.unit_id WHERE menu.menu_id = ?)) WHERE item_id = (select item_id from menu where menu_id = ?)";
 //              String strSubtractHybridResturantStore = "UPDATE resturant_store SET total_qty = resturant_store.total_qty  - ?*? WHERE item_id = ?  ";
-              String strSubtractSingleResturantStore = "UPDATE department_store_stock SET total_qty = department_store_stock.total_qty -(? * (select  menu.quantity*item_unit.unit_relative_quantity from menu INNER JOIN item_unit ON menu.unit_id = item_unit.unit_id WHERE menu.menu_id = ?)) WHERE department_item_id = (select department_item_id from menu where menu_id = ?)";
-              String strSubtractHybridResturantStore = "UPDATE department_store_stock SET total_qty = department_store_stock.total_qty  - ?*? WHERE department_item_id = ?  ";
-              String strorderadd = "INSERT INTO order_list(customer_id,total_amount,date,order_id,bill_id,paid,user_id,department_id,com_date) VALUES(?,?,?,?,?,?,?,?,?)";
+        String strSubtractSingleResturantStore = "UPDATE department_store_stock SET total_qty = department_store_stock.total_qty -(? * (select  menu.quantity*item_unit.unit_relative_quantity from menu INNER JOIN item_unit ON menu.unit_id = item_unit.unit_id WHERE menu.menu_id = ?)) WHERE department_item_id = (select department_item_id from menu where menu_id = ?)";
+        String strSubtractHybridResturantStore = "UPDATE department_store_stock SET total_qty = department_store_stock.total_qty  - ?*? WHERE department_item_id = ?  ";
+        String strorderadd = "INSERT INTO order_list(customer_id,total_amount,date,order_id,bill_id,paid,user_id,department_id,com_date) VALUES(?,?,?,?,?,?,?,?,?)";
             
              /*
              qeury for addbil
@@ -589,11 +589,11 @@ public class DirectBillModel extends DBConnect {
         int em =0;
         String TableName = tablename;
         String strempty = "SELECT  autoinc_orderid as id FROM generate_orderid WHERE order_status = 0 LIMIT 1  ";
-    String strCheck = "INSERT INTO  generate_orderid (order_status)   VALUES(1) ";
+        String strCheck = "INSERT INTO  generate_orderid (order_status)   VALUES(1) ";
 //    String strGetId = " SELECT @@IDENTITY as id";
-    String strGetId = " SELECT last_insert_id()";
+        String strGetId = " SELECT last_insert_id()";
 //    DBConnect check = new DBConnect();
-    PreparedStatement stmtcheck ;
+        PreparedStatement stmtcheck ;
     try{
        initConnection();
       conn.setAutoCommit(false);
@@ -767,15 +767,11 @@ public class DirectBillModel extends DBConnect {
               rsget = stmtget.executeQuery();
              
               while(rsget.next()){
-                //  Object[] row = new Object[]{rsget.getString("menu_id"),rsget.getString("menu_name"),rsget.getString("unit_name"),rsget.getString("retail_price")};
-                  //data.add(row);
-                  thresholdQuantity = rsget.getBigDecimal("threshold_quantity")== null?BigDecimal.ZERO:rsget.getBigDecimal("threshold_quantity");
-                
-//                  System.out.println(thresholdQuantity);
-                  menuname = rsget.getString("menu_name");
-                 itemname = rsget.getString("item_name");
-                 stock = rsget.getBigDecimal("total_qty");
-                 BaseUnit = rsget.getString("unit_type");
+                thresholdQuantity = rsget.getBigDecimal("threshold_quantity")== null?BigDecimal.ZERO:rsget.getBigDecimal("threshold_quantity");
+                menuname = rsget.getString("menu_name");
+                itemname = rsget.getString("item_name");
+                stock = rsget.getBigDecimal("total_qty");
+                BaseUnit = rsget.getString("unit_type");
 //                   System.out.println(stock);
                   
               }

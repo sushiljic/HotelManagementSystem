@@ -187,6 +187,64 @@ public class Function  {
       }
       return data.toArray(new Object[data.size()][]);
   }
+       public static int returnCurrentOrderItentityId(String tablename){
+     //Boolean ExistingStatus = null; 
+        int id = 0;
+        int em =0;
+        String TableName = tablename;
+        String strempty = "SELECT  autoinc_orderid as id FROM generate_orderid WHERE order_status = 0 LIMIT 1  ";
+        String strCheck = "INSERT INTO  generate_orderid (order_status)   VALUES(1) ";
+//    String strGetId = " SELECT @@IDENTITY as id";
+        String strGetId = " SELECT last_insert_id()";
+//    DBConnect check = new DBConnect();
+        PreparedStatement stmtcheck ;
+        DBConnect check = new DBConnect();
+    try{
+        check.initConnection();
+        check.conn.setAutoCommit(false);
+        stmtcheck = check.conn.prepareStatement(strempty);
+        ResultSet rse = stmtcheck.executeQuery();
+       while(rse.next()){
+           em = rse.getInt("id");
+//           System.out.println(em);
+//           break;
+       }
+       if(em != 0 ){
+           id = em;
+//           System.out.println("wala");
+             check.conn.setAutoCommit(false);
+           stmtcheck = check.conn.prepareStatement("UPDATE generate_orderid SET order_status = 1 WHERE autoinc_orderid = ?");
+           stmtcheck.setInt(1, id);
+           stmtcheck.executeUpdate();
+       }
+       else{
+             check.conn.setAutoCommit(false);
+        stmtcheck = check.conn.prepareStatement(strCheck);
+        stmtcheck.executeUpdate();
+        check.conn.setAutoCommit(false);
+        stmtcheck = check.conn.prepareStatement(strGetId);
+//     stmtcheck.setString(1, oid);
+        ResultSet rs = stmtcheck.executeQuery();
+        while(rs.next()){
+        id = rs.getInt(1);
+//        System.out.println(id);
+        }
+       }
+      check.conn.commit();
+        
+       
+        
+        
+    }
+    catch(SQLException se){
+        JOptionPane.showMessageDialog(null, se+"from returnCurrentOrderItentityId");
+    }
+    finally{
+       check.closeConnection();
+    }
+    return id;
+    
+}
        public static int returnCurrentItentityBillId(String tablename){
      //Boolean ExistingStatus = null; 
         int id = 0;

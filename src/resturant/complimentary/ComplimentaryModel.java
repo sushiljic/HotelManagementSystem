@@ -216,7 +216,7 @@ public class ComplimentaryModel extends DBConnect{
         }
         return data.toArray(new Object[data.size()][]);
      }
-      public  int getComplimentaryIdbyName(String name){
+      public static  int getComplimentaryIdbyName(String name){
          PreparedStatement stmtget;
          ResultSet rsget;
          DBConnect dbget = new DBConnect();

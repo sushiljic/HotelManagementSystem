@@ -42,6 +42,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import report.bill.BillPrint;
+import resturant.complimentary.ComplimentaryModel;
 import resturant.customer.CustomerController;
 import resturant.customer.CustomerModel;
 import resturant.customer.CustomerView;
@@ -62,7 +63,10 @@ public class OrderBillController extends SystemDateModel {
   public  OrderBillModel obmodel;
   public OrderModel ordermodel; 
   public MainFrameView mainview;
+  public ComplimentaryModel complimentaryModel;
+  /*not needed due to add in ordertable
      String[][] comp;
+  */
      Double[] TaxList = new Double[2];
     
    public  OrderBillController(OrderBillModel model,OrderBillView view,MainFrameView mainview){
@@ -71,6 +75,7 @@ public class OrderBillController extends SystemDateModel {
        obview = view;
        ordermodel = new OrderModel();
        this.mainview = mainview;
+       complimentaryModel = new ComplimentaryModel();
      
        obview.addListSelectionListenerForOrderedList(new OrderedListSelectionListener(obview));
        //adding action listener for save
@@ -106,11 +111,6 @@ public class OrderBillController extends SystemDateModel {
         obview.addDoubliClickListenerForAddOrder(new DoubleClickListener());
         createKeybindings(obview.tblComplimentarySelect);
         obview.addDoubliClickListenerForComplimentarySelect(new DoubleClickListener());
-        /*
-         * listening for the checkbox for complimentary
-         */
-       obview.addCheckBoxComplimentaryListener(new CheckBoxComplimentaryListener());
-        obview.addCheckBoxComplimentaryItemListener(new CheckBoxComplimentaryItemListener());
            /*
         for adding the add customer fucntion in bill print window
         */
@@ -136,7 +136,7 @@ public class OrderBillController extends SystemDateModel {
         //adding complimentary listener
         obview.addComboComplimentaryReason(new ComboComplimentaryListener());
         try{
-              obview.setcomboDepartmentName(obmodel.returnMenuName(obmodel.getRespectiveDepartment(mainview.getUserId())));
+              obview.setcomboDepartmentName(Function.returnSecondColumn(obmodel.getRespectiveDepartment(mainview.getUserId())));
             //if it has only one element select it order wise add select into it
             int combosize = obview.returnComboDepartmentName().getModel().getSize();
             if(combosize >1){
@@ -177,8 +177,13 @@ public class OrderBillController extends SystemDateModel {
        /*
         * loading customer name
         */
-       obview.setComboCustomerName(obmodel.returnMenuName(obmodel.getCustomerInfoObject()));
+       obview.setComboCustomerName(Function.returnSecondColumn(obmodel.getCustomerInfoObject()));
        obview.AddSelectInCombo(obview.returnComboBoxCustomer());
+       /*
+       load the complimentary reason
+       */
+       obview.setComboComplimentaryName(Function.returnSecondColumn(complimentaryModel.getComplimentaryInfo()));
+       obview.AddSelectInCombo(obview.returnComboComplimentaryName());
        //check the svc button
             
        obview.setSVCCheck(true);
@@ -187,8 +192,7 @@ public class OrderBillController extends SystemDateModel {
 //       obview.setComboComplimentaryName(obmodel.returnMenuName(obmodel.getComplimentaryInfo()));
        //not needed
 //       obview.setComboComplimentaryName(ComplimentaryModel.getComplimentaryInfo());
-       //adding refresh button on every ten second
-       obview.AddSelectInCombo(obview.returnComboComplimentaryName());
+       //adding refresh button on every ten econd
        Timer refreshOrderedList = new Timer(10000,new RefreshOrderedListTimer());
         refreshOrderedList.start();
         }
@@ -220,23 +224,12 @@ public class OrderBillController extends SystemDateModel {
                     }
                 }
                 String[] orderarray = obview.OrderArray.toArray(new String[obview.OrderArray.size()]);
-                String[][] complilist = obview.ComplimentaryList.toArray(new String[obview.ComplimentaryList.size()][]);
-//               System.out.println(comp.length);
-//                System.out.println(obview.getMainBillId());
+//                String[][] complilist = obview.ComplimentaryList.toArray(new String[obview.ComplimentaryList.size()][]);
                 
-                obmodel.AddBill(obmodel.convertDefaultTableModelToObject(obview.gettblBillInfo()),obview.getBillRate(), obview.getBillOtherInfo(),orderarray,complilist,mainview.getUserId(),obview.getDepartmentId());
-//               System.out.println(obview.getMainBillId());
-//                System.out.println("wala");
-               
+                obmodel.AddBill(Function.convertDefaultTableModelToObject(obview.gettblBillInfo()),obview.getBillRate(), obview.getBillOtherInfo(),orderarray,mainview.getUserId(),obview.getDepartmentId());
                 obview.refreshJTableOrderedList(ordermodel.getOrderInfo(obview.getDepartmentId()));
-               
-               
-//                System.out.println("walal");
                 obview.JDialogBillPayment.setVisible(false);
-                   
-               
-//              
-               
+                
 //                 /*alejob
                 if(DisplayMessages.displayInputYesNo(obview, "Do You Want To Print the Bill","Print Bill")){
                     final Map print = obview.getBillParam();
@@ -317,7 +310,7 @@ public class OrderBillController extends SystemDateModel {
                 {
                     obview.JDialogBillPayment.setVisible(false);
                     obview.requestFocusOnTenderedAmount();
-                   obview.ComplimentaryList.clear();
+//                   obview.ComplimentaryList.clear();
                    obview.returnComboComplimentaryName().setSelectedIndex(0);
                     
                 }
@@ -336,8 +329,10 @@ public class OrderBillController extends SystemDateModel {
            // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         try{
             if(e.getActionCommand().equalsIgnoreCase("Save")){
+                //converting tablemodel into 2d object
+                Object[][] ordereddata = Function.convertDefaultTableModelToObject(obview.gettblBillInfo());
                  //checking whether  the date has been closed by the admin
-                                Object[] dateinfo = Function.returnSystemDateInfo();
+                Object[] dateinfo = Function.returnSystemDateInfo();
                    if(dateinfo[2] == Boolean.TRUE && dateinfo[3] == Boolean.FALSE){
                        
                    }
@@ -349,37 +344,119 @@ public class OrderBillController extends SystemDateModel {
                     JOptionPane.showMessageDialog(obview, "Select the Order From the Ordered table");
                     return;
                 }
-            if( obview.getTotal() == 0.0){
+            if(Function.manageAmount(ordereddata)[0].signum() ==0){
                 JOptionPane.showMessageDialog(obview, "Select the Order From the Ordered table");
                 return;
             }
            if(obview.getTenderedAmount() < obview.getGrandTotal1()){
-               obview.setPaymentTypeForCredit(Boolean.TRUE);
+              obview.setPaymentTypeForCredit(Boolean.TRUE);
               obview.radioCash.setEnabled(false);
                obview.radioCredit.setEnabled(true);
                //disable the save  button
                obview.btnBillSave.setEnabled(false);
-              
            }
            else{
                obview.setPaymentTypeForCash(Boolean.TRUE);
                obview.radioCredit.setEnabled(false);
                obview.radioCash.setEnabled(true);
                obview.btnBillSave.setEnabled(true);
-               
            }
-           obview.getBillRate();
-            obview.JDialogBillPayment.setTitle("Bill Window For Bill No:"+obview.getMainBillId());
-            obview.setComplimentary(false);
+           /* for dialog not needed
+           obview.JDialogBillPayment.setTitle("Bill Window For Bill No:"+obview.getMainBillId());
+           obview.setComplimentary(false);
            obview.JDialogBillPayment.pack();
-            obview.requestFocusOnButtonBillSave();
-             obview.JDialogBillPayment.setVisible(true);
-             obview.setCheckBoxComplimentaryFalse();
-//             JOptionPane.showMessageDialog(mainview, "wala");
-             
-             
-             // obview.btnBillSave.requestFocus();
-             // setting check box
+           obview.requestFocusOnButtonBillSave();
+           obview.setCheckBoxComplimentaryFalse();
+           */
+           
+           //when it is clicked
+                if(!obview.getPaymentType()){
+                    if(obview.getCustomerId() == 0){
+                        JOptionPane.showMessageDialog(obview.JDialogBillPayment, "For Credit Transaction, Customer must be Choosed.");
+                        return;
+                    }
+                }
+                /*
+                if(obview.getBooleanComplimentaryType()){
+                    if(obview.getComplimentaryId() == 0){
+                         JOptionPane.showMessageDialog(obview.JDialogBillPayment, "Reason Must be Specified for Complimentary");
+                        return;
+                    }
+                }*/
+                //check for complimentary
+                
+                Boolean flag = Boolean.FALSE;
+                for(Object[] row:ordereddata){
+                    if(row[5].equals(Boolean.TRUE)){
+                        flag = Boolean.TRUE;
+                        break;
+                    }
+                }
+                if(flag.equals(Boolean.TRUE)){
+                    if(obview.getComplimentaryId() == 0){
+                    JOptionPane.showMessageDialog(obview.JDialogBillPayment, "Reason Must be Specified for Complimentary");
+                    return;
+                    }
+                }
+               
+                String[] orderarray = obview.OrderArray.toArray(new String[obview.OrderArray.size()]);
+                obmodel.AddBill(Function.convertDefaultTableModelToObject(obview.gettblBillInfo()),obview.getBillRate(), obview.getBillOtherInfo(),orderarray,mainview.getUserId(),obview.getDepartmentId());
+                obview.refreshJTableOrderedList(ordermodel.getOrderInfo(obview.getDepartmentId()));
+                obview.JDialogBillPayment.setVisible(false);
+                
+//                 /*alejob
+                if(DisplayMessages.displayInputYesNo(obview, "Do You Want To Print the Bill","Print Bill")){
+                    final Map print = obview.getBillParam();
+                    SwingUtilities.invokeLater(new Runnable(){
+
+                        @Override
+                        public void run() {
+                            try{
+                        BillPrint bill = new BillPrint(print);
+                        bill.printBill();
+                            }
+                            catch(Exception e){
+                                e.printStackTrace();
+                                DisplayMessages.displayError(obview, "Priting Error", "Bill Pay");
+                            }
+                        }
+                        
+                    });
+                    
+                }
+                 obview.clearOrderBill();
+//                 System.out.println("walal");
+                obview.gettblBillInfo().setRowCount(0);
+//                 */
+              
+                int newbillid ;
+                newbillid = Function.returnCurrentItentityBillId("bill");
+//                 System.out.println(newbillid+"wl");
+                obview.setBillId(String.valueOf(newbillid));    
+//                 System.out.println("wala2");
+                obview.setMainBillId(newbillid);
+                         /*
+                    * here is manipulation for refreshing the data in order window if it is open
+                    */
+                 JInternalFrame[] iframes =   mainview.desktop.getAllFrames();
+                   for (JInternalFrame iframe : iframes) {
+                     if(iframe.getTitle().equalsIgnoreCase("Order Window")){
+//                         iframe.dispose();
+//                         ExecuteOrder order = new ExecuteOrder(mainview);
+//                         mainview.desktop.add(order.OrderView);
+                         OrderView view = (OrderView)iframe;
+                         view.btnRefresh.doClick();
+                     }
+                          /*
+                   here is manipulation and update of tabl
+                   */
+                       if(iframe.getTitle().equalsIgnoreCase("Table Status")){
+                           iframe.dispose();
+                           ExecuteTableStatusView tablestatus = new ExecuteTableStatusView(mainview);
+                           mainview.desktop.add(tablestatus.view);
+                       }
+                   }
+                    obview.setSaveEditableFalse();
               
             }
             else if (e.getActionCommand().equalsIgnoreCase("Cancel")){
@@ -498,7 +575,7 @@ public class OrderBillController extends SystemDateModel {
             JCheckBox jb = (JCheckBox)e.getSource();
       
        if(jb.isSelected()){
-            comp = obview.ComplimentaryList.toArray(new String[obview.ComplimentaryList.size()][]);
+//            comp = obview.ComplimentaryList.toArray(new String[obview.ComplimentaryList.size()][]);
 
            /*
             * getting new deafult tabel because it hamper the source
@@ -510,13 +587,13 @@ public class OrderBillController extends SystemDateModel {
                 Header[i] = obview.tblBillInfo.getColumnName(i);
             }
 
-            DefaultTableModel BillModel =new DefaultTableModel((obmodel.convertDefaultTableModelToObject(obview.gettblBillInfo())),Header){
+            DefaultTableModel BillModel =new DefaultTableModel((Function.convertDefaultTableModelToObject(obview.gettblBillInfo())),Header){
                  @Override
                  public boolean isCellEditable(int row, int col){
                 return false;
             }
             };
-           obview.refreshJTableComplimentarySelect(obmodel.getComplimentaryTable(BillModel, comp));
+//           obview.refreshJTableComplimentarySelect(obmodel.getComplimentaryTable(BillModel, comp));
            obview.JDialogComplimentary.requestFocus();
            obview.JDialogComplimentary.setModal(true);
            obview.JDialogComplimentary.setTitle("Complimentary Window For Bill No:"+obview.getBillId());
@@ -566,12 +643,12 @@ public class OrderBillController extends SystemDateModel {
         }
             else{
 //                obview.setTextAreaComplimentaryVisibleFalse();
-                if(obview.ComplimentaryList.size() >= 1 ){
-                   ((JCheckBox)e.getSource()).setSelected(true);
-//                   System.out.println("wala");
-                   
-                   return;
-                }
+//                if(obview.ComplimentaryList.size() >= 1 ){
+//                   ((JCheckBox)e.getSource()).setSelected(true);
+////                   System.out.println("wala");
+//                   
+//                   return;
+//                }
                 obview.setComboComplimentaryEnable(false);
             }
       }
@@ -680,13 +757,12 @@ public class OrderBillController extends SystemDateModel {
                      }
                      else{
                          //let disable it beacuse it will not be used
-                         /*
-                         for(Object data:obmodel.getComplimentaryInfo()){
+                         for(Object[] data:complimentaryModel.getComplimentaryInfo()){
                              if(data[1].equals(jc.getSelectedItem())){
                                  obview.setComplimentaryId(Integer.parseInt(data[0].toString()));
                                  break;
                              }
-                         }*/
+                         }
                      }
                     }
                     catch(NumberFormatException se){
@@ -782,7 +858,7 @@ public class OrderBillController extends SystemDateModel {
                       return;
                   }
               }
-                obview.ComplimentaryList.add(row);
+//                obview.ComplimentaryList.add(row);
                if(obview.getBooleanDiscountPercentage()){
                    obview.setCheckBoxDiscountFalse();
                    obview.setDiscount(obview.getDiscountAmount());
@@ -859,7 +935,7 @@ public class OrderBillController extends SystemDateModel {
                int Lead = listmodel.getLeadSelectionIndex();
              //  System.out.println("wala");
                String[] row = new String[]{table.getValueAt(Lead,0).toString(),table.getValueAt(Lead, 4).toString()};
-               Double ComplimentaryDiscount = new Double(Double.parseDouble(table.getValueAt(Lead, 4).toString()));
+               Double ComplimentaryDiscount = Double.parseDouble(table.getValueAt(Lead, 4).toString());
                
                 Object cmenuid = table.getValueAt(Lead, 0);
                
@@ -876,7 +952,7 @@ public class OrderBillController extends SystemDateModel {
                       return;
                   }
               }
-                obview.ComplimentaryList.add(row);
+//                obview.ComplimentaryList.add(row);
                if(obview.getBooleanDiscountPercentage()){
                    obview.setCheckBoxDiscountFalse();
                    obview.setDiscount(obview.getDiscountAmount());
@@ -957,17 +1033,24 @@ public class OrderBillController extends SystemDateModel {
 //                System.out.println(billview.TableNoArray.toString());
                 billview.setlblTableNo(tableid);
                 }
+                //addding the data of table for total amount and complimentary my manage amount
+                BigDecimal[] Amount = Function.manageAmount(itemrow);
                 
+                obview.setLblDisplaySubTotal(String.valueOf(Amount[0]), String.valueOf(Amount[1]));
+                obview.setTotal(Amount[0].doubleValue()-Amount[1].doubleValue());
                  //setting the dicount not higesht than total
                 obview.setSVCCheck(true);
                 obview.setDiscountCheck(true);
                 obview.setDiscountCheck(false);
-                //addding the data of table for total amount and complimentary my manage amount
-                manageAmount(itemrow);
+                
                 obview.setSaveEditableTrue();
                 obview.setAddOrderEditableTrue();
                 obview.setTenderedAmount(0.0);
                 obview.requestFocusOnTenderedAmount();
+                //check whether there is complimentary or noe
+                if(Amount[1].compareTo(BigDecimal.ZERO) >0){
+                    obview.setComboComplimentaryEnable(true);
+                }
             }
         
         }
@@ -986,7 +1069,7 @@ public class OrderBillController extends SystemDateModel {
          
                 if(o!= null){
                    
-                st[i] = o.toString();
+                st[i] = o;
                 
              }
              else{
@@ -1027,7 +1110,7 @@ public class OrderBillController extends SystemDateModel {
                                public void windowClosing(WindowEvent e){
                                  // JOptionPane.showMessageDialog(null, "Jagad Guru Kripalu maharaj ki jaya ho");
                                
-                        obview.setComboCustomerName(obmodel.returnMenuName(obmodel.getCustomerInfoObject()));
+                        obview.setComboCustomerName(Function.returnSecondColumn(obmodel.getCustomerInfoObject()));
                         obview.AddSelectInCombo(obview.returnComboBoxCustomer());
                            //   System.out.println("wala");
                                 }
@@ -1669,24 +1752,7 @@ public class OrderBillController extends SystemDateModel {
         }
        
    }
-    public void manageAmount(Object[][] tabledata){
-       BigDecimal totalamt = BigDecimal.ZERO;
-       BigDecimal compamt = BigDecimal.ZERO;
-       BigDecimal netamt = BigDecimal.ZERO;
-       for(Object[] row:tabledata){
-          totalamt = totalamt.add((BigDecimal)row[4]);
-          if(row[5].equals(Boolean.TRUE)){
-              compamt = compamt.add((BigDecimal)row[4]);
-          }
-       }
-       obview.setTotal(totalamt.doubleValue());
-       
-       if(obview.getBooleanDiscountPercentage()){
-        obview.setCheckBoxDiscountFalse();
-        obview.setDiscount(compamt.doubleValue());
-       }
-       obview.setDiscount(compamt.doubleValue());
-   }
+    
           
 }
 

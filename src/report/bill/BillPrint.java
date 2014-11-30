@@ -11,7 +11,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 import javax.swing.JOptionPane;
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -27,6 +29,9 @@ import net.sf.jasperreports.engine.xml.JRXmlLoader;
 public class BillPrint extends DBConnect {
     
     //parameters need for bill printing borrowed from the source
+    
+    
+    
     private Map param;
     //holds jasper design
     JasperDesign jDesign = null;
@@ -35,6 +40,9 @@ public class BillPrint extends DBConnect {
     //fill report
     JasperPrint jPrint = null; 
     public BillPrint(Map param){
+        //just test to load faster
+        DefaultJasperReportsContext  context = DefaultJasperReportsContext.getInstance();
+        JRPropertiesUtil.getInstance(context).setProperty("net.sf.jasperreports.xpath.executer.factory","net.sf.jasperreports.engine.util.xml.JaxenXPathExecuterFactory");
         this.param = param;
         //establish connection to the database;
         initConnection();

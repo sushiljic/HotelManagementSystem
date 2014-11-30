@@ -63,9 +63,6 @@ public class OrderModel  extends DBConnect{
                       stmtadd.setString(2, item1[0].toString());
                       stmtadd.setBigDecimal(3, new BigDecimal(item1[2].toString()));
                       stmtadd.setBoolean(4,(Boolean)item1[5]);
-//                      stmtadd.setBigDecimal(4, new BigDecimal(item1[3].toString()));
-//                      stmtadd.setBigDecimal(5, new BigDecimal(item1[4].toString()));
-//                      total_amount = total_amount.add(new BigDecimal(item1[4].toString()));
                       stmtadd.executeUpdate();
                   }
                 //  System.out.println(deltotal_amount);

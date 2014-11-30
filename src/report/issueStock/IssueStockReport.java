@@ -6,17 +6,14 @@
 
 package report.issueStock;
 
-import java.nio.file.*;
 import database.DBConnect;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JOptionPane;
+import net.sf.jasperreports.engine.DefaultJasperReportsContext;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRPropertiesUtil;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -38,6 +35,9 @@ private Map param;
     JasperPrint jPrint = null; 
     
     public IssueStockReport(Map m, String report, String title){
+        //just test to load faster
+        DefaultJasperReportsContext  context = DefaultJasperReportsContext.getInstance();
+        JRPropertiesUtil.getInstance(context).setProperty("net.sf.jasperreports.xpath.executer.factory","net.sf.jasperreports.engine.util.xml.JaxenXPathExecuterFactory");
         param = m;
         initConnection();
         try{

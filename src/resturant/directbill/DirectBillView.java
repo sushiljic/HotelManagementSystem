@@ -22,6 +22,7 @@ import java.util.Map;
 import javax.swing.Action;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
@@ -43,8 +44,8 @@ public class DirectBillView extends javax.swing.JInternalFrame {
     
     private final ListSelectionModel ListSelectionModelBillInfo;
    
-     private final ListSelectionModel ListSelectionModelAddOrderInfo;
-      private final ListSelectionModel ListSelectionModelComplimentaryInfo;
+    private final ListSelectionModel ListSelectionModelAddOrderInfo;
+    private final ListSelectionModel ListSelectionModelComplimentaryInfo;
     private int CustomerId ;
     private int orderCustomerId ;
     private int OrderId ;
@@ -52,18 +53,18 @@ public class DirectBillView extends javax.swing.JInternalFrame {
     private Double SVCpercentage = new Double(0.0) ;
     private Double VATPercentage = new Double(0.0);
     private final Double DiscountAmount = new Double(0.0);
-     private Double TotalAfterDiscount = 0.0;
+    private Double TotalAfterDiscount = 0.0;
     private int TableId = 0;
     private int MainBillId = 0;
     private int DepartmentId = 0;
     private int ComplimentaryId = 0;
     private String ItemBaseUnit = new String();
-private BigDecimal rate;
+    private BigDecimal rate;
     public ArrayList<String> OrderArray = new ArrayList<>();
     public ArrayList<String[]> ComplimentaryList = new ArrayList<>();
     //for listening to the key
     private KeyboardFocusManager directbillKeyboardManager;
-    
+    private JCheckBox checkBoxComplimentary = new JCheckBox();
     
 
     /**
@@ -96,7 +97,7 @@ private BigDecimal rate;
         setButtonForEnter(btnAdd);
         setButtonForEnter(btnAddCustomer);
         
-        jPanel4.setVisible(false);
+        
       
        // txtReturnAmount.addFocusListener(new SetFocusListener(txtReturnAmount));
         txtSVCPercent.addFocusListener(new SetFocusListener(txtSVCPercent));
@@ -142,14 +143,6 @@ private BigDecimal rate;
         btnBillSave = new javax.swing.JButton();
         btnBillSaveAndPrint = new javax.swing.JButton();
         btnBillCancel = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
-        comboBoxCustomerName = new javax.swing.JComboBox();
-        jLabel4 = new javax.swing.JLabel();
-        checkBoxComplimentary = new javax.swing.JCheckBox();
-        radioCash = new javax.swing.JRadioButton();
-        radioCredit = new javax.swing.JRadioButton();
-        btnAddCustomer = new javax.swing.JButton();
-        comboboxComplimentaryName = new javax.swing.JComboBox();
         buttonGroupPaymentType = new javax.swing.ButtonGroup();
         JDialogAddOrder = new javax.swing.JDialog();
         jPanel3 = new javax.swing.JPanel();
@@ -170,9 +163,6 @@ private BigDecimal rate;
         jLabel12 = new javax.swing.JLabel();
         btnAdd = new javax.swing.JButton();
         txtOrderQuantity = new javax.swing.JFormattedTextField();
-        jPanel4 = new javax.swing.JPanel();
-        jLabel14 = new javax.swing.JLabel();
-        comboCustomerNameForOrder = new javax.swing.JComboBox();
         jLabel9 = new javax.swing.JLabel();
         comboDepartmentName = new javax.swing.JComboBox();
         jPanel1 = new javax.swing.JPanel();
@@ -213,6 +203,14 @@ private BigDecimal rate;
         txtVATAmount = new javax.swing.JFormattedTextField();
         jLabel13 = new javax.swing.JLabel();
         txtAmountReturn = new javax.swing.JFormattedTextField();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel16 = new javax.swing.JLabel();
+        comboboxComplimentaryName = new javax.swing.JComboBox();
+        comboBoxCustomerName = new javax.swing.JComboBox();
+        jLabel15 = new javax.swing.JLabel();
+        btnAddCustomer = new javax.swing.JButton();
+        radioCash = new javax.swing.JRadioButton();
+        radioCredit = new javax.swing.JRadioButton();
 
         JDialogBillPayment.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         JDialogBillPayment.setMinimumSize(new java.awt.Dimension(500, 300));
@@ -235,118 +233,18 @@ private BigDecimal rate;
         btnBillCancel.setToolTipText("ALT+C");
         btnBillCancel.setActionCommand("BillCancel");
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        comboBoxCustomerName.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        comboBoxCustomerName.setActionCommand("comboCustomerName");
-
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel4.setText("Customer:");
-
-        checkBoxComplimentary.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        checkBoxComplimentary.setMnemonic('o');
-        checkBoxComplimentary.setText("Complimentary");
-        checkBoxComplimentary.setToolTipText("ALT+O");
-        checkBoxComplimentary.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                checkBoxComplimentaryActionPerformed(evt);
-            }
-        });
-
-        buttonGroupPaymentType.add(radioCash);
-        radioCash.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        radioCash.setMnemonic('a');
-        radioCash.setSelected(true);
-        radioCash.setText("Cash");
-        radioCash.setToolTipText("ALT+A");
-
-        buttonGroupPaymentType.add(radioCredit);
-        radioCredit.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        radioCredit.setMnemonic('r');
-        radioCredit.setText("Credit");
-        radioCredit.setToolTipText("ALT+R");
-        radioCredit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                radioCreditActionPerformed(evt);
-            }
-        });
-
-        btnAddCustomer.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        btnAddCustomer.setMnemonic('U');
-        btnAddCustomer.setText("ADD Customer");
-        btnAddCustomer.setToolTipText("ALT+U");
-        btnAddCustomer.setActionCommand("ADDCustomer");
-        btnAddCustomer.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddCustomerActionPerformed(evt);
-            }
-        });
-
-        comboboxComplimentaryName.setEnabled(false);
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(105, 105, 105)
-                .addComponent(radioCash)
-                .addGap(62, 62, 62)
-                .addComponent(radioCredit)
-                .addContainerGap(132, Short.MAX_VALUE))
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(checkBoxComplimentary)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(comboboxComplimentaryName, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(comboBoxCustomerName, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
-                .addComponent(btnAddCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(radioCash)
-                    .addComponent(radioCredit))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(comboBoxCustomerName)
-                        .addComponent(btnAddCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(31, 31, 31)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(checkBoxComplimentary)
-                    .addComponent(comboboxComplimentaryName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(59, Short.MAX_VALUE))
-        );
-
-        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {comboBoxCustomerName, jLabel4});
-
         javax.swing.GroupLayout JDialogBillPaymentLayout = new javax.swing.GroupLayout(JDialogBillPayment.getContentPane());
         JDialogBillPayment.getContentPane().setLayout(JDialogBillPaymentLayout);
         JDialogBillPaymentLayout.setHorizontalGroup(
             JDialogBillPaymentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(JDialogBillPaymentLayout.createSequentialGroup()
-                .addGroup(JDialogBillPaymentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(JDialogBillPaymentLayout.createSequentialGroup()
-                        .addGap(28, 28, 28)
-                        .addComponent(btnBillSave, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnBillSaveAndPrint)
-                        .addGap(21, 21, 21)
-                        .addComponent(btnBillCancel))
-                    .addGroup(JDialogBillPaymentLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(73, Short.MAX_VALUE))
+                .addGap(28, 28, 28)
+                .addComponent(btnBillSave, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnBillSaveAndPrint)
+                .addGap(21, 21, 21)
+                .addComponent(btnBillCancel)
+                .addContainerGap(133, Short.MAX_VALUE))
         );
 
         JDialogBillPaymentLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnBillCancel, btnBillSave, btnBillSaveAndPrint});
@@ -354,9 +252,7 @@ private BigDecimal rate;
         JDialogBillPaymentLayout.setVerticalGroup(
             JDialogBillPaymentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(JDialogBillPaymentLayout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
+                .addContainerGap(236, Short.MAX_VALUE)
                 .addGroup(JDialogBillPaymentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnBillSave, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBillSaveAndPrint)
@@ -428,13 +324,9 @@ private BigDecimal rate;
 
         tblComplimentarySelect.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
         jScrollPane5.setViewportView(tblComplimentarySelect);
@@ -558,34 +450,6 @@ private BigDecimal rate;
 
         jPanel6Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnAdd, txtOrderQuantity});
 
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Order Table"));
-
-        jLabel14.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel14.setText("Customer Name:");
-
-        comboCustomerNameForOrder.setActionCommand("ComboCustomerName");
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(61, 61, 61)
-                .addComponent(comboCustomerNameForOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(55, 55, 55))
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(comboCustomerNameForOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel9.setText("Department Name:");
 
@@ -597,13 +461,10 @@ private BigDecimal rate;
         tblBillInfo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         tblBillInfo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+
             }
         ));
         tblBillInfo.setEnabled(false);
@@ -779,7 +640,7 @@ private BigDecimal rate;
                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtVATAmount, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(txtVATAmount, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)
                     .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(txtVATPercent, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(checkBoxVATByPercentage)
@@ -791,8 +652,7 @@ private BigDecimal rate;
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtTenderedAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         jLabel13.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -815,48 +675,125 @@ private BigDecimal rate;
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(19, 19, 19)
-                                .addComponent(btnAddOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(95, 95, 95))
+                                .addComponent(btnAddOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(lblAmountReturn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(10, 10, 10))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(txtAmountReturn, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(24, 24, 24))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addContainerGap(49, Short.MAX_VALUE)
                                 .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(43, 43, 43)))
-                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1)))
+                                .addGap(43, 43, 43))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(lblAmountReturn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(23, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(28, 28, 28)
                         .addComponent(btnAddOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(89, 89, 89)
+                        .addComponent(lblAmountReturn, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(txtAmountReturn, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(27, 27, 27)))
-                .addComponent(lblAmountReturn, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtAmountReturn, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Order Table"));
+
+        jLabel16.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel16.setText("Complimetary:");
+
+        comboboxComplimentaryName.setEnabled(false);
+
+        comboBoxCustomerName.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        comboBoxCustomerName.setActionCommand("comboCustomerName");
+
+        jLabel15.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel15.setText("Customer:");
+
+        btnAddCustomer.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnAddCustomer.setMnemonic('U');
+        btnAddCustomer.setText("ADD Customer");
+        btnAddCustomer.setToolTipText("ALT+U");
+        btnAddCustomer.setActionCommand("ADDCustomer");
+
+        buttonGroupPaymentType.add(radioCash);
+        radioCash.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        radioCash.setMnemonic('a');
+        radioCash.setText("Cash");
+        radioCash.setToolTipText("ALT+A");
+
+        buttonGroupPaymentType.add(radioCredit);
+        radioCredit.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        radioCredit.setMnemonic('r');
+        radioCredit.setText("Credit");
+        radioCredit.setToolTipText("ALT+R");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(161, 161, 161)
+                        .addComponent(radioCash)
+                        .addGap(33, 33, 33)
+                        .addComponent(radioCredit)
+                        .addGap(0, 90, Short.MAX_VALUE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(24, 24, 24)
+                        .addComponent(comboBoxCustomerName, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnAddCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(comboboxComplimentaryName, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(radioCash)
+                    .addComponent(radioCredit))
+                .addGap(7, 7, 7)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(comboBoxCustomerName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAddCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(11, 11, 11)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                        .addGap(13, 13, 13)
+                        .addComponent(jLabel16))
+                    .addComponent(comboboxComplimentaryName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(38, 38, 38))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -877,23 +814,22 @@ private BigDecimal rate;
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap(32, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGap(56, 56, 56)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(comboDepartmentName, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(comboDepartmentName, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(112, 112, 112)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btnCancel)))
-                        .addGap(46, 46, 46))))
+                        .addGap(46, 46, 46))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnCancel, btnSave});
@@ -903,32 +839,32 @@ private BigDecimal rate;
             .addGroup(layout.createSequentialGroup()
                 .addGap(4, 4, 4)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(lblBillNo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(txtGrandTotal2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel2))))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(lblBillNo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addGap(18, 18, 18)
+                            .addComponent(jLabel2))
+                        .addComponent(txtGrandTotal2, javax.swing.GroupLayout.Alignment.LEADING))
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10))
-                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnCancel, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnSave, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(33, 33, 33)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnCancel)
+                            .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(comboDepartmentName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(112, 112, 112))))
+                        .addGap(111, 111, 111))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnCancel, btnSave});
@@ -938,21 +874,9 @@ private BigDecimal rate;
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void checkBoxComplimentaryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBoxComplimentaryActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_checkBoxComplimentaryActionPerformed
-
-    private void radioCreditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioCreditActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_radioCreditActionPerformed
-
     private void comboMenuNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboMenuNameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_comboMenuNameActionPerformed
-
-    private void btnAddCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCustomerActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnAddCustomerActionPerformed
 
     private void checkBoxDiscountByPercentageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBoxDiscountByPercentageActionPerformed
         // TODO add your handling code here:
@@ -1169,16 +1093,16 @@ private BigDecimal rate;
          return comboMenuName.getSelectedItem().toString();
     }
   
-    public void setComboCustomerName(String[] name){
-        DefaultComboBoxModel CustomerNameModel = new DefaultComboBoxModel(name);
-        comboCustomerNameForOrder.setModel(CustomerNameModel);
-    }
-    public void setComboCustomerName(String name){
-        comboCustomerNameForOrder.setSelectedItem(name);
-    }
-    public String getComboCustomerName(){
-        return comboCustomerNameForOrder.getSelectedItem().toString();
-    }
+//    public void setComboCustomerName(String[] name){
+//        DefaultComboBoxModel CustomerNameModel = new DefaultComboBoxModel(name);
+//        comboCustomerNameForOrder.setModel(CustomerNameModel);
+//    }
+//    public void setComboCustomerName(String name){
+//        comboCustomerNameForOrder.setSelectedItem(name);
+//    }
+//    public String getComboCustomerName(){
+//        return comboCustomerNameForOrder.getSelectedItem().toString();
+//    }
      public void setComboCustomerNameForBill(String[] name){
         DefaultComboBoxModel CustomerNameModel = new DefaultComboBoxModel(name);
         comboBoxCustomerName.setModel(CustomerNameModel);
@@ -1280,9 +1204,9 @@ private BigDecimal rate;
          public void refreshJTableComplimentarySelect(DefaultTableModel model){
             tblComplimentarySelect.setModel(model);
         }
-        public void addComboCustomerNameForOrderListener(ActionListener ListenForCustomerClick){
-         comboCustomerNameForOrder.addActionListener(ListenForCustomerClick);
-     }
+//        public void addComboCustomerNameForOrderListener(ActionListener ListenForCustomerClick){
+//         comboCustomerNameForOrder.addActionListener(ListenForCustomerClick);
+//     }
          public void addComboMenuNameListener(ActionListener ListenForMenuClick){
          comboMenuName.addActionListener(ListenForMenuClick);
      }
@@ -1745,12 +1669,10 @@ private BigDecimal rate;
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnSave;
     private javax.swing.ButtonGroup buttonGroupPaymentType;
-    private javax.swing.JCheckBox checkBoxComplimentary;
     private javax.swing.JCheckBox checkBoxDiscountByPercentage;
     private javax.swing.JCheckBox checkBoxSVCByPercentage;
     private javax.swing.JCheckBox checkBoxVATByPercentage;
     private javax.swing.JComboBox comboBoxCustomerName;
-    private javax.swing.JComboBox comboCustomerNameForOrder;
     private javax.swing.JComboBox comboDepartmentName;
     public javax.swing.JComboBox comboMenuName;
     private javax.swing.JComboBox comboboxComplimentaryName;
@@ -1759,17 +1681,16 @@ private BigDecimal rate;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
