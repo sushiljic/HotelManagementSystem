@@ -577,6 +577,14 @@
                 <Property name="actionCommand" type="java.lang.String" value="DepartmentSetup"/>
               </Properties>
             </MenuItem>
+            <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator52">
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="MenuItemSystemDateSetting">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="System Date Setting"/>
+                <Property name="actionCommand" type="java.lang.String" value="SystemDateSetting"/>
+              </Properties>
+            </MenuItem>
           </SubComponents>
         </Menu>
       </SubComponents>

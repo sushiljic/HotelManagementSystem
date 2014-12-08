@@ -6,12 +6,6 @@
 
 package reusableClass;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Date;
-import javax.swing.JComboBox;
-import javax.swing.JOptionPane;
 import database.DBConnect;
 import java.awt.Color;
 import java.awt.event.FocusEvent;
@@ -25,15 +19,22 @@ import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
@@ -854,6 +855,23 @@ public class Function  {
        amounts[2]= netamt;
        return amounts;
    }
+        //this give the status of the systemdate
+        public static Boolean getSystemDateEnable() throws Exception{
+            Boolean flag = Boolean.FALSE;
+            DBConnect connect = new DBConnect();
+            connect.initConnection();
+            Statement stmt = null;
+            ResultSet rs = null;
+            stmt = connect.conn.createStatement();
+            rs = stmt.executeQuery("SELECT system_date_enable from system_config");
+            while(rs.next()){
+                flag = rs.getBoolean("system_date_enable");
+            }
+            connect.closeConnection();
+            return flag;
+            
+        }
+            
 }
 
        

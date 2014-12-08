@@ -147,7 +147,13 @@ public class OrderBillModel  extends DBConnect{
           
 //          stmtbill.setTimestamp(9, new Timestamp(new Date().getTime()));
          //inserting the system date into datbaase
-          stmtbill.setTimestamp(9, new Timestamp(Function.returnSystemDate().getTime()));
+          if(Function.getSystemDateEnable()){
+              stmtbill.setTimestamp(9, new Timestamp(Function.returnSystemDate().getTime()));
+          }
+          else{
+              stmtbill.setTimestamp(9,null);
+          }
+          
           stmtbill.setInt(10, Integer.parseInt(otherdata[0]));
           stmtbill.setInt(11,userid);
           stmtbill.setInt(12, departmentid);
@@ -209,7 +215,7 @@ public class OrderBillModel  extends DBConnect{
           JOptionPane.showMessageDialog(null, "Bill Recorded Succesfully");
             
         }
-        catch(SQLException se){
+        catch(Exception se){
             JOptionPane.showMessageDialog(null, se+"from AddBill");
           //  se.printStackTrace();
         }
@@ -315,7 +321,13 @@ public class OrderBillModel  extends DBConnect{
                     
                       stmtorderadd.setDouble(2,SubTotalAmount);
 //                     inserting systemdate into datbaase
-                      stmtorderadd.setTimestamp(3, new Timestamp(Function.returnSystemDate().getTime()));
+                      if(Function.getSystemDateEnable()){
+                          stmtorderadd.setTimestamp(3, new Timestamp(Function.returnSystemDate().getTime()));
+                      }
+                      else{
+                          stmtorderadd.setTimestamp(3,null);
+                      }
+                      
                       stmtorderadd.setInt(4, orderid);
                       stmtorderadd.setInt(5, Integer.parseInt(otherdata[0]));
                       stmtorderadd.setInt(6, 1);
@@ -453,7 +465,13 @@ public class OrderBillModel  extends DBConnect{
           
 //          stmtbill.setTimestamp(9, new Timestamp(new Date().getTime()));
          //inserting the system date into datbaase
-          stmtbill.setTimestamp(9, new Timestamp(Function.returnSystemDate().getTime()));
+          if(Function.getSystemDateEnable()){
+              stmtbill.setTimestamp(9, new Timestamp(Function.returnSystemDate().getTime()));
+          }
+          else{
+              stmtbill.setTimestamp(9,null);
+          }
+          
           stmtbill.setInt(10, Integer.parseInt(otherdata[0]));
           
           stmtbill.setInt(11,userid);
@@ -496,7 +514,7 @@ public class OrderBillModel  extends DBConnect{
           JOptionPane.showMessageDialog(null, "Bill Recorded Succesfully");
             
         }
-        catch(SQLException se){
+        catch(Exception se){
             se.printStackTrace();
             JOptionPane.showMessageDialog(null, se+"from AddBill"+getClass().getName());
           //  se.printStackTrace();
@@ -719,15 +737,15 @@ return id;
        // String search = src+"%";
         String strget = "SELECT order_list.order_id,table_info.table_name,order_list.customer_id,order_list.total_amount FROM order_list LEFT JOIN  table_info ON order_list.table_id = table_info.table_id  WHERE order_list.paid = 0 and department_id = ? and order_list.order_id LIKE ? ORDER BY order_list.date desc ";
         String[] columnName = new String[]{"Order Id","Table Name","Total Amount "};
-        ArrayList<Object[]> data = new ArrayList<Object[]>();
+        ArrayList<Object[]> data = new ArrayList<>();
       
         Object[][] finaldata = null;
         /*
         retreiving the value for the tax to include into item total
         */
         TaxList = getChargeInfo();
-        Double VAT = new Double(0.0);
-        Double SVC = new Double(0.0);
+        Double VAT = 0.0;
+        Double SVC = 0.0;
         try{
 //            System.out.println(dep);
             gettg.initConnection();

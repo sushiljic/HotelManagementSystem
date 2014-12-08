@@ -88,42 +88,19 @@ public class ReceiveableReportController {
                      JOptionPane.showMessageDialog(RRView.DailogReport,"Please Select  End Date ");
                     return;
                 }  
-//                 Date[] date = RRView.getComplimentaryReportDate();
-//                 String title = "Receiveable Report";
-//                 if(!RRView.getBooleanIncludeAll()){
-//                     title += " \t of \t"+RRView.getComboCustomerName();
-//                 }
-//                 RRView.setlblReportTitle(title);
-//                 DateFormat df = DateFormat.getDateInstance(DateFormat.FULL);
-//                 RRView.setlblStartDate(df.format(date[0]));
-//                 RRView.setlblEndDate(df.format(date[1]));
-//                 /*
-//                  * two state whethe it is include all or particula
-//                  */
-                 if(RRView.getBooleanIncludeAll()){
-//                      RRView.refreshTableReport(RRModel.getReceiveableList(null,date, Boolean.TRUE));
-//                      if(RRView.getTableReport().getRowCount()<=0){
-//                          JOptionPane.showMessageDialog(RRView, "Record Not Found");
-//                          return;
-//                      }
+
+                 if(RRView.getBooleanIncludeAll()){              
                     RRView.setVisible(false);
                     //RRView.DailogReport.pack();
                      //RRView.DailogReport.setVisible(true);
-                    ReceivableReport r = new ReceivableReport(RRView.getReportParams(),null,null);
-                    
-                    
-                     
+                    ReceivableReport r = new ReceivableReport(RRView.getReportParams(),"receivableAllReport.jrxml",null);
+                
                  }
                  else{
-//                  RRView.refreshTableReport(RRModel.getReceiveableList(RRView.getCustomerId(),date, false));
-//                    if(RRView.getTableReport().getRowCount()<=0){
-//                          JOptionPane.showMessageDialog(RRView, "Record Not Found");
-//                          return;
-//                      }
                    RRView.setVisible(false);
                    // RRView.DailogReport.pack();
                      //RRView.DailogReport.setVisible(true);
-                   ReceivableReport r = new ReceivableReport(RRView.getReportParam(),null,null);
+                   ReceivableReport r = new ReceivableReport(RRView.getReportParam(),"ReceivableReport.jrxml",null);
                    
                  }
                  /*
@@ -148,6 +125,7 @@ public class ReceiveableReportController {
            }
         }
         catch(Exception ce){
+            ce.printStackTrace();
             JOptionPane.showMessageDialog(RRView,ce+ "From ReceiveableListener");
         }
         }

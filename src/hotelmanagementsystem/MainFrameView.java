@@ -24,7 +24,7 @@ import java.util.GregorianCalendar;
  *
  * @author SUSHIL
  */
-public class MainFrameView extends javax.swing.JFrame {
+public final class MainFrameView extends javax.swing.JFrame {
     private final JMenuItem PopUpMenuItemSalesReport ;
     private final JMenuItem PopUPMenuItemItemWiseSalesReport;
     private final JMenuItem PopUpMenuItemIssueReport;
@@ -254,6 +254,8 @@ public class MainFrameView extends javax.swing.JFrame {
         MenuItemMangeUser = new javax.swing.JMenuItem();
         jSeparator39 = new javax.swing.JPopupMenu.Separator();
         MenuItemDepartmentSetup = new javax.swing.JMenuItem();
+        jSeparator52 = new javax.swing.JPopupMenu.Separator();
+        MenuItemSystemDateSetting = new javax.swing.JMenuItem();
 
         jDialog1.setModal(true);
 
@@ -939,6 +941,11 @@ public class MainFrameView extends javax.swing.JFrame {
         MenuItemDepartmentSetup.setText("Department Setup");
         MenuItemDepartmentSetup.setActionCommand("DepartmentSetup");
         jMenu8.add(MenuItemDepartmentSetup);
+        jMenu8.add(jSeparator52);
+
+        MenuItemSystemDateSetting.setText("System Date Setting");
+        MenuItemSystemDateSetting.setActionCommand("SystemDateSetting");
+        jMenu8.add(MenuItemSystemDateSetting);
 
         jMenuBar2.add(jMenu8);
 
@@ -1070,6 +1077,9 @@ public class MainFrameView extends javax.swing.JFrame {
     }
     public void LoadlblDayStatus(String imagename){
         lblDayStatus.setIcon(new ImageIcon(getClass().getResource("/images/"+imagename)));
+    }
+    public void setlblDayStatsVisible(Boolean status){
+        lblDayStatus.setVisible(status);
     }
    public void setCompany(Object[] st){
        setCompanyTitle(st[0].toString());
@@ -1277,6 +1287,9 @@ public class MainFrameView extends javax.swing.JFrame {
         MenuItemSystemDateOpen.addActionListener(Listene);
         MenuItemSystemDateClose.addActionListener(Listene);
     }
+    public void addSystemDateSetting(ActionListener Listen){
+        MenuItemSystemDateSetting.addActionListener(Listen);
+    }
     public void AddToPopUpMenu(){
         ReportPopUpMenu.add(PopUpMenuItemIssueStockReport);
         ReportPopUpMenu.add(PopUpMenuItemSalesReport);
@@ -1460,6 +1473,7 @@ public class MainFrameView extends javax.swing.JFrame {
     private javax.swing.JMenuItem MenuItemSystemDateClose;
     private javax.swing.JMenuItem MenuItemSystemDateConfig;
     private javax.swing.JMenuItem MenuItemSystemDateOpen;
+    private javax.swing.JMenuItem MenuItemSystemDateSetting;
     private javax.swing.JMenuItem MenuItemTableSetup;
     private javax.swing.JMenuItem MenuItemTableStatus;
     private javax.swing.JMenuItem MenuItemThresholdSetup;
@@ -1555,6 +1569,7 @@ public class MainFrameView extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator5;
     private javax.swing.JPopupMenu.Separator jSeparator50;
     private javax.swing.JToolBar.Separator jSeparator51;
+    private javax.swing.JPopupMenu.Separator jSeparator52;
     private javax.swing.JPopupMenu.Separator jSeparator6;
     private javax.swing.JPopupMenu.Separator jSeparator7;
     private javax.swing.JPopupMenu.Separator jSeparator8;

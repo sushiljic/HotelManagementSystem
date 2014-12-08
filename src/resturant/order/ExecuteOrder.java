@@ -22,25 +22,35 @@ public class ExecuteOrder extends SystemDateModel {
     public ExecuteOrder( MainFrameView view){
          
       try{   
-      Object[] dateinfo = Function.returnSystemDateInfo();
-      if(dateinfo[2] == Boolean.TRUE && dateinfo[3] == Boolean.FALSE){
-           OrderModel = new OrderModel();
-        OrderView = new OrderView();
-        OrderController = new OrderController(OrderModel,OrderView,view);
-         
-        OrderView.setVisible(true);
-        /*
-        increase the counter for the mainview order
-        */
-        view.incrementCountForOrder();
+      
+      if(Function.getSystemDateEnable()){
+          Object[] dateinfo = Function.returnSystemDateInfo();
+          if(dateinfo[2] == Boolean.TRUE && dateinfo[3] == Boolean.FALSE){
+            OrderModel = new OrderModel();
+            OrderView = new OrderView();
+            OrderController = new OrderController(OrderModel,OrderView,view);
+            OrderView.setVisible(true);
+            /*
+            increase the counter for the mainview order
+            */
+            view.incrementCountForOrder();
       }
       else{
-          
          JOptionPane.showMessageDialog(OrderView, "Please First Open the Date to Perform Order Transaction.");
 //         return;
-         
-       
+      }  
       }
+      else{
+            OrderModel = new OrderModel();
+            OrderView = new OrderView();
+            OrderController = new OrderController(OrderModel,OrderView,view);
+            OrderView.setVisible(true);
+            /*
+            increase the counter for the mainview order
+            */
+            view.incrementCountForOrder();
+      }
+      
       
        
       }

@@ -8,6 +8,7 @@ import CompanyInfo.CompanyInfoView;
 import UserCreditial.ExecuteUserCreditial;
 import UserCrud.ExecuteResetPassword;
 import UserCrud.ExecuteUserCrud;
+import admin.ExecuteAdminPanel;
 import centerstore.departmentissuereport.ExecuteCenterostoreIssueReport;
 import centerstore.departmentissuereport.ExecuteCenterstoreIssueReportCategory;
 import centerstore.distributorComponent.ExecuteDistro;
@@ -98,6 +99,10 @@ public final class MainFrameController {
         MainFrameModel = mfmodel;
         MainFrameView = mfview;
         sysview = systemview;
+        /*
+        load the static class
+        */
+        
         
         MainFrameView.addCompanySetupListener(new MenuItemListener());
         MainFrameView.addCustomerSetupListener(new MenuItemListener());
@@ -162,13 +167,23 @@ public final class MainFrameController {
        /*
         for system date
         */
+        try{
+        if(Function.getSystemDateEnable()){
         MainFrameView.addSystemDate(new MenuItemListener());
+        }
+        }
+        catch(Exception se){
+            se.printStackTrace();
+            DisplayMessages.displayError(mfview, "Cannot fetch System Date Information\n System will close", "Error");
+            System.exit(0);
+        }
         /*
         for system config
         */
         MainFrameView.addUserCreditialListener(new MenuItemListener());
         MainFrameView.addManageUserListener(new MenuItemListener());
         MainFrameView.addDepartmentSetupListeener(new MenuItemListener());
+        MainFrameView.addSystemDateSetting(new MenuItemListener());
         /*
          * adding mouse listener for popup menu
          */
@@ -229,22 +244,17 @@ public final class MainFrameController {
        
          //inserting the date according to the  point of sale system date
         DateFormat dateformat = new SimpleDateFormat("EEE, MMM  d ,Y");
+        
+        //perform only if systemDate is Enabled
+        if(Function.getSystemDateEnable()){
         //check it there is date then only  update the date again the point of sale system date
         if(Function.checkSystemDateExist()){
         MainFrameView.setLblDate(dateformat.format(Function.returnSystemDate()));
         ManageDayStatus();
-//        //check the date of the computer and pointofsale system and state status both doesnot coincide
-//        Date posDate = Function.returnSystemDate();
-//        Date SystemDate = new Date();
-//        if(posDate != SystemDate){
-//            DisplayMessages.displayInfo(mfview, "Computer Date( "+dateformat.format(SystemDate)+" ) and Our SOftware System Date( "+dateformat.format(posDate)+" )  Doesnot Match.\n Please Make Sure You are Running of the Current Date", " Date Info");
-//        }
-        
-      
         }
           //also refresh the date
         RefreshDate.start();
-       
+        }
         }
         catch(SQLException e){
             JOptionPane.showMessageDialog(MainFrameView, "from mainFrameContructor\n"+e.getMessage()+getClass().getName());
@@ -377,7 +387,7 @@ public final class MainFrameController {
                     public void run() { 
                         Map m = new HashMap<>();
                         m.put("title", "Item Stock Report");
-                        new IssueStockReport(m,"stock.jrxml", "Item Stock Report");   
+                        IssueStockReport sueStockReport = new IssueStockReport(m,"stock.jrxml", "Item Stock Report");   
                     }
                 });
             }
@@ -479,12 +489,11 @@ public final class MainFrameController {
                 
             }
             if(e.getActionCommand().equalsIgnoreCase("DirectBillPay")){
+              
                     
                 if(MainFrameView.getCountForDirectPay() == 0){
                ExecuteDirectBill billpay = new ExecuteDirectBill(MainFrameView);
-                /*
-                 * expering menting with  jinternal fames
-                 */
+              
 //                JScrollPane scrollpane = new JScrollPane(300,300);
 //                scrollpane.add(billpay.OrderBillView);
                if(billpay.OrderBillView!= null){
@@ -492,7 +501,6 @@ public final class MainFrameController {
 //                 MainFrameView.desktop.add(scrollpane);
                 billpay.OrderBillView.setSelected(true);
                }
-                 MainFrameView.incrementCountForDirectPay();
                 }
                 else{
                   JInternalFrame[] frames=  MainFrameView.desktop.getAllFrames();
@@ -504,6 +512,7 @@ public final class MainFrameController {
                          }
                     
                 }
+            
             }
              if(e.getActionCommand().equalsIgnoreCase("TableStatus")){
 //                JDialog Order= new JDialog(new ExecuteOrder(),"",Dialog.ModalityType.DOCUMENT_MODAL);
@@ -640,6 +649,10 @@ public final class MainFrameController {
                 CompanyInfoView CompanyInfo = new CompanyInfoView();
                 CompanyInfo.setVisible(true);
 //                System.out.println("wala");
+            }
+            if(e.getActionCommand().equalsIgnoreCase("SystemDateSetting")){
+                ExecuteAdminPanel executeAdminPanel = new ExecuteAdminPanel(MainFrameView, Boolean.TRUE);
+                
             }
         }
         catch(PropertyVetoException me){

@@ -48,7 +48,14 @@ public class CreditPaymentModel extends DBConnect {
         stmt.setDouble(6,((Number)data[4]).doubleValue());//amount customer paid
         stmt.setInt(7, ((Number)data[2]).intValue());
         stmt.setInt(8, 1);//because it is cash type
+//        check whether opend date or not
+        if(Function.getSystemDateEnable()){
         stmt.setDate(9,new java.sql.Date(Function.returnSystemDate().getTime()));
+        }
+        else{
+//        stmt.setDate(9,new java.sql.Date(new Date("1900-00-00").getTime()));
+        stmt.setDate(9, null);
+        }
         stmt.setInt(10, ((Number)data[1]).intValue());
         stmt.setInt(11, userid);
         stmt.setInt(12, ((Number)data[0]).intValue());
@@ -63,7 +70,8 @@ public class CreditPaymentModel extends DBConnect {
         DisplayMessages.displayInfo(null, "Payment Saved Succesfully", "Payment Window");
         
         }
-        catch(SQLException se){
+        catch(Exception se){
+            se.printStackTrace();
             DisplayMessages.displayError(null, se.getMessage()+"form addCreditPayment"+getClass().getName(),"SQLError");
         }
          finally{

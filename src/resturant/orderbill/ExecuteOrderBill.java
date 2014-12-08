@@ -7,6 +7,7 @@ package resturant.orderbill;
 import hotelmanagementsystem.MainFrameView;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import reusableClass.DisplayMessages;
 import reusableClass.Function;
 import systemdate.SystemDateModel;
 
@@ -19,23 +20,42 @@ public class ExecuteOrderBill extends SystemDateModel{
     public  OrderBillView OrderBillView;
      public  OrderBillController OrderBillController;
         public ExecuteOrderBill(MainFrameView mainview) {
-          
-            Object[] dateinfo = Function.returnSystemDateInfo();
-       if(dateinfo[2] == Boolean.TRUE && dateinfo[3] == Boolean.FALSE){
-            OrderBillModel = new OrderBillModel();
-             OrderBillView = new OrderBillView();
+          try{
+              if(Function.getSystemDateEnable()){
+                  Object[] dateinfo = Function.returnSystemDateInfo();
+                    if(dateinfo[2] == Boolean.TRUE && dateinfo[3] == Boolean.FALSE){
+                         OrderBillModel = new OrderBillModel();
+                         OrderBillView = new OrderBillView();
+
+                         OrderBillController = new OrderBillController(OrderBillModel,OrderBillView,mainview);
+                         OrderBillView.setVisible(true);
+                            /*
+                            increses the counter for in mainframeview
+                            */
+                            mainview.incrementCountForPay();
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(OrderBillView, "Please First Open the Date to Perform Billing Transaction.");
+             //        OrderBillView.setClosed(true);
+                    }
+                  
+              }
+              else{
+                  OrderBillModel = new OrderBillModel();
+                  OrderBillView = new OrderBillView();
+                  OrderBillController = new OrderBillController(OrderBillModel,OrderBillView,mainview);
+                  OrderBillView.setVisible(true);
+                  /*
+                  increses the counter for in mainframeview
+                  */
+                  mainview.incrementCountForPay();
+              }
             
-            OrderBillController = new OrderBillController(OrderBillModel,OrderBillView,mainview);
-           OrderBillView.setVisible(true);
-           /*
-           increses the counter for in mainframeview
-           */
-           mainview.incrementCountForPay();
-       }
-       else{
-           JOptionPane.showMessageDialog(OrderBillView, "Please First Open the Date to Perform Billing Transaction.");
-//        OrderBillView.setClosed(true);
-       }
+          }
+          catch(Exception se){
+              se.printStackTrace();
+              DisplayMessages.displayError(mainview, se.getMessage(), "Error");
+          }
         }
     /**
      * @param args the command line arguments

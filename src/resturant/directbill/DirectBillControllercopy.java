@@ -210,21 +210,9 @@ public class DirectBillControllercopy  extends SystemDateModel{
                     JOptionPane.showMessageDialog(obview, "Quantiy cannot be Zero");
                     return;
                 }
-                 
-//                try {
-////                    System.out.println(orderview.getRate());
-////                   Float.parseFloat(obview.getQuantity());
-////                  
-//                }
-//                catch(NumberFormatException ne){
-//                    JOptionPane.showMessageDialog(obview, "Quantity must be a number.");
-//                    return;
-//                }
                 BigDecimal TotalAmount;
                
                TotalAmount = new BigDecimal(obview.getQuantity()).setScale(3, RoundingMode.HALF_UP).multiply(obview.getRate()).setScale(2, RoundingMode.HALF_UP);
-                 
-              
                /*
                 * checking it availability
                 */
@@ -269,8 +257,6 @@ public class DirectBillControllercopy  extends SystemDateModel{
                  //check whether same menu is in the row if there is add it into the row
              boolean SameMenuIdentifier = false;
              for( int i=0;i<obview.gettblBillInfo().getRowCount();i++){
-//                 System.err.println(orderview.getTableOrderList().getRowCount()+"rowcount");
-//                 System.err.println(orderview.getTableOrderList().getValueAt(i, 0)+"menuid"+orderview.getMenuId());
                  if((Integer.parseInt(obview.gettblBillInfo().getValueAt(i, 0).toString()))==obview.getMenuId()){
 //                     JOptionPane.showMessageDialog(mainview,orderview.getTableOrderList().getValueAt(i, 2));
                       BigDecimal quantity = new BigDecimal(obview.gettblBillInfo().getValueAt(i, 2).toString());
@@ -595,6 +581,7 @@ public class DirectBillControllercopy  extends SystemDateModel{
                           direct.printBill(); 
                     }
                     catch(Exception se){
+                        se.printStackTrace();
                         DisplayMessages.displayError(obview, "Printing Error", "From DirectBill");
                     }
 //                     }
@@ -978,26 +965,7 @@ public class DirectBillControllercopy  extends SystemDateModel{
     }
            
          
-           public class WindowCloseListener extends WindowAdapter{
-           @Override
-           public void windowClosing(WindowEvent e){
-                 JFrame billwindow = (JFrame)e.getSource();
-          //  JOptionPane.showMessageDialog(obview, "DO You Want to close it");
-           if(obview.gettblBillInfo().getRowCount() >0){
-               if(DisplayMessages.displayInputYesNo(obview, "You Are in Middle of Check Out.\n Do You Still Want To Close this Window?", "Bill Alert Window"))
-          {
-            
-              billwindow.dispose();
-          }
-               
-           }
-        
           
-           else{
-              billwindow.dispose();
-           }
-           }    
-           }
            public class InternalFrameCloseListener extends InternalFrameAdapter{
                
                @Override
@@ -1009,14 +977,14 @@ public class DirectBillControllercopy  extends SystemDateModel{
           {
               mainview.setCountForDirectPay(0);
               billwindow.dispose();
-                Function.MakeCurrentItentityIdFalse(obview.getMainBillId());
+              Function.MakeCurrentItentityIdFalse(obview.getMainBillId());
           }
                
            }
           
            else{
                 mainview.setCountForDirectPay(0);
-              billwindow.dispose();
+                billwindow.dispose();
                 Function.MakeCurrentItentityIdFalse(obview.getMainBillId());
            }
                    

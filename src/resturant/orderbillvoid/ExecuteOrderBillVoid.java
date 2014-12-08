@@ -6,7 +6,10 @@ package resturant.orderbillvoid;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import reusableClass.DisplayMessages;
+import reusableClass.Function;
 
 /**
  *
@@ -15,11 +18,33 @@ import javax.swing.SwingUtilities;
 public class ExecuteOrderBillVoid extends JDialog {
     public ExecuteOrderBillVoid(JFrame parent,boolean modal){
         super(parent,modal);
-        OrderBillVoidView orderBillVoidView = new OrderBillVoidView(parent, modal);
-        OrderBillVoidModel orderBillVoidModel = new OrderBillVoidModel();
+        try{
+        if(Function.getSystemDateEnable()){
+            Object[] dateinfo = Function.returnSystemDateInfo();
+            if(dateinfo[2] == Boolean.TRUE && dateinfo[3] == Boolean.FALSE){
+            OrderBillVoidView orderBillVoidView = new OrderBillVoidView(parent, modal);
+            OrderBillVoidModel orderBillVoidModel = new OrderBillVoidModel();
+
+            OrderBillVoidController orderBillVoidController = new OrderBillVoidController(orderBillVoidModel, orderBillVoidView);
+            orderBillVoidView.setVisible(true);
+            }
+            else{
+                DisplayMessages.displayError(parent, "Please First Open the Date to Perform Transaction.","Error");
+            }
         
-        OrderBillVoidController orderBillVoidController = new OrderBillVoidController(orderBillVoidModel, orderBillVoidView);
-        orderBillVoidView.setVisible(true);
+        }
+        else{
+            OrderBillVoidView orderBillVoidView = new OrderBillVoidView(parent, modal);
+            OrderBillVoidModel orderBillVoidModel = new OrderBillVoidModel();
+
+            OrderBillVoidController orderBillVoidController = new OrderBillVoidController(orderBillVoidModel, orderBillVoidView);
+            orderBillVoidView.setVisible(true);
+        }
+        }
+        catch(Exception se){
+            se.printStackTrace();
+            DisplayMessages.displayError(this,"Error from orderbillVoid" , "Error");
+        }
     }
 
     /**

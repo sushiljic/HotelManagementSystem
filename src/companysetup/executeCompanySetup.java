@@ -22,8 +22,8 @@ public class executeCompanySetup extends JDialog {
     public executeCompanySetup(JFrame parent,boolean modal){
         super(parent,modal);  
         cmodel = new CompanySetupModel();
-     cview = new CompanySetupView(parent,modal);
-       ccontrol = new CompanySetupController(cview,cmodel,(MainFrameView)parent);
+        cview = new CompanySetupView(parent,modal);
+        ccontrol = new CompanySetupController(cview,cmodel,(MainFrameView)parent);
         cview.setVisible(true);
 //        setModalityType(Dialog.ModalityType.DOCUMENT_MODAL);
         

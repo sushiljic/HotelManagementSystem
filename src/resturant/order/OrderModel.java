@@ -38,7 +38,6 @@ public class OrderModel  extends DBConnect{
               PreparedStatement stmtTableInfo;
               PreparedStatement stmtOrderTable;
 //              BigDecimal total_amount = BigDecimal.ZERO;
-              
               String MenuId = new String();
               String stradd = "INSERT INTO order_item_list (order_id,menu_id,quantity,complimentary) VALUES(?,?,?,?)";
 //              String strSubtractSingleResturantStore = "UPDATE department_store_stock SET total_qty = department_store_stock.total_qty -(? * (select  menu.quantity*item_unit.unit_relative_quantity from menu INNER JOIN item_unit ON menu.unit_id = item_unit.unit_id WHERE menu.menu_id = ?)) WHERE item_id = (select item_id from menu where menu_id = ?)";
@@ -147,7 +146,12 @@ public class OrderModel  extends DBConnect{
                       stmtorderadd.setBigDecimal(5, total_amount);
 //                      stmtorderadd.setTimestamp(6, new Timestamp(new Date().getTime()));
                      //saving the date as per the open date for system
-                      stmtorderadd.setTimestamp(6, new Timestamp(Function.returnSystemDate().getTime()));
+                      if(Function.getSystemDateEnable()){
+                          stmtorderadd.setTimestamp(6, new Timestamp(Function.returnSystemDate().getTime()));
+                      }
+                      else{
+                          stmtorderadd.setTimestamp(6, null);
+                      }
                       stmtorderadd.setInt(7, userid);
                       stmtorderadd.setInt(8, departmentid);
                       stmtorderadd.setTimestamp(9, new Timestamp(new Date().getTime()));
@@ -183,7 +187,7 @@ public class OrderModel  extends DBConnect{
                JOptionPane.showMessageDialog(null, "Item Ordered Successfully");
                   
               }
-              catch(SQLException e){
+              catch(Exception e){
                   JOptionPane.showMessageDialog(null, e+"from  Add order model"+getClass().getName());
               }
               
@@ -450,7 +454,13 @@ public class OrderModel  extends DBConnect{
                       stmtorderadd.setBigDecimal(4, total_amount);
 //                      stmtorderadd.setTimestamp(5, new Timestamp(new Date().getTime()));
                       //saving the system date into datbase
-                      stmtorderadd.setTimestamp(5,  new Timestamp(Function.returnSystemDate().getTime()));
+                      if(Function.getSystemDateEnable()){
+                          stmtorderadd.setTimestamp(5,  new Timestamp(Function.returnSystemDate().getTime()));
+                      }
+                      else{
+                          stmtorderadd.setTimestamp(5,null);
+                      }
+                      
                       stmtorderadd.setInt(6, userid);
                       stmtorderadd.setInt(7, departmentid);
                       //this is the time according the time of computer
@@ -481,7 +491,7 @@ public class OrderModel  extends DBConnect{
                JOptionPane.showMessageDialog(null, "Item Order Edited  Successfully");
                   
               }
-              catch(SQLException e){
+              catch(Exception e){
                   e.printStackTrace();
                   JOptionPane.showMessageDialog(null, e+"from edit order");
               }  

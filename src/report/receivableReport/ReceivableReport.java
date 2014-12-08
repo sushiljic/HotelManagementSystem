@@ -12,6 +12,7 @@ import java.io.InputStream;
 import java.util.Map;
 import javax.swing.JOptionPane;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
@@ -38,10 +39,11 @@ public class ReceivableReport extends DBConnect{
         try{
             InputStream file = ReceivableReport.class.getResource(report).openStream();//new FileInputStream(new File("D:\\DreamSys\\HotelManagementSystem\\src\\report\\receivableReport\\ReceivableReport.jrxml"));
             jDesign = JRXmlLoader.load(file);
+            jReport = JasperCompileManager.compileReport(jDesign);
+//            9802817203
             //g(jDesign);
             //fill report
-            jPrint = JasperFillManager.fillReport(jReport, this.param, conn);
-             
+            jPrint = JasperFillManager.fillReport(jReport,param, conn);
             ReportView displayReport = new ReportView(jPrint, title);
         }
         catch(JRException | IOException ex){

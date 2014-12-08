@@ -5,10 +5,8 @@
 package resturant.directbill;
 
 import hotelmanagementsystem.MainFrameView;
-import java.awt.HeadlessException;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
-import resturant.order.OrderModel;
 import resturant.orderbill.OrderBillModel;
 import reusableClass.Function;
 import systemdate.SystemDateModel;
@@ -19,37 +17,60 @@ import systemdate.SystemDateModel;
  */
 public class ExecuteDirectBill extends SystemDateModel{
 //   public DirectBillModel OrderBillModel;
-   public OrderBillModel OrderBillModel;
+    public OrderBillModel OrderBillModel;
     public  DirectBillView OrderBillView;
 //    public  DirectBillController OrderBillController;
     public  DirectBillControllercopy OrderBillController;
+    private MainFrameView mainview;
     public ExecuteDirectBill(MainFrameView mainview) {
            
           
-     try{   
-      Object[] dateinfo = Function.returnSystemDateInfo();
+     try{
+         if(Function.getSystemDateEnable()){
+          Object[] dateinfo = Function.returnSystemDateInfo();
       if(dateinfo[2] == Boolean.TRUE && dateinfo[3] == Boolean.FALSE){
 //          OrderBillModel = new DirectBillModel();
           OrderBillModel = new OrderBillModel();
           OrderBillView = new DirectBillView();
 //          OrderBillController = new DirectBillController(OrderBillModel,OrderBillView,mainview);
           OrderBillController = new DirectBillControllercopy(OrderBillModel,OrderBillView,mainview);
+          this.mainview = mainview;
           OrderBillView.setVisible(true);
-          /*
-          increase the counter for directbill
-          */
           mainview.incrementCountForDirectPay();
       }
-      else{
+        else{
          JOptionPane.showMessageDialog(OrderBillView, "Please First Open the Date to Perform Order Transaction.");
 //        OrderBillView.setClosed(true);
       }
+         }
+         else{
+            OrderBillModel = new OrderBillModel();
+            OrderBillView = new DirectBillView();
+//          OrderBillController = new DirectBillController(OrderBillModel,OrderBillView,mainview);
+            OrderBillController = new DirectBillControllercopy(OrderBillModel,OrderBillView,mainview);
+            this.mainview = mainview;
+            OrderBillView.setVisible(true);
+            mainview.incrementCountForDirectPay();
+         }
+    
       }
-      catch(HeadlessException e){
+      catch(Exception e){
           e.printStackTrace();
           JOptionPane.showMessageDialog(OrderBillView, e+"from constructor "+getClass().getName());
       }
         }
+    public void load(){
+         Object[] dateinfo = Function.returnSystemDateInfo();
+      if(dateinfo[2] == Boolean.TRUE && dateinfo[3] == Boolean.FALSE){
+        mainview.desktop.add(OrderBillView);
+        OrderBillView.setVisible(true);
+      }
+       else{
+         JOptionPane.showMessageDialog(OrderBillView, "Please First Open the Date to Perform Order Transaction.");
+//        OrderBillView.setClosed(true);
+      }
+      
+    }
     /**
      * @param args the command line arguments
      */
