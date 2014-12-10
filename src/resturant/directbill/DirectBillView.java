@@ -1565,15 +1565,6 @@ public class DirectBillView extends javax.swing.JInternalFrame {
         return btnSave;
     }
     
-
-   
-    
-         
-         
-     
-    
-
-         
          //return parameters for printing bill after payment
          public Map getBillParam(){
              @SuppressWarnings("Convert2Diamond")
@@ -1581,7 +1572,7 @@ public class DirectBillView extends javax.swing.JInternalFrame {
              try{
                 
              //putting parameter 
-             param.put("billNo",lblBillNo.getText().trim());
+             param.put("billNo",Integer.valueOf(lblBillNo.getText().trim()));
              param.put("total",getTotal().toString());
              param.put("svc", getSVC().toString());
              param.put("vat", getVAT().toString());
