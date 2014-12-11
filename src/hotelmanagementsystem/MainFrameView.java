@@ -1,5 +1,6 @@
 /*
- * To change this template, choose Tools | Templates
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 package hotelmanagementsystem;
@@ -11,64 +12,35 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import javax.swing.ImageIcon;
-import javax.swing.JDesktopPane;
-import javax.swing.JInternalFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.SwingConstants;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 /**
  *
- * @author SUSHIL
+ * @author sushilgc
  */
-public final class MainFrameView extends javax.swing.JFrame {
+public class MainFrameView extends javax.swing.JFrame {
     private final JMenuItem PopUpMenuItemSalesReport ;
     private final JMenuItem PopUPMenuItemItemWiseSalesReport;
     private final JMenuItem PopUpMenuItemIssueReport;
     private final JMenuItem PopUpMenuItemIssueStockReport;
-//    public JDesktopPane desktop ;
     private   int countforpay =0;
     private  int countfororder =0;
     private int countfortablestatus =0;
     private int countfordirectpay = 0;
     private int UserId = 0;
-//    JScrollPane testscrollpane ;
-    
 
     /**
-     * Creates new form MainFrameView
+     * Creates new form KhostaUbuntu
      */
     public MainFrameView() {
-//          desktop = new JDesktopPane();
-       
-      
-        
         initComponents();
-//        testscrollpane = new JScrollPane();
-      
-//        jToolBar1.setBackground(new Color(204, 204, 255));
+        setExtendedState(MAXIMIZED_BOTH);
         jToolBar1.setOpaque(true);
-//        getContentPane().add(desktop);
-//        btnOrder.setFocusPainted(false);
-//         desktop.setPreferredSize(new Dimension(500,585));
-//         
-//        DesktopPanel.setLayout(new BorderLayout());
-//         DesktopPanel.add(desktop);
-//           testscrollpane.setViewportView(DesktopPanel);
-        
-        
-        /*
-         * setting desktop pane for internal frame
-         */
-//      
-//        JInternalFrame frame = new JInternalFrame("test",true,true,true,true);
-//        frame.setVisible(true);
-//        desktop.add(frame);
-//         frame.setSize(200,200);
-       
          PopUpMenuItemIssueStockReport = new JMenuItem("Issue Stock Report");
          PopUpMenuItemIssueStockReport.setActionCommand("IssueStockReport");
          PopUPMenuItemItemWiseSalesReport = new JMenuItem("Item Wise Sales Report");
@@ -80,24 +52,14 @@ public final class MainFrameView extends javax.swing.JFrame {
         PopUpMenuItemSalesReport.setActionCommand("SalesReport");
         PopUpMenuItemIssueReport = new JMenuItem("Issue/Return Report");
         PopUpMenuItemIssueReport.setActionCommand("TerminalItemwiseIssue/ReturnReport");
-        
-        setExtendedState(MAXIMIZED_BOTH);
         setLogOutVisibleFalse();
         setChangePasswordVisible(false);
-       
-    
-//        btnReport.addMouseListener(new MouseAdapter(){
-//            public void mouseReleased(MouseEvent me){
-//                
-//              ReportPopUpMenu.show(me.getComponent(), me.getX(), me.getY());            }
-//        });
-      /*
+        /*
        * adding popupmenu
        */
         AddToPopUpMenu();
         //running the clock
         StartClock();
-//        getAllMenuItemText();
     }
 
     /**
@@ -109,10 +71,7 @@ public final class MainFrameView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jDialog1 = new javax.swing.JDialog();
         ReportPopUpMenu = new javax.swing.JPopupMenu();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jPanel1 = new javax.swing.JPanel();
         jToolBar1 = new javax.swing.JToolBar();
         jSeparator26 = new javax.swing.JToolBar.Separator();
         btnOrder = new javax.swing.JButton();
@@ -128,12 +87,12 @@ public final class MainFrameView extends javax.swing.JFrame {
         btnBackUp = new javax.swing.JButton();
         jSeparator51 = new javax.swing.JToolBar.Separator();
         btnAboutUs = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        desktop = new javax.swing.JDesktopPane();
-        jLabel2 = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         lblusername = new javax.swing.JLabel();
         btnLogOut = new javax.swing.JButton();
+        btnChangePassword = new javax.swing.JButton();
+        btnDreamsys = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         lblCompanyName = new javax.swing.JLabel();
         lblAddress = new javax.swing.JLabel();
@@ -144,8 +103,7 @@ public final class MainFrameView extends javax.swing.JFrame {
         lblDate = new javax.swing.JLabel();
         lblDayStatus = new javax.swing.JLabel();
         jSeparator46 = new javax.swing.JSeparator();
-        btnDreamsys = new javax.swing.JButton();
-        btnChangePassword = new javax.swing.JButton();
+        desktop = new javax.swing.JDesktopPane();
         jMenuBar2 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         MenuItemCompanySetup = new javax.swing.JMenuItem();
@@ -257,19 +215,6 @@ public final class MainFrameView extends javax.swing.JFrame {
         jSeparator52 = new javax.swing.JPopupMenu.Separator();
         MenuItemSystemDateSetting = new javax.swing.JMenuItem();
 
-        jDialog1.setModal(true);
-
-        javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
-        jDialog1.getContentPane().setLayout(jDialog1Layout);
-        jDialog1Layout.setHorizontalGroup(
-            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        jDialog1Layout.setVerticalGroup(
-            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
-
         ReportPopUpMenu.setBackground(new java.awt.Color(0, 204, 204));
 
         //JMenuItem menuitem = new JMenuItem("tes");
@@ -277,10 +222,7 @@ public final class MainFrameView extends javax.swing.JFrame {
         //menuitem = new JMenuItem("Sucessfull");
         //ReportPopUpMenu.add(menuitem);
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setTitle("DreamSYS Point Of Sale");
-        setIconImage(new javax.swing.ImageIcon(getClass().getResource("/images/imageorder.png")).getImage());
-        setMinimumSize(new java.awt.Dimension(1000, 800));
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jToolBar1.setFloatable(false);
         jToolBar1.setRollover(false);
@@ -393,30 +335,6 @@ public final class MainFrameView extends javax.swing.JFrame {
         btnAboutUs.setHorizontalTextPosition(SwingConstants.CENTER);
         btnAboutUs.setVerticalTextPosition(SwingConstants.BOTTOM);
 
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/dream_web.png"))); // NOI18N
-        jLabel2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
-        javax.swing.GroupLayout desktopLayout = new javax.swing.GroupLayout(desktop);
-        desktop.setLayout(desktopLayout);
-        desktopLayout.setHorizontalGroup(
-            desktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, desktopLayout.createSequentialGroup()
-                .addContainerGap(1005, Short.MAX_VALUE)
-                .addComponent(jLabel2)
-                .addContainerGap())
-        );
-        desktopLayout.setVerticalGroup(
-            desktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, desktopLayout.createSequentialGroup()
-                .addContainerGap(389, Short.MAX_VALUE)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        desktop.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
-        jScrollPane1.setViewportView(desktop);
-
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel1.setText("Welcome,");
 
@@ -426,15 +344,66 @@ public final class MainFrameView extends javax.swing.JFrame {
         btnLogOut.setText("Log Out");
         btnLogOut.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        jPanel2.setMaximumSize(new java.awt.Dimension(32767, 58));
+        btnChangePassword.setForeground(new java.awt.Color(153, 0, 0));
+        btnChangePassword.setText("Change Password");
+
+        btnDreamsys.setBackground(new java.awt.Color(204, 204, 204));
+        btnDreamsys.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        btnDreamsys.setForeground(new java.awt.Color(102, 153, 255));
+        btnDreamsys.setText("Point Of Sales@DreamSYS IT Solution");
+        btnDreamsys.setAlignmentY(0.0F);
+        btnDreamsys.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnDreamsys.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        btnDreamsys.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDreamsysActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblusername, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(58, 58, 58)
+                .addComponent(btnLogOut)
+                .addGap(18, 18, 18)
+                .addComponent(btnChangePassword)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 660, Short.MAX_VALUE)
+                .addComponent(btnDreamsys)
+                .addContainerGap())
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnLogOut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnChangePassword))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblusername, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnDreamsys, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, 0))
+        );
+
+        jPanel2.setMaximumSize(new java.awt.Dimension(300, 58));
 
         lblCompanyName.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         lblCompanyName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblCompanyName.setText(" ");
+        lblCompanyName.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         lblAddress.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblAddress.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblAddress.setMinimumSize(new java.awt.Dimension(0, 14));
 
         lblPhoneNumber.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblPhoneNumber.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lblPhoneNumber.setMinimumSize(new java.awt.Dimension(0, 14));
 
         ImageLabel.setMaximumSize(new java.awt.Dimension(100, 55));
@@ -483,17 +452,15 @@ public final class MainFrameView extends javax.swing.JFrame {
                 .addComponent(jSeparator46, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(ImageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(lblPhoneNumber, javax.swing.GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE)
-                        .addComponent(lblAddress, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(lblCompanyName, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblPhoneNumber, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblCompanyName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(lblAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
-
-        jPanel2Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblAddress, lblCompanyName, lblPhoneNumber});
-
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -511,69 +478,6 @@ public final class MainFrameView extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jSeparator46, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
-
-        btnDreamsys.setBackground(new java.awt.Color(204, 204, 204));
-        btnDreamsys.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        btnDreamsys.setForeground(new java.awt.Color(102, 153, 255));
-        btnDreamsys.setText("Point Of Sales@DreamSYS IT Solution");
-        btnDreamsys.setAlignmentY(0.0F);
-        btnDreamsys.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnDreamsys.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        btnDreamsys.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDreamsysActionPerformed(evt);
-            }
-        });
-
-        btnChangePassword.setForeground(new java.awt.Color(153, 0, 0));
-        btnChangePassword.setText("Change Password");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblusername, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(58, 58, 58)
-                        .addComponent(btnLogOut)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnChangePassword)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnDreamsys))
-                    .addComponent(jScrollPane1))
-                .addContainerGap())
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
-                .addGap(1, 1, 1)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnLogOut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnChangePassword))
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblusername, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnDreamsys, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-        );
-
-        jToolBar1.addSeparator();
-
-        jScrollPane2.setViewportView(jPanel1);
 
         jMenuBar2.setToolTipText("");
         jMenuBar2.setAlignmentY(0.5F);
@@ -955,39 +859,58 @@ public final class MainFrameView extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1143, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(desktop)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 608, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 776, Short.MAX_VALUE))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(desktop, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(1, 1, 1))
         );
+
+        jToolBar1.addSeparator();
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void MenuItemWaiterSetupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuItemWaiterSetupActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_MenuItemWaiterSetupActionPerformed
-
-    private void MenuItemIssueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuItemIssueActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_MenuItemIssueActionPerformed
 
     private void MenuItemCustomerSetupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuItemCustomerSetupActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_MenuItemCustomerSetupActionPerformed
 
-    private void btnPayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPayActionPerformed
+    private void MenuItemDistributorSetupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuItemDistributorSetupActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnPayActionPerformed
+    }//GEN-LAST:event_MenuItemDistributorSetupActionPerformed
 
-    private void btnReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportActionPerformed
+    private void MenuItemWaiterSetupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuItemWaiterSetupActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnReportActionPerformed
+    }//GEN-LAST:event_MenuItemWaiterSetupActionPerformed
 
-    private void btnAboutUsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAboutUsActionPerformed
+    private void MenuItemBackUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuItemBackUpActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnAboutUsActionPerformed
+    }//GEN-LAST:event_MenuItemBackUpActionPerformed
+
+    private void MenuItemGroupSetupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuItemGroupSetupActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_MenuItemGroupSetupActionPerformed
+
+    private void MenuItemIssueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuItemIssueActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_MenuItemIssueActionPerformed
 
     private void MenuItemTableSetupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuItemTableSetupActionPerformed
         // TODO add your handling code here:
@@ -997,46 +920,47 @@ public final class MainFrameView extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_MenuItemPurchaseReturnReportActionPerformed
 
+    private void MenuItemCenterstoreItemWiseIssueReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuItemCenterstoreItemWiseIssueReportActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_MenuItemCenterstoreItemWiseIssueReportActionPerformed
+
     private void MenuItemComplimentaryReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuItemComplimentaryReportActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_MenuItemComplimentaryReportActionPerformed
-
-    private void btnDreamsysActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDreamsysActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnDreamsysActionPerformed
-
-    private void btnTableStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTableStatusActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnTableStatusActionPerformed
-
-    private void MenuItemDistributorSetupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuItemDistributorSetupActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_MenuItemDistributorSetupActionPerformed
-
-    private void btnMenuDetailViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuDetailViewActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnMenuDetailViewActionPerformed
-
-    private void MenuItemGroupSetupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuItemGroupSetupActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_MenuItemGroupSetupActionPerformed
-
-    private void MenuItemUserCreditialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuItemUserCreditialActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_MenuItemUserCreditialActionPerformed
 
     private void MenuItemSystemDateCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuItemSystemDateCloseActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_MenuItemSystemDateCloseActionPerformed
 
-    private void MenuItemCenterstoreItemWiseIssueReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuItemCenterstoreItemWiseIssueReportActionPerformed
+    private void MenuItemUserCreditialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuItemUserCreditialActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_MenuItemCenterstoreItemWiseIssueReportActionPerformed
+    }//GEN-LAST:event_MenuItemUserCreditialActionPerformed
 
-    private void MenuItemBackUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuItemBackUpActionPerformed
+    private void btnPayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPayActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_MenuItemBackUpActionPerformed
-   public void setCompanyTitle(String name){
+    }//GEN-LAST:event_btnPayActionPerformed
+
+    private void btnTableStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTableStatusActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnTableStatusActionPerformed
+
+    private void btnMenuDetailViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuDetailViewActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnMenuDetailViewActionPerformed
+
+    private void btnReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnReportActionPerformed
+
+    private void btnAboutUsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAboutUsActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAboutUsActionPerformed
+
+    private void btnDreamsysActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDreamsysActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnDreamsysActionPerformed
+    
+     public void setCompanyTitle(String name){
        lblCompanyName.setText(name);
    }
    public String getCompanyTitle(){
@@ -1366,15 +1290,15 @@ public final class MainFrameView extends javax.swing.JFrame {
     /*
      * this is for internal frame in mainframe
      */
-    public void setDesktopPane(){
-        desktop = new JDesktopPane();
-//        setContentPane(desktop);
-          //Make dragging a little faster but perhaps uglier.
-       desktop.setDragMode(JDesktopPane.OUTLINE_DRAG_MODE);
-    }
-    public void addInternalFrame(JInternalFrame frame){
-        desktop.add(frame);
-    }
+//    public void setDesktopPane(){
+//        desktop = new JDesktopPane();
+////        setContentPane(desktop);
+//          //Make dragging a little faster but perhaps uglier.
+//       desktop.setDragMode(JDesktopPane.OUTLINE_DRAG_MODE);
+//    }
+//    public void addInternalFrame(JInternalFrame frame){
+//        desktop.add(frame);
+//    }
     public void addMakeTableStatusImMobile(){
         
     }
@@ -1427,13 +1351,42 @@ public final class MainFrameView extends javax.swing.JFrame {
         };
         Clock.start();
     }
-   
-   
     /**
      * @param args the command line arguments
      */
-    
-    
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(MainFrameView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(MainFrameView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(MainFrameView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(MainFrameView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new MainFrameView().setVisible(true);
+            }
+        });
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel ImageLabel;
     private javax.swing.JMenuItem MenuItemBackUp;
@@ -1502,9 +1455,7 @@ public final class MainFrameView extends javax.swing.JFrame {
     private javax.swing.JButton btnTableStatus;
     private javax.swing.JMenu centerstore;
     public javax.swing.JDesktopPane desktop;
-    public javax.swing.JDialog jDialog1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu10;
     private javax.swing.JMenu jMenu11;
@@ -1517,11 +1468,9 @@ public final class MainFrameView extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu8;
     private javax.swing.JMenu jMenu9;
     private javax.swing.JMenuBar jMenuBar2;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator10;
     private javax.swing.JToolBar.Separator jSeparator11;
